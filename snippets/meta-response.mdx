@@ -1,0 +1,27 @@
+<ResponseField name="meta" type="object">
+  Metadatos de la respuesta.
+  <Expandable title="propiedades">
+    <ResponseField name="count" type="integer">
+      Total de resultados que cumplen la consulta.
+    </ResponseField>
+    <ResponseField name="page" type="integer">
+      Página actual.
+    </ResponseField>
+    <ResponseField name="size" type="integer">
+      Cantidad de resultados devueltos en esta página.
+    </ResponseField>
+    <ResponseField name="db_response_time_ms" type="integer">
+      Tiempo de respuesta de la base de datos en milisegundos.
+    </ResponseField>
+    <ResponseField name="cursor" type="object">
+      <Expandable title="propiedades">
+        <ResponseField name="next" type="string | null">
+          URL de la página siguiente.
+        </ResponseField>
+        <ResponseField name="previous" type="string | null">
+          URL de la página anterior.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

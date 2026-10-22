@@ -1,0 +1,9 @@
+{
+  "tab": "API Reference",
+  "groups": [
+    {
+      "group": "Search",
+      "pages": ["api-reference/search/persons", "api-reference/search/works"]
+    }
+  ]
+}
