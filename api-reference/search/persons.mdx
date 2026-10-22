@@ -15,12 +15,10 @@ import MetaResponse from "/snippets/meta-response.mdx";
 
 <PaginationParams />
 
-<ParamField query="countries" type="string">
-  Filtra por país.
-</ParamField>
-
-<ParamField query="subjects" type="string">
-  Filtra por área de conocimiento.
+<ParamField query="sort" type="string" default="citations_desc">
+  Ordenamiento con el formato `campo_direccion`, donde la dirección es `asc` o
+  `desc`. Campos para personas: `citations`, `products`, `h` y `h5`. Ejemplo:
+  `products_desc`.
 </ParamField>
 
 <ParamField query="view" type="string" default="full">
@@ -86,6 +84,8 @@ import MetaResponse from "/snippets/meta-response.mdx";
     </ResponseField>
     <ResponseField name="affiliations" type="object[]">
       Afiliaciones de la persona (institución, facultad, departamento, grupo).
+      Las fechas (`start_date`, `end_date`) están en segundos Unix. Un
+      `end_date` de `-1` indica una afiliación vigente.
     </ResponseField>
     <ResponseField name="degrees" type="object[]">
       Formación académica.

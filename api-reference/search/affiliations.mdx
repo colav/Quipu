@@ -1,0 +1,190 @@
+---
+title: "Buscar afiliaciones"
+api: "GET https://api.dev.impactu.colav.co/search/affiliations/{affiliation_type}"
+description: "Búsqueda paginada de afiliaciones (instituciones, facultades, departamentos y grupos)."
+---
+
+import PaginationParams from "/snippets/pagination-params.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación a buscar: `institution`, `faculty`, `department` o `group`.
+</ParamField>
+
+## Parámetros de consulta
+
+<ParamField query="keywords" type="string">
+  Texto de búsqueda (nombre de la afiliación).
+</ParamField>
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Ordenamiento con el formato `campo_direccion`, donde la dirección es `asc` o
+  `desc`. Campos para afiliaciones: `products` (mayor producción), `citations`
+  (más citaciones), `h` (índice h) y `h5` (índice h5). Ejemplo: `products_desc`.
+</ParamField>
+
+<ParamField query="view" type="string" default="full">
+  Nivel de detalle de la respuesta: `full` o `summary`.
+</ParamField>
+
+### Filtros
+
+<ParamField query="states" type="string">
+  Departamentos de la dirección de la afiliación.
+</ParamField>
+<ParamField query="cities" type="string">
+  Ciudades de la dirección de la afiliación.
+</ParamField>
+<ParamField query="groups_ranking" type="string">
+  Clasificación vigente del grupo (la más reciente).
+</ParamField>
+
+<Note>
+  Si no envías `max`, `page` ni `sort`, se aplican `max=10`, `page=1` y
+  `sort=citations_desc`. Si envías `max` y `page` sin `sort`, se aplica
+  `sort=citations_desc`. Con `affiliation_type=institution` se incluyen todos
+  los tipos de institución.
+</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="array">
+  Lista de afiliaciones.
+  <Expandable title="propiedades de cada afiliación">
+    <ResponseField name="id" type="string">
+      Identificador de la afiliación.
+    </ResponseField>
+    <ResponseField name="name" type="string | null">
+      Nombre principal (en español si existe).
+    </ResponseField>
+    <ResponseField name="names" type="object[]">
+      Nombres por fuente (`name`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="abbreviations" type="string[]">
+      Siglas.
+    </ResponseField>
+    <ResponseField name="aliases" type="string[]">
+      Nombres alternos.
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Tipos de la afiliación por fuente (`type`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="addresses" type="object[]">
+      Direcciones: `city`, `state`, `country`, `country_code`, `postcode`,
+      `lat`, `lng`.
+    </ResponseField>
+    <ResponseField name="logo" type="string | null">
+      Logo.
+    </ResponseField>
+    <ResponseField name="year_established" type="integer | null">
+      Año de fundación.
+    </ResponseField>
+    <ResponseField name="description" type="object[]">
+      Descripciones por fuente.
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Cantidad de productos.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citas por fuente (`count`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="h_index" type="integer | null">
+      Índice h.
+    </ResponseField>
+    <ResponseField name="h5_index" type="integer | null">
+      Índice h de los últimos 5 años.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Clasificaciones (por ejemplo, la de un grupo de investigación).
+    </ResponseField>
+    <ResponseField name="relations" type="object[]">
+      Afiliaciones relacionadas (`id`, `name`, `types`, `external_urls`). Por
+      ejemplo, la institución y los departamentos de una facultad.
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Áreas de conocimiento.
+    </ResponseField>
+    <ResponseField name="status" type="array">
+      Estado de la afiliación.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos (`id`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      Enlaces externos.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Última actualización por fuente (`source`, `time` en segundos Unix).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "id": "03bp5hc83_30",
+      "name": "Facultad de Medicina",
+      "names": [
+        { "lang": "es", "name": "Facultad de Medicina", "provenance": null, "source": "staff" }
+      ],
+      "types": [
+        { "source": "staff", "type": "faculty", "provenance": null }
+      ],
+      "addresses": [
+        {
+          "city": "Medellín",
+          "state": "Antioquia",
+          "country": "Colombia",
+          "country_code": "CO",
+          "lat": 6.25184,
+          "lng": -75.56359,
+          "postcode": ""
+        }
+      ],
+      "products_count": 17529,
+      "citations_count": [
+        { "count": 213665, "provenance": null, "source": "openalex" }
+      ],
+      "h_index": 165,
+      "h5_index": 59,
+      "relations": [
+        {
+          "id": "03bp5hc83",
+          "name": "Universidad de Antioquia",
+          "types": [{ "source": "ror", "type": "education", "provenance": null }]
+        },
+        {
+          "id": "03bp5hc83_30_20720001_3211",
+          "name": "Departamento de Morfología",
+          "types": [{ "source": "staff", "type": "department", "provenance": null }]
+        }
+      ],
+      "updated": [{ "source": "staff", "time": 1789879630 }]
+    }
+  ],
+  "meta": {
+    "count": 79,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/search/affiliations/faculty?max=1&page=2",
+      "previous": null
+    },
+    "db_response_time_ms": 5,
+    "page": 1,
+    "size": 1
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+
+</ResponseExample>
