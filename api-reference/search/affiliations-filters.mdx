@@ -1,0 +1,90 @@
+---
+title: "Filtros disponibles de afiliaciones"
+api: "GET https://api.dev.impactu.colav.co/search/affiliations/{affiliation_type}/filters"
+description: "Opciones disponibles para filtrar la búsqueda de afiliaciones, con su cantidad de resultados."
+---
+
+Devuelve los valores que puedes usar en los filtros de [Buscar afiliaciones](/api-reference/search/affiliations).
+Las opciones y sus conteos dependen de los criterios que envíes: solo se devuelven las que existen dentro de ese resultado.
+
+## Parámetros de ruta
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación: `institution`, `faculty`, `department` o `group`.
+</ParamField>
+
+## Parámetros de consulta
+
+Todos son opcionales.
+
+<ParamField query="keywords" type="string">
+  Texto de búsqueda (nombre de la afiliación).
+</ParamField>
+
+<ParamField query="states" type="string">
+  Departamentos. Acepta varios valores separados por coma. Ejemplo:
+  `Antioquia,Tolima`.
+</ParamField>
+
+<ParamField query="cities" type="string">
+  Ciudades. Acepta varios valores separados por coma. Ejemplo: `Bogotá,Cali`.
+</ParamField>
+
+<ParamField query="groups_ranking" type="string">
+  Clasificación vigente del grupo. Acepta varios valores separados por coma.
+  Ejemplo: `A1,A2`.
+</ParamField>
+
+## Respuesta
+
+Todos los campos son listas de opciones con la misma estructura:
+
+<ResponseField name="states" type="object[]">
+  Departamentos disponibles.
+  <Expandable title="propiedades de cada opción">
+    <ResponseField name="value" type="string">
+      Valor para enviar en el filtro.
+    </ResponseField>
+    <ResponseField name="label" type="string">
+      Nombre normalizado para mostrar.
+    </ResponseField>
+    <ResponseField name="count" type="integer">
+      Cantidad de afiliaciones asociadas.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="cities" type="object[]">
+  Ciudades disponibles. Misma estructura que `states`.
+</ResponseField>
+
+<ResponseField name="groups_ranking" type="object[]">
+  Clasificaciones vigentes de los grupos (por ejemplo, `A1`, `A`, `B`, `C`).
+  Misma estructura que `states`. Solo se devuelve con `affiliation_type=group`.
+</ResponseField>
+
+<ResponseExample>
+```json Institución
+{
+  "states": [
+    { "value": "England", "label": "England", "count": 2640 }
+  ],
+  "cities": [
+    { "value": "Londres", "label": "Londres", "count": 907 }
+  ]
+}
+```
+
+```json Grupo
+{
+  "states": [{ "value": "Antioquia", "label": "Antioquia", "count": 480 }],
+  "cities": [{ "value": "Medellín", "label": "Medellín", "count": 410 }],
+  "groups_ranking": [{ "value": "B", "label": "B", "count": 1397 }]
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+
+</ResponseExample>

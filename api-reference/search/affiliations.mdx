@@ -33,14 +33,22 @@ import MetaResponse from "/snippets/meta-response.mdx";
 
 ### Filtros
 
+Los tres filtros aceptan varios valores separados por coma.
+
 <ParamField query="states" type="string">
-  Departamentos de la dirección de la afiliación.
+  Departamentos de la dirección de la afiliación. Se usan los valores
+  normalizados y se incluyen sus variantes en la base de datos. Ejemplo:
+  `Antioquia,Tolima`.
 </ParamField>
+
 <ParamField query="cities" type="string">
-  Ciudades de la dirección de la afiliación.
+  Ciudades de la dirección de la afiliación. También se incluyen variantes como
+  "Bogotá, D.C." o "Santiago de Cali". Ejemplo: `Bogotá,Cali`.
 </ParamField>
+
 <ParamField query="groups_ranking" type="string">
-  Clasificación vigente del grupo (la más reciente).
+  Clasificación vigente del grupo. Se compara con el ranking más reciente (por
+  `from_date`), sin importar su fuente. Ejemplo: `A1,A2`.
 </ParamField>
 
 <Note>
