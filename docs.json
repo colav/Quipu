@@ -1,9 +1,47 @@
 {
-  "tab": "API Reference",
-  "group": "Search",
-  "pages": [
-    "api-reference/search/persons",
-    "api-reference/search/works",
-    "api-reference/search/affiliations"
-  ]
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Impactu",
+  "colors": {
+    "primary": "#46B3B3",
+    "light": "#62C7C7",
+    "dark": "#39658C"
+  },
+  "logo": {
+    "light": "/images/quyca-logo.svg",
+    "dark": "/images/quyca-logo-dark.svg"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentación",
+        "groups": [
+          {
+            "group": "Introducción",
+            "pages": ["index", "quickstart"]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Search",
+            "pages": [
+              "api-reference/search/persons",
+              "api-reference/search/works",
+              "api-reference/search/works-filters",
+              "api-reference/search/affiliations",
+              "api-reference/search/affiliations-filters",
+              "api-reference/search/sources",
+              "api-reference/search/sources-filters",
+              "api-reference/search/patents",
+              "api-reference/search/projects",
+              "api-reference/search/geo"
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }
