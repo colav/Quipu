@@ -1,0 +1,114 @@
+---
+title: "Autores activos por sexo"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribución de autores activos por sexo."
+sidebarTitle: "Autores activos por sexo"
+---
+
+Distribución de autores activos por sexo. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `active_authors_by_sex`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "Hombre",
+      "percentage": 58.02,
+      "value": 1244
+    },
+    {
+      "name": "Mujer",
+      "percentage": 41.93,
+      "value": 899
+    },
+    {
+      "name": "Sin información",
+      "percentage": 0.05,
+      "value": 1
+    }
+  ],
+  "sum": 2144
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "Mujer",
+      "percentage": 60.0,
+      "value": 42
+    },
+    {
+      "name": "Hombre",
+      "percentage": 40.0,
+      "value": 28
+    }
+  ],
+  "sum": 70
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "name": "Hombre",
+      "percentage": 30.77,
+      "value": 4
+    },
+    {
+      "name": "Mujer",
+      "percentage": 69.23,
+      "value": 9
+    }
+  ],
+  "sum": 13
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "name": "Mujer",
+      "percentage": 38.89,
+      "value": 14
+    },
+    {
+      "name": "Hombre",
+      "percentage": 61.11,
+      "value": 22
+    }
+  ],
+  "sum": 36
+}
+```
+</ResponseExample>

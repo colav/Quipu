@@ -1,0 +1,121 @@
+---
+title: "Artículos por editorial"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribución de artículos por editorial."
+sidebarTitle: "Artículos por editorial"
+---
+
+Distribución de artículos por editorial. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `articles_by_publisher`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | Sin datos |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Respuesta
+
+<ResponseExample>
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 84.67,
+      "value": 5571
+    },
+    {
+      "name": "UNIVERSIDAD DE ANTIOQUIA",
+      "percentage": 1.6,
+      "value": 105
+    },
+    {
+      "name": "Universidad Pedagógica Nacional",
+      "percentage": 0.9,
+      "value": 59
+    },
+    {
+      "name": "Facultad De Educacion Universidad De Antioquia",
+      "percentage": 0.87,
+      "value": 57
+    }
+  ],
+  "sum": 6580
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 93.82,
+      "value": 714
+    },
+    {
+      "name": "Editorial Universidad de Antioquia",
+      "percentage": 1.58,
+      "value": 12
+    },
+    {
+      "name": "Kimpress",
+      "percentage": 0.92,
+      "value": 7
+    },
+    {
+      "name": "Centro Editorial De La Universidad De Caldas",
+      "percentage": 0.53,
+      "value": 4
+    }
+  ],
+  "sum": 761
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 61.5,
+      "value": 492
+    },
+    {
+      "name": "Universidad de Antioquia",
+      "percentage": 13.25,
+      "value": 106
+    },
+    {
+      "name": "Biblioteca Universidad de Cordoba",
+      "percentage": 2.12,
+      "value": 17
+    },
+    {
+      "name": "Instituto Nacional de Salud",
+      "percentage": 1.75,
+      "value": 14
+    }
+  ],
+  "sum": 800
+}
+```
+</ResponseExample>

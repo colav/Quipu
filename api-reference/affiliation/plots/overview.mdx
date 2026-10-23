@@ -1,0 +1,46 @@
+---
+title: "Indicadores de una afiliación"
+description: "Catálogo de indicadores que devuelve el endpoint de productos de una afiliación con el parámetro plot."
+sidebarTitle: "Catálogo"
+---
+
+Con el parámetro `plot`, el endpoint [Productos de una afiliación](/api-reference/affiliation/get-research-products) devuelve un indicador en lugar de la lista de productos.
+
+```text
+GET /affiliation/{affiliation_type}/{affiliation_id}/research/products?plot=<indicador>
+```
+
+Los indicadores aceptan los mismos filtros que el listado de productos.
+
+| Indicador | Valor de `plot` | Gráfico | Tipos de afiliación con datos |
+| --- | --- | --- | --- |
+| [Cantidad de productos por tipo de producto de las facultades](/api-reference/affiliation/plots/faculties-by-product-type) | `faculties_by_product_type` | Barras | `institution` |
+| [Cantidad de productos por tipo de producto de las departamentos](/api-reference/affiliation/plots/departments-by-product-type) | `departments_by_product_type` | Barras | `institution`, `faculty` |
+| [Cantidad de productos por tipo de producto de las grupos de investigación](/api-reference/affiliation/plots/research-groups-by-product-type) | `research_groups_by_product_type` | Barras | `institution`, `faculty`, `department` |
+| [Distribución de citas entre las facultades](/api-reference/affiliation/plots/citations-by-faculty) | `citations_by_faculty` | Torta | `institution` |
+| [Distribución de citas entre las departamentos](/api-reference/affiliation/plots/citations-by-department) | `citations_by_department` | Torta | `institution`, `faculty` |
+| [Distribución de citas entre las grupos de investigación](/api-reference/affiliation/plots/citations-by-research-group) | `citations_by_research_group` | Torta | `institution`, `faculty`, `department` |
+| [Distribución del gasto en APC entre las facultades](/api-reference/affiliation/plots/apc-expenses-by-faculty) | `apc_expenses_by_faculty` | Torta | `institution` |
+| [Distribución del gasto en APC entre las departamentos](/api-reference/affiliation/plots/apc-expenses-by-department) | `apc_expenses_by_department` | Torta | `institution`, `faculty` |
+| [Distribución del gasto en APC entre las grupos de investigación](/api-reference/affiliation/plots/apc-expenses-by-group) | `apc_expenses_by_group` | Torta | `institution`, `faculty`, `department` |
+| [Índice h de las facultades](/api-reference/affiliation/plots/h-index-by-faculty) | `h_index_by_faculty` | Torta | `institution` |
+| [Índice h de las departamentos](/api-reference/affiliation/plots/h-index-by-department) | `h_index_by_department` | Torta | `institution`, `faculty` |
+| [Índice h de las grupos de investigación](/api-reference/affiliation/plots/h-index-by-research-group) | `h_index_by_research_group` | Torta | `institution`, `faculty`, `department` |
+| [Evolución anual por clasificación ImpactU](/api-reference/affiliation/plots/annual-evolution-by-impactu-classification) | `annual_evolution_by_impactu_classification` | Barras | `institution`, `faculty`, `department`, `group` |
+| [Citas por año](/api-reference/affiliation/plots/annual-citation-count) | `annual_citation_count` | Barras | `institution`, `faculty`, `department`, `group` |
+| [Artículos de acceso abierto por año](/api-reference/affiliation/plots/annual-articles-open-access) | `annual_articles_open_access` | Barras | `institution`, `faculty`, `department`, `group` |
+| [Artículos por año de las principales editoriales](/api-reference/affiliation/plots/annual-articles-by-top-publishers) | `annual_articles_by_top_publishers` | Barras | `faculty`, `department`, `group` |
+| [Gasto anual en APC](/api-reference/affiliation/plots/annual-apc-expenses) | `annual_apc_expenses` | Barras | `faculty`, `department`, `group` |
+| [Palabras más usadas en los títulos](/api-reference/affiliation/plots/most-used-title-words) | `most_used_title_words` | Torta | `institution`, `faculty`, `department`, `group` |
+| [Artículos por editorial](/api-reference/affiliation/plots/articles-by-publisher) | `articles_by_publisher` | Torta | `faculty`, `department`, `group` |
+| [Productos por área de conocimiento](/api-reference/affiliation/plots/products-by-subject) | `products_by_subject` | Torta | `institution`, `faculty`, `department`, `group` |
+| [Artículos por ruta de acceso](/api-reference/affiliation/plots/articles-by-access-route) | `articles_by_access_route` | Torta | `institution`, `faculty`, `department`, `group` |
+| [Autores activos por sexo](/api-reference/affiliation/plots/active-authors-by-sex) | `active_authors_by_sex` | Torta | `institution`, `faculty`, `department`, `group` |
+| [Autores activos por rango de edad](/api-reference/affiliation/plots/active-authors-by-age-range) | `active_authors_by_age_range` | Torta | `institution`, `faculty`, `department`, `group` |
+| [Artículos por categoría Scienti](/api-reference/affiliation/plots/articles-by-scienti-category) | `articles_by_scienti_category` | Torta | `institution`, `faculty`, `department`, `group` |
+| [Artículos por cuartil Scimago](/api-reference/affiliation/plots/articles-by-scimago-quartile) | `articles_by_scimago_quartile` | Torta | `faculty`, `department`, `group` |
+| [Artículos por institución editora](/api-reference/affiliation/plots/articles-by-publishing-institution) | `articles_by_publishing_institution` | Torta | `faculty`, `department`, `group` |
+| [Productos por base de datos](/api-reference/affiliation/plots/products-by-database) | `products_by_database` | Diagrama de Venn | `institution`, `faculty`, `department`, `group` |
+| [Coautoría por país](/api-reference/affiliation/plots/coauthorship-by-country-map) | `coauthorship_by_country_map` | Mapa | `institution`, `faculty`, `department`, `group` |
+| [Coautoría por departamento de Colombia](/api-reference/affiliation/plots/coauthorship-by-colombian-department-map) | `coauthorship_by_colombian_department_map` | Mapa | `institution`, `faculty`, `department`, `group` |
+| [Red de coautoría institucional](/api-reference/affiliation/plots/institutional-coauthorship-network) | `institutional_coauthorship_network` | Red | `institution`, `faculty`, `department`, `group` |

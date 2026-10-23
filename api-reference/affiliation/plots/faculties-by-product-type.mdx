@@ -1,0 +1,64 @@
+---
+title: "Cantidad de productos por tipo de producto de las facultades"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Cantidad de productos por tipo de producto de las facultades."
+sidebarTitle: "Cantidad de productos por tipo de producto de las facultades"
+---
+
+Cantidad de productos por tipo de producto de las facultades. Tipo de gráfico: **Barras**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `faculties_by_product_type`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | Sin datos |
+| `department` | Sin datos |
+| `group` | Sin datos |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "type": "Artículo de revista",
+      "x": "Escuela Interamericana De Bibliotecología",
+      "y": 70
+    },
+    {
+      "type": "Capítulo de libro",
+      "x": "Escuela Interamericana De Bibliotecología",
+      "y": 37
+    },
+    {
+      "type": "Libro",
+      "x": "Escuela Interamericana De Bibliotecología",
+      "y": 23
+    },
+    {
+      "type": "Publicaciones editoriales no especializadas",
+      "x": "Escuela Interamericana De Bibliotecología",
+      "y": 20
+    }
+  ]
+}
+```
+</ResponseExample>

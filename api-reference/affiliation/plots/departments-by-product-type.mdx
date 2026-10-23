@@ -1,0 +1,91 @@
+---
+title: "Cantidad de productos por tipo de producto de las departamentos"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Cantidad de productos por tipo de producto de las departamentos."
+sidebarTitle: "Cantidad de productos por tipo de producto de las departamentos"
+---
+
+Cantidad de productos por tipo de producto de las departamentos. Tipo de gráfico: **Barras**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `departments_by_product_type`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | Sin datos |
+| `group` | Sin datos |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "type": "Artículo de revista",
+      "x": "Multilingua",
+      "y": 1
+    },
+    {
+      "type": "Libro",
+      "x": "Seccion de Produccion de Medios y Control Calidad",
+      "y": 1
+    },
+    {
+      "type": "Tesis de pregrado",
+      "x": "Departamento de Ingeniería Sistemas - Virtual",
+      "y": 3
+    },
+    {
+      "type": "Tesis de pregrado",
+      "x": "Programa Especial Psicología",
+      "y": 11
+    }
+  ]
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "type": "Libro",
+      "x": "Seccion de Produccion de Medios y Control Calidad",
+      "y": 1
+    },
+    {
+      "type": "Tesis de posgrado",
+      "x": "Departamento de Extensión y Educación A Distancia",
+      "y": 18
+    },
+    {
+      "type": "Tesis de pregrado",
+      "x": "Departamento de Extensión y Educación A Distancia",
+      "y": 8
+    },
+    {
+      "type": "Artículo de revista",
+      "x": "Departamento de Extensión y Educación A Distancia",
+      "y": 5
+    }
+  ]
+}
+```
+</ResponseExample>

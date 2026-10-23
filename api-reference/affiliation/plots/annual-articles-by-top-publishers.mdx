@@ -1,0 +1,118 @@
+---
+title: "Artículos por año de las principales editoriales"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Artículos por año de las editoriales con más artículos."
+sidebarTitle: "Artículos por año de las principales editoriales"
+---
+
+Artículos por año de las editoriales con más artículos. Tipo de gráfico: **Barras**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `annual_articles_by_top_publishers`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | Sin datos |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Respuesta
+
+<ResponseExample>
+```json Facultad
+{
+  "plot": [
+    {
+      "type": "Rede de Pesquisa Empírica em Direito",
+      "x": 2026,
+      "y": 1
+    },
+    {
+      "type": "Sin información",
+      "x": 2025,
+      "y": 57
+    },
+    {
+      "type": "Universidad de Manizales",
+      "x": 2025,
+      "y": 5
+    },
+    {
+      "type": "Springer Verlag",
+      "x": 2025,
+      "y": 3
+    }
+  ]
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "type": "Sin información",
+      "x": 2025,
+      "y": 10
+    },
+    {
+      "type": "Editorial Universidad de Antioquia",
+      "x": 2025,
+      "y": 1
+    },
+    {
+      "type": "UNIVERSIDAD PEDAGÓGICA NACIONAL ",
+      "x": 2025,
+      "y": 1
+    },
+    {
+      "type": "Universidad Complutense de Madrid",
+      "x": 2025,
+      "y": 1
+    }
+  ]
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "type": "Universidad de La Salle",
+      "x": 2026,
+      "y": 1
+    },
+    {
+      "type": "Sin información",
+      "x": 2024,
+      "y": 5
+    },
+    {
+      "type": "Elsevier B.V.",
+      "x": 2024,
+      "y": 2
+    },
+    {
+      "type": "W.B. Saunders",
+      "x": 2024,
+      "y": 2
+    }
+  ]
+}
+```
+</ResponseExample>

@@ -1,0 +1,95 @@
+---
+title: "Gasto anual en APC"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Gasto en cargos por procesamiento de artículos (APC) por año."
+sidebarTitle: "Gasto anual en APC"
+---
+
+Gasto en cargos por procesamiento de artículos (APC) por año. Tipo de gráfico: **Barras**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `annual_apc_expenses`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | Sin datos |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Respuesta
+
+<ResponseExample>
+```json Facultad
+{
+  "plot": [
+    {
+      "x": 2025,
+      "y": 3371
+    },
+    {
+      "x": 2024,
+      "y": 2613
+    },
+    {
+      "x": 2023,
+      "y": 5229
+    },
+    {
+      "x": 2022,
+      "y": 2086
+    }
+  ],
+  "total_apc": 27868,
+  "total_results": 6580
+}
+```
+
+```json Departamento
+{
+  "plot": [],
+  "total_apc": 0,
+  "total_results": 761
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "x": 2024,
+      "y": 8756
+    },
+    {
+      "x": 2023,
+      "y": 4681
+    },
+    {
+      "x": 2022,
+      "y": 1488
+    },
+    {
+      "x": 2021,
+      "y": 5660
+    }
+  ],
+  "total_apc": 108330,
+  "total_results": 800
+}
+```
+</ResponseExample>

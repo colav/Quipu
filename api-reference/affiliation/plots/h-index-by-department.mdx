@@ -1,0 +1,93 @@
+---
+title: "Índice h de las departamentos"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Índice h de las departamentos."
+sidebarTitle: "Índice h de las departamentos"
+---
+
+Índice h de las departamentos. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `h_index_by_department`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | Sin datos |
+| `group` | Sin datos |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "Instituto de Química",
+      "percentage": 3.6,
+      "value": 110
+    },
+    {
+      "name": "Departamento de Microbiología y Parasitología",
+      "percentage": 3.37,
+      "value": 103
+    },
+    {
+      "name": "Instituto de Física",
+      "percentage": 3.24,
+      "value": 99
+    },
+    {
+      "name": "Departamento de Medicina Interna",
+      "percentage": 3.21,
+      "value": 98
+    }
+  ],
+  "sum": 3054
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "Departamento de Pedagogía",
+      "percentage": 28.41,
+      "value": 25
+    },
+    {
+      "name": "Departamento de Enseñanza de las Ciencias y las Artes",
+      "percentage": 22.73,
+      "value": 20
+    },
+    {
+      "name": "Departamento Educación Avanzada",
+      "percentage": 13.64,
+      "value": 12
+    },
+    {
+      "name": "Departamento de Educación Infantil",
+      "percentage": 12.5,
+      "value": 11
+    }
+  ],
+  "sum": 88
+}
+```
+</ResponseExample>

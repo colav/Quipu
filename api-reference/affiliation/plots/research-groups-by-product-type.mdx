@@ -1,0 +1,118 @@
+---
+title: "Cantidad de productos por tipo de producto de las grupos de investigación"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Cantidad de productos por tipo de producto de las grupos de investigación."
+sidebarTitle: "Cantidad de productos por tipo de producto de las grupos de investigación"
+---
+
+Cantidad de productos por tipo de producto de las grupos de investigación. Tipo de gráfico: **Barras**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`, `department`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `research_groups_by_product_type`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | Sin datos |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "type": "Tesis de pregrado",
+      "x": "ARTEERRANTE",
+      "y": 1
+    },
+    {
+      "type": "Libro",
+      "x": "De La Urbe, periodismo de investigación",
+      "y": 1
+    },
+    {
+      "type": "Tesis de pregrado",
+      "x": "Gestión Tecnológica e Innovación ASGA",
+      "y": 1
+    },
+    {
+      "type": "Tesis de pregrado",
+      "x": "Grupo de Estudio en Analisis y Modelamiento (G.E.A.M)",
+      "y": 1
+    }
+  ]
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "type": "Libro",
+      "x": "De La Urbe, periodismo de investigación",
+      "y": 1
+    },
+    {
+      "type": "Artículo de revista",
+      "x": "Didáctica de las Matemáticas y la Física",
+      "y": 3
+    },
+    {
+      "type": "Otro",
+      "x": "Didáctica de las Matemáticas y la Física",
+      "y": 1
+    },
+    {
+      "type": "Documento de trabajo",
+      "x": "Didáctica de las Matemáticas y la Física",
+      "y": 1
+    }
+  ]
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "type": "Tesis de pregrado",
+      "x": "Grupo de Artes Performativas",
+      "y": 10
+    },
+    {
+      "type": "Publicaciones editoriales no especializadas",
+      "x": "Grupo de Artes Performativas",
+      "y": 10
+    },
+    {
+      "type": "Otro",
+      "x": "Grupo de Artes Performativas",
+      "y": 6
+    },
+    {
+      "type": "Informe",
+      "x": "Grupo de Artes Performativas",
+      "y": 4
+    }
+  ]
+}
+```
+</ResponseExample>

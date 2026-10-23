@@ -1,0 +1,129 @@
+---
+title: "Palabras más usadas en los títulos"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Palabras más frecuentes en los títulos de los productos."
+sidebarTitle: "Palabras más usadas en los títulos"
+---
+
+Palabras más frecuentes en los títulos de los productos. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `most_used_title_words`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "colombia",
+      "value": 14507
+    },
+    {
+      "name": "antioquia",
+      "value": 7829
+    },
+    {
+      "name": "medellín",
+      "value": 7630
+    },
+    {
+      "name": "estudio",
+      "value": 4809
+    }
+  ]
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "educación",
+      "value": 1124
+    },
+    {
+      "name": "formación",
+      "value": 809
+    },
+    {
+      "name": "enseñanza",
+      "value": 519
+    },
+    {
+      "name": "educativo",
+      "value": 513
+    }
+  ]
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "name": "danza",
+      "value": 107
+    },
+    {
+      "name": "cuerpo",
+      "value": 78
+    },
+    {
+      "name": "teatro",
+      "value": 60
+    },
+    {
+      "name": "creación",
+      "value": 54
+    }
+  ]
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "name": "colombia",
+      "value": 224
+    },
+    {
+      "name": "antioquia",
+      "value": 161
+    },
+    {
+      "name": "paratuberculosis",
+      "value": 76
+    },
+    {
+      "name": "bovino",
+      "value": 65
+    }
+  ]
+}
+```
+</ResponseExample>

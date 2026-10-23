@@ -1,0 +1,145 @@
+---
+title: "Artículos de acceso abierto por año"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Artículos por año según su estado de acceso abierto."
+sidebarTitle: "Artículos de acceso abierto por año"
+---
+
+Artículos por año según su estado de acceso abierto. Tipo de gráfico: **Barras**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `annual_articles_open_access`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "type": "Abierto",
+      "x": 2027,
+      "y": 0
+    },
+    {
+      "type": "Cerrado",
+      "x": 2027,
+      "y": 0
+    },
+    {
+      "type": "Sin información",
+      "x": 2027,
+      "y": 1
+    },
+    {
+      "type": "Abierto",
+      "x": 2026,
+      "y": 663
+    }
+  ]
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "type": "Abierto",
+      "x": 2026,
+      "y": 1
+    },
+    {
+      "type": "Cerrado",
+      "x": 2026,
+      "y": 0
+    },
+    {
+      "type": "Sin información",
+      "x": 2026,
+      "y": 0
+    },
+    {
+      "type": "Abierto",
+      "x": 2025,
+      "y": 44
+    }
+  ]
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "type": "Abierto",
+      "x": 2025,
+      "y": 3
+    },
+    {
+      "type": "Cerrado",
+      "x": 2025,
+      "y": 2
+    },
+    {
+      "type": "Sin información",
+      "x": 2025,
+      "y": 8
+    },
+    {
+      "type": "Abierto",
+      "x": 2024,
+      "y": 4
+    }
+  ]
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "type": "Abierto",
+      "x": 2026,
+      "y": 1
+    },
+    {
+      "type": "Cerrado",
+      "x": 2026,
+      "y": 0
+    },
+    {
+      "type": "Sin información",
+      "x": 2026,
+      "y": 0
+    },
+    {
+      "type": "Abierto",
+      "x": 2024,
+      "y": 14
+    }
+  ]
+}
+```
+</ResponseExample>
