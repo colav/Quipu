@@ -55,8 +55,10 @@ Todos los filtros aceptan varios valores separados por coma. Las opciones válid
 </ParamField>
 
 <ParamField query="authors_count" type="string">
-  Cantidad de autores. Formas aceptadas: `N` (solo productos con N autores),
-  `N-` (N o más autores) y `-N` (hasta N autores). Ejemplos: `1`, `1-`, `-10`.
+  Cantidad de autores. Formatos válidos: `5` (exactamente 5 autores), `5-` (5 o
+  más), `-5` (hasta 5) y `5-8` (de 5 a 8). Los valores deben ser mayores que 0 y
+  el mínimo no puede ser mayor que el máximo; en otro caso la API responde con
+  error 400.
 </ParamField>
 
 <ParamField query="authors_ranking" type="string">
