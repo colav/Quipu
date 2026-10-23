@@ -29,7 +29,8 @@ Todos son opcionales y funcionan igual que en [Buscar productos](/api-reference/
   Países. Usa el código devuelto (por ejemplo, `CO`).
 </ParamField>
 <ParamField query="authors_count" type="string">
-  Cantidad de autores. Ejemplos: `1`, `1-`.
+  Cantidad de autores. Formas aceptadas: `N` (solo productos con N autores),
+  `N-` (N o más autores) y `-N` (hasta N autores). Ejemplos: `1`, `1-`, `-10`.
 </ParamField>
 <ParamField query="authors_ranking" type="string">
   Clasificación de autores (por ejemplo, `Investigador Junior`).
