@@ -1,0 +1,172 @@
+---
+title: "Filtros disponibles de fuentes"
+api: "GET https://api.dev.impactu.colav.co/search/sources/filters"
+description: "Opciones disponibles para filtrar la búsqueda de fuentes, con su cantidad de resultados."
+---
+
+Devuelve los valores que puedes usar en los filtros de [Buscar fuentes](/api-reference/search/sources).
+Las opciones y sus conteos dependen de los criterios que envíes: solo se devuelven las que existen dentro de ese resultado.
+
+## Parámetros de consulta
+
+Todos son opcionales y funcionan igual que en [Buscar fuentes](/api-reference/search/sources). Los filtros aceptan varios valores separados por coma.
+
+<ParamField query="keywords" type="string">
+  Texto de búsqueda (nombre de la fuente).
+</ParamField>
+
+<ParamField query="source_types" type="string">
+  Tipo de fuente. Usa el `value` devuelto (por ejemplo, `journal`).
+</ParamField>
+
+<ParamField query="scimago_quartiles" type="string">
+  Cuartil Scimago vigente. Ejemplo: `Q1,Q2`.
+</ParamField>
+
+<ParamField query="apc_range" type="string">
+  Rango de APC en USD: mínimo y máximo separados por coma. Ejemplo: `100,2000`.
+</ParamField>
+
+<ParamField query="status" type="string">
+  Ruta de acceso abierto. Usa el `value` devuelto (por ejemplo, `open` o
+  `diamond`).
+</ParamField>
+
+<ParamField query="publication_time" type="string">
+  Tiempo de publicación en semanas: mínimo y máximo separados por coma. Ejemplo:
+  `4,12`.
+</ParamField>
+
+<ParamField query="license_type" type="string">
+  Tipo de licencia. Ejemplo: `CC BY,CC BY-NC`.
+</ParamField>
+
+<ParamField query="topics" type="string">
+  Tópicos de OpenAlex. Usa el `value` devuelto (URL).
+</ParamField>
+
+## Respuesta
+
+La respuesta es un objeto con un campo por filtro.
+
+### Listas de opciones
+
+<ResponseField name="source_types" type="object[]">
+  Tipos de fuente disponibles (por ejemplo, `journal`).
+  <Expandable title="propiedades de cada opción">
+    <ResponseField name="value" type="string">
+      Valor para enviar en el filtro.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Texto para mostrar.
+    </ResponseField>
+    <ResponseField name="count" type="integer">
+      Cantidad de fuentes.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="scimago_quartiles" type="object[]">
+  Cuartiles Scimago disponibles (`Q1`, `Q2`, `Q3`, `Q4`). Misma estructura que
+  `source_types`.
+</ResponseField>
+
+<ResponseField name="license_type" type="object[]">
+  Tipos de licencia disponibles (por ejemplo, `CC BY`). Misma estructura que
+  `source_types`.
+</ResponseField>
+
+<ResponseField name="topics" type="object[]">
+  Tópicos de OpenAlex disponibles. El `value` es la URL del tópico. Misma
+  estructura que `source_types`.
+</ResponseField>
+
+### Rangos
+
+<ResponseField name="apc_range" type="object">
+  Rango de APC en USD.
+  <Expandable title="propiedades">
+    <ResponseField name="min_apc" type="number | null">
+      APC mínimo.
+    </ResponseField>
+    <ResponseField name="max_apc" type="number | null">
+      APC máximo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="publication_time" type="object">
+  Rango de tiempo de publicación en semanas.
+  <Expandable title="propiedades">
+    <ResponseField name="min_weeks" type="integer | null">
+      Tiempo mínimo.
+    </ResponseField>
+    <ResponseField name="max_weeks" type="integer | null">
+      Tiempo máximo.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Árbol de opciones
+
+<ResponseField name="status" type="object[]">
+  Ruta de acceso abierto. El nodo `open` (Abierto) agrupa `diamond`, `gold` y
+  `hybrid` en `children`; `closed` (Cerrado) no tiene hijos.
+  <Expandable title="propiedades de cada nodo">
+    <ResponseField name="value" type="string">
+      Valor para enviar en el filtro.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Texto para mostrar.
+    </ResponseField>
+    <ResponseField name="count" type="integer">
+      Cantidad de fuentes.
+    </ResponseField>
+    <ResponseField name="children" type="object[]">
+      Nodos hijos (puede no existir).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "apc_range": { "min_apc": 0.01, "max_apc": 8900 },
+  "publication_time": { "min_weeks": 1, "max_weeks": 100 },
+  "license_type": [
+    { "value": "CC BY", "title": "CC BY", "count": 11798 }
+  ],
+  "scimago_quartiles": [
+    { "value": "Q1", "title": "Q1", "count": 17237 }
+  ],
+  "source_types": [
+    { "value": "journal", "title": "Revista", "count": 257907 }
+  ],
+  "status": [
+    { "value": "closed", "title": "Cerrado", "count": 282451 },
+    {
+      "value": "open",
+      "title": "Abierto",
+      "count": 67307,
+      "children": [
+        { "value": "diamond", "title": "Diamante", "count": 58406 },
+        { "value": "gold", "title": "Dorado", "count": 8660 },
+        { "value": "hybrid", "title": "Híbrido", "count": 241 }
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "value": "https://openalex.org/T13255",
+      "title": "Business, Innovation, and Economy",
+      "count": 1662
+    }
+  ]
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+
+</ResponseExample>
