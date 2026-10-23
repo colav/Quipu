@@ -1,0 +1,127 @@
+---
+title: "Buscar patentes"
+api: "GET https://api.dev.impactu.colav.co/search/patents"
+description: "Búsqueda paginada de patentes por palabras clave."
+---
+
+import PaginationParams from "/snippets/pagination-params.mdx";
+import SortAlphabetical from "/snippets/sort-alphabetical.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
+
+## Parámetros de consulta
+
+<ParamField query="keywords" type="string">
+  Texto de búsqueda (título de la patente).
+</ParamField>
+
+<PaginationParams />
+
+<SortAlphabetical />
+
+<ParamField query="view" type="string" default="full">
+  Nivel de detalle de la respuesta: `full` o `summary`.
+</ParamField>
+
+<Note>Este endpoint no tiene filtros.</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="array">
+  Lista de patentes.
+  <Expandable title="propiedades de cada patente">
+    <ResponseField name="id" type="string">
+      Identificador de la patente.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Título.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Títulos por fuente (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="language" type="string">
+      Idioma.
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      Autores (inventores), con sus afiliaciones.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Cantidad de autores.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Grupos de investigación asociados (`id`, `name`).
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Tipos de producto (`name`, `source`).
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Tipos de la patente por fuente, con su nivel (`type`, `level`, `source`).
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Clasificaciones (`rank`, `source`, `date`).
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos (`id`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      Enlaces externos.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Última actualización por fuente (`source`, `time` en segundos Unix).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "id": "6ab847985418a51e32855f6c",
+      "title": "\"DISPOSITIVO DE EXTRACCIÓN DE GRANOS\"",
+      "language": "gl",
+      "authors": [
+        {
+          "id": "0000903710",
+          "full_name": "Nombre Apellido Apellido",
+          "affiliations": [
+            {
+              "id": "snies_1818",
+              "name": "Universidad Cooperativa de Colombia",
+              "types": [{ "source": "scienti", "type": "education", "provenance": "scienti" }]
+            }
+          ]
+        }
+      ],
+      "authors_count": 1,
+      "groups": [
+        { "id": "COL0062428", "name": "Grupo de Investigación en Tecnologías de la Información" }
+      ],
+      "product_types": [
+        { "name": "Patente de invención", "source": "minciencias" }
+      ],
+      "ranking": [
+        { "rank": "PIV-PA4", "source": "minciencias", "date": 1614229200 }
+      ],
+      "updated": [{ "source": "minciencias", "time": 1790461848 }]
+    }
+  ],
+  "meta": {
+    "count": 1904,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/search/patents?max=1&page=2&sort=alphabetical_asc",
+      "previous": null
+    },
+    "db_response_time_ms": 10,
+    "page": 1,
+    "size": 1
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+
+</ResponseExample>

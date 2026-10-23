@@ -1,0 +1,169 @@
+---
+title: "Buscar entidades geográficas"
+api: "GET https://api.dev.impactu.colav.co/search/geo/{geo_type}"
+description: "Búsqueda paginada de ciudades y departamentos de Colombia."
+---
+
+import PaginationParams from "/snippets/pagination-params.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="geo_type" type="string" required>
+  Tipo de entidad geográfica: `city` (ciudades) o `state` (departamentos).
+  Cualquier otro valor responde con error 400.
+</ParamField>
+
+## Parámetros de consulta
+
+<ParamField query="keywords" type="string">
+  Texto de búsqueda (nombre de la ciudad o del departamento).
+</ParamField>
+
+<PaginationParams />
+
+<ParamField query="sort" type="string">
+  Ordenamiento con el formato `campo_direccion`, donde la dirección es `asc` o
+  `desc`. Para entidades geográficas, `alphabetical` ordena por nombre. Ejemplo:
+  `alphabetical_asc`.
+</ParamField>
+
+<ParamField query="view" type="string" default="full">
+  Nivel de detalle de la respuesta: `full` o `summary`.
+</ParamField>
+
+<Note>Este endpoint no tiene filtros.</Note>
+
+## Respuesta
+
+La estructura cambia según `geo_type`. Los campos comunes son:
+
+<ResponseField name="data" type="array">
+  Lista de entidades geográficas.
+  <Expandable title="propiedades de cada entidad">
+    <ResponseField name="id" type="string">
+      Identificador (código DANE).
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nombre.
+    </ResponseField>
+    <ResponseField name="type" type="string">
+      `city` o `state`.
+    </ResponseField>
+    <ResponseField name="country" type="string">
+      País.
+    </ResponseField>
+    <ResponseField name="country_code" type="string">
+      Código del país (por ejemplo, `CO`).
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos (`id`, `source`), como el código DANE.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Cantidad de autores.
+    </ResponseField>
+    <ResponseField name="groups_count" type="integer">
+      Cantidad de grupos de investigación.
+    </ResponseField>
+    <ResponseField name="institutions_count" type="integer">
+      Cantidad de instituciones.
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Cantidad de productos.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citas por fuente (`count`, `source`).
+    </ResponseField>
+    <ResponseField name="state" type="object">
+      Solo con `city`: departamento al que pertenece (`id`, `name`).
+    </ResponseField>
+    <ResponseField name="latitude" type="number">
+      Solo con `city`: latitud.
+    </ResponseField>
+    <ResponseField name="longitude" type="number">
+      Solo con `city`: longitud.
+    </ResponseField>
+    <ResponseField name="cities_count" type="integer">
+      Solo con `state`: cantidad de ciudades.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json Ciudad
+{
+  "data": [
+    {
+      "id": "11001",
+      "name": "Bogotá, D.c.",
+      "type": "city",
+      "country": "Colombia",
+      "country_code": "CO",
+      "state": { "id": "11", "name": "Bogotá, D.c." },
+      "latitude": 4.649251,
+      "longitude": -74.106992,
+      "external_ids": [{ "id": "11001", "source": "dane" }],
+      "authors_count": 133557,
+      "groups_count": 2489,
+      "institutions_count": 428,
+      "products_count": 680841,
+      "citations_count": [
+        { "count": 3012900, "source": "openalex" },
+        { "count": 3223321, "source": "scholar" }
+      ]
+    }
+  ],
+  "meta": {
+    "count": 166,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/search/geo/city?max=1&page=2",
+      "previous": null
+    },
+    "db_response_time_ms": 15,
+    "page": 1,
+    "size": 1
+  }
+}
+```
+
+```json Departamento
+{
+  "data": [
+    {
+      "id": "11",
+      "name": "Bogotá, D.c.",
+      "type": "state",
+      "country": "Colombia",
+      "country_code": "CO",
+      "cities_count": 1,
+      "external_ids": [{ "id": "11", "source": "dane" }],
+      "authors_count": 133557,
+      "groups_count": 2489,
+      "institutions_count": 428,
+      "products_count": 680841,
+      "citations_count": [
+        { "count": 3012900, "source": "openalex" },
+        { "count": 3223321, "source": "scholar" }
+      ]
+    }
+  ],
+  "meta": {
+    "count": 166,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/search/geo/state?max=1&page=2",
+      "previous": null
+    },
+    "db_response_time_ms": 11,
+    "page": 1,
+    "size": 1
+  }
+}
+```
+
+```json 400
+{ "error": "Invalid geo_type. Allowed values: city, state" }
+```
+
+</ResponseExample>

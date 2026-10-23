@@ -1,0 +1,152 @@
+---
+title: "Buscar proyectos"
+api: "GET https://api.dev.impactu.colav.co/search/projects"
+description: "Búsqueda paginada de proyectos de investigación por palabras clave."
+---
+
+import PaginationParams from "/snippets/pagination-params.mdx";
+import SortAlphabetical from "/snippets/sort-alphabetical.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
+
+## Parámetros de consulta
+
+<ParamField query="keywords" type="string">
+  Texto de búsqueda (título del proyecto).
+</ParamField>
+
+<PaginationParams />
+
+<SortAlphabetical />
+
+<ParamField query="view" type="string" default="full">
+  Nivel de detalle de la respuesta: `full` o `summary`.
+</ParamField>
+
+<Note>Este endpoint no tiene filtros.</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="array">
+  Lista de proyectos.
+  <Expandable title="propiedades de cada proyecto">
+    <ResponseField name="id" type="string">
+      Identificador del proyecto.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Título.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Títulos por fuente (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="abstract" type="string">
+      Resumen.
+    </ResponseField>
+    <ResponseField name="language" type="string">
+      Idioma.
+    </ResponseField>
+    <ResponseField name="keywords" type="string[] | null">
+      Palabras clave.
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      Autores (investigadores), con sus afiliaciones.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Cantidad de autores.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Grupos de investigación asociados (`id`, `name`).
+    </ResponseField>
+    <ResponseField name="date_init" type="integer | null">
+      Fecha de inicio en segundos Unix.
+    </ResponseField>
+    <ResponseField name="date_end" type="integer | null">
+      Fecha de finalización en segundos Unix.
+    </ResponseField>
+    <ResponseField name="year_init" type="integer | null">
+      Año de inicio.
+    </ResponseField>
+    <ResponseField name="year_end" type="integer | null">
+      Año de finalización.
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Tipos de producto (`name`, `source`).
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Tipos del proyecto por fuente, con su nivel (`type`, `code`, `level`,
+      `source`).
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Clasificaciones.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos (`id`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      Enlaces externos.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Última actualización por fuente (`source`, `time` en segundos Unix).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "id": "6ab847c85418a51e32857323",
+      "title": "Título del proyecto",
+      "language": "es",
+      "abstract": "",
+      "authors": [
+        {
+          "id": "0000466395",
+          "full_name": "Nombre Apellido Apellido",
+          "affiliations": [
+            {
+              "id": "03bp5hc83",
+              "name": "Universidad de Antioquia",
+              "types": [{ "source": "ror", "type": "education", "provenance": null }]
+            }
+          ]
+        }
+      ],
+      "authors_count": 1,
+      "groups": [
+        { "id": "COL0074901", "name": "Grupo de Investigación en Información, Conocimiento y Sociedad" }
+      ],
+      "date_init": null,
+      "date_end": null,
+      "year_init": null,
+      "year_end": null,
+      "product_types": [
+        { "name": "Investigación", "source": "siiu" },
+        { "name": "Aplicada", "source": "siiu" }
+      ],
+      "external_ids": [
+        { "id": "2020-33891", "provenance": "siiu", "source": "codigo" }
+      ],
+      "updated": [{ "source": "siiu", "time": 1790461895 }]
+    }
+  ],
+  "meta": {
+    "count": 128687,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/search/projects?max=1&page=2&sort=alphabetical_asc",
+      "previous": null
+    },
+    "db_response_time_ms": 100,
+    "page": 1,
+    "size": 1
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+
+</ResponseExample>
