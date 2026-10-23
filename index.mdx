@@ -1,0 +1,149 @@
+---
+title: "Bienvenido a Impactu"
+description: "Documentación oficial de Impactu. Aprende a consultar, explorar y exportar información científica y académica mediante nuestra API REST."
+sidebarTitle: "Introducción"
+---
+
+<div style={{ textAlign: "center", padding: "32px 0 24px" }}>
+  <img
+    src="/images/impactu-logo.svg"
+    alt="Impactu logo"
+    style={{ width: "240px", margin: "0 auto 24px" }}
+  />
+
+<h1>Bienvenido a Impactu</h1>
+
+  <p style={{ fontSize: "18px", color: "#64748b" }}>
+    Explora, consulta e integra información científica
+    y académica de manera sencilla.
+  </p>
+</div>
+
+<Note>
+  Esta documentación te ayudará a conocer las funcionalidades de impactu y
+  aprovechar su API REST.
+</Note>
+
+## Explora la documentación
+
+Encuentra los recursos necesarios para comenzar a
+trabajar con impactu, desde los conceptos fundamentales
+hasta las funcionalidades avanzadas de la API.
+
+<CardGroup cols={2}>
+  <Card
+    title="Primeros pasos"
+    icon="rocket"
+    href="/quickstart"
+    color="#46B3B3"
+  >
+    Descubre cómo comenzar a utilizar impactu y
+    realizar tus primeras consultas.
+  </Card>
+
+<Card
+  title="Referencia de la API"
+  icon="code-2"
+  href="/api-reference/introduction"
+  color="#39658C"
+>
+  Explora los endpoints, parámetros, modelos de respuesta y códigos de estado.
+</Card>
+
+<Card
+  title="Consultas y filtros"
+  icon="search"
+  href="/guides/filters"
+  color="#46B3B3"
+>
+  Aprende a filtrar, ordenar y paginar resultados para obtener información
+  precisa.
+</Card>
+
+  <Card
+    title="Exportación de datos"
+    icon="file-down"
+    href="/guides/export"
+    color="#FFAA00"
+  >
+    Descubre cómo exportar información en
+    formatos CSV y Excel.
+  </Card>
+</CardGroup>
+
+## ¿Qué puedes hacer con impactu?
+
+impactu proporciona herramientas para acceder
+a información científica y académica mediante
+una interfaz de programación REST.
+
+<AccordionGroup>
+  <Accordion title="Consultar información académica" icon="book-open">
+    Accede a información sobre publicaciones,
+    investigadores y otras entidades disponibles
+    en la plataforma.
+  </Accordion>
+
+<Accordion title="Realizar búsquedas avanzadas" icon="filter">
+  Combina filtros, ordenamiento y paginación para construir consultas
+  personalizadas.
+</Accordion>
+
+<Accordion title="Analizar información" icon="chart-column">
+  Explora datos y resultados agregados para apoyar procesos de análisis.
+</Accordion>
+
+  <Accordion title="Exportar resultados" icon="download">
+    Descarga los resultados de tus consultas
+    en formatos compatibles con herramientas
+    de análisis de datos.
+  </Accordion>
+</AccordionGroup>
+
+## Tu primera consulta
+
+Interactúa con impactu mediante solicitudes HTTP
+y recibe respuestas estructuradas en JSON.
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url "https://api.dev.impactu.colav.co/search/works?max=10&page=1&authors_count=-10" \
+  --header "Accept: application/json"
+```
+
+```python Python
+import requests
+
+url = "https://api.dev.impactu.colav.co/search/works?max=10&page=1&authors_count=-10"
+
+response = requests.get(
+    url,
+    headers={"Accept": "application/json"},
+    timeout=30,
+)
+
+response.raise_for_status()
+
+data = response.json()
+print(data)
+```
+
+</CodeGroup>
+
+<Info>
+  Sustituye `TU_DOMINIO` y la ruta de ejemplo por los valores reales de tu API.
+</Info>
+
+## Continúa explorando
+
+<CardGroup cols={1}>
+  <Card
+    title="Explorar endpoints"
+    icon="terminal"
+    href="/api-reference/introduction"
+  >
+    Consulta los recursos disponibles en la API.
+  </Card>
+</CardGroup>
