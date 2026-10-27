@@ -1,0 +1,45 @@
+---
+title: "Afiliaciones de una entidad geográfica"
+api: "GET https://api.dev.impactu.colav.co/geo/{geo_type}/{geo_id}/affiliations"
+description: "Devuelve las instituciones y grupos de investigación asociados a un departamento o ciudad."
+---
+
+## Parámetros de ruta
+
+<ParamField path="geo_type" type="string" required>
+  Tipo de entidad geográfica. Valores permitidos: `state` o `city`.
+</ParamField>
+
+<ParamField path="geo_id" type="string" required>
+  Código DANE de la entidad. Ejemplos: `05` para Antioquia, `05001` para
+  Medellín.
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="institutions" type="object[]">
+  Instituciones asociadas a la entidad. Cada elemento contiene `id` y `name`.
+</ResponseField>
+
+<ResponseField name="groups" type="object[]">
+  Grupos de investigación asociados. Cada elemento contiene `id` y `name`.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "institutions": [
+    { "id": "03bp5hc83", "name": "Universidad de Antioquia" },
+    { "id": "snies_1102", "name": "Universidad Nacional de Colombia" }
+  ],
+  "groups": [
+    { "id": "COL0011886", "name": "Historia de la Práctica Pedagógica en Colombia" },
+    { "id": "COL0013011", "name": "Administración y Organizaciones" }
+  ]
+}
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>

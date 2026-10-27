@@ -1,0 +1,87 @@
+---
+title: "Productos de una entidad geográfica"
+api: "GET https://api.dev.impactu.colav.co/geo/{geo_type}/{geo_id}/research/products"
+description: "Devuelve los productos bibliográficos asociados a un departamento o ciudad, con paginación y ordenamiento."
+---
+
+## Parámetros de ruta
+
+<ParamField path="geo_type" type="string" required>
+  Tipo de entidad geográfica. Valores permitidos: `state` o `city`.
+</ParamField>
+
+<ParamField path="geo_id" type="string" required>
+  Código DANE de la entidad. Ejemplos: `05` para Antioquia, `05001` para
+  Medellín.
+</ParamField>
+
+## Parámetros de consulta
+
+<ParamField query="page" type="integer" default="1">
+  Número de página.
+</ParamField>
+
+<ParamField query="max" type="integer" default="10">
+  Cantidad de resultados por página.
+</ParamField>
+
+<ParamField query="sort" type="string">
+  Campo de ordenamiento. Valores permitidos: `citations` (mayor número de
+  citas), `alphabetical` (orden alfabético por título), `year` (más reciente
+  primero).
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="data" type="object[]">
+  Lista de productos bibliográficos. La estructura de cada producto es la misma
+  que en [Obtener un producto](/api-reference/work/get-work).
+</ResponseField>
+
+<ResponseField name="meta" type="object">
+  Metadatos de paginación.
+  <Expandable title="propiedades">
+    <ResponseField name="count" type="integer">
+      Total de productos.
+    </ResponseField>
+    <ResponseField name="page" type="integer">
+      Página actual.
+    </ResponseField>
+    <ResponseField name="size" type="integer">
+      Resultados en esta página.
+    </ResponseField>
+    <ResponseField name="cursor" type="object">
+      URLs de navegación: `next` y `previous`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "meta": {
+    "count": 295187,
+    "page": 1,
+    "size": 10,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/geo/state/05/research/products?max=10&page=2",
+      "previous": null
+    }
+  },
+  "data": [
+    {
+      "id": "6ab4ac415418a51e324cb660",
+      "title": "Título del producto",
+      "year_published": 2021,
+      "authors_count": 3,
+      "citations_count": [{ "count": 12, "source": "openalex" }],
+      "source": { "id": "6aad68732be7843cde64e000", "name": "Revista Ejemplo" }
+    }
+  ]
+}
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>
