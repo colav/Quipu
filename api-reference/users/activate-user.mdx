@@ -1,0 +1,43 @@
+---
+title: "Activar usuario"
+api: "PATCH https://api.dev.impactu.colav.co/admin/users/{email}/restore"
+description: "Reactiva una cuenta de usuario previamente desactivada (is_active = true)."
+---
+
+<Note>
+  Requiere sesión activa con rol `admin`.
+</Note>
+
+## Parámetros de ruta
+
+<ParamField path="email" type="string" required>
+  Correo electrónico del usuario a activar.
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="success" type="boolean">
+  `true` si la activación fue exitosa.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Mensaje de confirmación o error.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{ "success": true, "msg": "Usuario activado correctamente." }
+```
+
+```json 404
+{ "success": false, "msg": "Usuario no encontrado." }
+```
+
+```json 401
+{ "success": false, "msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente." }
+```
+
+```json 403
+{ "success": false, "msg": "Permiso denegado: No pueden realizar esta acción." }
+```
+</ResponseExample>

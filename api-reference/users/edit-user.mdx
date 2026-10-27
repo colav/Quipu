@@ -1,0 +1,55 @@
+---
+title: "Editar usuario"
+api: "PUT https://api.dev.impactu.colav.co/admin/users/{email}"
+description: "Actualiza el correo electrónico y/o el rol de un usuario. No se puede asignar el rol admin ni editar cuentas admin."
+---
+
+<Note>
+  Requiere sesión activa con rol `admin`.
+</Note>
+
+## Parámetros de ruta
+
+<ParamField path="email" type="string" required>
+  Correo electrónico actual del usuario a editar.
+</ParamField>
+
+## Cuerpo de la solicitud
+
+Al menos uno de los dos campos es obligatorio.
+
+<ParamField body="email" type="string">
+  Nuevo correo electrónico.
+</ParamField>
+
+<ParamField body="role" type="string">
+  Nuevo rol. No puede ser `admin`.
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="success" type="boolean">
+  `true` si la actualización fue exitosa.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Mensaje de confirmación o error.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{ "success": true, "msg": "Usuario actualizado correctamente." }
+```
+
+```json 400
+{ "success": false, "msg": "Debes enviar al menos email o rol." }
+```
+
+```json 403
+{ "success": false, "msg": "No está permitido asignar el role 'admin'." }
+```
+
+```json 404
+{ "success": false, "msg": "Usuario no encontrado." }
+```
+</ResponseExample>
