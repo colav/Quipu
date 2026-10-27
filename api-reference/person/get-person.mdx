@@ -1,0 +1,132 @@
+---
+title: "Obtener un autor"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}"
+description: "Devuelve el perfil de un autor a partir de su identificador."
+---
+
+## Parámetros de ruta
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor. Ejemplo: `0000000001`.
+</ParamField>
+
+<Note>
+  Este endpoint no recibe parámetros de consulta.
+</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="object">
+  Perfil del autor.
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del autor.
+    </ResponseField>
+    <ResponseField name="full_name" type="string | null">
+      Nombre completo.
+    </ResponseField>
+    <ResponseField name="affiliations" type="object[]">
+      Afiliaciones del autor (instituciones, facultades, departamentos y grupos).
+      <Expandable title="propiedades de cada afiliación">
+        <ResponseField name="id" type="string | null">
+          Identificador de la afiliación.
+        </ResponseField>
+        <ResponseField name="name" type="string | null">
+          Nombre de la afiliación.
+        </ResponseField>
+        <ResponseField name="types" type="object[]">
+          Tipos de la afiliación por fuente (`type`, `source`, `provenance`).
+        </ResponseField>
+        <ResponseField name="start_date" type="integer | string | null">
+          Fecha de inicio de la vinculación en segundos Unix. `-1` si no tiene fin registrado.
+        </ResponseField>
+        <ResponseField name="end_date" type="integer | string | null">
+          Fecha de fin de la vinculación en segundos Unix. `-1` si sigue activo.
+        </ResponseField>
+        <ResponseField name="years" type="integer[]">
+          Años con producción registrada en esta afiliación.
+        </ResponseField>
+        <ResponseField name="position" type="string | null">
+          Cargo o posición en la afiliación.
+        </ResponseField>
+        <ResponseField name="external_urls" type="object[]">
+          URLs externas de la afiliación.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos (Scienti, ORCID, Scholar, ResearchGate, OpenAlex, entre otros).
+      Campos: `id`, `source`, `provenance`.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citas por fuente (`count`, `source`).
+    </ResponseField>
+    <ResponseField name="products_count" type="integer | null">
+      Cantidad total de productos de investigación.
+    </ResponseField>
+    <ResponseField name="h_index" type="integer | null">
+      Índice h.
+    </ResponseField>
+    <ResponseField name="h5_index" type="integer | null">
+      Índice h de los últimos 5 años.
+    </ResponseField>
+    <ResponseField name="logo" type="string | null">
+      URL del logo de la institución principal del autor.
+    </ResponseField>
+    <ResponseField name="age" type="integer | null">
+      Edad calculada a partir de la fecha de nacimiento. Solo presente cuando el
+      dato está disponible.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "data": {
+    "id": "0000000001",
+    "full_name": "María Ejemplo García",
+    "affiliations": [
+      {
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "start_date": 1109116800,
+        "end_date": -1,
+        "types": [
+          { "source": "ror", "type": "education" },
+          { "source": "openalex", "type": "education" }
+        ],
+        "years": [2005, 2006, 2007, 2008, 2009, 2010],
+        "external_urls": []
+      },
+      {
+        "id": "COL0000000",
+        "name": "Grupo de Investigación Ejemplo",
+        "start_date": 1341118800,
+        "end_date": -1,
+        "types": [{ "source": "scienti", "type": "group" }],
+        "years": [],
+        "external_urls": []
+      }
+    ],
+    "external_ids": [
+      { "id": "0000000001", "provenance": "scienti", "source": "scienti" },
+      { "id": "https://orcid.org/0000-0000-0000-0001", "provenance": "minciencias", "source": "orcid" },
+      { "id": "https://scholar.google.com/citations?user=EXAMPLEID00", "provenance": "minciencias", "source": "scholar" },
+      { "id": "https://openalex.org/A0000000001", "provenance": "openalex", "source": "openalex" }
+    ],
+    "citations_count": [
+      { "count": 340, "source": "openalex" },
+      { "count": 780, "source": "scholar" }
+    ],
+    "products_count": 135,
+    "h_index": 9,
+    "h5_index": 4
+  }
+}
+```
+
+```json 400
+{ "error": "The person with id 9999999999 does not exist." }
+```
+</ResponseExample>

@@ -1,0 +1,826 @@
+---
+title: "Coautoría por país"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Coautoría por país."
+sidebarTitle: "Coautoría por país"
+---
+
+Coautoría por país. Tipo de gráfico: **Mapa**.
+
+## Parámetros
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `coauthorship_by_country_map`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/person/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Respuesta
+
+La estructura de la respuesta es idéntica a la del indicador equivalente en [afiliaciones](/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Institución
+{
+  "plot": {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -2.20625,
+                35.090973
+              ],
+              [
+                -1.746417,
+                34.754971
+              ],
+              [
+                -1.847195,
+                34.625473
+              ],
+              [
+                -1.648472,
+                34.108418
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 113,
+          "country_code": "DZ",
+          "log_count": 4.727387818712341,
+          "name": "Algeria"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                9.603666,
+                47.061554
+              ],
+              [
+                9.535916,
+                47.273529
+              ],
+              [
+                9.492889,
+                47.192139
+              ],
+              [
+                9.603666,
+                47.061554
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 0,
+          "country_code": "LI",
+          "log_count": 0,
+          "name": "Liechtenstein"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                35.62336,
+                23.146889
+              ],
+              [
+                35.487388,
+                23.492889
+              ],
+              [
+                35.510334,
+                23.978666
+              ],
+              [
+                35.69439,
+                23.911638
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 4669,
+          "country_code": "EG",
+          "log_count": 8.448700194970938,
+          "name": "Egypt"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                [
+                  92.608803,
+                  21.975861
+                ],
+                [
+                  92.516281,
+                  22.716249
+                ],
+                [
+                  92.374969,
+                  22.928528
+                ],
+                [
+                  92.381027,
+                  23.30489
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.666557,
+                  22.141916
+                ],
+                [
+                  90.819778,
+                  22.136
+                ],
+                [
+                  90.888947,
+                  22.445
+                ],
+                [
+                  90.735527,
+                  22.766861
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.437195,
+                  23.065195
+                ],
+                [
+                  90.485916,
+                  23.261417
+                ],
+                [
+                  90.212364,
+                  23.255251
+                ],
+                [
+                  90.437195,
+                  23.065195
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.798096,
+                  22.77824
+                ],
+                [
+                  90.955025,
+                  22.548084
+                ],
+                [
+                  90.934639,
+                  22.807388
+                ],
+                [
+                  90.798096,
+                  22.77824
+                ]
+              ]
+            ]
+          ],
+          "type": "MultiPolygon"
+        },
+        "properties": {
+          "count": 321,
+          "country_code": "BD",
+          "log_count": 5.771441123130016,
+          "name": "Bangladesh"
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  }
+}
+```
+
+```json Facultad
+{
+  "plot": {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -2.20625,
+                35.090973
+              ],
+              [
+                -1.746417,
+                34.754971
+              ],
+              [
+                -1.847195,
+                34.625473
+              ],
+              [
+                -1.648472,
+                34.108418
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 0,
+          "country_code": "DZ",
+          "log_count": 0,
+          "name": "Algeria"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                9.603666,
+                47.061554
+              ],
+              [
+                9.535916,
+                47.273529
+              ],
+              [
+                9.492889,
+                47.192139
+              ],
+              [
+                9.603666,
+                47.061554
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 0,
+          "country_code": "LI",
+          "log_count": 0,
+          "name": "Liechtenstein"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                35.62336,
+                23.146889
+              ],
+              [
+                35.487388,
+                23.492889
+              ],
+              [
+                35.510334,
+                23.978666
+              ],
+              [
+                35.69439,
+                23.911638
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 0,
+          "country_code": "EG",
+          "log_count": 0,
+          "name": "Egypt"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                [
+                  92.608803,
+                  21.975861
+                ],
+                [
+                  92.516281,
+                  22.716249
+                ],
+                [
+                  92.374969,
+                  22.928528
+                ],
+                [
+                  92.381027,
+                  23.30489
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.666557,
+                  22.141916
+                ],
+                [
+                  90.819778,
+                  22.136
+                ],
+                [
+                  90.888947,
+                  22.445
+                ],
+                [
+                  90.735527,
+                  22.766861
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.437195,
+                  23.065195
+                ],
+                [
+                  90.485916,
+                  23.261417
+                ],
+                [
+                  90.212364,
+                  23.255251
+                ],
+                [
+                  90.437195,
+                  23.065195
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.798096,
+                  22.77824
+                ],
+                [
+                  90.955025,
+                  22.548084
+                ],
+                [
+                  90.934639,
+                  22.807388
+                ],
+                [
+                  90.798096,
+                  22.77824
+                ]
+              ]
+            ]
+          ],
+          "type": "MultiPolygon"
+        },
+        "properties": {
+          "count": 0,
+          "country_code": "BD",
+          "log_count": 0,
+          "name": "Bangladesh"
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  }
+}
+```
+
+```json Departamento
+{
+  "plot": {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -2.20625,
+                35.090973
+              ],
+              [
+                -1.746417,
+                34.754971
+              ],
+              [
+                -1.847195,
+                34.625473
+              ],
+              [
+                -1.648472,
+                34.108418
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 0,
+          "country_code": "DZ",
+          "log_count": 0,
+          "name": "Algeria"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                9.603666,
+                47.061554
+              ],
+              [
+                9.535916,
+                47.273529
+              ],
+              [
+                9.492889,
+                47.192139
+              ],
+              [
+                9.603666,
+                47.061554
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 0,
+          "country_code": "LI",
+          "log_count": 0,
+          "name": "Liechtenstein"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                35.62336,
+                23.146889
+              ],
+              [
+                35.487388,
+                23.492889
+              ],
+              [
+                35.510334,
+                23.978666
+              ],
+              [
+                35.69439,
+                23.911638
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 0,
+          "country_code": "EG",
+          "log_count": 0,
+          "name": "Egypt"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                [
+                  92.608803,
+                  21.975861
+                ],
+                [
+                  92.516281,
+                  22.716249
+                ],
+                [
+                  92.374969,
+                  22.928528
+                ],
+                [
+                  92.381027,
+                  23.30489
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.666557,
+                  22.141916
+                ],
+                [
+                  90.819778,
+                  22.136
+                ],
+                [
+                  90.888947,
+                  22.445
+                ],
+                [
+                  90.735527,
+                  22.766861
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.437195,
+                  23.065195
+                ],
+                [
+                  90.485916,
+                  23.261417
+                ],
+                [
+                  90.212364,
+                  23.255251
+                ],
+                [
+                  90.437195,
+                  23.065195
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.798096,
+                  22.77824
+                ],
+                [
+                  90.955025,
+                  22.548084
+                ],
+                [
+                  90.934639,
+                  22.807388
+                ],
+                [
+                  90.798096,
+                  22.77824
+                ]
+              ]
+            ]
+          ],
+          "type": "MultiPolygon"
+        },
+        "properties": {
+          "count": 0,
+          "country_code": "BD",
+          "log_count": 0,
+          "name": "Bangladesh"
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  }
+}
+```
+
+```json Grupo
+{
+  "plot": {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -2.20625,
+                35.090973
+              ],
+              [
+                -1.746417,
+                34.754971
+              ],
+              [
+                -1.847195,
+                34.625473
+              ],
+              [
+                -1.648472,
+                34.108418
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 0,
+          "country_code": "DZ",
+          "log_count": 0,
+          "name": "Algeria"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                9.603666,
+                47.061554
+              ],
+              [
+                9.535916,
+                47.273529
+              ],
+              [
+                9.492889,
+                47.192139
+              ],
+              [
+                9.603666,
+                47.061554
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 0,
+          "country_code": "LI",
+          "log_count": 0,
+          "name": "Liechtenstein"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                35.62336,
+                23.146889
+              ],
+              [
+                35.487388,
+                23.492889
+              ],
+              [
+                35.510334,
+                23.978666
+              ],
+              [
+                35.69439,
+                23.911638
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "count": 1,
+          "country_code": "EG",
+          "log_count": 0.0,
+          "name": "Egypt"
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                [
+                  92.608803,
+                  21.975861
+                ],
+                [
+                  92.516281,
+                  22.716249
+                ],
+                [
+                  92.374969,
+                  22.928528
+                ],
+                [
+                  92.381027,
+                  23.30489
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.666557,
+                  22.141916
+                ],
+                [
+                  90.819778,
+                  22.136
+                ],
+                [
+                  90.888947,
+                  22.445
+                ],
+                [
+                  90.735527,
+                  22.766861
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.437195,
+                  23.065195
+                ],
+                [
+                  90.485916,
+                  23.261417
+                ],
+                [
+                  90.212364,
+                  23.255251
+                ],
+                [
+                  90.437195,
+                  23.065195
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  90.798096,
+                  22.77824
+                ],
+                [
+                  90.955025,
+                  22.548084
+                ],
+                [
+                  90.934639,
+                  22.807388
+                ],
+                [
+                  90.798096,
+                  22.77824
+                ]
+              ]
+            ]
+          ],
+          "type": "MultiPolygon"
+        },
+        "properties": {
+          "count": 1,
+          "country_code": "BD",
+          "log_count": 0.0,
+          "name": "Bangladesh"
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  }
+}
+```
+</ResponseExample>

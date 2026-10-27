@@ -1,0 +1,37 @@
+---
+title: "Exportar productos a CSV"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products/csv"
+description: "Descarga los productos de investigación de un autor en formato CSV."
+---
+
+import WorksFilterParams from "/snippets/works-filter-params.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor. Ejemplo: `0000000001`.
+</ParamField>
+
+## Parámetros de consulta
+
+### Filtros
+
+Los mismos filtros de [Buscar productos](/api-reference/search/works).
+
+<WorksFilterParams />
+
+<Note>
+  Este endpoint no admite el parámetro `plot`. A diferencia del [CSV de
+  afiliación](/api-reference/affiliation/get-research-products-csv), solo
+  exporta el listado de productos.
+</Note>
+
+## Respuesta
+
+Archivo CSV adjunto (`Content-Type: text/csv; charset=utf-8`), nombre de archivo `person_works.csv`.
+
+Las columnas son las mismas que en la [exportación CSV de afiliación](/api-reference/affiliation/get-research-products-csv), con una columna adicional:
+
+| Columna | Descripción |
+| --- | --- |
+| `contract_type` | Tipo de contrato del autor con su institución en el año de publicación del producto. |

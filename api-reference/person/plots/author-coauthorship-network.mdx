@@ -1,0 +1,82 @@
+---
+title: "Red de coautoría del autor"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Red de coautoría entre el autor y sus colaboradores más frecuentes."
+sidebarTitle: "Red de coautoría del autor"
+---
+
+Red de coautoría entre el autor y sus colaboradores más frecuentes. Tipo de gráfico: **Red**.
+
+Los nodos representan autores. Las aristas representan colaboraciones (coautorías). Se devuelven como máximo los 50 nodos con mayor grado de conexión.
+
+## Parámetros
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `author_coauthorship_network`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/person/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Respuesta
+
+<ResponseField name="plot" type="object">
+  <Expandable title="propiedades">
+    <ResponseField name="nodes" type="object[]">
+      Nodos de la red (hasta 50, ordenados por grado descendente).
+      <Expandable title="propiedades de cada nodo">
+        <ResponseField name="id" type="string">
+          Identificador del autor.
+        </ResponseField>
+        <ResponseField name="label" type="string">
+          Nombre del autor.
+        </ResponseField>
+        <ResponseField name="degree" type="integer">
+          Número de conexiones del nodo.
+        </ResponseField>
+        <ResponseField name="size" type="float">
+          Tamaño visual del nodo, proporcional a su relevancia.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="edges" type="object[]">
+      Aristas entre los nodos incluidos en la respuesta.
+      <Expandable title="propiedades de cada arista">
+        <ResponseField name="source" type="string">
+          Identificador del nodo origen.
+        </ResponseField>
+        <ResponseField name="target" type="string">
+          Identificador del nodo destino.
+        </ResponseField>
+        <ResponseField name="coauthorships" type="integer">
+          Número de productos en coautoría entre los dos autores.
+        </ResponseField>
+        <ResponseField name="size" type="float">
+          Grosor visual de la arista.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "plot": {
+    "nodes": [
+      { "id": "0000000001", "label": "Autor Principal Ejemplo", "degree": 12, "size": 4.2 },
+      { "id": "0000000002", "label": "Colaborador Ejemplo A", "degree": 8, "size": 3.1 },
+      { "id": "0000000003", "label": "Colaborador Ejemplo B", "degree": 5, "size": 2.4 }
+    ],
+    "edges": [
+      { "source": "0000000001", "target": "0000000002", "coauthorships": 15, "size": 3 },
+      { "source": "0000000001", "target": "0000000003", "coauthorships": 8, "size": 2 },
+      { "source": "0000000002", "target": "0000000003", "coauthorships": 3, "size": 1 }
+    ]
+  }
+}
+```
+</ResponseExample>

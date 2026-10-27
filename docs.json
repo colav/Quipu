@@ -43,6 +43,41 @@
             ]
           },
           {
+            "group": "Person",
+            "pages": [
+              "api-reference/person/get-person",
+              "api-reference/person/get-research-products",
+              "api-reference/person/get-research-products-filters",
+              "api-reference/person/get-research-products-csv",
+              "api-reference/person/get-research-products-excel",
+              "api-reference/person/get-research-patents",
+              "api-reference/person/get-research-projects",
+              "api-reference/person/get-research-news",
+              {
+                "group": "Indicadores",
+                "pages": [
+                  "api-reference/person/plots/overview",
+                  "api-reference/person/plots/annual-evolution-by-impactu-classification",
+                  "api-reference/person/plots/annual-citation-count",
+                  "api-reference/person/plots/annual-apc-expenses",
+                  "api-reference/person/plots/annual-articles-open-access",
+                  "api-reference/person/plots/annual-articles-by-top-publishers",
+                  "api-reference/person/plots/most-used-title-words",
+                  "api-reference/person/plots/articles-by-publisher",
+                  "api-reference/person/plots/products-by-subject",
+                  "api-reference/person/plots/products-by-database",
+                  "api-reference/person/plots/articles-by-access-route",
+                  "api-reference/person/plots/articles-by-scienti-category",
+                  "api-reference/person/plots/articles-by-scimago-quartile",
+                  "api-reference/person/plots/articles-by-publishing-institution",
+                  "api-reference/person/plots/coauthorship-by-country-map",
+                  "api-reference/person/plots/coauthorship-by-colombian-department-map",
+                  "api-reference/person/plots/author-coauthorship-network"
+                ]
+              }
+            ]
+          },
+          {
             "group": "Affiliation",
             "pages": [
               "api-reference/affiliation/get-affiliation",

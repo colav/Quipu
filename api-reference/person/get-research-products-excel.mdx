@@ -1,0 +1,30 @@
+---
+title: "Exportar productos a Excel"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products/excel"
+description: "Descarga los productos de investigación de un autor en formato Excel (.xlsx)."
+---
+
+import WorksFilterParams from "/snippets/works-filter-params.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor. Ejemplo: `0000000001`.
+</ParamField>
+
+## Parámetros de consulta
+
+### Filtros
+
+Los mismos filtros de [Buscar productos](/api-reference/search/works).
+
+<WorksFilterParams />
+
+## Respuesta
+
+Archivo Excel adjunto:
+
+- `Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`
+- Nombre de archivo: `person_works.xlsx`
+
+Las columnas son las mismas que en la [exportación CSV de un autor](/api-reference/person/get-research-products-csv), incluida la columna `contract_type`.

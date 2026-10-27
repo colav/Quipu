@@ -1,0 +1,70 @@
+---
+title: "Patentes de un autor"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/patents"
+description: "Lista de forma paginada las patentes de un autor."
+---
+
+import PaginationParams from "/snippets/pagination-params.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor. Ejemplo: `0000000001`.
+</ParamField>
+
+## Parámetros de consulta
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Ordenamiento con el formato `campo_direccion`. Campos disponibles:
+  `citations`, `alphabetical` y `year`. Ejemplo: `year_desc`.
+</ParamField>
+
+<ParamField query="view" type="string" default="full">
+  Nivel de detalle: `full` o `summary`.
+</ParamField>
+
+<Note>
+  La estructura de la respuesta es idéntica a la de [Patentes de una afiliación](/api-reference/affiliation/get-research-patents).
+</Note>
+
+## Respuesta
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "id": "6ab4ac4e5418a51e324cc06b",
+      "title": "Composición nutricional para el tratamiento de desnutrición infantil",
+      "language": "es",
+      "authors_count": 2,
+      "types": [{ "source": "scienti", "type": "patent" }],
+      "product_types": [{ "name": "Patente de invención", "source": "minciencias" }],
+      "external_ids": [
+        { "id": "NC2022/0004521", "source": "scienti", "provenance": "scienti" }
+      ],
+      "updated": [{ "source": "scienti", "time": 1789879321 }]
+    }
+  ],
+  "meta": {
+    "count": 3,
+    "cursor": {
+      "next": null,
+      "previous": null
+    },
+    "db_response_time_ms": 18,
+    "page": 1,
+    "size": 1
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+</ResponseExample>

@@ -1,0 +1,83 @@
+---
+title: "Filtros de productos de un autor"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products/filters"
+description: "Opciones disponibles para filtrar los productos de un autor, con su cantidad de resultados."
+---
+
+import WorksFilterParams from "/snippets/works-filter-params.mdx";
+import WorksFiltersResponse from "/snippets/works-filters-response.mdx";
+
+Devuelve los valores que puedes usar en los filtros de [Productos de un autor](/api-reference/person/get-research-products). Son los mismos filtros de [Buscar productos](/api-reference/search/works-filters), pero calculados solo sobre los productos del autor indicado.
+
+Las opciones y sus conteos dependen de los filtros que envíes: si aplicas un filtro, solo se devuelven las opciones que existen dentro de ese resultado.
+
+## Parámetros de ruta
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor. Ejemplo: `0000000001`.
+</ParamField>
+
+## Parámetros de consulta
+
+Todos son opcionales. Aceptan varios valores separados por coma.
+
+<WorksFilterParams />
+
+## Respuesta
+
+<WorksFiltersResponse />
+
+<ResponseExample>
+```json 200
+{
+  "years": { "min_year": 1995, "max_year": 2026 },
+  "authors_count": { "min_authors": 1, "max_authors": 18 },
+  "authors_ranking": [
+    { "value": "Investigador Asociado", "label": "Investigador Asociado", "count": 45 }
+  ],
+  "groups_ranking": [
+    { "value": "A1", "label": "A1", "count": 90 }
+  ],
+  "countries": [
+    { "value": "CO", "label": "Colombia", "count": 220 }
+  ],
+  "institutions_type": [
+    { "value": "education", "label": "Instituciones académicas", "count": 215 }
+  ],
+  "product_types": [
+    {
+      "value": "impactu",
+      "title": "ImpactU",
+      "children": [
+        { "value": "impactu_Artículo de revista", "title": "Artículo de revista", "count": 130 }
+      ]
+    }
+  ],
+  "status": [
+    {
+      "value": "open",
+      "title": "Abierto",
+      "count": 95,
+      "children": [
+        { "value": "diamond", "title": "Diamante", "count": 40 }
+      ]
+    },
+    { "value": "closed", "title": "Cerrado", "count": 55 }
+  ],
+  "topics": [
+    {
+      "value": "https://openalex.org/subfields/3304",
+      "title": "Nutrition and Dietetics",
+      "count": 180,
+      "children": [
+        { "value": "https://openalex.org/T10283", "title": "Nutrition and Health", "count": 90 }
+      ]
+    }
+  ]
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+</ResponseExample>

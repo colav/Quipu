@@ -1,0 +1,118 @@
+---
+title: "Palabras más usadas en los títulos"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Palabras más usadas en los títulos."
+sidebarTitle: "Palabras más usadas en los títulos"
+---
+
+Palabras más usadas en los títulos. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `most_used_title_words`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/person/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Respuesta
+
+La estructura de la respuesta es idéntica a la del indicador equivalente en [afiliaciones](/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "colombia",
+      "value": 14507
+    },
+    {
+      "name": "antioquia",
+      "value": 7829
+    },
+    {
+      "name": "medellín",
+      "value": 7630
+    },
+    {
+      "name": "estudio",
+      "value": 4809
+    }
+  ]
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "educación",
+      "value": 1124
+    },
+    {
+      "name": "formación",
+      "value": 809
+    },
+    {
+      "name": "enseñanza",
+      "value": 519
+    },
+    {
+      "name": "educativo",
+      "value": 513
+    }
+  ]
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "name": "danza",
+      "value": 107
+    },
+    {
+      "name": "cuerpo",
+      "value": 78
+    },
+    {
+      "name": "teatro",
+      "value": 60
+    },
+    {
+      "name": "creación",
+      "value": 54
+    }
+  ]
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "name": "colombia",
+      "value": 224
+    },
+    {
+      "name": "antioquia",
+      "value": 161
+    },
+    {
+      "name": "paratuberculosis",
+      "value": 76
+    },
+    {
+      "name": "bovino",
+      "value": 65
+    }
+  ]
+}
+```
+</ResponseExample>

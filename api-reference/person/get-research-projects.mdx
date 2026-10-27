@@ -1,0 +1,72 @@
+---
+title: "Proyectos de un autor"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/projects"
+description: "Lista de forma paginada los proyectos de investigación de un autor."
+---
+
+import PaginationParams from "/snippets/pagination-params.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor. Ejemplo: `0000150053`.
+</ParamField>
+
+## Parámetros de consulta
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Ordenamiento con el formato `campo_direccion`. Campos disponibles:
+  `citations`, `alphabetical` y `year`. Ejemplo: `year_desc`.
+</ParamField>
+
+<ParamField query="view" type="string" default="full">
+  Nivel de detalle: `full` o `summary`.
+</ParamField>
+
+<Note>
+  La estructura de la respuesta es idéntica a la de [Proyectos de una afiliación](/api-reference/affiliation/get-research-projects).
+</Note>
+
+## Respuesta
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "id": "6ab4ac4e5418a51e324cc06c",
+      "title": "Evaluación del estado nutricional en gestantes colombianas",
+      "language": "es",
+      "year_init": 2019,
+      "year_end": 2022,
+      "authors_count": 5,
+      "types": [{ "source": "minciencias", "type": "project" }],
+      "product_types": [{ "name": "Proyecto de investigación", "source": "minciencias" }],
+      "external_ids": [
+        { "id": "111571250882", "source": "minciencias", "provenance": "minciencias" }
+      ],
+      "updated": [{ "source": "minciencias", "time": 1789879321 }]
+    }
+  ],
+  "meta": {
+    "count": 18,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/person/0000000001/research/projects?max=1&page=2",
+      "previous": null
+    },
+    "db_response_time_ms": 22,
+    "page": 1,
+    "size": 1
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+</ResponseExample>
