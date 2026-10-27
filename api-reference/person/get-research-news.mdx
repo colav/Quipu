@@ -1,0 +1,59 @@
+---
+title: "Noticias de un autor"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/news"
+description: "Lista de forma paginada las noticias relacionadas con un autor."
+---
+
+import PaginationParams from "/snippets/pagination-params.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor. Ejemplo: `0000000001`.
+</ParamField>
+
+## Parámetros de consulta
+
+<PaginationParams />
+
+<Note>
+  Este endpoint no admite `sort`, `view` ni filtros. Solo aplican `max` y
+  `page`. La estructura de la respuesta es idéntica a la de [Noticias de una afiliación](/api-reference/affiliation/get-research-news).
+</Note>
+
+## Respuesta
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "url_id": "abc123def456",
+      "medium_id": "med789",
+      "url": "https://www.udea.edu.co/noticias/investigacion-nutricion-2024",
+      "url_title": "Investigadora de la UdeA presenta avances en nutrición materno-infantil",
+      "url_language": "es",
+      "url_date": "2024-09-10T08:00:00",
+      "medium": "https://www.udea.edu.co"
+    }
+  ],
+  "meta": {
+    "count": 7,
+    "cursor": {
+      "next": null,
+      "previous": null
+    },
+    "db_response_time_ms": 9,
+    "page": 1,
+    "size": 1
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+</ResponseExample>
