@@ -1,0 +1,23 @@
+---
+title: "Ping"
+api: "GET https://api.dev.impactu.colav.co/ping"
+description: "Verifica que la API está en línea y conectada a la base de datos."
+---
+
+<Note>
+  Este endpoint es para verificación interna del estado del servicio. No
+  requiere autenticación.
+</Note>
+
+## Respuesta
+
+<ResponseField name="ping" type="string">
+  Cadena de conexión a la base de datos, confirmando que el servicio está
+  activo y configurado.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{ "ping": "mongodb://..." }
+```
+</ResponseExample>

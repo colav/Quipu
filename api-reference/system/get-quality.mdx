@@ -1,0 +1,76 @@
+---
+title: "Métricas de calidad"
+api: "GET https://api.dev.impactu.colav.co/info/quality"
+description: "Devuelve el historial de métricas de calidad y cobertura de datos por colección."
+---
+
+## Respuesta
+
+Array de snapshots históricos. Cada elemento representa un punto en el tiempo con estadísticas detalladas de cada colección de la base de datos.
+
+<ResponseField name="[]" type="object[]">
+  Lista de snapshots de métricas.
+  <Expandable title="propiedades de cada snapshot">
+    <ResponseField name="affiliations_collection" type="object">
+      Métricas de la colección de afiliaciones: conteo de instituciones
+      colombianas, cobertura de identificadores externos por fuente
+      (`ror`, `openalex`, `minciencias`, `scienti`, `wikidata`, etc.) y
+      desglose de procedencia (`provenance_breakdown`) indicando cuántas
+      entidades provienen exclusiva o conjuntamente de cada fuente.
+    </ResponseField>
+    <ResponseField name="works_collection" type="object">
+      Métricas de la colección de productos bibliográficos: cobertura de DOI,
+      acceso abierto, citas, fuentes identificadas y desglose por procedencia.
+    </ResponseField>
+    <ResponseField name="persons_collection" type="object">
+      Métricas de la colección de autores: cobertura de ORCID, OpenAlex,
+      afiliaciones y desglose por procedencia.
+    </ResponseField>
+    <ResponseField name="sources_collection" type="object">
+      Métricas de la colección de fuentes: cobertura de ISSN, Scimago,
+      cuartiles y desglose por procedencia.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+[
+  {
+    "affiliations_collection": {
+      "colombian": 9491,
+      "colombian_without_minciencias_id": 1727,
+      "external_ids_breakdown": {
+        "ror": 54081,
+        "openalex": 54045,
+        "wikidata": 53363,
+        "minciencias": 7764,
+        "scienti": 828,
+        "snies": 284
+      },
+      "provenance_breakdown": {
+        "exclusive_intersection": {
+          "openalex_ror_wikidata": 30655,
+          "minciencias": 6936,
+          "scienti": 1117
+        },
+        "intersection": {
+          "ror": 54081,
+          "openalex": 54045,
+          "minciencias": 7575
+        }
+      }
+    },
+    "works_collection": {
+      "with_doi": 1823045,
+      "open_access": 549211,
+      "with_citations": 987432
+    }
+  }
+]
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>
