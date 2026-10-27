@@ -1,0 +1,98 @@
+---
+title: "Autores de un proyecto"
+api: "GET https://api.dev.impactu.colav.co/project/{project_id}/authors"
+description: "Devuelve la lista de autores de un proyecto de investigación."
+---
+
+## Parámetros de ruta
+
+<ParamField path="project_id" type="string" required>
+  Identificador del proyecto. Ejemplo: `6ab4ac4e5418a51e324cc06c`.
+</ParamField>
+
+<Note>
+  Este endpoint no recibe parámetros de consulta. La lista completa de autores
+  también está disponible en el campo `authors` de
+  [Obtener un proyecto](/api-reference/project/get-project).
+</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="object[]">
+  Lista de autores del proyecto.
+  <Expandable title="propiedades de cada autor">
+    <ResponseField name="id" type="string">
+      Identificador del autor.
+    </ResponseField>
+    <ResponseField name="full_name" type="string">
+      Nombre completo.
+    </ResponseField>
+    <ResponseField name="first_names" type="string[] | null">
+      Nombres.
+    </ResponseField>
+    <ResponseField name="last_names" type="string[] | null">
+      Apellidos.
+    </ResponseField>
+    <ResponseField name="sex" type="string | null">
+      Sexo del autor.
+    </ResponseField>
+    <ResponseField name="affiliations" type="object[]">
+      Afiliaciones del autor: `id`, `name`, `types`, `start_date`, `end_date`.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos: scienti, ORCID, Scholar, etc.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[] | null">
+      Clasificaciones del autor (por ejemplo, de Minciencias).
+    </ResponseField>
+    <ResponseField name="h_index" type="integer | null">
+      Índice h.
+    </ResponseField>
+    <ResponseField name="h5_index" type="integer | null">
+      Índice h de los últimos 5 años.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "id": "0000000001",
+      "full_name": "Nombre Apellido Apellido",
+      "first_names": null,
+      "last_names": null,
+      "sex": null,
+      "affiliations": [
+        {
+          "id": "COL0000000",
+          "name": "Grupo de Investigación Ejemplo",
+          "types": [{ "source": "minciencias", "type": "group" }],
+          "start_date": null,
+          "end_date": null
+        },
+        {
+          "id": "04mtaqb21",
+          "name": "Universidad de Antioquia",
+          "types": [{ "source": "ror", "type": "education" }],
+          "start_date": null,
+          "end_date": null
+        }
+      ],
+      "external_ids": [
+        { "id": "0000000001", "source": "scienti", "provenance": "minciencias" },
+        { "id": "https://orcid.org/0000-0000-0000-0001", "source": "orcid", "provenance": "minciencias" }
+      ],
+      "ranking": null,
+      "h_index": null,
+      "h5_index": null
+    }
+  ]
+}
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>
