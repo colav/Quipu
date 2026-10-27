@@ -1,0 +1,59 @@
+---
+title: "Enviar archivo SCIENTI"
+api: "POST https://api.dev.impactu.colav.co/submit/scienti"
+description: "Sube un archivo comprimido de exportación SCIENTI para su procesamiento."
+---
+
+<Note>
+  Requiere sesión activa. El JWT se lee desde la cookie `access_token_cookie`.
+  La solicitud debe enviarse como `multipart/form-data`.
+</Note>
+
+## Cuerpo de la solicitud
+
+<ParamField body="file" type="file" required>
+  Archivo comprimido de exportación SCIENTI. Formatos permitidos: `.zip`,
+  `.rar`, `.7z`, `.tar`, `.gz`, `.tgz`, `.bz2`, `.tar.gz`, `.tar.bz2`.
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="success" type="boolean">
+  `true` si el archivo fue recibido y procesado correctamente.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Mensaje de resultado del procesamiento.
+</ResponseField>
+
+<ResponseField name="upload_date" type="string">
+  Fecha y hora de recepción del archivo en formato `DD/MM/YYYY HH:MM` (zona
+  horaria de Bogotá).
+</ResponseField>
+
+<ResponseField name="file_msg" type="string">
+  Información adicional sobre el archivo procesado.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "msg": "Archivo recibido y procesado correctamente.",
+  "upload_date": "15/10/2026 14:32",
+  "file_msg": "Se procesaron 342 registros del archivo."
+}
+```
+
+```json 400
+{ "success": false, "msg": "Archivo requerido" }
+```
+
+```json 401
+{ "success": false, "msg": "Token inválido o expirado" }
+```
+
+```json 415
+{ "success": false, "msg": "Tipo de archivo no permitido. Use .zip, .rar, .7z, .tar, .gz, .tgz, .bz2, .tar.gz o .tar.bz2." }
+```
+</ResponseExample>

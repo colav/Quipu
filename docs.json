@@ -175,6 +175,15 @@
             ]
           },
           {
+            "group": "Submit",
+            "pages": [
+              "api-reference/submit/staff",
+              "api-reference/submit/ciarp",
+              "api-reference/submit/scienti",
+              "api-reference/submit/project"
+            ]
+          },
+          {
             "group": "Affiliation",
             "pages": [
               "api-reference/affiliation/get-affiliation",

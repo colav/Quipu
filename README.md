@@ -36,7 +36,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | **Completer**              | ✅ Documentado | 6         | —           |
 | **Autenticación**          | ✅ Documentado | 3         | —           |
 | **Usuarios**               | ✅ Documentado | 9         | —           |
-| Submit                     | ⏳ Pendiente   |           |             |
+| **Submit**                 | ✅ Documentado | 4         | —           |
 | Sistema (info, ping, docs) | ⏳ Pendiente   |           |             |
 
 ### 🔍 Endpoints del grupo Search

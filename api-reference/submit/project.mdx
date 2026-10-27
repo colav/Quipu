@@ -1,0 +1,166 @@
+---
+title: "Validar archivo de proyectos"
+api: "POST https://api.dev.impactu.colav.co/submit/project"
+description: "Valida un Excel de proyectos institucionales (formato v1.0) y devuelve un reporte detallado de errores y advertencias."
+---
+
+<Note>
+  Este endpoint no requiere autenticación. La solicitud debe enviarse como
+  `multipart/form-data`.
+</Note>
+
+## Cuerpo de la solicitud
+
+<ParamField body="file" type="file" required>
+  Archivo Excel `.xlsx` o `.xls` con los proyectos institucionales. Debe
+  contener una hoja con una fila por proyecto. Si un proyecto tiene múltiples
+  investigadores o fuentes de financiación, pueden separarse con `;` dentro
+  de la misma celda, o duplicar la fila manteniendo el mismo `codigo_proyecto`.
+</ParamField>
+
+## Formato del archivo
+
+El archivo debe incluir las siguientes columnas (en minúscula con guion bajo):
+
+| Columna | Obligatoria | Descripción |
+| --- | --- | --- |
+| `codigo_proyecto` | ✅ | Identificador único del proyecto. No debe cambiar en futuras actualizaciones. |
+| `titulo` | ✅ | Nombre completo del proyecto. |
+| `fecha_inicio` | ✅ | Fecha de inicio. Formato: `DD/MM/YYYY`. |
+| `investigador_principal_id` | ✅ | Número de documento del investigador principal. Debe coincidir con el formato de Staff. |
+| `resumen` | — | Resumen o abstract del proyecto. |
+| `objetivos` | — | Objetivos generales o específicos. |
+| `tipo_proyecto` | — | Clasificación: `investigación`, `extensión`, `regalías`, `innovación`, `consultoría`. |
+| `estado` | — | Estado actual: `propuesta`, `en ejecución`, `finalizado`, `suspendido`. |
+| `fecha_fin` | — | Fecha de finalización. Formato: `DD/MM/YYYY`. |
+| `investigador_principal_institucion_id` | — | Código ROR de la institución del investigador principal. Ej: `03bp5hc83`. |
+| `investigadores_ids` | — | Documentos de co-investigadores separados por `;`. |
+| `valor_total` | — | Presupuesto total en COP (solo números enteros, sin separadores de miles). |
+| `valor_especie_total` | — | Presupuesto en especie en COP. |
+| `valor_fresco_total` | — | Presupuesto en recursos frescos en COP. |
+| `fuente_financiación_ids` | — | IDs ROR o Wikidata de las entidades financiadoras, separados por `;`. |
+| `instituciones_participantes_ids` | — | IDs ROR o Wikidata de instituciones aliadas, separados por `;`. |
+| `código_minciencias` | — | Código del proyecto en MinCiencias / CvLAC / GrupLAC. |
+| `código_bpin` | — | Código BPIN para proyectos de regalías o inversión pública. |
+| `convocatoria` | — | Nombre o código de la convocatoria. |
+| `regiones_ejecucion_id` | — | Códigos GeoNames de departamentos o regiones, separados por `;`. |
+| `unidad_académica_ids` | — | Códigos de unidades académicas responsables (deben coincidir con el formato de Staff). |
+| `grupos_id` | — | Códigos Scienti de los grupos de investigación. |
+| `productos_asociados_ids` | — | Identificadores de productos derivados (DOI, Handle DSpace, código MinCiencias, OpenAlex ID), separados por `;`. |
+
+## Respuesta
+
+<ResponseField name="data" type="object">
+  Reporte de validación.
+  <Expandable title="propiedades">
+    <ResponseField name="schema_version" type="string">
+      Versión del esquema de validación utilizado.
+    </ResponseField>
+    <ResponseField name="valid" type="boolean">
+      `true` si el archivo no tiene errores (puede tener advertencias).
+    </ResponseField>
+    <ResponseField name="total_rows" type="integer">
+      Número total de filas en el archivo.
+    </ResponseField>
+    <ResponseField name="total_projects" type="integer | null">
+      Número de proyectos únicos (por `codigo_proyecto`). `null` si hay errores
+      estructurales que impiden el conteo.
+    </ResponseField>
+    <ResponseField name="errors_count" type="integer">
+      Número de errores encontrados.
+    </ResponseField>
+    <ResponseField name="warnings_count" type="integer">
+      Número de advertencias encontradas.
+    </ResponseField>
+    <ResponseField name="issues_truncated" type="boolean">
+      `true` si hay más problemas de los que se muestran en `issues` (se
+      aplica un límite máximo de reportes).
+    </ResponseField>
+    <ResponseField name="issues" type="object[]">
+      Lista de problemas encontrados.
+      <Expandable title="propiedades de cada problema">
+        <ResponseField name="severity" type="string">
+          `error` o `warning`.
+        </ResponseField>
+        <ResponseField name="code" type="string">
+          Código interno del tipo de problema.
+        </ResponseField>
+        <ResponseField name="message" type="string">
+          Descripción del problema.
+        </ResponseField>
+        <ResponseField name="row" type="integer | null">
+          Número de fila donde ocurre el problema. `null` para errores
+          estructurales (columnas faltantes, formato de archivo).
+        </ResponseField>
+        <ResponseField name="column" type="string | null">
+          Nombre de la columna afectada, si aplica.
+        </ResponseField>
+        <ResponseField name="value" type="string | null">
+          Valor que causó el problema, si aplica.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200 — archivo válido
+{
+  "data": {
+    "schema_version": "1.0",
+    "valid": true,
+    "total_rows": 12,
+    "total_projects": 10,
+    "errors_count": 0,
+    "warnings_count": 1,
+    "issues_truncated": false,
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "UNKNOWN_TYPE",
+        "message": "El tipo de proyecto 'investigacion-aplicada' no está en el catálogo.",
+        "row": 3,
+        "column": "tipo_proyecto",
+        "value": "investigacion-aplicada"
+      }
+    ]
+  }
+}
+```
+
+```json 200 — archivo con errores
+{
+  "data": {
+    "schema_version": "1.0",
+    "valid": false,
+    "total_rows": 5,
+    "total_projects": null,
+    "errors_count": 2,
+    "warnings_count": 0,
+    "issues_truncated": false,
+    "issues": [
+      {
+        "severity": "error",
+        "code": "MISSING_COLUMN",
+        "message": "La columna obligatoria 'codigo_proyecto' no está presente en el archivo.",
+        "row": null,
+        "column": "codigo_proyecto",
+        "value": null
+      },
+      {
+        "severity": "error",
+        "code": "MISSING_VALUE",
+        "message": "El campo 'titulo' es obligatorio y está vacío.",
+        "row": 2,
+        "column": "titulo",
+        "value": ""
+      }
+    ]
+  }
+}
+```
+
+```json 400
+{ "error": "Debe enviar el archivo en el campo 'file' (multipart/form-data)." }
+```
+</ResponseExample>
