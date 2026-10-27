@@ -1,0 +1,90 @@
+---
+title: "Noticias de una afiliación"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/news"
+description: "Lista de forma paginada las noticias asociadas a los autores de una afiliación."
+---
+
+import PaginationParams from "/snippets/pagination-params.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación: `institution`, `faculty`, `department` o `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+## Parámetros de consulta
+
+<PaginationParams />
+
+<Note>
+  Este endpoint no admite los parámetros `sort`, `view`, ni filtros de
+  productos. Solo aplican `max` y `page`.
+</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="array">
+  Lista de noticias de la afiliación.
+  <Expandable title="propiedades de cada noticia">
+    <ResponseField name="url_id" type="string | null">
+      Identificador único de la URL de la noticia.
+    </ResponseField>
+    <ResponseField name="medium_id" type="string | null">
+      Identificador del medio de comunicación.
+    </ResponseField>
+    <ResponseField name="url" type="string | null">
+      URL directa a la noticia.
+    </ResponseField>
+    <ResponseField name="url_title" type="string | null">
+      Título de la noticia.
+    </ResponseField>
+    <ResponseField name="url_language" type="string | null">
+      Código de idioma de la noticia (por ejemplo, `es`, `en`).
+    </ResponseField>
+    <ResponseField name="url_date" type="string | null">
+      Fecha de publicación de la noticia.
+    </ResponseField>
+    <ResponseField name="medium" type="string | null">
+      URL del sitio web del medio de comunicación.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "url_id": "abc123def456",
+      "medium_id": "med789",
+      "url": "https://www.elmedio.com/noticias/investigacion-udea-2024",
+      "url_title": "Investigadores de la UdeA logran avance en tratamiento contra el dengue",
+      "url_language": "es",
+      "url_date": "2024-08-15T10:30:00",
+      "medium": "https://www.elmedio.com"
+    }
+  ],
+  "meta": {
+    "count": 53,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/affiliation/institution/03bp5hc83/research/news?max=1&page=2",
+      "previous": null
+    },
+    "db_response_time_ms": 12,
+    "page": 1,
+    "size": 1
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+</ResponseExample>

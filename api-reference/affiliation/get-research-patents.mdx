@@ -1,0 +1,153 @@
+---
+title: "Patentes de una afiliación"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/patents"
+description: "Lista de forma paginada las patentes asociadas a una afiliación."
+---
+
+import PaginationParams from "/snippets/pagination-params.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación: `institution`, `faculty`, `department` o `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+## Parámetros de consulta
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Ordenamiento con el formato `campo_direccion`, donde la dirección es `asc` o
+  `desc`. Campos disponibles: `citations` (citas), `alphabetical` (por título) y
+  `year` (año de publicación). Ejemplo: `year_desc`.
+</ParamField>
+
+<ParamField query="view" type="string" default="full">
+  Nivel de detalle de la respuesta: `full` o `summary`. Con `summary` se
+  devuelven solo los campos esenciales de cada patente.
+</ParamField>
+
+<Note>
+  Si no envías `max`, `page` ni `sort`, se aplican `max=10`, `page=1` y
+  `sort=citations_desc`. Si envías `max` y `page` sin `sort`, se aplica
+  `sort=citations_desc`.
+</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="array">
+  Lista de patentes de la afiliación.
+  <Expandable title="propiedades de cada patente">
+    <ResponseField name="id" type="string">
+      Identificador de la patente.
+    </ResponseField>
+    <ResponseField name="title" type="string | null">
+      Título principal.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Títulos por fuente (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="language" type="string | null">
+      Idioma.
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      Autores con sus afiliaciones y clasificaciones.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer | null">
+      Cantidad de autores.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Grupos de investigación asociados, con citas y clasificaciones.
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Tipos de la patente por fuente (`type`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Tipos normalizados por ImpactU (`name`, `source`).
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Clasificaciones de la patente.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos (`id`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      Enlaces externos (`url`, `source`).
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Última actualización por fuente (`source`, `time` en segundos Unix).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "id": "6ab4ac4e5418a51e324cc06b",
+      "title": "Método para la extracción de compuestos bioactivos",
+      "titles": [
+        {
+          "title": "Método para la extracción de compuestos bioactivos",
+          "lang": "es",
+          "source": "scienti",
+          "provenance": null
+        }
+      ],
+      "language": "es",
+      "authors": [
+        {
+          "id": "0000000002",
+          "full_name": "Nombre Apellido Apellido",
+          "affiliations": [
+            {
+              "id": "03bp5hc83",
+              "name": "Universidad de Antioquia",
+              "types": [{ "source": "ror", "type": "education" }]
+            }
+          ]
+        }
+      ],
+      "authors_count": 1,
+      "groups": [
+        {
+          "id": "COL0001262",
+          "name": "CENTAURO",
+          "citations_count": [{ "count": 45, "source": "openalex" }],
+          "ranking": [{ "rank": "A1", "source": "minciencias", "date": 1614229200 }]
+        }
+      ],
+      "types": [{ "source": "scienti", "type": "patent", "provenance": null }],
+      "product_types": [{ "name": "Patente de invención", "source": "minciencias" }],
+      "external_ids": [
+        { "id": "NC2023/0001234", "source": "scienti", "provenance": "scienti" }
+      ],
+      "updated": [{ "source": "scienti", "time": 1789879321 }]
+    }
+  ],
+  "meta": {
+    "count": 42,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/affiliation/institution/03bp5hc83/research/patents?max=1&page=2",
+      "previous": null
+    },
+    "db_response_time_ms": 35,
+    "page": 1,
+    "size": 1
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+
+</ResponseExample>

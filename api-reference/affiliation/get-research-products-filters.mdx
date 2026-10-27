@@ -1,0 +1,89 @@
+---
+title: "Filtros de productos de una afiliación"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products/filters"
+description: "Opciones disponibles para filtrar los productos de una afiliación, con su cantidad de resultados."
+---
+
+import WorksFilterParams from "/snippets/works-filter-params.mdx";
+import WorksFiltersResponse from "/snippets/works-filters-response.mdx";
+
+Devuelve los valores que puedes usar en los filtros de [Productos de una afiliación](/api-reference/affiliation/get-research-products). Son los mismos filtros de [Buscar productos](/api-reference/search/works-filters), pero calculados solo sobre los productos de la afiliación indicada.
+
+Las opciones y sus conteos dependen de los filtros que envíes: si aplicas un filtro, solo se devuelven las opciones que existen dentro de ese resultado.
+
+## Parámetros de ruta
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación: `institution`, `faculty`, `department` o `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación. Ejemplos: `03bp5hc83` (institución),
+  `03bp5hc83_20` (facultad).
+</ParamField>
+
+## Parámetros de consulta
+
+Todos son opcionales. Aceptan varios valores separados por coma.
+
+<WorksFilterParams />
+
+## Respuesta
+
+<WorksFiltersResponse />
+
+<ResponseExample>
+```json 200
+{
+  "years": { "min_year": 1985, "max_year": 2026 },
+  "authors_count": { "min_authors": 1, "max_authors": 40 },
+  "authors_ranking": [
+    { "value": "Investigador Asociado", "label": "Investigador Asociado", "count": 120 }
+  ],
+  "groups_ranking": [
+    { "value": "A1", "label": "A1", "count": 300 }
+  ],
+  "countries": [
+    { "value": "CO", "label": "Colombia", "count": 2800 }
+  ],
+  "institutions_type": [
+    { "value": "education", "label": "Instituciones académicas", "count": 2790 }
+  ],
+  "product_types": [
+    {
+      "value": "impactu",
+      "title": "ImpactU",
+      "children": [
+        { "value": "impactu_Artículo de revista", "title": "Artículo de revista", "count": 900 }
+      ]
+    }
+  ],
+  "status": [
+    {
+      "value": "open",
+      "title": "Abierto",
+      "count": 600,
+      "children": [
+        { "value": "diamond", "title": "Diamante", "count": 450 }
+      ]
+    },
+    { "value": "closed", "title": "Cerrado", "count": 200 }
+  ],
+  "topics": [
+    {
+      "value": "https://openalex.org/subfields/3304",
+      "title": "Education",
+      "count": 1393,
+      "children": [
+        { "value": "https://openalex.org/T14483", "title": "Education and Teacher Training", "count": 276 }
+      ]
+    }
+  ]
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+
+</ResponseExample>

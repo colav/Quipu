@@ -1,0 +1,176 @@
+---
+title: "Proyectos de una afiliación"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/projects"
+description: "Lista de forma paginada los proyectos de investigación asociados a una afiliación."
+---
+
+import PaginationParams from "/snippets/pagination-params.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación: `institution`, `faculty`, `department` o `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+## Parámetros de consulta
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Ordenamiento con el formato `campo_direccion`, donde la dirección es `asc` o
+  `desc`. Campos disponibles: `citations` (citas), `alphabetical` (por título) y
+  `year` (año de inicio). Ejemplo: `year_desc`.
+</ParamField>
+
+<ParamField query="view" type="string" default="full">
+  Nivel de detalle de la respuesta: `full` o `summary`. Con `summary` se
+  devuelven solo los campos esenciales de cada proyecto.
+</ParamField>
+
+<Note>
+  Si no envías `max`, `page` ni `sort`, se aplican `max=10`, `page=1` y
+  `sort=citations_desc`. Si envías `max` y `page` sin `sort`, se aplica
+  `sort=citations_desc`.
+</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="array">
+  Lista de proyectos de la afiliación.
+  <Expandable title="propiedades de cada proyecto">
+    <ResponseField name="id" type="string">
+      Identificador del proyecto.
+    </ResponseField>
+    <ResponseField name="title" type="string | null">
+      Título principal.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Títulos por fuente (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="language" type="string | null">
+      Idioma.
+    </ResponseField>
+    <ResponseField name="abstract" type="string | null">
+      Resumen del proyecto.
+    </ResponseField>
+    <ResponseField name="year_init" type="integer | string | null">
+      Año de inicio.
+    </ResponseField>
+    <ResponseField name="year_end" type="integer | string | null">
+      Año de finalización.
+    </ResponseField>
+    <ResponseField name="date_init" type="integer | null">
+      Fecha de inicio en segundos Unix.
+    </ResponseField>
+    <ResponseField name="date_end" type="integer | null">
+      Fecha de finalización en segundos Unix.
+    </ResponseField>
+    <ResponseField name="keywords" type="array">
+      Palabras clave.
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      Autores con sus afiliaciones y clasificaciones.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer | null">
+      Cantidad de autores.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Grupos de investigación asociados, con citas y clasificaciones.
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Tipos del proyecto por fuente (`type`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Tipos normalizados por ImpactU (`name`, `source`).
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Clasificaciones del proyecto.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos (`id`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      Enlaces externos (`url`, `source`).
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Última actualización por fuente (`source`, `time` en segundos Unix).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "id": "6ab4ac4e5418a51e324cc06c",
+      "title": "Biodiversidad y conservación en ecosistemas tropicales",
+      "titles": [
+        {
+          "title": "Biodiversidad y conservación en ecosistemas tropicales",
+          "lang": "es",
+          "source": "minciencias",
+          "provenance": null
+        }
+      ],
+      "language": "es",
+      "abstract": "El proyecto busca caracterizar la diversidad biológica...",
+      "year_init": 2021,
+      "year_end": 2024,
+      "date_init": 1609459200,
+      "date_end": 1735689600,
+      "keywords": ["biodiversidad", "conservación", "trópico"],
+      "authors": [
+        {
+          "id": "0000000003",
+          "full_name": "Nombre Apellido Apellido",
+          "affiliations": [
+            {
+              "id": "03bp5hc83",
+              "name": "Universidad de Antioquia",
+              "types": [{ "source": "ror", "type": "education" }]
+            }
+          ]
+        }
+      ],
+      "authors_count": 3,
+      "groups": [
+        {
+          "id": "COL0001262",
+          "name": "CENTAURO",
+          "citations_count": [{ "count": 12, "source": "openalex" }],
+          "ranking": [{ "rank": "A1", "source": "minciencias", "date": 1614229200 }]
+        }
+      ],
+      "types": [{ "source": "minciencias", "type": "project", "provenance": null }],
+      "product_types": [{ "name": "Proyecto de investigación", "source": "minciencias" }],
+      "external_ids": [
+        { "id": "111571250881", "source": "minciencias", "provenance": "minciencias" }
+      ],
+      "updated": [{ "source": "minciencias", "time": 1789879321 }]
+    }
+  ],
+  "meta": {
+    "count": 187,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/affiliation/institution/03bp5hc83/research/projects?max=1&page=2",
+      "previous": null
+    },
+    "db_response_time_ms": 48,
+    "page": 1,
+    "size": 1
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+</ResponseExample>
