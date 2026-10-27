@@ -18,15 +18,11 @@
         "groups": [
           {
             "group": "Introducción",
-            "pages": [
-              "index"
-            ]
+            "pages": ["index"]
           },
           {
             "group": "Guías",
-            "pages": [
-              "guides/filters"
-            ]
+            "pages": ["guides/filters"]
           }
         ]
       },
@@ -35,9 +31,7 @@
         "groups": [
           {
             "group": "Introducción",
-            "pages": [
-              "api-reference/introduction"
-            ]
+            "pages": ["api-reference/introduction"]
           },
           {
             "group": "Search",
@@ -112,6 +106,13 @@
               "api-reference/work/get-work",
               "api-reference/work/get-work-by-doi",
               "api-reference/work/get-work-authors"
+            ]
+          },
+          {
+            "group": "Patent",
+            "pages": [
+              "api-reference/patent/get-patent",
+              "api-reference/patent/get-patent-authors"
             ]
           },
           {

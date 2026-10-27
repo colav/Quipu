@@ -1,0 +1,113 @@
+---
+title: "Obtener una patente"
+api: "GET https://api.dev.impactu.colav.co/patent/{patent_id}"
+description: "Devuelve una patente a partir de su identificador."
+---
+
+## Parámetros de ruta
+
+<ParamField path="patent_id" type="string" required>
+  Identificador de la patente. Ejemplo: `6ab847915418a51e32855aa6`.
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="data" type="object">
+  La patente solicitada.
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la patente.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Título principal.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Títulos por fuente (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="language" type="string | null">
+      Idioma (código ISO 639-1).
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Tipos de producto por fuente (`name`, `source`). Por ejemplo:
+      `"Patente de invención"` según Minciencias.
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Tipos por fuente con `type`, `level`, `source` y `provenance`.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Clasificaciones de la patente (`rank`, `source`, `date`).
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      Autores con sus afiliaciones e identificadores externos.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Cantidad de autores.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Grupos de investigación asociados (`id`, `name`).
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos (`id`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      Enlaces externos (`url`, `source`).
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Última actualización por fuente (`source`, `time` en segundos Unix).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "data": {
+    "id": "6ab847915418a51e32855aa6",
+    "title": "Título de la patente de ejemplo",
+    "titles": [
+      { "lang": "es", "source": "minciencias", "title": "Título de la patente de ejemplo" }
+    ],
+    "language": "es",
+    "product_types": [
+      { "name": "Patente de invención", "source": "minciencias" }
+    ],
+    "types": [
+      { "level": 1, "source": "minciencias", "type": "Patente de invención", "provenance": "minciencias" },
+      { "level": 0, "source": "minciencias", "type": "Nuevo conocimiento", "provenance": "minciencias" }
+    ],
+    "ranking": [
+      { "rank": "PIV-PA4", "source": "minciencias", "date": 1444885200 }
+    ],
+    "authors": [
+      {
+        "id": "0000000001",
+        "full_name": "Nombre Apellido Apellido",
+        "affiliations": [
+          {
+            "id": "COL0000000",
+            "name": "Grupo de Investigación Ejemplo",
+            "types": [{ "source": "minciencias", "type": "group" }]
+          }
+        ],
+        "external_ids": [
+          { "id": "0000000001", "source": "scienti", "provenance": "staff" }
+        ]
+      }
+    ],
+    "authors_count": 1,
+    "groups": [
+      { "id": "COL0000000", "name": "Grupo de Investigación Ejemplo" }
+    ],
+    "external_ids": [
+      { "id": "PIV-0000000001-28-1", "source": "minciencias", "provenance": "minciencias" }
+    ],
+    "external_urls": [],
+    "updated": [{ "source": "minciencias", "time": 1790461841 }]
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>

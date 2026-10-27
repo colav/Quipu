@@ -22,75 +22,76 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 
 ## 🗂️ Cobertura
 
-| Grupo | Estado | Endpoints | Indicadores |
-| --- | --- | --- | --- |
-| **Search** | ✅ Documentado | 10 | — |
-| **Affiliation** | ✅ Documentado | 9 | 28 |
-| **Person** | ✅ Documentado | 8 | 16 |
-| **Source** | ✅ Documentado | 5 | 1 |
-| **Work** | ✅ Documentado | 3 | — |
-| Patent y Project (por id) | ⏳ Pendiente | | |
-| APC | ⏳ Pendiente | | |
-| Completer | ⏳ Pendiente | | |
-| Usuarios y autenticación | ⏳ Pendiente | | |
-| Submit | ⏳ Pendiente | | |
-| Sistema (info, ping, docs) | ⏳ Pendiente | | |
+| Grupo                      | Estado         | Endpoints | Indicadores |
+| -------------------------- | -------------- | --------- | ----------- |
+| **Search**                 | ✅ Documentado | 10        | —           |
+| **Affiliation**            | ✅ Documentado | 9         | 28          |
+| **Person**                 | ✅ Documentado | 8         | 16          |
+| **Source**                 | ✅ Documentado | 5         | 1           |
+| **Work**                   | ✅ Documentado | 3         | —           |
+| **Patent**                 | ✅ Documentado | 2         | —           |
+| Project (por id)           | ⏳ Pendiente   |           |             |
+| APC                        | ⏳ Pendiente   |           |             |
+| Completer                  | ⏳ Pendiente   |           |             |
+| Usuarios y autenticación   | ⏳ Pendiente   |           |             |
+| Submit                     | ⏳ Pendiente   |           |             |
+| Sistema (info, ping, docs) | ⏳ Pendiente   |           |             |
 
 ### 🔍 Endpoints del grupo Search
 
-| Página | Endpoint |
-| --- | --- |
-| Buscar personas | `GET /search/person` |
-| Buscar productos | `GET /search/works` |
-| Filtros disponibles de productos | `GET /search/works/filters` |
-| Buscar afiliaciones | `GET /search/affiliations/{affiliation_type}` |
+| Página                              | Endpoint                                              |
+| ----------------------------------- | ----------------------------------------------------- |
+| Buscar personas                     | `GET /search/person`                                  |
+| Buscar productos                    | `GET /search/works`                                   |
+| Filtros disponibles de productos    | `GET /search/works/filters`                           |
+| Buscar afiliaciones                 | `GET /search/affiliations/{affiliation_type}`         |
 | Filtros disponibles de afiliaciones | `GET /search/affiliations/{affiliation_type}/filters` |
-| Buscar fuentes | `GET /search/sources` |
-| Filtros disponibles de fuentes | `GET /search/sources/filters` |
-| Buscar patentes | `GET /search/patents` |
-| Buscar proyectos | `GET /search/projects` |
-| Buscar entidades geográficas | `GET /search/geo/{geo_type}` |
+| Buscar fuentes                      | `GET /search/sources`                                 |
+| Filtros disponibles de fuentes      | `GET /search/sources/filters`                         |
+| Buscar patentes                     | `GET /search/patents`                                 |
+| Buscar proyectos                    | `GET /search/projects`                                |
+| Buscar entidades geográficas        | `GET /search/geo/{geo_type}`                          |
 
 ### 🏛️ Endpoints del grupo Affiliation
 
-| Página | Endpoint |
-| --- | --- |
-| Obtener una afiliación | `GET /affiliation/{affiliation_type}/{affiliation_id}` |
-| Afiliaciones relacionadas | `GET /affiliation/{affiliation_type}/{affiliation_id}/affiliations` |
-| Productos de investigación | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products` |
-| Filtros de productos | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products/filters` |
-| Exportar productos a CSV | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products/csv` |
-| Exportar productos a Excel | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products/excel` |
-| Patentes | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/patents` |
-| Proyectos | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/projects` |
-| Noticias | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/news` |
+| Página                     | Endpoint                                                                         |
+| -------------------------- | -------------------------------------------------------------------------------- |
+| Obtener una afiliación     | `GET /affiliation/{affiliation_type}/{affiliation_id}`                           |
+| Afiliaciones relacionadas  | `GET /affiliation/{affiliation_type}/{affiliation_id}/affiliations`              |
+| Productos de investigación | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products`         |
+| Filtros de productos       | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products/filters` |
+| Exportar productos a CSV   | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products/csv`     |
+| Exportar productos a Excel | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products/excel`   |
+| Patentes                   | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/patents`          |
+| Proyectos                  | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/projects`         |
+| Noticias                   | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/news`             |
 
 El endpoint de productos acepta el parámetro `plot` para devolver uno de los **28 indicadores** del [catálogo de indicadores de afiliación](https://quyca.mintlify.site/api-reference/affiliation/plots/overview).
 
 ### 👤 Endpoints del grupo Person
 
-| Página | Endpoint |
-| --- | --- |
-| Obtener un autor | `GET /person/{person_id}` |
-| Productos de investigación | `GET /person/{person_id}/research/products` |
-| Filtros de productos | `GET /person/{person_id}/research/products/filters` |
-| Exportar productos a CSV | `GET /person/{person_id}/research/products/csv` |
-| Exportar productos a Excel | `GET /person/{person_id}/research/products/excel` |
-| Patentes | `GET /person/{person_id}/research/patents` |
-| Proyectos | `GET /person/{person_id}/research/projects` |
-| Noticias | `GET /person/{person_id}/research/news` |
+| Página                     | Endpoint                                            |
+| -------------------------- | --------------------------------------------------- |
+| Obtener un autor           | `GET /person/{person_id}`                           |
+| Productos de investigación | `GET /person/{person_id}/research/products`         |
+| Filtros de productos       | `GET /person/{person_id}/research/products/filters` |
+| Exportar productos a CSV   | `GET /person/{person_id}/research/products/csv`     |
+| Exportar productos a Excel | `GET /person/{person_id}/research/products/excel`   |
+| Patentes                   | `GET /person/{person_id}/research/patents`          |
+| Proyectos                  | `GET /person/{person_id}/research/projects`         |
+| Noticias                   | `GET /person/{person_id}/research/news`             |
 
 El endpoint de productos acepta el parámetro `plot` para devolver uno de los **16 indicadores** del [catálogo de indicadores de autores](https://quyca.mintlify.site/api-reference/person/plots/overview).
 
 ### 🗞️ Endpoints del grupo Source
 
-| Página | Endpoint |
-| --- | --- |
-| Obtener una fuente | `GET /source/{source_id}` |
-| Productos de investigación | `GET /source/{source_id}/products` |
-| Filtros de productos | `GET /source/{source_id}/products/filters` |
-| Exportar productos a CSV | `GET /source/{source_id}/products/csv` |
-| Exportar productos a Excel | `GET /source/{source_id}/products/excel` |
+| Página                     | Endpoint                                   |
+| -------------------------- | ------------------------------------------ |
+| Obtener una fuente         | `GET /source/{source_id}`                  |
+| Productos de investigación | `GET /source/{source_id}/products`         |
+| Filtros de productos       | `GET /source/{source_id}/products/filters` |
+| Exportar productos a CSV   | `GET /source/{source_id}/products/csv`     |
+| Exportar productos a Excel | `GET /source/{source_id}/products/excel`   |
 
 El CSV y el Excel tienen la misma estructura de columnas que la exportación de afiliación, con la columna adicional `scimago_quartile`.
 
@@ -98,10 +99,10 @@ El endpoint de productos acepta el parámetro `plot` para devolver el **1 indica
 
 ### 📄 Endpoints del grupo Work
 
-| Página | Endpoint |
-| --- | --- |
-| Obtener un producto | `GET /work/{work_id}` |
-| Buscar por DOI | `GET /work?doi=<doi>` |
+| Página                 | Endpoint                      |
+| ---------------------- | ----------------------------- |
+| Obtener un producto    | `GET /work/{work_id}`         |
+| Buscar por DOI         | `GET /work?doi=<doi>`         |
 | Autores de un producto | `GET /work/{work_id}/authors` |
 
 ## 📁 Estructura del repositorio
@@ -185,7 +186,7 @@ python scripts/generate_person_plot_pages.py
 python scripts/generate_source_plot_pages.py
 ```
 
-También puedes disparar la regeneración desde GitHub Actions con el workflow `generate-plots.yml` (pestaña *Actions* → *Generate plot pages* → *Run workflow*). Se abre un PR automáticamente con los archivos actualizados.
+También puedes disparar la regeneración desde GitHub Actions con el workflow `generate-plots.yml` (pestaña _Actions_ → _Generate plot pages_ → _Run workflow_). Se abre un PR automáticamente con los archivos actualizados.
 
 ## ✍️ Cómo documentar un endpoint
 
@@ -205,8 +206,8 @@ api: "GET https://api.dev.impactu.colav.co/search/algo"
 description: "Descripción corta del endpoint."
 ---
 
-import PaginationParams from '/snippets/pagination-params.mdx';
-import MetaResponse from '/snippets/meta-response.mdx';
+import PaginationParams from "/snippets/pagination-params.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
 
 ## Parámetros de consulta
 
@@ -232,6 +233,7 @@ import MetaResponse from '/snippets/meta-response.mdx';
 ```json 400
 { "error": "mensaje de error de validación" }
 ```
+
 </ResponseExample>
 ````
 
