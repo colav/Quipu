@@ -11,8 +11,6 @@ sidebarTitle: "Inicio"
     style={{ width: "240px", margin: "0 auto 24px" }}
   />
 
-<h1>Bienvenido a ImpactU</h1>
-
   <p style={{ fontSize: "18px", color: "#64748b" }}>
     Explora, consulta e integra información científica
     y académica de manera sencilla.
@@ -30,12 +28,12 @@ Encuentra los recursos necesarios para comenzar a
 consultar producción bibliografica con ImpactU, desde los conceptos fundamentales
 hasta las funcionalidades avanzadas de la API.
 
-<CardGroup cols={2}>
+<CardGroup cols={1}>
 <Card title="Referencia de la API" color="#39658C" icon="rectangle-api" href="/api-reference/introduction">
   Explora los endpoints, parámetros, modelos de respuesta y códigos de estado.
 </Card>
 
-<Card
+{/* <Card
   title="Consultas y filtros"
   icon="search"
   href="/guides/filters"
@@ -47,7 +45,7 @@ hasta las funcionalidades avanzadas de la API.
 
 <Card title="Exportación de datos" color="#FFAA00" icon="file-doc" href="/guides/export">
   Descubre cómo exportar información en formatos CSV y Excel.
-</Card>
+</Card> */}
 </CardGroup>
 
 ## ¿Qué puedes hacer con ImpactU?
@@ -114,11 +112,7 @@ print(data)
 ## Continúa explorando
 
 <CardGroup cols={1}>
-  <Card
-    title="Explorar endpoints"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
+  <Card title="Explorar endpoints" icon="terminal" href="/api-reference/search">
     Consulta los recursos disponibles en la API.
   </Card>
 </CardGroup>

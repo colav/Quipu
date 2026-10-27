@@ -1,0 +1,40 @@
+---
+title: "Exportar productos a Excel"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products/excel"
+description: "Descarga los productos de investigación de una afiliación en formato Excel (.xlsx)."
+---
+
+import WorksFilterParams from "/snippets/works-filter-params.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación: `institution`, `faculty`, `department` o `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+## Parámetros de consulta
+
+### Filtros
+
+Los mismos filtros de [Buscar productos](/api-reference/search/works).
+
+<WorksFilterParams />
+
+<Note>
+  A diferencia del [endpoint CSV](/api-reference/affiliation/get-research-products-csv),
+  este endpoint no admite el parámetro `plot`. Para exportar los datos de un
+  indicador usa el CSV.
+</Note>
+
+## Respuesta
+
+Archivo Excel adjunto:
+
+- `Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`
+- Nombre de archivo: `affiliations.xlsx`
+
+Las columnas son las mismas que en la [exportación CSV](/api-reference/affiliation/get-research-products-csv).

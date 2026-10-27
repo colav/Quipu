@@ -1,0 +1,8 @@
+# Claude
+.claude/
+
+#VsCode
+.vscode/
+
+# Python
+.venv/

@@ -1,0 +1,121 @@
+---
+title: "Distribución del gasto en APC entre las grupos de investigación"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribución del gasto en APC entre las grupos de investigación."
+sidebarTitle: "Distribución del gasto en APC entre las grupos de investigación"
+---
+
+Distribución del gasto en APC entre las grupos de investigación. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`, `department`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `apc_expenses_by_group`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | Sin datos |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "Grupo de Neurociencias de Antioquia",
+      "percentage": 3.21,
+      "value": 338959
+    },
+    {
+      "name": "Programa de Estudio y Control de Enfermedades Tropicales",
+      "percentage": 3.17,
+      "value": 335271
+    },
+    {
+      "name": "Genética Molecular (GENMOL)",
+      "percentage": 2.8,
+      "value": 295631
+    },
+    {
+      "name": "Inmunovirología",
+      "percentage": 2.75,
+      "value": 291214
+    }
+  ],
+  "sum": 10572460
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "Grupo Neuropsicología y Conducta",
+      "percentage": 51.54,
+      "value": 74724
+    },
+    {
+      "name": "Summa",
+      "percentage": 13.92,
+      "value": 20181
+    },
+    {
+      "name": "Grupo de investigación en psicologia cognitiva",
+      "percentage": 8.93,
+      "value": 12940
+    },
+    {
+      "name": "MATHEMA-Formación e Investigación en Educación Matemática",
+      "percentage": 5.6,
+      "value": 8112
+    }
+  ],
+  "sum": 144971
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "name": "Grupo de Investigación Clínica en Enfermedades del Niño y del Adolescente - Pediaciencias",
+      "percentage": 96.83,
+      "value": 168755
+    },
+    {
+      "name": "Cultura, Violencia y Territorio",
+      "percentage": 1.93,
+      "value": 3363
+    },
+    {
+      "name": "Teoría, Práctica e Historia del Arte en Colombia",
+      "percentage": 1.24,
+      "value": 2168
+    },
+    {
+      "name": "Comunicación, Periodismo y Sociedad",
+      "percentage": 0.0,
+      "value": 0
+    }
+  ],
+  "sum": 174286
+}
+```
+</ResponseExample>

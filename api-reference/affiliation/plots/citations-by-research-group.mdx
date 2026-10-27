@@ -1,0 +1,121 @@
+---
+title: "Distribución de citas entre las grupos de investigación"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribución de citas entre las grupos de investigación."
+sidebarTitle: "Distribución de citas entre las grupos de investigación"
+---
+
+Distribución de citas entre las grupos de investigación. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`, `department`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `citations_by_research_group`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | Sin datos |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "Grupo de Bioactividad",
+      "percentage": 5.11,
+      "value": 356
+    },
+    {
+      "name": "Bioquimica y Genetica Molecular",
+      "percentage": 3.47,
+      "value": 242
+    },
+    {
+      "name": "Políticas Sociales y Servicios de Salud",
+      "percentage": 3.34,
+      "value": 233
+    },
+    {
+      "name": "Microbiología Molecular",
+      "percentage": 2.57,
+      "value": 179
+    }
+  ],
+  "sum": 6970
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "Grupo Neuropsicología y Conducta",
+      "percentage": 36.46,
+      "value": 7517
+    },
+    {
+      "name": "Historia de la Práctica Pedagógica en Colombia",
+      "percentage": 8.07,
+      "value": 1664
+    },
+    {
+      "name": "Calidad de la Educación y Proyecto Educativo Institucional",
+      "percentage": 4.55,
+      "value": 938
+    },
+    {
+      "name": "Grupo de investigación en psicologia cognitiva",
+      "percentage": 4.49,
+      "value": 926
+    }
+  ],
+  "sum": 20617
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "name": "Grupo de Investigación Clínica en Enfermedades del Niño y del Adolescente - Pediaciencias",
+      "percentage": 85.2,
+      "value": 8258
+    },
+    {
+      "name": "Cultura, Violencia y Territorio",
+      "percentage": 8.72,
+      "value": 845
+    },
+    {
+      "name": "Estudios Literarios ",
+      "percentage": 3.24,
+      "value": 314
+    },
+    {
+      "name": "Comunicación, Periodismo y Sociedad",
+      "percentage": 1.12,
+      "value": 109
+    }
+  ],
+  "sum": 9692
+}
+```
+</ResponseExample>

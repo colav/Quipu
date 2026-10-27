@@ -1,0 +1,65 @@
+---
+title: "Distribución de citas entre las facultades"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribución de citas entre las facultades."
+sidebarTitle: "Distribución de citas entre las facultades"
+---
+
+Distribución de citas entre las facultades. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `citations_by_faculty`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | Sin datos |
+| `department` | Sin datos |
+| `group` | Sin datos |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "Facultad de Medicina",
+      "percentage": 23.88,
+      "value": 32
+    },
+    {
+      "name": "Facultad de Enfermería",
+      "percentage": 20.9,
+      "value": 28
+    },
+    {
+      "name": "Instituto De Filosofía",
+      "percentage": 20.15,
+      "value": 27
+    },
+    {
+      "name": "Facultad de Ciencias Agrarias",
+      "percentage": 14.93,
+      "value": 20
+    }
+  ],
+  "sum": 134
+}
+```
+</ResponseExample>

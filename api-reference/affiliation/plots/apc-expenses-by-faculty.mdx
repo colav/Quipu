@@ -1,0 +1,65 @@
+---
+title: "Distribución del gasto en APC entre las facultades"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribución del gasto en APC entre las facultades."
+sidebarTitle: "Distribución del gasto en APC entre las facultades"
+---
+
+Distribución del gasto en APC entre las facultades. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `apc_expenses_by_faculty`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | Sin datos |
+| `department` | Sin datos |
+| `group` | Sin datos |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "Facultad de Medicina",
+      "percentage": 36.21,
+      "value": 6065750
+    },
+    {
+      "name": "Facultad de Ciencias Exactas y Naturales",
+      "percentage": 20.09,
+      "value": 3366003
+    },
+    {
+      "name": "Facultad de Ingeniería",
+      "percentage": 12.94,
+      "value": 2168366
+    },
+    {
+      "name": "Escuela de Microbiología",
+      "percentage": 8.38,
+      "value": 1404187
+    }
+  ],
+  "sum": 16753568
+}
+```
+</ResponseExample>

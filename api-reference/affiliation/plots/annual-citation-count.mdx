@@ -1,0 +1,129 @@
+---
+title: "Citas por año"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Cantidad de citas recibidas por año."
+sidebarTitle: "Citas por año"
+---
+
+Cantidad de citas recibidas por año. Tipo de gráfico: **Barras**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `annual_citation_count`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "x": 2026,
+      "y": 15747
+    },
+    {
+      "x": 2025,
+      "y": 76614
+    },
+    {
+      "x": 2024,
+      "y": 80050
+    },
+    {
+      "x": 2023,
+      "y": 73536
+    }
+  ]
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "x": 2026,
+      "y": 89
+    },
+    {
+      "x": 2025,
+      "y": 495
+    },
+    {
+      "x": 2024,
+      "y": 544
+    },
+    {
+      "x": 2023,
+      "y": 654
+    }
+  ]
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "x": 2025,
+      "y": 4
+    },
+    {
+      "x": 2024,
+      "y": 15
+    },
+    {
+      "x": 2023,
+      "y": 10
+    },
+    {
+      "x": 2022,
+      "y": 9
+    }
+  ]
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "x": 2026,
+      "y": 90
+    },
+    {
+      "x": 2025,
+      "y": 338
+    },
+    {
+      "x": 2024,
+      "y": 455
+    },
+    {
+      "x": 2023,
+      "y": 381
+    }
+  ]
+}
+```
+</ResponseExample>

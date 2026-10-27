@@ -1,0 +1,243 @@
+---
+title: "Obtener una afiliación"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}"
+description: "Devuelve una afiliación (institución, facultad, departamento o grupo) a partir de su identificador."
+---
+
+## Parámetros de ruta
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación: `institution`, `faculty`, `department` o `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación. Ejemplos: `03bp5hc83` (institución),
+  `03bp5hc83_20` (facultad), `03bp5hc83_2_21620003_3154` (departamento),
+  `COL0001262` (grupo).
+</ParamField>
+
+<Note>
+  Este endpoint no recibe parámetros de consulta: `max`, `page`, `sort` y `view`
+  no aplican.
+</Note>
+
+<Note>
+  La API no valida `affiliation_type` contra el identificador: devuelve la
+  afiliación que corresponde a `affiliation_id` aunque el tipo no coincida. Por
+  ejemplo, `/affiliation/faculty/03bp5hc83` devuelve la institución, sin error.
+  Usa el tipo correcto para evitar confusiones.
+</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="object">
+  La afiliación solicitada.
+  <Expandable title="propiedades">
+    <ResponseField name="_id" type="string">
+      Identificador de la afiliación.
+    </ResponseField>
+    <ResponseField name="name" type="string | null">
+      Nombre principal (en español si existe).
+    </ResponseField>
+    <ResponseField name="names" type="object[]">
+      Nombres por fuente (`name`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="abbreviations" type="string[]">
+      Siglas y nombres cortos.
+    </ResponseField>
+    <ResponseField name="aliases" type="string[]">
+      Nombres alternos.
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Tipos de la afiliación por fuente (`type`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="addresses" type="object[]">
+      Direcciones: `city`, `state`, `country`, `country_code`, `postcode`,
+      `lat`, `lng`.
+    </ResponseField>
+    <ResponseField name="logo" type="string | null">
+      URL del logo.
+    </ResponseField>
+    <ResponseField name="year_established" type="integer | null">
+      Año de fundación.
+    </ResponseField>
+    <ResponseField name="description" type="object[]">
+      Descripciones por fuente. En los grupos incluye textos como estado del
+      arte, objetivos, plan de trabajo, producción destacada, retos y visión.
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Cantidad de productos.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citas por fuente (`count`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="h_index" type="integer | null">
+      Índice h.
+    </ResponseField>
+    <ResponseField name="h5_index" type="integer | null">
+      Índice h de los últimos 5 años.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Clasificaciones, por ejemplo la de un grupo (`rank`, `source`,
+      `from_date`, `to_date`).
+    </ResponseField>
+    <ResponseField name="affiliations" type="object[]">
+      Afiliaciones superiores directas (por ejemplo, la institución de una
+      facultad).
+    </ResponseField>
+    <ResponseField name="relations" type="object[]">
+      Afiliaciones relacionadas: las superiores y, en facultades, también sus
+      departamentos y dependencias (`id`, `name`, `types`, `external_urls`).
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Áreas de conocimiento agrupadas por fuente (por ejemplo, OCDE en los
+      grupos).
+    </ResponseField>
+    <ResponseField name="status" type="array">
+      Estado. Puede ser una lista de textos (instituciones) o de objetos
+      `source` y `status` (grupos).
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos (ROR, OpenAlex, SNIES, Scienti, Minciencias,
+      entre otros).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      Enlaces externos (sitio web, Wikipedia, OpenAlex, ROR).
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Última actualización por fuente (`source`, `time` en segundos Unix).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Diferencias según el tipo
+
+| Campo          | Institución      | Facultad                    | Departamento                 | Grupo                   |
+| -------------- | ---------------- | --------------------------- | ---------------------------- | ----------------------- |
+| `affiliations` | vacío            | la institución              | la institución y la facultad | la institución          |
+| `relations`    | vacío            | institución y departamentos | institución y facultad       | institución             |
+| `description`  | vacío            | vacío                       | vacío                        | textos del grupo        |
+| `ranking`      | sin datos útiles | vacío                       | vacío                        | clasificación del grupo |
+
+<ResponseExample>
+```json Institución
+{
+  "data": {
+    "_id": "03bp5hc83",
+    "name": "Universidad de Antioquia",
+    "names": [
+      { "lang": "es", "name": "Universidad de Antioquia", "provenance": null, "source": "ror" },
+      { "lang": "en", "name": "University of Antioquia", "provenance": null, "source": "ror" }
+    ],
+    "abbreviations": ["UdeA", "Universidad de Antioquia", "University of Antioquia"],
+    "types": [
+      { "source": "ror", "type": "education", "provenance": null },
+      { "source": "type", "type": "public", "provenance": "snies" }
+    ],
+    "addresses": [
+      {
+        "city": "Medellín",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "country_code": "CO",
+        "lat": 6.25184,
+        "lng": -75.56359,
+        "postcode": ""
+      }
+    ],
+    "year_established": 1803,
+    "products_count": 135364,
+    "citations_count": [
+      { "count": 650554, "provenance": null, "source": "openalex" }
+    ],
+    "h_index": 242,
+    "h5_index": 100,
+    "status": ["active"],
+    "external_ids": [
+      { "id": "https://ror.org/03bp5hc83", "provenance": "ror", "source": "ror" }
+    ],
+    "affiliations": [],
+    "relations": [],
+    "updated": [{ "source": "ror", "time": 1789879321 }]
+  }
+}
+```
+
+```json Facultad
+{
+  "data": {
+    "_id": "03bp5hc83_20",
+    "name": "Facultad de Educación",
+    "types": [{ "source": "staff", "type": "faculty", "provenance": null }],
+    "products_count": 6580,
+    "h_index": 31,
+    "h5_index": 12,
+    "affiliations": [{ "id": "03bp5hc83", "name": "Universidad de Antioquia" }],
+    "relations": [
+      { "id": "03bp5hc83", "name": "Universidad de Antioquia" },
+      {
+        "id": "03bp5hc83_20_22020003_3132",
+        "name": "Departamento de Educación Infantil"
+      }
+    ],
+    "updated": [{ "source": "staff", "time": 1789879630 }]
+  }
+}
+```
+
+```json Departamento
+{
+  "data": {
+    "_id": "03bp5hc83_2_21620003_3154",
+    "name": "Departamento de Teatro",
+    "types": [{ "source": "staff", "type": "department", "provenance": null }],
+    "products_count": 761,
+    "h_index": 4,
+    "h5_index": 4,
+    "affiliations": [
+      { "id": "03bp5hc83", "name": "Universidad de Antioquia" },
+      { "id": "03bp5hc83_2", "name": "Facultad de Artes" }
+    ],
+    "updated": [{ "source": "staff", "time": 1789879629 }]
+  }
+}
+```
+
+```json Grupo
+{
+  "data": {
+    "_id": "COL0001262",
+    "name": "CENTAURO",
+    "types": [{ "source": "scienti", "type": "group", "provenance": null }],
+    "year_established": 1997,
+    "products_count": 800,
+    "h_index": 34,
+    "h5_index": 8,
+    "ranking": [{ "rank": "A1", "source": "minciencias", "date": 1614229200 }],
+    "status": [{ "source": "minciencias", "status": "activo" }],
+    "description": [
+      {
+        "source": "scienti",
+        "description": {
+          "TXT_VISION": "Texto de la visión del grupo...",
+          "TXT_OBJETIVOS": "Texto de los objetivos del grupo..."
+        }
+      }
+    ],
+    "subjects": [
+      {
+        "source": "OCDE",
+        "subjects": [{ "id": "", "level": 1, "name": "Ciencias Veterinarias" }]
+      }
+    ],
+    "affiliations": [{ "id": "03bp5hc83", "name": "Universidad de Antioquia" }],
+    "updated": [{ "source": "minciencias", "time": 1789888310 }]
+  }
+}
+```
+
+```json 400
+{ "error": "The affiliation with id 03bp5hc83_999 does not exist." }
+```
+
+</ResponseExample>

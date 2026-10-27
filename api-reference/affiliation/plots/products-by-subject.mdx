@@ -1,0 +1,149 @@
+---
+title: "Productos por área de conocimiento"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribución de productos por tópico principal."
+sidebarTitle: "Productos por área de conocimiento"
+---
+
+Distribución de productos por tópico principal. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `products_by_subject`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "Business, Innovation, and Economy",
+      "percentage": 1.95,
+      "value": 1451
+    },
+    {
+      "name": "History and Politics in Latin America",
+      "percentage": 1.79,
+      "value": 1331
+    },
+    {
+      "name": "Conflict, Peace, and Violence in Colombia",
+      "percentage": 1.54,
+      "value": 1142
+    },
+    {
+      "name": "Health and Lifestyle Studies",
+      "percentage": 1.38,
+      "value": 1026
+    }
+  ],
+  "sum": 74346
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "Literacy and Educational Practices",
+      "percentage": 7.67,
+      "value": 276
+    },
+    {
+      "name": "Education and Teacher Training",
+      "percentage": 7.67,
+      "value": 276
+    },
+    {
+      "name": "Educational Innovations and Technology",
+      "percentage": 7.2,
+      "value": 259
+    },
+    {
+      "name": "Educational theories and practices",
+      "percentage": 5.73,
+      "value": 206
+    }
+  ],
+  "sum": 3597
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "name": "Historical and Modern Theater Studies",
+      "percentage": 17.52,
+      "value": 41
+    },
+    {
+      "name": "Architecture, Art, Education",
+      "percentage": 6.41,
+      "value": 15
+    },
+    {
+      "name": "Literary and Cultural Studies",
+      "percentage": 5.13,
+      "value": 12
+    },
+    {
+      "name": "Cinema History and Criticism",
+      "percentage": 4.7,
+      "value": 11
+    }
+  ],
+  "sum": 234
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "name": "Mycobacterium research and diagnosis",
+      "percentage": 9.7,
+      "value": 35
+    },
+    {
+      "name": "Vector-borne infectious diseases",
+      "percentage": 7.76,
+      "value": 28
+    },
+    {
+      "name": "Veterinary Equine Medical Research",
+      "percentage": 7.48,
+      "value": 27
+    },
+    {
+      "name": "Milk Quality and Mastitis in Dairy Cows",
+      "percentage": 4.99,
+      "value": 18
+    }
+  ],
+  "sum": 361
+}
+```
+</ResponseExample>

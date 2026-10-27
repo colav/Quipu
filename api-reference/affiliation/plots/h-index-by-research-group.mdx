@@ -1,0 +1,121 @@
+---
+title: "Índice h de las grupos de investigación"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Índice h de las grupos de investigación."
+sidebarTitle: "Índice h de las grupos de investigación"
+---
+
+Índice h de las grupos de investigación. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`, `department`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `h_index_by_research_group`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | Sin datos |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "Grupo de Fenomenologia de Interacciones Fundamentales",
+      "percentage": 1.69,
+      "value": 86
+    },
+    {
+      "name": "Grupo de Neurociencias de Antioquia",
+      "percentage": 1.51,
+      "value": 77
+    },
+    {
+      "name": "Errores Innatos de la Inmunidad (Inmunodeficiencias Primarias)",
+      "percentage": 1.26,
+      "value": 64
+    },
+    {
+      "name": "Programa de Estudio y Control de Enfermedades Tropicales PECET",
+      "percentage": 1.24,
+      "value": 63
+    }
+  ],
+  "sum": 5083
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "Grupo Neuropsicología y Conducta",
+      "percentage": 14.72,
+      "value": 44
+    },
+    {
+      "name": "Grupo de investigación en psicologia cognitiva",
+      "percentage": 4.68,
+      "value": 14
+    },
+    {
+      "name": "Cultura, Violencia y Territorio",
+      "percentage": 4.35,
+      "value": 13
+    },
+    {
+      "name": "Grupo de Educación en Ciencias Experimentales y Matemáticas - GECEM",
+      "percentage": 4.01,
+      "value": 12
+    }
+  ],
+  "sum": 299
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "name": "Grupo de Investigación Clínica en Enfermedades del Niño y del Adolescente - Pediaciencias",
+      "percentage": 55.29,
+      "value": 47
+    },
+    {
+      "name": "Cultura, Violencia y Territorio",
+      "percentage": 15.29,
+      "value": 13
+    },
+    {
+      "name": "Comunicación, Periodismo y Sociedad",
+      "percentage": 5.88,
+      "value": 5
+    },
+    {
+      "name": "Estudios Literarios ",
+      "percentage": 5.88,
+      "value": 5
+    }
+  ],
+  "sum": 85
+}
+```
+</ResponseExample>

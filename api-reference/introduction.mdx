@@ -1,0 +1,148 @@
+---
+title: "Introducción"
+description: "Conoce la estructura general de la API de ImpactU: URL base, formato de las respuestas, paginación, filtros y errores."
+sidebarTitle: "Inicio Endpoints"
+---
+
+import MetaResponse from "/snippets/meta-response.mdx";
+
+La API de ImpactU es una API REST de solo lectura que devuelve información científica y académica en formato JSON: personas, productos, afiliaciones, fuentes, patentes, proyectos y entidades geográficas.
+
+## URL base
+
+```text
+https://api.dev.impactu.colav.co
+```
+
+Todas las rutas de esta documentación se agregan a esa URL. Por ejemplo, `GET /search/works` se consulta en `https://api.dev.impactu.colav.co/search/works`.
+
+## Formato de las respuestas
+
+Las respuestas son JSON y tienen dos formas, según el tipo de endpoint.
+
+<Tabs>
+  <Tab title="Un recurso">
+    Los endpoints que devuelven una sola entidad envuelven el resultado en `data`.
+
+    ```json
+    {
+      "data": { "...": "..." }
+    }
+    ```
+
+  </Tab>
+  <Tab title="Un listado">
+    Los endpoints de búsqueda devuelven una lista en `data` y los datos de paginación en `meta`.
+
+    ```json
+    {
+      "data": [ { "...": "..." } ],
+      "meta": {
+        "count": 1542618,
+        "page": 1,
+        "size": 10,
+        "db_response_time_ms": 348,
+        "cursor": { "next": "https://...", "previous": null }
+      }
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Campo `meta` de los listados
+
+<MetaResponse />
+
+## Convenciones de los listados
+
+Los endpoints de búsqueda comparten estos parámetros de consulta.
+
+<ParamField query="keywords" type="string">
+  Texto de búsqueda. Se usa en las búsquedas desde caja de texto.
+</ParamField>
+
+<ParamField query="max" type="integer" default="10">
+  Resultados por página, de 1 a 250.
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  Número de página.
+</ParamField>
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Ordenamiento con el formato `campo_direccion`, donde la dirección es `asc` o
+  `desc`. Los campos válidos dependen de la entidad y se describen en cada
+  endpoint.
+</ParamField>
+
+<ParamField query="view" type="string" default="full">
+  Nivel de detalle de la respuesta: `full` o `summary`.
+</ParamField>
+
+Además, cada listado tiene sus propios filtros. Todos aceptan varios valores separados por coma (por ejemplo, `years=2020,2026`), y las opciones válidas se consultan en el endpoint de filtros disponibles de cada entidad.
+
+<Note>
+  Si no envías `max`, `page` ni `sort`, se aplican `max=10`, `page=1` y
+  `sort=citations_desc`. Si envías `max` y `page` sin `sort`, se aplica
+  `sort=citations_desc`.
+</Note>
+
+## Datos y formatos
+
+<AccordionGroup>
+  <Accordion title="Fechas" icon="calendar">
+    Las fechas se expresan en segundos Unix. En las fechas de fin, un valor `-1` indica que la relación sigue vigente.
+  </Accordion>
+
+  <Accordion title="Identificadores" icon="fingerprint">
+    Cada entidad tiene su propio formato de identificador:
+
+    | Entidad | Ejemplo |
+    | --- | --- |
+    | Institución | `03bp5hc83` (identificador ROR) |
+    | Facultad | `03bp5hc83_20` |
+    | Departamento | `03bp5hc83_2_21620003_3154` |
+    | Grupo de investigación | `COL0001262` |
+    | Persona | `0000652113` |
+    | Producto, fuente | `6ab555045418a51e325f5303` |
+
+  </Accordion>
+
+  <Accordion title="Información por fuente" icon="layer-group">
+    Muchos campos (nombres, citas, tipos, rankings) devuelven un elemento por cada fuente de información, con los campos `source` y `provenance`.
+  </Accordion>
+</AccordionGroup>
+
+## Autenticación y límites
+
+La API es de acceso público: no requiere autenticación y por ahora no tiene límite de solicitudes.
+
+## Errores
+
+Cuando una solicitud falla (parámetros inválidos o entidad inexistente), la API responde con código `400` y un mensaje en `error`.
+
+```json
+{ "error": "mensaje descriptivo del error" }
+```
+
+## Endpoints disponibles
+
+<CardGroup cols={2}>
+  <Card
+    title="Search"
+    icon="magnifying-glass"
+    href="/api-reference/search/persons"
+  >
+    Búsqueda de personas, productos, afiliaciones, fuentes, patentes, proyectos
+    y geografía, con sus endpoints de filtros disponibles.
+  </Card>
+  <Card
+    title="Affiliation"
+    icon="building-columns"
+    href="/api-reference/affiliation/get-affiliation"
+  >
+    Consulta de una afiliación (institución, facultad, departamento o grupo) por
+    su identificador.
+  </Card>
+</CardGroup>

@@ -1,0 +1,88 @@
+---
+title: "Distribución del gasto en APC entre las departamentos"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribución del gasto en APC entre las departamentos."
+sidebarTitle: "Distribución del gasto en APC entre las departamentos"
+---
+
+Distribución del gasto en APC entre las departamentos. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `apc_expenses_by_department`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | Sin datos |
+| `group` | Sin datos |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "Departamento de Formación Académica",
+      "percentage": 12.12,
+      "value": 2566952
+    },
+    {
+      "name": "Departamento de Microbiología y Parasitología",
+      "percentage": 9.61,
+      "value": 2035634
+    },
+    {
+      "name": "Instituto de Investigaciones Médicas",
+      "percentage": 7.29,
+      "value": 1543759
+    },
+    {
+      "name": "Instituto de Biología",
+      "percentage": 6.64,
+      "value": 1405553
+    }
+  ],
+  "sum": 21183283
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "Departamento de Pedagogía",
+      "percentage": 81.0,
+      "value": 22812
+    },
+    {
+      "name": "Departamento de Enseñanza de las Ciencias y las Artes",
+      "percentage": 11.6,
+      "value": 3266
+    },
+    {
+      "name": "Departamento de Educación Infantil",
+      "percentage": 7.41,
+      "value": 2086
+    }
+  ],
+  "sum": 28164
+}
+```
+</ResponseExample>

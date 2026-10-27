@@ -7,6 +7,7 @@ description: "Búsqueda paginada de productos de investigación (works) por pala
 import PaginationParams from "/snippets/pagination-params.mdx";
 import MetaResponse from "/snippets/meta-response.mdx";
 import FiltersNote from "/snippets/filters-note.mdx";
+import WorksFilterParams from "/snippets/works-filter-params.mdx";
 
 ## Parámetros de consulta
 
@@ -30,48 +31,7 @@ import FiltersNote from "/snippets/filters-note.mdx";
 
 Todos los filtros aceptan varios valores separados por coma. Las opciones válidas de cada uno se consultan en [Filtros disponibles de productos](/api-reference/search/works-filters).
 
-<ParamField query="years" type="string">
-  Rango de años de publicación: valor mínimo y valor máximo separados por coma.
-  Ejemplo: `2020,2026` (desde 2020 hasta 2026).
-</ParamField>
-
-<ParamField query="product_types" type="string">
-  Tipos de producto. Usa el `value` devuelto por el endpoint de filtros.
-  Ejemplo: `impactu_Artículo de revista`.
-</ParamField>
-
-<ParamField query="status" type="string">
-  Estado de acceso abierto. Valores: `open`, `diamond`, `green`, `hybrid`,
-  `gold`, `bronze` y `closed`. Ejemplo: `diamond,gold`.
-</ParamField>
-
-<ParamField query="topics" type="string">
-  Tópicos. Usa el `value` devuelto por el endpoint de filtros (URL de OpenAlex).
-  Ejemplo: `https://openalex.org/T14483`.
-</ParamField>
-
-<ParamField query="countries" type="string">
-  Países de las afiliaciones de los autores, por código. Ejemplo: `CO`.
-</ParamField>
-
-<ParamField query="authors_count" type="string">
-  Cantidad de autores. Ejemplos: `1` (solo productos con 1 autor), `1-`
-  (productos con 1 o más autores).
-</ParamField>
-
-<ParamField query="authors_ranking" type="string">
-  Clasificación de los autores. Ejemplo: `Investigador Junior`.
-</ParamField>
-
-<ParamField query="groups_ranking" type="string">
-  Clasificación de los grupos de investigación. Ejemplo: `A1,A`.
-</ParamField>
-
-<ParamField query="institutions_type" type="string">
-  Tipo de institución de las afiliaciones de los autores (según ROR):
-  `education`, `funder`, `healthcare`, `company`, `archive`, `nonprofit`,
-  `government`, `facility` u `other`. Ejemplo: `education,company`.
-</ParamField>
+<WorksFilterParams />
 
 <Note>
   Si no envías `max`, `page` ni `sort`, se aplican `max=10`, `page=1` y

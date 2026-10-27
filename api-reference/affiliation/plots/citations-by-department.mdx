@@ -1,0 +1,93 @@
+---
+title: "Distribución de citas entre las departamentos"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribución de citas entre las departamentos."
+sidebarTitle: "Distribución de citas entre las departamentos"
+---
+
+Distribución de citas entre las departamentos. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `citations_by_department`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | Sin datos |
+| `group` | Sin datos |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "Departamento de Farmacia",
+      "percentage": 10.45,
+      "value": 147
+    },
+    {
+      "name": "Sección de Medicina Deportiva",
+      "percentage": 7.39,
+      "value": 104
+    },
+    {
+      "name": "Departamento de Morfología",
+      "percentage": 6.33,
+      "value": 89
+    },
+    {
+      "name": "Departamento Atención Odontológica Integrada",
+      "percentage": 6.33,
+      "value": 89
+    }
+  ],
+  "sum": 1407
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "Centro de Educación A Distancia",
+      "percentage": 84.48,
+      "value": 49
+    },
+    {
+      "name": "Departamento de Extensión y Educación A Distancia",
+      "percentage": 10.34,
+      "value": 6
+    },
+    {
+      "name": "Departamento de Pedagogía",
+      "percentage": 3.45,
+      "value": 2
+    },
+    {
+      "name": "Decanatura Facultad de Educación",
+      "percentage": 1.72,
+      "value": 1
+    }
+  ],
+  "sum": 58
+}
+```
+</ResponseExample>

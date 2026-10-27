@@ -1,0 +1,81 @@
+---
+title: "Exportar productos a CSV"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products/csv"
+description: "Descarga los productos de investigación de una afiliación en formato CSV, o los datos de un indicador cuando se usa el parámetro plot."
+---
+
+import WorksFilterParams from "/snippets/works-filter-params.mdx";
+
+Este endpoint tiene dos modos:
+
+- **Exportación de productos** (sin `plot`): descarga un CSV con todos los productos de la afiliación aplicando los filtros activos.
+- **Exportación de indicador** (con `plot`): descarga un CSV con los datos del indicador indicado en lugar del listado de productos.
+
+## Parámetros de ruta
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación: `institution`, `faculty`, `department` o `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+## Parámetros de consulta
+
+<ParamField query="plot" type="string">
+  Nombre del indicador a exportar. Con este parámetro se descarga el CSV del
+  indicador en lugar del listado de productos. Consulta el [catálogo de
+  indicadores](/api-reference/affiliation/plots/overview).
+</ParamField>
+
+### Filtros
+
+Los mismos filtros de [Buscar productos](/api-reference/search/works). También
+aplican cuando se usa `plot`.
+
+<WorksFilterParams />
+
+## Respuesta
+
+Archivo CSV adjunto (`Content-Type: text/csv; charset=utf-8`).
+
+**Sin `plot`** — nombre de archivo `affiliations.csv`, con las siguientes columnas:
+
+| Columna | Descripción |
+| --- | --- |
+| `id` | Identificador del producto |
+| `title` | Título principal |
+| `language` | Idioma |
+| `authors` | Autores separados por ` \| ` |
+| `open_access_status` | Estado de acceso abierto |
+| `bibtex` | Entrada BibTeX en una línea |
+| `openalex_citations_count` | Citas según OpenAlex |
+| `scholar_citations_count` | Citas según Scholar |
+| `subjects` | Áreas de conocimiento separadas por ` \| ` |
+| `primary_topic` | Tópico principal: Topic, Subfield, Field y Domain separados por ` \| ` |
+| `year_published` | Año de publicación |
+| `doi` | DOI |
+| `publisher` | Editorial |
+| `openalex_types` | Tipos según OpenAlex separados por ` \| ` |
+| `scienti_types` | Tipos según Scienti separados por ` \| ` |
+| `impactu_types` | Tipos según ImpactU separados por ` \| ` |
+| `source_name` | Nombre de la fuente (revista) |
+| `source_apc` | Información de APC de la fuente |
+| `source_urls` | URLs de la fuente |
+| `institutions` | Instituciones de los autores separadas por ` \| ` |
+| `faculties` | Facultades de los autores separadas por ` \| ` |
+| `departments` | Departamentos de los autores separados por ` \| ` |
+| `groups` | Grupos de investigación separados por ` \| ` |
+| `countries` | Países de los autores separados por ` \| ` |
+| `groups_ranking` | Clasificaciones de los grupos con fecha, separadas por ` \| ` |
+| `ranking` | Clasificación del producto |
+| `issue` | Número de la revista |
+| `pages` | Número de páginas |
+| `start_page` | Página de inicio |
+| `end_page` | Página de fin |
+| `volume` | Volumen |
+| `scienti_id` | Identificador Scienti |
+| `minciencias_id` | Identificador Minciencias |
+
+**Con `plot`** — nombre de archivo `<nombre_del_indicador>.csv`. Cada indicador tiene sus propias columnas; consulta el [catálogo de indicadores](/api-reference/affiliation/plots/overview).

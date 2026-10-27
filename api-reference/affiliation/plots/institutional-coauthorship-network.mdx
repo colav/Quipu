@@ -1,0 +1,73 @@
+---
+title: "Red de coautoría institucional"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Red de coautoría entre instituciones."
+sidebarTitle: "Red de coautoría institucional"
+---
+
+Red de coautoría entre instituciones. Tipo de gráfico: **Red**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `institutional_coauthorship_network`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Respuesta
+
+<ResponseExample>
+```json Institución
+{
+  "plot": {
+    "edges": [],
+    "nodes": []
+  }
+}
+```
+
+```json Facultad
+{
+  "plot": {
+    "edges": [],
+    "nodes": []
+  }
+}
+```
+
+```json Departamento
+{
+  "plot": {
+    "edges": [],
+    "nodes": []
+  }
+}
+```
+
+```json Grupo
+{
+  "plot": {
+    "edges": [],
+    "nodes": []
+  }
+}
+```
+</ResponseExample>

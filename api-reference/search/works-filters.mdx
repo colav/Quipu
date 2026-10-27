@@ -4,6 +4,9 @@ api: "GET https://api.dev.impactu.colav.co/search/works/filters"
 description: "Opciones disponibles para filtrar la búsqueda de productos, con su cantidad de resultados."
 ---
 
+import WorksFiltersResponse from "/snippets/works-filters-response.mdx";
+import WorksFilterParams from "/snippets/works-filter-params.mdx";
+
 Devuelve los valores que puedes usar en los filtros de [Buscar productos](/api-reference/search/works).
 Las opciones y sus conteos dependen de los filtros que envíes: si aplicas un filtro, solo se devuelven las opciones que existen dentro de ese resultado.
 
@@ -11,133 +14,11 @@ Las opciones y sus conteos dependen de los filtros que envíes: si aplicas un fi
 
 Todos son opcionales y funcionan igual que en [Buscar productos](/api-reference/search/works). Aceptan varios valores separados por coma.
 
-<ParamField query="years" type="string">
-  Rango de años: mínimo y máximo separados por coma. Ejemplo: `2020,2026`.
-</ParamField>
-<ParamField query="product_types" type="string">
-  Tipos de producto. Usa el `value` devuelto (por ejemplo, `impactu_Artículo de
-  revista`).
-</ParamField>
-<ParamField query="status" type="string">
-  Estado de acceso abierto. Usa el `value` devuelto (por ejemplo, `open` o
-  `diamond`).
-</ParamField>
-<ParamField query="topics" type="string">
-  Tópicos. Usa el `value` devuelto (URL de OpenAlex).
-</ParamField>
-<ParamField query="countries" type="string">
-  Países. Usa el código devuelto (por ejemplo, `CO`).
-</ParamField>
-<ParamField query="authors_count" type="string">
-  Cantidad de autores. Ejemplos: `1`, `1-`.
-</ParamField>
-<ParamField query="authors_ranking" type="string">
-  Clasificación de autores (por ejemplo, `Investigador Junior`).
-</ParamField>
-<ParamField query="groups_ranking" type="string">
-  Clasificación de grupos de investigación (por ejemplo, `A1`).
-</ParamField>
-<ParamField query="institutions_type" type="string">
-  Tipo de institución (por ejemplo, `education`).
-</ParamField>
+<WorksFilterParams />
 
 ## Respuesta
 
-La respuesta es un objeto con un campo por filtro.
-
-### Listas de opciones
-
-<ResponseField name="authors_ranking" type="object[]">
-  Clasificaciones de autores (Minciencias).
-  <Expandable title="propiedades">
-    <ResponseField name="value" type="string">
-      Valor para enviar en el filtro.
-    </ResponseField>
-    <ResponseField name="label" type="string">
-      Texto para mostrar.
-    </ResponseField>
-    <ResponseField name="count" type="integer">
-      Cantidad de registros. Según el pipeline, se cuenta por autor, no por
-      producto.
-    </ResponseField>
-  </Expandable>
-</ResponseField>
-
-<ResponseField name="groups_ranking" type="object[]">
-  Clasificaciones de grupos de investigación (`A1`, `A`, `B`, `C`,
-  `Reconocido`). Misma estructura que `authors_ranking`.
-</ResponseField>
-
-<ResponseField name="countries" type="object[]">
-  Países de las afiliaciones de los autores. `value` es el código del país (por
-  ejemplo, `CO`) y `label` su nombre.
-</ResponseField>
-
-<ResponseField name="institutions_type" type="object[]">
-  Tipos de institución (según ROR): `education`, `funder`, `healthcare`,
-  `company`, `archive`, `nonprofit`, `government`, `facility` y `other`.
-</ResponseField>
-
-### Rangos
-
-<ResponseField name="years" type="object">
-  Rango de años de publicación.
-  <Expandable title="propiedades">
-    <ResponseField name="min_year" type="integer | null">
-      Año más antiguo.
-    </ResponseField>
-    <ResponseField name="max_year" type="integer | null">
-      Año más reciente.
-    </ResponseField>
-  </Expandable>
-</ResponseField>
-
-<ResponseField name="authors_count" type="object">
-  Rango de cantidad de autores por producto.
-  <Expandable title="propiedades">
-    <ResponseField name="min_authors" type="integer | null">
-      Mínimo de autores.
-    </ResponseField>
-    <ResponseField name="max_authors" type="integer | null">
-      Máximo de autores.
-    </ResponseField>
-  </Expandable>
-</ResponseField>
-
-### Árboles de opciones
-
-Estos campos son listas de nodos con la misma estructura. Un nodo con `children` agrupa a sus hijos.
-
-<ResponseField name="product_types" type="object[]">
-  Tipos de producto agrupados por fuente de información (por ejemplo,
-  `impactu`). El `value` de cada hijo lleva el prefijo de la fuente:
-  `impactu_Artículo de revista`.
-</ResponseField>
-
-<ResponseField name="status" type="object[]">
-  Estado de acceso abierto. El nodo `open` (Abierto) agrupa `diamond`, `green`,
-  `hybrid`, `gold` y `bronze`; `closed` (Cerrado) no tiene hijos.
-</ResponseField>
-
-<ResponseField name="topics" type="object[]">
-  Tópicos de OpenAlex organizados en jerarquía (dominio, campo, subcampo y
-  tópico). El `value` de cada nodo es su URL de OpenAlex.
-</ResponseField>
-
-<Expandable title="propiedades de cada nodo de un árbol">
-  <ResponseField name="value" type="string">
-    Valor para enviar en el filtro.
-  </ResponseField>
-  <ResponseField name="title" type="string">
-    Texto para mostrar.
-  </ResponseField>
-  <ResponseField name="count" type="integer">
-    Cantidad de productos.
-  </ResponseField>
-  <ResponseField name="children" type="object[]">
-    Nodos hijos (puede no existir).
-  </ResponseField>
-</Expandable>
+<WorksFiltersResponse />
 
 <ResponseExample>
 ```json 200

@@ -1,0 +1,200 @@
+---
+title: "Consultas y filtros"
+description: "Aprende a buscar, filtrar, ordenar y paginar los resultados de la API de ImpactU."
+---
+
+Los endpoints de búsqueda (`/search/...`) comparten una misma forma de consultar. Esta guía te muestra cómo combinar sus parámetros.
+
+## Los cuatro bloques de una consulta
+
+| Bloque             | Parámetro              | Para qué sirve                     |
+| ------------------ | ---------------------- | ---------------------------------- |
+| Búsqueda por texto | `keywords`             | Buscar por nombre o título         |
+| Paginación         | `max`, `page`          | Recorrer los resultados por partes |
+| Ordenamiento       | `sort`                 | Definir el orden de los resultados |
+| Filtros            | Varía según la entidad | Acotar los resultados              |
+
+<Steps>
+  <Step title="Busca por texto">
+    Usa `keywords` para buscar por nombre o título.
+
+    ```text
+    GET /search/works?keywords=colombia
+    ```
+
+  </Step>
+
+  <Step title="Pagina los resultados">
+    Usa `max` (de 1 a 250) y `page`. La respuesta incluye en `meta.count` el total de resultados y en `meta.cursor.next` la URL de la página siguiente.
+
+    ```text
+    GET /search/works?max=20&page=2
+    ```
+
+  </Step>
+
+  <Step title="Ordena">
+    `sort` usa el formato `campo_direccion`, donde la dirección es `asc` o `desc`.
+
+    ```text
+    GET /search/works?sort=year_desc
+    ```
+
+  </Step>
+
+  <Step title="Filtra">
+    Cada entidad tiene sus propios filtros. Para enviar varios valores, sepáralos con coma.
+
+    ```text
+    GET /search/works?years=2020,2026&status=diamond,gold
+    ```
+
+  </Step>
+</Steps>
+
+## Campos de ordenamiento por entidad
+
+| Endpoint                      | Campos de `sort`                        |
+| ----------------------------- | --------------------------------------- |
+| `/search/person`              | `citations`, `products`, `h`, `h5`      |
+| `/search/works`               | `citations`, `alphabetical`, `year`     |
+| `/search/affiliations/{tipo}` | `citations`, `products`, `h`, `h5`      |
+| `/search/sources`             | `citations`, `products`, `alphabetical` |
+| `/search/patents`             | `alphabetical`                          |
+| `/search/projects`            | `alphabetical`                          |
+| `/search/geo/{tipo}`          | `alphabetical`                          |
+
+<Warning>
+  El valor de `sort` debe tener exactamente un guion bajo (por ejemplo,
+  `products_desc`). Valores como `products_count_desc` o `year:desc` producen un
+  error 400.
+</Warning>
+
+<Note>
+  Si no envías `max`, `page` ni `sort`, se aplican `max=10`, `page=1` y
+  `sort=citations_desc`. Los listados de patentes y proyectos solo se ordenan
+  por `alphabetical`, así que envía `sort=alphabetical_asc` o
+  `sort=alphabetical_desc` en ellos.
+</Note>
+
+## Filtros por entidad
+
+| Endpoint                                                                      | Filtros                                                                                                                              |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `/search/works`                                                               | `years`, `product_types`, `status`, `topics`, `countries`, `authors_count`, `authors_ranking`, `groups_ranking`, `institutions_type` |
+| `/search/affiliations/{tipo}`                                                 | `states`, `cities`, `groups_ranking`                                                                                                 |
+| `/search/sources`                                                             | `source_types`, `scimago_quartiles`, `apc_range`, `status`, `publication_time`, `license_type`, `topics`                             |
+| `/search/person`, `/search/patents`, `/search/projects`, `/search/geo/{tipo}` | Sin filtros                                                                                                                          |
+
+## Descubre los valores válidos
+
+Productos, afiliaciones y fuentes tienen un endpoint que devuelve las opciones disponibles de cada filtro, con la cantidad de resultados de cada una:
+
+- [`GET /search/works/filters`](/api-reference/search/works-filters)
+- [`GET /search/affiliations/{affiliation_type}/filters`](/api-reference/search/affiliations-filters)
+- [`GET /search/sources/filters`](/api-reference/search/sources-filters)
+
+Estos endpoints aceptan los mismos filtros que el listado. Si ya aplicaste un filtro, solo devuelven las opciones que existen dentro de ese resultado. El `value` de cada opción es el que debes enviar en el filtro.
+
+## Formatos especiales
+
+<AccordionGroup>
+  <Accordion title="Rangos: years, apc_range y publication_time">
+    Se envían como mínimo y máximo separados por coma.
+
+    ```text
+    years=2020,2026
+    ```
+
+  </Accordion>
+
+  <Accordion title="Cantidad de autores: authors_count">
+    Acepta cuatro formatos:
+
+    | Valor | Significado |
+    | --- | --- |
+    | `5` | Exactamente 5 autores |
+    | `5-` | 5 o más autores |
+    | `-5` | Hasta 5 autores |
+    | `5-8` | De 5 a 8 autores |
+
+  </Accordion>
+
+  <Accordion title="Tópicos y tipos de producto">
+    Usa el `value` devuelto por el endpoint de filtros. En `topics` es la URL de OpenAlex (por ejemplo, `https://openalex.org/T14483`) y en `product_types` lleva el prefijo de la fuente (por ejemplo, `impactu_Artículo de revista`).
+  </Accordion>
+</AccordionGroup>
+
+## Ejemplo completo
+
+Productos publicados entre 2020 y 2026, de acceso abierto, con hasta 10 autores, ordenados por año descendente, de 20 en 20:
+
+<CodeGroup>
+
+```bash cURL
+curl --get "https://api.dev.impactu.colav.co/search/works" \
+  --data-urlencode "years=2020,2026" \
+  --data-urlencode "status=open" \
+  --data-urlencode "authors_count=-10" \
+  --data-urlencode "sort=year_desc" \
+  --data-urlencode "max=20" \
+  --data-urlencode "page=1" \
+  --header "Accept: application/json"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.dev.impactu.colav.co/search/works",
+    params={
+        "years": "2020,2026",
+        "status": "open",
+        "authors_count": "-10",
+        "sort": "year_desc",
+        "max": 20,
+        "page": 1,
+    },
+    headers={"Accept": "application/json"},
+    timeout=60,
+)
+response.raise_for_status()
+result = response.json()
+print(result["meta"]["count"], "resultados")
+```
+
+</CodeGroup>
+
+## Recorrer todas las páginas
+
+Calcula el número de páginas con `meta.count` y recórrelas una por una:
+
+```python
+import math
+import requests
+
+URL = "https://api.dev.impactu.colav.co/search/sources"
+MAX = 250
+params = {"max": MAX, "page": 1, "sort": "products_desc", "status": "open"}
+
+first = requests.get(URL, params=params, timeout=60).json()
+total_pages = math.ceil(first["meta"]["count"] / MAX)
+items = first["data"]
+
+for page in range(2, total_pages + 1):
+    params["page"] = page
+    items += requests.get(URL, params=params, timeout=60).json()["data"]
+
+print(len(items))
+```
+
+## Errores comunes
+
+Los errores se devuelven con código `400` y un mensaje en `error`.
+
+| Causa                                   | Ejemplo                                |
+| --------------------------------------- | -------------------------------------- |
+| `authors_count` inválido                | `authors_count=0`, `authors_count=8-5` |
+| `sort` con formato incorrecto           | `sort=year:desc`                       |
+| `geo_type` distinto de `city` o `state` | `/search/geo/country`                  |
+| `max` fuera de rango                    | `max=500`                              |

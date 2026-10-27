@@ -1,0 +1,116 @@
+---
+title: "Artículos por cuartil Scimago"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribución de artículos por cuartil Scimago de su fuente."
+sidebarTitle: "Artículos por cuartil Scimago"
+---
+
+Distribución de artículos por cuartil Scimago de su fuente. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="affiliation_type" type="string" required>
+  Tipo de afiliación. Este indicador devuelve datos con: `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Identificador de la afiliación.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `articles_by_scimago_quartile`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/affiliation/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Disponibilidad por tipo de afiliación
+
+| `affiliation_type` | Datos |
+| --- | --- |
+| `institution` | Sin datos |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Respuesta
+
+<ResponseExample>
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 96.4,
+      "value": 6343
+    },
+    {
+      "name": "Q4",
+      "percentage": 0.94,
+      "value": 62
+    },
+    {
+      "name": "Q3",
+      "percentage": 1.09,
+      "value": 72
+    },
+    {
+      "name": "Q1",
+      "percentage": 0.59,
+      "value": 39
+    }
+  ],
+  "sum": 6580
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 99.74,
+      "value": 759
+    },
+    {
+      "name": "Q4",
+      "percentage": 0.13,
+      "value": 1
+    },
+    {
+      "name": "Q1",
+      "percentage": 0.13,
+      "value": 1
+    }
+  ],
+  "sum": 761
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 67.25,
+      "value": 538
+    },
+    {
+      "name": "Q3",
+      "percentage": 16.0,
+      "value": 128
+    },
+    {
+      "name": "Q4",
+      "percentage": 3.75,
+      "value": 30
+    },
+    {
+      "name": "Q2",
+      "percentage": 4.0,
+      "value": 32
+    }
+  ],
+  "sum": 800
+}
+```
+</ResponseExample>
