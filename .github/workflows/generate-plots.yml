@@ -1,0 +1,52 @@
+name: Generate plot pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      entity:
+        description: "Entidad a regenerar"
+        required: true
+        default: "affiliation"
+        type: choice
+        options:
+          - affiliation
+          - person
+
+jobs:
+  generate:
+    name: Regenerate plot pages from live API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Generate plot pages
+        run: |
+          if [ "${{ inputs.entity }}" = "affiliation" ]; then
+            python scripts/generate_plot_pages.py
+          else
+            python scripts/generate_person_plot_pages.py
+          fi
+
+      - name: Validate generated output
+        run: python scripts/validate_docs.py
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "auto/regenerate-${{ inputs.entity }}-plots"
+          commit-message: "docs: regenerate ${{ inputs.entity }} plot pages from live API"
+          title: "docs: regenerate ${{ inputs.entity }} plot pages"
+          body: |
+            Regeneración automática de los archivos MDX de indicadores para `${{ inputs.entity }}`
+            consultando la API desplegada en `api.dev.impactu.colav.co`.
+
+            Disparado manualmente por @${{ github.actor }}.
+          delete-branch: true
