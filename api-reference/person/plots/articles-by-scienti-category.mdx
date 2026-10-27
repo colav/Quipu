@@ -1,0 +1,138 @@
+---
+title: "Artículos por categoría Scienti"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Artículos por categoría Scienti."
+sidebarTitle: "Artículos por categoría Scienti"
+---
+
+Artículos por categoría Scienti. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `articles_by_scienti_category`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/person/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Respuesta
+
+La estructura de la respuesta es idéntica a la del indicador equivalente en [afiliaciones](/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "B",
+      "percentage": 3.3,
+      "value": 4471
+    },
+    {
+      "name": "D",
+      "percentage": 0.36,
+      "value": 484
+    },
+    {
+      "name": "C",
+      "percentage": 0.55,
+      "value": 743
+    },
+    {
+      "name": "A1",
+      "percentage": 0.23,
+      "value": 316
+    }
+  ],
+  "sum": 135364
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "D",
+      "percentage": 0.3,
+      "value": 20
+    },
+    {
+      "name": "B",
+      "percentage": 3.34,
+      "value": 220
+    },
+    {
+      "name": "C",
+      "percentage": 0.59,
+      "value": 39
+    },
+    {
+      "name": "A",
+      "percentage": 0.58,
+      "value": 38
+    }
+  ],
+  "sum": 6580
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "name": "C",
+      "percentage": 0.53,
+      "value": 4
+    },
+    {
+      "name": "D",
+      "percentage": 0.26,
+      "value": 2
+    },
+    {
+      "name": "B",
+      "percentage": 3.55,
+      "value": 27
+    },
+    {
+      "name": "A",
+      "percentage": 0.79,
+      "value": 6
+    }
+  ],
+  "sum": 761
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "name": "A1",
+      "percentage": 0.5,
+      "value": 4
+    },
+    {
+      "name": "B",
+      "percentage": 9.25,
+      "value": 74
+    },
+    {
+      "name": "D",
+      "percentage": 1.88,
+      "value": 15
+    },
+    {
+      "name": "C",
+      "percentage": 0.5,
+      "value": 4
+    }
+  ],
+  "sum": 800
+}
+```
+</ResponseExample>

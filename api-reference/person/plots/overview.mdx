@@ -1,0 +1,32 @@
+---
+title: "Indicadores de un autor"
+description: "Catálogo de indicadores que devuelve el endpoint de productos de un autor con el parámetro plot."
+sidebarTitle: "Catálogo"
+---
+
+Con el parámetro `plot`, el endpoint [Productos de un autor](/api-reference/person/get-research-products) devuelve un indicador en lugar de la lista de productos.
+
+```text
+GET /person/{person_id}/research/products?plot=<indicador>
+```
+
+Los indicadores aceptan los mismos filtros que el listado de productos.
+
+| Indicador | Valor de `plot` | Gráfico |
+| --- | --- | --- |
+| [Evolución anual por clasificación ImpactU](/api-reference/person/plots/annual-evolution-by-impactu-classification) | `annual_evolution_by_impactu_classification` | Barras |
+| [Citas por año](/api-reference/person/plots/annual-citation-count) | `annual_citation_count` | Barras |
+| [Gasto anual en APC](/api-reference/person/plots/annual-apc-expenses) | `annual_apc_expenses` | Barras |
+| [Artículos de acceso abierto por año](/api-reference/person/plots/annual-articles-open-access) | `annual_articles_open_access` | Barras |
+| [Artículos por año de las principales editoriales](/api-reference/person/plots/annual-articles-by-top-publishers) | `annual_articles_by_top_publishers` | Barras |
+| [Palabras más usadas en los títulos](/api-reference/person/plots/most-used-title-words) | `most_used_title_words` | Torta |
+| [Artículos por editorial](/api-reference/person/plots/articles-by-publisher) | `articles_by_publisher` | Torta |
+| [Productos por área de conocimiento](/api-reference/person/plots/products-by-subject) | `products_by_subject` | Torta |
+| [Productos por base de datos](/api-reference/person/plots/products-by-database) | `products_by_database` | Diagrama de Venn |
+| [Artículos por ruta de acceso](/api-reference/person/plots/articles-by-access-route) | `articles_by_access_route` | Torta |
+| [Artículos por categoría Scienti](/api-reference/person/plots/articles-by-scienti-category) | `articles_by_scienti_category` | Torta |
+| [Artículos por cuartil Scimago](/api-reference/person/plots/articles-by-scimago-quartile) | `articles_by_scimago_quartile` | Torta |
+| [Artículos por institución editora](/api-reference/person/plots/articles-by-publishing-institution) | `articles_by_publishing_institution` | Torta |
+| [Coautoría por país](/api-reference/person/plots/coauthorship-by-country-map) | `coauthorship_by_country_map` | Mapa |
+| [Coautoría por departamento de Colombia](/api-reference/person/plots/coauthorship-by-colombian-department-map) | `coauthorship_by_colombian_department_map` | Mapa |
+| [Red de coautoría del autor](/api-reference/person/plots/author-coauthorship-network) | `author_coauthorship_network` | Red |

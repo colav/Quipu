@@ -1,0 +1,650 @@
+---
+title: "Coautoría por departamento de Colombia"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Coautoría por departamento de Colombia."
+sidebarTitle: "Coautoría por departamento de Colombia"
+---
+
+Coautoría por departamento de Colombia. Tipo de gráfico: **Mapa**.
+
+## Parámetros
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `coauthorship_by_colombian_department_map`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/person/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Respuesta
+
+La estructura de la respuesta es idéntica a la del indicador equivalente en [afiliaciones](/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Institución
+{
+  "plot": {
+    "crs": {
+      "properties": {
+        "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+      },
+      "type": "name"
+    },
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -76.30729675220047,
+                8.619299889431787
+              ],
+              [
+                -76.29810333270866,
+                8.616399764640406
+              ],
+              [
+                -76.2917022709176,
+                8.617500305932477
+              ],
+              [
+                -76.27619934020201,
+                8.60879993391571
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 63351855546.895,
+          "DPTO": "05",
+          "HECTARES": 6335185.555,
+          "NOMBRE_DPT": "ANTIOQUIA",
+          "PERIMETER": 1963728.843,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -74.87059783939971,
+                10.361200332569519
+              ],
+              [
+                -74.87640380852382,
+                10.343299865912297
+              ],
+              [
+                -74.88159942607246,
+                10.340999603370339
+              ],
+              [
+                -74.88670349132055,
+                10.329500198465997
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 3360765349.961,
+          "DPTO": "08",
+          "HECTARES": 336076.535,
+          "NOMBRE_DPT": "ATLANTICO",
+          "PERIMETER": 240936.172,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -74.02290344238281,
+                4.795100212097175
+              ],
+              [
+                -74.02639770507812,
+                4.783599853515631
+              ],
+              [
+                -74.03040313720703,
+                4.777200222015386
+              ],
+              [
+                -74.03099822998045,
+                4.761600017547613
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 1650947779.134,
+          "DPTO": "11",
+          "HECTARES": 165094.778,
+          "NOMBRE_DPT": "SANTAFE DE BOGOTA D.C",
+          "PERIMETER": 323322.54,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -75.15950012242125,
+                10.423600197450686
+              ],
+              [
+                -75.15429687526246,
+                10.409700393855976
+              ],
+              [
+                -75.15080261278906,
+                10.40330028519671
+              ],
+              [
+                -75.14450073187662,
+                10.400400162254824
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 26141894527.75,
+          "DPTO": "13",
+          "HECTARES": 2614189.453,
+          "NOMBRE_DPT": "BOLIVAR",
+          "PERIMETER": 1309427.968,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  }
+}
+```
+
+```json Facultad
+{
+  "plot": {
+    "crs": {
+      "properties": {
+        "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+      },
+      "type": "name"
+    },
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -76.30729675220047,
+                8.619299889431787
+              ],
+              [
+                -76.29810333270866,
+                8.616399764640406
+              ],
+              [
+                -76.2917022709176,
+                8.617500305932477
+              ],
+              [
+                -76.27619934020201,
+                8.60879993391571
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 63351855546.895,
+          "DPTO": "05",
+          "HECTARES": 6335185.555,
+          "NOMBRE_DPT": "ANTIOQUIA",
+          "PERIMETER": 1963728.843,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -74.87059783939971,
+                10.361200332569519
+              ],
+              [
+                -74.87640380852382,
+                10.343299865912297
+              ],
+              [
+                -74.88159942607246,
+                10.340999603370339
+              ],
+              [
+                -74.88670349132055,
+                10.329500198465997
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 3360765349.961,
+          "DPTO": "08",
+          "HECTARES": 336076.535,
+          "NOMBRE_DPT": "ATLANTICO",
+          "PERIMETER": 240936.172,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -74.02290344238281,
+                4.795100212097175
+              ],
+              [
+                -74.02639770507812,
+                4.783599853515631
+              ],
+              [
+                -74.03040313720703,
+                4.777200222015386
+              ],
+              [
+                -74.03099822998045,
+                4.761600017547613
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 1650947779.134,
+          "DPTO": "11",
+          "HECTARES": 165094.778,
+          "NOMBRE_DPT": "SANTAFE DE BOGOTA D.C",
+          "PERIMETER": 323322.54,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -75.15950012242125,
+                10.423600197450686
+              ],
+              [
+                -75.15429687526246,
+                10.409700393855976
+              ],
+              [
+                -75.15080261278906,
+                10.40330028519671
+              ],
+              [
+                -75.14450073187662,
+                10.400400162254824
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 26141894527.75,
+          "DPTO": "13",
+          "HECTARES": 2614189.453,
+          "NOMBRE_DPT": "BOLIVAR",
+          "PERIMETER": 1309427.968,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  }
+}
+```
+
+```json Departamento
+{
+  "plot": {
+    "crs": {
+      "properties": {
+        "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+      },
+      "type": "name"
+    },
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -76.30729675220047,
+                8.619299889431787
+              ],
+              [
+                -76.29810333270866,
+                8.616399764640406
+              ],
+              [
+                -76.2917022709176,
+                8.617500305932477
+              ],
+              [
+                -76.27619934020201,
+                8.60879993391571
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 63351855546.895,
+          "DPTO": "05",
+          "HECTARES": 6335185.555,
+          "NOMBRE_DPT": "ANTIOQUIA",
+          "PERIMETER": 1963728.843,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -74.87059783939971,
+                10.361200332569519
+              ],
+              [
+                -74.87640380852382,
+                10.343299865912297
+              ],
+              [
+                -74.88159942607246,
+                10.340999603370339
+              ],
+              [
+                -74.88670349132055,
+                10.329500198465997
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 3360765349.961,
+          "DPTO": "08",
+          "HECTARES": 336076.535,
+          "NOMBRE_DPT": "ATLANTICO",
+          "PERIMETER": 240936.172,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -74.02290344238281,
+                4.795100212097175
+              ],
+              [
+                -74.02639770507812,
+                4.783599853515631
+              ],
+              [
+                -74.03040313720703,
+                4.777200222015386
+              ],
+              [
+                -74.03099822998045,
+                4.761600017547613
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 1650947779.134,
+          "DPTO": "11",
+          "HECTARES": 165094.778,
+          "NOMBRE_DPT": "SANTAFE DE BOGOTA D.C",
+          "PERIMETER": 323322.54,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -75.15950012242125,
+                10.423600197450686
+              ],
+              [
+                -75.15429687526246,
+                10.409700393855976
+              ],
+              [
+                -75.15080261278906,
+                10.40330028519671
+              ],
+              [
+                -75.14450073187662,
+                10.400400162254824
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 26141894527.75,
+          "DPTO": "13",
+          "HECTARES": 2614189.453,
+          "NOMBRE_DPT": "BOLIVAR",
+          "PERIMETER": 1309427.968,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  }
+}
+```
+
+```json Grupo
+{
+  "plot": {
+    "crs": {
+      "properties": {
+        "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+      },
+      "type": "name"
+    },
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -76.30729675220047,
+                8.619299889431787
+              ],
+              [
+                -76.29810333270866,
+                8.616399764640406
+              ],
+              [
+                -76.2917022709176,
+                8.617500305932477
+              ],
+              [
+                -76.27619934020201,
+                8.60879993391571
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 63351855546.895,
+          "DPTO": "05",
+          "HECTARES": 6335185.555,
+          "NOMBRE_DPT": "ANTIOQUIA",
+          "PERIMETER": 1963728.843,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -74.87059783939971,
+                10.361200332569519
+              ],
+              [
+                -74.87640380852382,
+                10.343299865912297
+              ],
+              [
+                -74.88159942607246,
+                10.340999603370339
+              ],
+              [
+                -74.88670349132055,
+                10.329500198465997
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 3360765349.961,
+          "DPTO": "08",
+          "HECTARES": 336076.535,
+          "NOMBRE_DPT": "ATLANTICO",
+          "PERIMETER": 240936.172,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -74.02290344238281,
+                4.795100212097175
+              ],
+              [
+                -74.02639770507812,
+                4.783599853515631
+              ],
+              [
+                -74.03040313720703,
+                4.777200222015386
+              ],
+              [
+                -74.03099822998045,
+                4.761600017547613
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 1650947779.134,
+          "DPTO": "11",
+          "HECTARES": 165094.778,
+          "NOMBRE_DPT": "SANTAFE DE BOGOTA D.C",
+          "PERIMETER": 323322.54,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      },
+      {
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                -75.15950012242125,
+                10.423600197450686
+              ],
+              [
+                -75.15429687526246,
+                10.409700393855976
+              ],
+              [
+                -75.15080261278906,
+                10.40330028519671
+              ],
+              [
+                -75.14450073187662,
+                10.400400162254824
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        },
+        "properties": {
+          "AREA": 26141894527.75,
+          "DPTO": "13",
+          "HECTARES": 2614189.453,
+          "NOMBRE_DPT": "BOLIVAR",
+          "PERIMETER": 1309427.968,
+          "count": 0,
+          "log_count": 0
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  }
+}
+```
+</ResponseExample>

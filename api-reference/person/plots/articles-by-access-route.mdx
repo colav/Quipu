@@ -1,0 +1,138 @@
+---
+title: "Artículos por ruta de acceso"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Artículos por ruta de acceso."
+sidebarTitle: "Artículos por ruta de acceso"
+---
+
+Artículos por ruta de acceso. Tipo de gráfico: **Torta**.
+
+## Parámetros
+
+<ParamField path="person_id" type="string" required>
+  Identificador del autor.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Debe ser `articles_by_access_route`.
+</ParamField>
+
+Acepta además los [filtros de productos](/api-reference/person/get-research-products). No aplican `max`, `page` ni `sort`.
+
+## Respuesta
+
+La estructura de la respuesta es idéntica a la del indicador equivalente en [afiliaciones](/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Institución
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 62.54,
+      "value": 84651
+    },
+    {
+      "name": "Diamante",
+      "percentage": 13.31,
+      "value": 18011
+    },
+    {
+      "name": "Cerrado",
+      "percentage": 10.31,
+      "value": 13958
+    },
+    {
+      "name": "Verde",
+      "percentage": 6.4,
+      "value": 8667
+    }
+  ],
+  "sum": 135364
+}
+```
+
+```json Facultad
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 82.71,
+      "value": 5442
+    },
+    {
+      "name": "Diamante",
+      "percentage": 9.09,
+      "value": 598
+    },
+    {
+      "name": "Cerrado",
+      "percentage": 4.09,
+      "value": 269
+    },
+    {
+      "name": "Verde",
+      "percentage": 2.9,
+      "value": 191
+    }
+  ],
+  "sum": 6580
+}
+```
+
+```json Departamento
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 93.04,
+      "value": 708
+    },
+    {
+      "name": "Diamante",
+      "percentage": 3.29,
+      "value": 25
+    },
+    {
+      "name": "Cerrado",
+      "percentage": 1.97,
+      "value": 15
+    },
+    {
+      "name": "Verde",
+      "percentage": 1.71,
+      "value": 13
+    }
+  ],
+  "sum": 761
+}
+```
+
+```json Grupo
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 61.88,
+      "value": 495
+    },
+    {
+      "name": "Dorado",
+      "percentage": 14.12,
+      "value": 113
+    },
+    {
+      "name": "Diamante",
+      "percentage": 10.38,
+      "value": 83
+    },
+    {
+      "name": "Cerrado",
+      "percentage": 6.38,
+      "value": 51
+    }
+  ],
+  "sum": 800
+}
+```
+</ResponseExample>
