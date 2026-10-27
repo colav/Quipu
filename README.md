@@ -34,7 +34,8 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | **Geo**                    | ✅ Documentado | 3         | —           |
 | **APC**                    | ✅ Documentado | 3         | —           |
 | **Completer**              | ✅ Documentado | 6         | —           |
-| Usuarios y autenticación   | ⏳ Pendiente   |           |             |
+| **Autenticación**          | ✅ Documentado | 3         | —           |
+| **Usuarios**               | ✅ Documentado | 9         | —           |
 | Submit                     | ⏳ Pendiente   |           |             |
 | Sistema (info, ping, docs) | ⏳ Pendiente   |           |             |
 
