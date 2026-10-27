@@ -184,6 +184,14 @@
             ]
           },
           {
+            "group": "Sistema",
+            "pages": [
+              "api-reference/system/get-info",
+              "api-reference/system/get-quality",
+              "api-reference/system/ping"
+            ]
+          },
+          {
             "group": "Affiliation",
             "pages": [
               "api-reference/affiliation/get-affiliation",
