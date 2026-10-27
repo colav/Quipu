@@ -129,6 +129,14 @@
             ]
           },
           {
+            "group": "Geo",
+            "pages": [
+              "api-reference/geo/get-geo",
+              "api-reference/geo/get-geo-affiliations",
+              "api-reference/geo/get-geo-products"
+            ]
+          },
+          {
             "group": "Affiliation",
             "pages": [
               "api-reference/affiliation/get-affiliation",

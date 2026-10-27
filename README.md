@@ -31,6 +31,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | **Work**                   | ✅ Documentado | 3         | —           |
 | **Patent**                 | ✅ Documentado | 2         | —           |
 | **Project**                | ✅ Documentado | 2         | —           |
+| **Geo**                    | ✅ Documentado | 3         | —           |
 | APC                        | ⏳ Pendiente   |           |             |
 | Completer                  | ⏳ Pendiente   |           |             |
 | Usuarios y autenticación   | ⏳ Pendiente   |           |             |
