@@ -1,0 +1,62 @@
+---
+title: "Iniciar sesión"
+api: "POST https://api.dev.impactu.colav.co/login"
+description: "Autentica con email y contraseña. Si es válido, establece una cookie HttpOnly con el JWT de sesión."
+---
+
+## Cuerpo de la solicitud
+
+<ParamField body="email" type="string" required>
+  Correo electrónico del usuario.
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  Contraseña del usuario.
+</ParamField>
+
+<Note>
+  El JWT **no** se devuelve en el cuerpo de la respuesta. Se establece
+  automáticamente como cookie HttpOnly `access_token_cookie`. Las llamadas
+  posteriores a endpoints protegidos deben incluir esta cookie.
+</Note>
+
+## Respuesta
+
+<ResponseField name="success" type="boolean">
+  `true` si la autenticación fue exitosa.
+</ResponseField>
+
+<ResponseField name="_id" type="string">
+  Identificador de la institución asociada al usuario.
+</ResponseField>
+
+<ResponseField name="institution" type="string">
+  Nombre de la institución.
+</ResponseField>
+
+<ResponseField name="role" type="string">
+  Rol del usuario en la plataforma (`admin`, `staff`, etc.).
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "_id": "03bp5hc83",
+  "institution": "Universidad de Antioquia",
+  "role": "staff"
+}
+```
+
+```json 400
+{ "success": false, "msg": "correo y contraseña requeridos" }
+```
+
+```json 401
+{ "success": false, "msg": "Credenciales inválidas" }
+```
+
+```json 403
+{ "success": false, "msg": "El usuario está desactivado. Contacta a un administrador." }
+```
+</ResponseExample>
