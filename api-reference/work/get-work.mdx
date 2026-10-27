@@ -1,0 +1,204 @@
+---
+title: "Obtener un producto"
+api: "GET https://api.dev.impactu.colav.co/work/{work_id}"
+description: "Devuelve un producto bibliográfico a partir de su identificador."
+---
+
+## Parámetros de ruta
+
+<ParamField path="work_id" type="string" required>
+  Identificador del producto. Ejemplo: `6ab4ac4e5418a51e324cc06a`.
+</ParamField>
+
+<Note>
+  Este endpoint no recibe parámetros de paginación ni de filtro.
+</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="object">
+  El producto solicitado.
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del producto.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Título principal.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Títulos por fuente (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="subtitle" type="string | null">
+      Subtítulo.
+    </ResponseField>
+    <ResponseField name="language" type="string">
+      Idioma (código ISO 639-1).
+    </ResponseField>
+    <ResponseField name="year_published" type="integer">
+      Año de publicación.
+    </ResponseField>
+    <ResponseField name="date_published" type="integer | null">
+      Fecha de publicación en segundos Unix.
+    </ResponseField>
+    <ResponseField name="doi" type="string | null">
+      DOI completo (por ejemplo `https://doi.org/10.1000/xyz`).
+    </ResponseField>
+    <ResponseField name="keywords" type="array">
+      Palabras clave.
+    </ResponseField>
+    <ResponseField name="abstract" type="object | null">
+      Resumen en formato de índice invertido de OpenAlex: las claves son
+      palabras y los valores son listas de posiciones.
+    </ResponseField>
+    <ResponseField name="abstracts" type="object[]">
+      Resúmenes por fuente (`abstract`, `lang`, `source`, `provenance`). Cada
+      `abstract` también es un índice invertido.
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      Autores del producto con sus afiliaciones, identificadores externos,
+      clasificaciones y datos demográficos disponibles.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Cantidad de autores.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Grupos de investigación asociados, con sus citas y clasificaciones.
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Tipos de producto por fuente (`name`, `source`).
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Tipos por fuente con nivel y clasificación.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Clasificaciones del producto (por ejemplo, de Minciencias).
+    </ResponseField>
+    <ResponseField name="source" type="object">
+      Fuente (revista u otro tipo) donde se publicó. Incluye `id`, `name`,
+      `names`, `types`, `external_ids`, `external_urls`, `ranking`,
+      `publisher`, `apc`, `scimago_quartile` y `updated`.
+    </ResponseField>
+    <ResponseField name="bibliographic_info" type="object">
+      Información bibliográfica: `volume`, `issue`, `start_page`, `end_page`,
+      `pages` y `bibtex`.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citas por fuente (`count`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="citations_by_year" type="object[]">
+      Citas por año (`year`, `cited_by_count`).
+    </ResponseField>
+    <ResponseField name="open_access" type="object">
+      Estado de acceso abierto: `is_open_access`, `open_access_status`,
+      `url` y `has_repository_fulltext`.
+    </ResponseField>
+    <ResponseField name="apc" type="object">
+      Información de APC: `charges`, `currency` y `paid`.
+    </ResponseField>
+    <ResponseField name="primary_topic" type="object">
+      Tópico principal con su subfield, field y domain (OpenAlex).
+    </ResponseField>
+    <ResponseField name="topics" type="object[]">
+      Tópicos asociados.
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Áreas de conocimiento agrupadas por fuente.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos.
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      Enlaces externos: DOI, Scholar, acceso abierto, etc.
+    </ResponseField>
+    <ResponseField name="references" type="array">
+      Referencias bibliográficas.
+    </ResponseField>
+    <ResponseField name="references_count" type="integer | null">
+      Cantidad de referencias.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Última actualización por fuente (`source`, `time` en segundos Unix).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "data": {
+    "id": "6ab4ac4e5418a51e324cc06a",
+    "title": "Título del artículo de ejemplo",
+    "language": "es",
+    "year_published": 2022,
+    "doi": "https://doi.org/10.00000/ejemplo.2022.001",
+    "authors": [
+      {
+        "id": "0000000001",
+        "full_name": "Nombre Apellido Apellido",
+        "affiliations": [
+          {
+            "id": "03bp5hc83",
+            "name": "Universidad de Antioquia",
+            "types": [{ "source": "ror", "type": "education" }]
+          },
+          {
+            "id": "COL0000000",
+            "name": "Grupo de Investigación Ejemplo",
+            "types": [{ "source": "scienti", "type": "group" }]
+          }
+        ],
+        "external_ids": [
+          { "id": "https://orcid.org/0000-0000-0000-0001", "source": "orcid" }
+        ]
+      }
+    ],
+    "authors_count": 1,
+    "groups": [
+      {
+        "id": "COL0000000",
+        "name": "Grupo de Investigación Ejemplo",
+        "citations_count": [{ "count": 45, "source": "openalex" }],
+        "ranking": [{ "rank": "A", "source": "minciencias", "date": 1614229200 }]
+      }
+    ],
+    "product_types": [
+      { "name": "article", "source": "openalex" },
+      { "name": "Artículo de revista", "source": "impactu" }
+    ],
+    "source": {
+      "id": "6aad68732be7843cde64e000",
+      "name": "Revista Ejemplo de Ciencias",
+      "scimago_quartile": "Q2",
+      "publisher": { "name": "Universidad Ejemplo", "country_code": "CO" }
+    },
+    "bibliographic_info": {
+      "volume": "10",
+      "issue": "1",
+      "start_page": "1",
+      "end_page": "15",
+      "bibtex": "@article{ejemplo2022titulo, title={Título del artículo}, ...}"
+    },
+    "citations_count": [
+      { "count": 8, "source": "openalex" },
+      { "count": 12, "source": "scholar" }
+    ],
+    "open_access": {
+      "is_open_access": true,
+      "open_access_status": "gold",
+      "url": "https://revista-ejemplo.co/articulos/001"
+    },
+    "primary_topic": {
+      "display_name": "Machine Learning",
+      "subfield": { "display_name": "Artificial Intelligence" },
+      "field": { "display_name": "Computer Science" },
+      "domain": { "display_name": "Physical Sciences" }
+    },
+    "updated": [{ "source": "openalex", "time": 1790225486 }]
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>
