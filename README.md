@@ -28,7 +28,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | **Affiliation** | ✅ Documentado | 9 | 28 |
 | **Person** | ✅ Documentado | 8 | 16 |
 | **Source** | ✅ Documentado | 5 | 1 |
-| Work (por id) | ⏳ Pendiente | | |
+| **Work** | ✅ Documentado | 3 | — |
 | Patent y Project (por id) | ⏳ Pendiente | | |
 | APC | ⏳ Pendiente | | |
 | Completer | ⏳ Pendiente | | |
@@ -96,6 +96,14 @@ El CSV y el Excel tienen la misma estructura de columnas que la exportación de 
 
 El endpoint de productos acepta el parámetro `plot` para devolver el **1 indicador** del [catálogo de indicadores de fuentes](https://quyca.mintlify.site/api-reference/source/plots/overview).
 
+### 📄 Endpoints del grupo Work
+
+| Página | Endpoint |
+| --- | --- |
+| Obtener un producto | `GET /work/{work_id}` |
+| Buscar por DOI | `GET /work?doi=<doi>` |
+| Autores de un producto | `GET /work/{work_id}/authors` |
+
 ## 📁 Estructura del repositorio
 
 ```
@@ -107,6 +115,7 @@ Quipu/
 │   ├── affiliation/                 # Endpoints de la entidad Affiliation
 │   │   └── plots/                   # 28 indicadores con ?plot=
 │   ├── source/                      # Endpoints de la entidad Source (revistas)
+│   ├── work/                        # Endpoints de la entidad Work (productos)
 │   └── person/                      # Endpoints de la entidad Person (autores)
 │       └── plots/                   # 16 indicadores con ?plot=
 ├── guides/                          # Guías transversales (filtros, paginación…)
