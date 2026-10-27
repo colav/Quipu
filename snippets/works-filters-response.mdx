@@ -1,0 +1,79 @@
+La respuesta es un objeto con un campo por filtro. Un filtro solo aparece si tiene opciones dentro del resultado: si no hay datos para él, el campo no se incluye.
+
+### Listas de opciones
+
+<ResponseField name="authors_ranking" type="object[]">
+  Clasificaciones de autores (Minciencias).
+  <Expandable title="propiedades">
+    <ResponseField name="value" type="string">
+      Valor para enviar en el filtro.
+    </ResponseField>
+    <ResponseField name="label" type="string">
+      Texto para mostrar.
+    </ResponseField>
+    <ResponseField name="count" type="integer">
+      Cantidad de registros.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="groups_ranking" type="object[]">
+  Clasificaciones de grupos de investigación (`A1`, `A`, `B`, `C`,
+  `Reconocido`). Misma estructura que `authors_ranking`.
+</ResponseField>
+
+<ResponseField name="countries" type="object[]">
+  Países de las afiliaciones de los autores. `value` es el código del país (por
+  ejemplo, `CO`) y `label` su nombre.
+</ResponseField>
+
+<ResponseField name="institutions_type" type="object[]">
+  Tipos de institución de los coautores (según ROR): `education`, `funder`,
+  `healthcare`, `company`, `archive`, `nonprofit`, `government`, `facility` y
+  `other`.
+</ResponseField>
+
+### Rangos
+
+<ResponseField name="years" type="object">
+  Rango de años de publicación.
+  <Expandable title="propiedades">
+    <ResponseField name="min_year" type="integer | null">
+      Año más antiguo.
+    </ResponseField>
+    <ResponseField name="max_year" type="integer | null">
+      Año más reciente.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="authors_count" type="object">
+  Rango de cantidad de autores por producto.
+  <Expandable title="propiedades">
+    <ResponseField name="min_authors" type="integer | null">
+      Mínimo de autores.
+    </ResponseField>
+    <ResponseField name="max_authors" type="integer | null">
+      Máximo de autores.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Árboles de opciones
+
+Estos campos son listas de nodos con `value`, `title`, `count` y, si agrupan otros, `children`.
+
+<ResponseField name="product_types" type="object[]">
+  Tipos de producto agrupados por fuente (por ejemplo, `impactu`). El `value` de
+  cada hijo lleva el prefijo de la fuente: `impactu_Artículo de revista`.
+</ResponseField>
+
+<ResponseField name="status" type="object[]">
+  Estado de acceso abierto. El nodo `open` agrupa `diamond`, `green`, `hybrid`,
+  `gold` y `bronze`; `closed` no tiene hijos.
+</ResponseField>
+
+<ResponseField name="topics" type="object[]">
+  Tópicos de OpenAlex en jerarquía (dominio, campo, subcampo y tópico). El
+  `value` de cada nodo es su URL de OpenAlex.
+</ResponseField>
