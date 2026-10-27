@@ -107,6 +107,14 @@
             ]
           },
           {
+            "group": "Work",
+            "pages": [
+              "api-reference/work/get-work",
+              "api-reference/work/get-work-by-doi",
+              "api-reference/work/get-work-authors"
+            ]
+          },
+          {
             "group": "Affiliation",
             "pages": [
               "api-reference/affiliation/get-affiliation",
