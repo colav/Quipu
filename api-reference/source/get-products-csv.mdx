@@ -1,0 +1,42 @@
+---
+title: "Exportar productos a CSV"
+api: "GET https://api.dev.impactu.colav.co/source/{source_id}/products/csv"
+description: "Descarga los productos de investigación publicados en una fuente en formato CSV."
+---
+
+import WorksFilterParams from "/snippets/works-filter-params.mdx";
+import WorksExportColumns from "/snippets/works-export-columns.mdx";
+
+## Parámetros de ruta
+
+<ParamField path="source_id" type="string" required>
+  Identificador de la fuente. Ejemplo: `6aad68732be7843cde64e41b`.
+</ParamField>
+
+## Parámetros de consulta
+
+### Filtros
+
+Los mismos filtros de [Buscar productos](/api-reference/search/works).
+
+<WorksFilterParams />
+
+<Note>
+  Este endpoint no admite el parámetro `plot`. A diferencia del [CSV de
+  afiliación](/api-reference/affiliation/get-research-products-csv), solo
+  exporta el listado de productos.
+</Note>
+
+## Respuesta
+
+Archivo CSV adjunto (`Content-Type: text/csv; charset=utf-8`), nombre de archivo `source_works.csv`.
+
+Nombre de archivo `source_works.csv`, con las siguientes columnas:
+
+<WorksExportColumns />
+
+Con las siguientes columnas adicionales:
+
+| Columna            | Descripción                                                         |
+| ------------------ | ------------------------------------------------------------------- |
+| `scimago_quartile` | Cuartil Scimago de la fuente en el año de publicación del producto. |

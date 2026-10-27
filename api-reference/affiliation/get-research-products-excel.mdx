@@ -5,6 +5,7 @@ description: "Descarga los productos de investigación de una afiliación en for
 ---
 
 import WorksFilterParams from "/snippets/works-filter-params.mdx";
+import WorksExportColumns from "/snippets/works-export-columns.mdx";
 
 ## Parámetros de ruta
 
@@ -37,4 +38,6 @@ Archivo Excel adjunto:
 - `Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`
 - Nombre de archivo: `affiliations.xlsx`
 
-Las columnas son las mismas que en la [exportación CSV](/api-reference/affiliation/get-research-products-csv).
+Nombre de archivo `affiliations.xlsx`, con las siguientes columnas:
+
+<WorksExportColumns />
