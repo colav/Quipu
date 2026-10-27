@@ -1,0 +1,61 @@
+---
+title: "Estado de sesión"
+api: "GET https://api.dev.impactu.colav.co/me"
+description: "Verifica si la sesión está activa leyendo el JWT desde la cookie HttpOnly."
+---
+
+<Note>
+  No requiere parámetros. El servidor lee la cookie `access_token_cookie`
+  automáticamente. Devuelve `401` si no hay sesión activa o si el token expiró.
+</Note>
+
+## Respuesta
+
+<ResponseField name="status" type="string">
+  Estado de la sesión: `sesion_activa`, `sesion_no_iniciada` o `token_expirado`.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Mensaje descriptivo del estado.
+</ResponseField>
+
+<ResponseField name="user" type="object">
+  Datos del usuario autenticado. Solo presente cuando `status` es `sesion_activa`.
+  <Expandable title="propiedades">
+    <ResponseField name="_id" type="string">
+      Identificador de la institución del usuario.
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      Correo electrónico del usuario.
+    </ResponseField>
+    <ResponseField name="institution" type="string">
+      Nombre de la institución.
+    </ResponseField>
+    <ResponseField name="role" type="string">
+      Rol del usuario.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "status": "sesion_activa",
+  "msg": "Sesión activa",
+  "user": {
+    "_id": "03bp5hc83",
+    "email": "usuario@universidad.edu.co",
+    "institution": "Universidad de Antioquia",
+    "role": "staff"
+  }
+}
+```
+
+```json 401 — sin sesión
+{ "status": "sesion_no_iniciada", "msg": "No hay sesión activa" }
+```
+
+```json 401 — token expirado
+{ "status": "token_expirado", "msg": "La sesión ha expirado. Inicia sesión nuevamente." }
+```
+</ResponseExample>
