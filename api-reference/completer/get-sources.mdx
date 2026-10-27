@@ -1,0 +1,74 @@
+---
+title: "Autocompletar fuentes"
+api: "GET https://api.dev.impactu.colav.co/completer/sources/{text}"
+description: "Devuelve hasta 5 sugerencias de revistas y fuentes bibliográficas cuyo nombre comience con el texto indicado."
+---
+
+## Parámetros de ruta
+
+<ParamField path="text" type="string" required>
+  Prefijo del nombre de la fuente. Ejemplo: `nature` devuelve fuentes cuyo
+  nombre comienza con "nature".
+</ParamField>
+
+<Note>
+  La búsqueda usa Elasticsearch y coincide por **prefijo**. Siempre devuelve un
+  máximo de 5 resultados.
+</Note>
+
+## Respuesta
+
+Array de hasta 5 objetos con los siguientes campos:
+
+<ResponseField name="[]" type="object[]">
+  Lista de sugerencias.
+  <Expandable title="propiedades de cada sugerencia">
+    <ResponseField name="_id" type="string">
+      Identificador de la fuente en la base de datos.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nombre de la fuente.
+    </ResponseField>
+    <ResponseField name="publisher" type="string">
+      Nombre del editor.
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Número de productos bibliográficos asociados a esta fuente.
+    </ResponseField>
+    <ResponseField name="text" type="string">
+      Texto utilizado por Elasticsearch para la sugerencia.
+    </ResponseField>
+    <ResponseField name="_score" type="number">
+      Puntuación de relevancia de Elasticsearch.
+    </ResponseField>
+    <ResponseField name="_source" type="object">
+      Documento interno de Elasticsearch. Contiene `name` (objeto con campo
+      `input`), `publisher` y `products_count`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+[
+  {
+    "_id": "6aad68732be7843cde64e000",
+    "_index": "kahi_dev_sources",
+    "_score": 1.0,
+    "name": "NATURE COMMUNICATIONS",
+    "publisher": "Springer Nature",
+    "products_count": 120,
+    "text": "NATURE COMMUNICATIONS",
+    "_source": {
+      "name": { "input": ["NATURE COMMUNICATIONS"] },
+      "publisher": "Springer Nature",
+      "products_count": 120
+    }
+  }
+]
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>

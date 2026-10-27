@@ -33,7 +33,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | **Project**                | ✅ Documentado | 2         | —           |
 | **Geo**                    | ✅ Documentado | 3         | —           |
 | **APC**                    | ✅ Documentado | 3         | —           |
-| Completer                  | ⏳ Pendiente   |           |             |
+| **Completer**              | ✅ Documentado | 6         | —           |
 | Usuarios y autenticación   | ⏳ Pendiente   |           |             |
 | Submit                     | ⏳ Pendiente   |           |             |
 | Sistema (info, ping, docs) | ⏳ Pendiente   |           |             |

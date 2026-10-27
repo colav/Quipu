@@ -1,0 +1,68 @@
+---
+title: "Autocompletar autores"
+api: "GET https://api.dev.impactu.colav.co/completer/person/{text}"
+description: "Devuelve hasta 5 sugerencias de autores cuyo nombre comience con el texto indicado."
+---
+
+## Parámetros de ruta
+
+<ParamField path="text" type="string" required>
+  Prefijo del nombre del autor. Ejemplo: `jose` devuelve autores cuyo nombre
+  comienza con "jose".
+</ParamField>
+
+<Note>
+  La búsqueda usa Elasticsearch y coincide por **prefijo**, no por coincidencia
+  exacta ni por palabras sueltas. Siempre devuelve un máximo de 5 resultados.
+</Note>
+
+## Respuesta
+
+Array de hasta 5 objetos con los siguientes campos:
+
+<ResponseField name="[]" type="object[]">
+  Lista de sugerencias.
+  <Expandable title="propiedades de cada sugerencia">
+    <ResponseField name="_id" type="string">
+      Identificador del autor en la base de datos.
+    </ResponseField>
+    <ResponseField name="full_name" type="string">
+      Nombre completo del autor (variante más larga disponible).
+    </ResponseField>
+    <ResponseField name="text" type="string">
+      Texto utilizado por Elasticsearch para la sugerencia.
+    </ResponseField>
+    <ResponseField name="_score" type="number">
+      Puntuación de relevancia de Elasticsearch.
+    </ResponseField>
+    <ResponseField name="_source" type="object">
+      Documento interno de Elasticsearch. Contiene `full_name` (objeto con
+      campo `input`), `affiliations` y `products_count`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+[
+  {
+    "_id": "0000000001",
+    "_index": "kahi_dev_person",
+    "_score": 10.0,
+    "full_name": "JOSE NOMBRE APELLIDO APELLIDO",
+    "text": "JOSE APELLIDO",
+    "_source": {
+      "full_name": { "input": ["APELLIDO NOMBRE"], "weight": 10 },
+      "affiliations": [
+        { "id": "03bp5hc83", "name": "Universidad de Antioquia" }
+      ],
+      "products_count": 22
+    }
+  }
+]
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>

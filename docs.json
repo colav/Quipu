@@ -145,6 +145,14 @@
             ]
           },
           {
+            "group": "Completer",
+            "pages": [
+              "api-reference/completer/get-person",
+              "api-reference/completer/get-affiliations",
+              "api-reference/completer/get-sources"
+            ]
+          },
+          {
             "group": "Affiliation",
             "pages": [
               "api-reference/affiliation/get-affiliation",

@@ -1,0 +1,93 @@
+---
+title: "Autocompletar afiliaciones"
+api: "GET https://api.dev.impactu.colav.co/completer/affiliations/{aff_type}/{text}"
+description: "Devuelve hasta 5 sugerencias de afiliaciones (instituciones, grupos, departamentos o facultades) cuyo nombre comience con el texto indicado."
+---
+
+## Parámetros de ruta
+
+<ParamField path="aff_type" type="string" required>
+  Subtipo de afiliación. Valores permitidos:
+
+  | Valor | Descripción | Ejemplo de ruta |
+  | --- | --- | --- |
+  | `institution` | Instituciones (universidades, centros de investigación) | `/completer/affiliations/institution/univ` |
+  | `group` | Grupos de investigación | `/completer/affiliations/group/bio` |
+  | `department` | Departamentos académicos | `/completer/affiliations/department/ing` |
+  | `faculty` | Facultades | `/completer/affiliations/faculty/med` |
+</ParamField>
+
+<ParamField path="text" type="string" required>
+  Prefijo del nombre de la afiliación. Ejemplo: `univ` devuelve afiliaciones
+  cuyo nombre comienza con "univ".
+</ParamField>
+
+<Note>
+  La búsqueda usa Elasticsearch y coincide por **prefijo**. Siempre devuelve un
+  máximo de 5 resultados.
+</Note>
+
+## Respuesta
+
+Array de hasta 5 objetos con los siguientes campos:
+
+<ResponseField name="[]" type="object[]">
+  Lista de sugerencias.
+  <Expandable title="propiedades de cada sugerencia">
+    <ResponseField name="_id" type="string">
+      Identificador de la afiliación en la base de datos.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nombre de la afiliación (variante más larga disponible).
+    </ResponseField>
+    <ResponseField name="text" type="string">
+      Texto utilizado por Elasticsearch para la sugerencia.
+    </ResponseField>
+    <ResponseField name="_score" type="number">
+      Puntuación de relevancia de Elasticsearch.
+    </ResponseField>
+    <ResponseField name="_source" type="object">
+      Documento interno de Elasticsearch. Contiene `name` (objeto con campo
+      `input`), `full_name`, `country_code` y `types`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200 — institution
+[
+  {
+    "_id": "03bp5hc83",
+    "_index": "kahi_dev_institution",
+    "_score": 10.0,
+    "name": "Universidad de Antioquia",
+    "text": "UdeA",
+    "_source": {
+      "full_name": "Universidad de Antioquia",
+      "name": { "input": ["Universidad"], "weight": 10 },
+      "country_code": "CO",
+      "types": [{ "source": "ror", "type": "Education" }]
+    }
+  }
+]
+```
+
+```json 200 — group
+[
+  {
+    "_id": "COL0000000",
+    "_index": "kahi_dev_group",
+    "_score": 10.0,
+    "name": "Grupo de Biología Molecular",
+    "text": "Biologia Molecular",
+    "_source": {
+      "name": { "input": ["Biologia Molecular"], "weight": 10 }
+    }
+  }
+]
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>
