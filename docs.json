@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Impactu",
+  "name": "ImpactU",
   "colors": {
     "primary": "#46B3B3",
     "light": "#62C7C7",
@@ -16,15 +16,17 @@
       {
         "tab": "Documentación",
         "groups": [
-          {
-            "group": "Introducción",
-            "pages": ["index"]
-          }
+          { "group": "Introducción", "pages": ["index"] },
+          { "group": "Guías", "pages": ["guides/filters"] }
         ]
       },
       {
-        "tab": "API Reference",
+        "tab": "API Referencia",
         "groups": [
+          {
+            "group": "Introducción",
+            "pages": ["api-reference/introduction"]
+          },
           {
             "group": "Search",
             "pages": [
@@ -38,6 +40,56 @@
               "api-reference/search/patents",
               "api-reference/search/projects",
               "api-reference/search/geo"
+            ]
+          },
+          {
+            "group": "Affiliation",
+            "pages": [
+              "api-reference/affiliation/get-affiliation",
+              "api-reference/affiliation/get-related-affiliations",
+              "api-reference/affiliation/get-research-products",
+              "api-reference/affiliation/get-research-products-filters",
+              "api-reference/affiliation/get-research-products-csv",
+              "api-reference/affiliation/get-research-products-excel",
+              "api-reference/affiliation/get-research-patents",
+              "api-reference/affiliation/get-research-projects",
+              "api-reference/affiliation/get-research-news",
+              {
+                "group": "Indicadores",
+                "pages": [
+                  "api-reference/affiliation/plots/overview",
+                  "api-reference/affiliation/plots/faculties-by-product-type",
+                  "api-reference/affiliation/plots/departments-by-product-type",
+                  "api-reference/affiliation/plots/research-groups-by-product-type",
+                  "api-reference/affiliation/plots/citations-by-faculty",
+                  "api-reference/affiliation/plots/citations-by-department",
+                  "api-reference/affiliation/plots/citations-by-research-group",
+                  "api-reference/affiliation/plots/apc-expenses-by-faculty",
+                  "api-reference/affiliation/plots/apc-expenses-by-department",
+                  "api-reference/affiliation/plots/apc-expenses-by-group",
+                  "api-reference/affiliation/plots/h-index-by-faculty",
+                  "api-reference/affiliation/plots/h-index-by-department",
+                  "api-reference/affiliation/plots/h-index-by-research-group",
+                  "api-reference/affiliation/plots/annual-evolution-by-impactu-classification",
+                  "api-reference/affiliation/plots/annual-citation-count",
+                  "api-reference/affiliation/plots/annual-articles-open-access",
+                  "api-reference/affiliation/plots/annual-articles-by-top-publishers",
+                  "api-reference/affiliation/plots/annual-apc-expenses",
+                  "api-reference/affiliation/plots/most-used-title-words",
+                  "api-reference/affiliation/plots/articles-by-publisher",
+                  "api-reference/affiliation/plots/products-by-subject",
+                  "api-reference/affiliation/plots/articles-by-access-route",
+                  "api-reference/affiliation/plots/active-authors-by-sex",
+                  "api-reference/affiliation/plots/active-authors-by-age-range",
+                  "api-reference/affiliation/plots/articles-by-scienti-category",
+                  "api-reference/affiliation/plots/articles-by-scimago-quartile",
+                  "api-reference/affiliation/plots/articles-by-publishing-institution",
+                  "api-reference/affiliation/plots/products-by-database",
+                  "api-reference/affiliation/plots/coauthorship-by-country-map",
+                  "api-reference/affiliation/plots/coauthorship-by-colombian-department-map",
+                  "api-reference/affiliation/plots/institutional-coauthorship-network"
+                ]
+              }
             ]
           }
         ]
