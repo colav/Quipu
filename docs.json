@@ -137,6 +137,14 @@
             ]
           },
           {
+            "group": "APC",
+            "pages": [
+              "api-reference/apc/search",
+              "api-reference/apc/person",
+              "api-reference/apc/affiliation"
+            ]
+          },
+          {
             "group": "Affiliation",
             "pages": [
               "api-reference/affiliation/get-affiliation",

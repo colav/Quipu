@@ -32,7 +32,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | **Patent**                 | ✅ Documentado | 2         | —           |
 | **Project**                | ✅ Documentado | 2         | —           |
 | **Geo**                    | ✅ Documentado | 3         | —           |
-| APC                        | ⏳ Pendiente   |           |             |
+| **APC**                    | ✅ Documentado | 3         | —           |
 | Completer                  | ⏳ Pendiente   |           |             |
 | Usuarios y autenticación   | ⏳ Pendiente   |           |             |
 | Submit                     | ⏳ Pendiente   |           |             |
