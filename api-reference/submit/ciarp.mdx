@@ -1,0 +1,62 @@
+---
+title: "Enviar archivo CIARP"
+api: "POST https://api.dev.impactu.colav.co/submit/ciarp"
+description: "Sube un Excel CIARP (.xlsx), lo valida y devuelve un reporte de calidad en PDF."
+---
+
+<Note>
+  Requiere sesión activa. El JWT se lee desde la cookie `access_token_cookie`.
+  La solicitud debe enviarse como `multipart/form-data`.
+</Note>
+
+## Cuerpo de la solicitud
+
+<ParamField body="file" type="file" required>
+  Archivo Excel `.xlsx` con los datos CIARP.
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="success" type="boolean">
+  `true` si el archivo fue procesado.
+</ResponseField>
+
+<ResponseField name="errors" type="integer">
+  Número de errores encontrados en el archivo.
+</ResponseField>
+
+<ResponseField name="duplicates" type="integer">
+  Número de registros duplicados detectados.
+</ResponseField>
+
+<ResponseField name="pdf_base64" type="string">
+  Reporte de calidad en formato PDF codificado en Base64.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Mensaje de resultado del procesamiento.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "errors": 0,
+  "duplicates": 0,
+  "pdf_base64": "JVBERi0xLjQKJ...",
+  "msg": "Archivo procesado correctamente."
+}
+```
+
+```json 400
+{ "success": false, "msg": "Archivo requerido" }
+```
+
+```json 401
+{ "success": false, "msg": "Token inválido o expirado" }
+```
+
+```json 422
+{ "success": false, "msg": "El archivo enviado no cumple con el formato requerido de columnas" }
+```
+</ResponseExample>
