@@ -30,7 +30,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | **Source**                 | ✅ Documentado | 5         | 1           |
 | **Work**                   | ✅ Documentado | 3         | —           |
 | **Patent**                 | ✅ Documentado | 2         | —           |
-| Project (por id)           | ⏳ Pendiente   |           |             |
+| **Project**                | ✅ Documentado | 2         | —           |
 | APC                        | ⏳ Pendiente   |           |             |
 | Completer                  | ⏳ Pendiente   |           |             |
 | Usuarios y autenticación   | ⏳ Pendiente   |           |             |

@@ -1,0 +1,144 @@
+---
+title: "Obtener un proyecto"
+api: "GET https://api.dev.impactu.colav.co/project/{project_id}"
+description: "Devuelve un proyecto de investigación a partir de su identificador."
+---
+
+## Parámetros de ruta
+
+<ParamField path="project_id" type="string" required>
+  Identificador del proyecto. Ejemplo: `6ab4ac4e5418a51e324cc06c`.
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="data" type="object">
+  El proyecto solicitado.
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador del proyecto.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Título principal.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Títulos por fuente (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="language" type="string | null">
+      Idioma (código ISO 639-1).
+    </ResponseField>
+    <ResponseField name="abstract" type="string | null">
+      Resumen del proyecto.
+    </ResponseField>
+    <ResponseField name="keywords" type="array | null">
+      Palabras clave.
+    </ResponseField>
+    <ResponseField name="year_init" type="integer | null">
+      Año de inicio del proyecto.
+    </ResponseField>
+    <ResponseField name="year_end" type="integer | null">
+      Año de finalización del proyecto. `null` si está vigente.
+    </ResponseField>
+    <ResponseField name="date_init" type="integer | null">
+      Fecha de inicio en segundos Unix.
+    </ResponseField>
+    <ResponseField name="date_end" type="integer | null">
+      Fecha de finalización en segundos Unix. `null` si está vigente.
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Tipos de producto por fuente (`name`, `source`). Por ejemplo:
+      `"Proyecto de investigación"` o `"Proyecto de extensión"` según
+      Minciencias.
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Tipos por fuente con `type`, `level`, `source` y `provenance`.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Clasificaciones del proyecto (`rank`, `source`, `date`, `level`).
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      Autores con sus afiliaciones e identificadores externos.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Cantidad de autores.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Grupos de investigación asociados (`id`, `name`).
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos (`id`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      Enlaces externos (`url`, `source`).
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Última actualización por fuente (`source`, `time` en segundos Unix).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "data": {
+    "id": "6ab4ac4e5418a51e324cc06c",
+    "title": "Título del proyecto de investigación de ejemplo",
+    "titles": [
+      { "lang": "es", "source": "minciencias", "title": "Título del proyecto de investigación de ejemplo" }
+    ],
+    "language": "es",
+    "abstract": "Resumen del proyecto de ejemplo.",
+    "keywords": ["palabra clave 1", "palabra clave 2"],
+    "year_init": 2019,
+    "year_end": 2022,
+    "date_init": null,
+    "date_end": null,
+    "product_types": [
+      { "name": "Proyecto de investigación", "source": "minciencias" }
+    ],
+    "types": [
+      { "level": 1, "source": "minciencias", "type": "Proyecto de investigación", "provenance": "minciencias" },
+      { "level": 0, "source": "minciencias", "type": "Nuevo conocimiento", "provenance": "minciencias" }
+    ],
+    "ranking": [
+      { "rank": "PI-PI", "source": "minciencias", "date": 1575608400 }
+    ],
+    "authors": [
+      {
+        "id": "0000000001",
+        "full_name": "Nombre Apellido Apellido",
+        "affiliations": [
+          {
+            "id": "03bp5hc83",
+            "name": "Universidad de Antioquia",
+            "types": [{ "source": "ror", "type": "education" }]
+          },
+          {
+            "id": "COL0000000",
+            "name": "Grupo de Investigación Ejemplo",
+            "types": [{ "source": "minciencias", "type": "group" }]
+          }
+        ],
+        "external_ids": [
+          { "id": "0000000001", "source": "scienti", "provenance": "minciencias" }
+        ]
+      }
+    ],
+    "authors_count": 1,
+    "groups": [
+      { "id": "COL0000000", "name": "Grupo de Investigación Ejemplo" }
+    ],
+    "external_ids": [
+      { "id": "PI-0000000001-15", "source": "minciencias", "provenance": "minciencias" },
+      { "id": "0000000001", "source": "scienti", "provenance": "minciencias" }
+    ],
+    "external_urls": [],
+    "updated": [{ "source": "minciencias", "time": 1790461135 }]
+  }
+}
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>
