@@ -1,0 +1,51 @@
+---
+title: "Autores de una patente"
+api: "GET https://api.dev.impactu.colav.co/patent/{patent_id}/authors"
+description: "Devuelve la lista de autores de una patente."
+---
+
+## Parámetros de ruta
+
+<ParamField path="patent_id" type="string" required>
+  Identificador de la patente. Ejemplo: `6ab847915418a51e32855aa6`.
+</ParamField>
+
+<Note>
+  Este endpoint no recibe parámetros de consulta. La lista de autores también
+  está disponible en el campo `authors` de
+  [Obtener una patente](/api-reference/patent/get-patent).
+</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="object[]">
+  Lista de autores de la patente. La estructura de cada autor es la misma que
+  en [Autores de un producto](/api-reference/work/get-work-authors).
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "id": "0000000001",
+      "full_name": "Nombre Apellido Apellido",
+      "affiliations": [
+        {
+          "id": "COL0000000",
+          "name": "Grupo de Investigación Ejemplo",
+          "types": [{ "source": "minciencias", "type": "group" }]
+        }
+      ],
+      "external_ids": [
+        { "id": "0000000001", "source": "scienti", "provenance": "staff" }
+      ]
+    }
+  ]
+}
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>
