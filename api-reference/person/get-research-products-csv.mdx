@@ -5,6 +5,7 @@ description: "Descarga los productos de investigación de un autor en formato CS
 ---
 
 import WorksFilterParams from "/snippets/works-filter-params.mdx";
+import WorksExportColumns from "/snippets/works-export-columns.mdx";
 
 ## Parámetros de ruta
 
@@ -30,8 +31,12 @@ Los mismos filtros de [Buscar productos](/api-reference/search/works).
 
 Archivo CSV adjunto (`Content-Type: text/csv; charset=utf-8`), nombre de archivo `person_works.csv`.
 
-Las columnas son las mismas que en la [exportación CSV de afiliación](/api-reference/affiliation/get-research-products-csv), con una columna adicional:
+Nombre de archivo `person_works.csv`, con las siguientes columnas:
 
-| Columna | Descripción |
-| --- | --- |
+<WorksExportColumns />
+
+Con las siguientes columnas adicionales:
+
+| Columna         | Descripción                                                                          |
+| --------------- | ------------------------------------------------------------------------------------ |
 | `contract_type` | Tipo de contrato del autor con su institución en el año de publicación del producto. |

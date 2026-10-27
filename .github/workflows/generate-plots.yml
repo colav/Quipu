@@ -11,6 +11,7 @@ on:
         options:
           - affiliation
           - person
+          - source
 
 jobs:
   generate:
@@ -30,8 +31,10 @@ jobs:
         run: |
           if [ "${{ inputs.entity }}" = "affiliation" ]; then
             python scripts/generate_plot_pages.py
-          else
+          elif [ "${{ inputs.entity }}" = "person" ]; then
             python scripts/generate_person_plot_pages.py
+          else
+            python scripts/generate_source_plot_pages.py
           fi
 
       - name: Validate generated output

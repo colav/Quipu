@@ -1,0 +1,200 @@
+---
+title: "Obtener una fuente"
+api: "GET https://api.dev.impactu.colav.co/source/{source_id}"
+description: "Devuelve una fuente (revista, conferencia u otro tipo de publicación) a partir de su identificador."
+---
+
+## Parámetros de ruta
+
+<ParamField path="source_id" type="string" required>
+  Identificador de la fuente. Ejemplo: `6aad68732be7843cde64e41b`.
+</ParamField>
+
+<Note>
+  Este endpoint no recibe parámetros de consulta: `max`, `page`, `sort` y `view`
+  no aplican.
+</Note>
+
+## Respuesta
+
+<ResponseField name="data" type="object">
+  La fuente solicitada.
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      Identificador de la fuente.
+    </ResponseField>
+    <ResponseField name="names" type="object[]">
+      Nombres de la fuente por fuente de datos (`name`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="abbreviations" type="string[]">
+      Abreviaciones del nombre.
+    </ResponseField>
+    <ResponseField name="type" type="string">
+      Tipo principal de la fuente (por ejemplo `journal`).
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Tipos por fuente de datos (`type`, `source`).
+    </ResponseField>
+    <ResponseField name="publisher" type="object">
+      Editorial: `id`, `name`, `country_code`.
+    </ResponseField>
+    <ResponseField name="languages" type="string[]">
+      Idiomas de publicación (códigos ISO 639-1, por ejemplo `"EN"`, `"ES"`).
+    </ResponseField>
+    <ResponseField name="keywords" type="string[]">
+      Palabras clave que describen el alcance de la fuente.
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Áreas de conocimiento agrupadas por fuente de clasificación (LCC, Scimago…).
+    </ResponseField>
+    <ResponseField name="topics" type="object[]">
+      Tópicos OpenAlex asociados a la fuente.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Clasificaciones de la fuente: cuartil Scimago, h-index, etc. Cada entrada
+      incluye `rank`, `source`, `from_date`, `to_date` y `order`.
+    </ResponseField>
+    <ResponseField name="scimago_best_quartile" type="string | null">
+      Mejor cuartil Scimago registrado (por ejemplo `"Q1"`).
+    </ResponseField>
+    <ResponseField name="apc" type="object">
+      Información de APC: `charges` (monto), `currency` y `paid`.
+    </ResponseField>
+    <ResponseField name="open_access_status" type="string | null">
+      Estado de acceso abierto (`diamond`, `gold`, `hybrid`, `closed`…).
+    </ResponseField>
+    <ResponseField name="open_access_start_year" type="integer | null">
+      Año desde el que la fuente es de acceso abierto.
+    </ResponseField>
+    <ResponseField name="licenses" type="object[]">
+      Licencias de publicación. Cada entrada incluye `type` (por ejemplo
+      `CC BY`), `url`, y los atributos `BY`, `NC`, `ND`, `SA`.
+    </ResponseField>
+    <ResponseField name="copyright" type="object">
+      Política de derechos de autor: `author_retains` (booleano) y `url`.
+    </ResponseField>
+    <ResponseField name="waiver" type="object">
+      Política de exención de APC: `has_waiver` (booleano) y `url`.
+    </ResponseField>
+    <ResponseField name="review_processes" type="string[]">
+      Tipos de revisión por pares (por ejemplo `"Double anonymous peer review"`).
+    </ResponseField>
+    <ResponseField name="plagiarism_detection" type="boolean | null">
+      Indica si la fuente usa detección de plagio.
+    </ResponseField>
+    <ResponseField name="publication_time_weeks" type="integer | null">
+      Tiempo promedio de publicación en semanas.
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Cantidad de productos de autores colombianos en esta fuente.
+    </ResponseField>
+    <ResponseField name="global_products_count" type="integer">
+      Cantidad total de productos en la fuente.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citas por fuente de datos (`count`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="global_citations_count" type="integer">
+      Total de citas de la fuente.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      Identificadores externos: ISSN electrónico (`eissn`), ISSN impreso
+      (`pissn`), Scimago, OpenAlex, Scienti, entre otros.
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      Enlaces externos: sitio de la revista, política de acceso abierto, etc.
+      (`url`, `source`).
+    </ResponseField>
+    <ResponseField name="addresses" type="array">
+      Direcciones de la institución editora.
+    </ResponseField>
+    <ResponseField name="relations" type="array">
+      Relaciones con otras entidades.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Última actualización por fuente de datos (`source`, `time` en segundos Unix).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "data": {
+    "id": "6aad68732be7843cde64e000",
+    "names": [
+      { "lang": "es", "name": "Revista Ejemplo de Ciencias", "source": "scienti" },
+      { "lang": "en", "name": "Example Journal of Sciences", "source": "openalex" }
+    ],
+    "abbreviations": ["Rev. Ej. Cienc."],
+    "type": "journal",
+    "types": [
+      { "source": "scienti", "type": "EL" },
+      { "source": "openalex", "type": "journal" }
+    ],
+    "publisher": {
+      "id": "example-publisher-id",
+      "name": "Universidad Ejemplo",
+      "country_code": "CO"
+    },
+    "languages": ["ES", "EN"],
+    "keywords": ["ciencias exactas", "matemáticas", "física"],
+    "scimago_best_quartile": "Q2",
+    "open_access_status": "diamond",
+    "open_access_start_year": 2005,
+    "apc": { "charges": 0, "currency": null },
+    "licenses": [
+      {
+        "BY": true, "NC": false, "ND": false, "SA": true,
+        "type": "CC BY-SA",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+      }
+    ],
+    "copyright": { "author_retains": true, "url": "https://revista-ejemplo.co/politica" },
+    "waiver": { "has_waiver": false, "url": null },
+    "review_processes": ["Double anonymous peer review"],
+    "plagiarism_detection": true,
+    "publication_time_weeks": 12,
+    "products_count": 245,
+    "global_products_count": 1820,
+    "citations_count": [{ "count": 0, "source": "openalex" }],
+    "global_citations_count": 3420,
+    "ranking": [
+      {
+        "rank": "Q2",
+        "source": "scimago Best Quartile",
+        "from_date": 1546318800,
+        "to_date": 1577768400,
+        "order": 12345
+      }
+    ],
+    "subjects": [
+      {
+        "source": "scimago",
+        "subjects": [
+          { "id": "", "level": 0, "name": "Mathematics" },
+          { "id": "", "level": 0, "name": "Physics and Astronomy" }
+        ]
+      }
+    ],
+    "external_ids": [
+      { "id": "2000-0000", "source": "eissn" },
+      { "id": "1000-0000", "source": "pissn" },
+      { "id": "21100000000", "source": "scimago" }
+    ],
+    "external_urls": [
+      { "source": "journal", "url": "https://revista-ejemplo.co" },
+      { "source": "aims_scope", "url": "https://revista-ejemplo.co/alcance" }
+    ],
+    "updated": [
+      { "source": "scienti", "time": 1789879321 },
+      { "source": "openalex", "time": 1789879400 }
+    ]
+  }
+}
+```
+
+```json 404
+{ "error": "Source not found" }
+```
+</ResponseExample>

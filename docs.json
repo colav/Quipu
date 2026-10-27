@@ -16,8 +16,18 @@
       {
         "tab": "Documentación",
         "groups": [
-          { "group": "Introducción", "pages": ["index"] },
-          { "group": "Guías", "pages": ["guides/filters"] }
+          {
+            "group": "Introducción",
+            "pages": [
+              "index"
+            ]
+          },
+          {
+            "group": "Guías",
+            "pages": [
+              "guides/filters"
+            ]
+          }
         ]
       },
       {
@@ -25,7 +35,9 @@
         "groups": [
           {
             "group": "Introducción",
-            "pages": ["api-reference/introduction"]
+            "pages": [
+              "api-reference/introduction"
+            ]
           },
           {
             "group": "Search",
@@ -73,6 +85,23 @@
                   "api-reference/person/plots/coauthorship-by-country-map",
                   "api-reference/person/plots/coauthorship-by-colombian-department-map",
                   "api-reference/person/plots/author-coauthorship-network"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Source",
+            "pages": [
+              "api-reference/source/get-source",
+              "api-reference/source/get-products",
+              "api-reference/source/get-products-filters",
+              "api-reference/source/get-products-csv",
+              "api-reference/source/get-products-excel",
+              {
+                "group": "Indicadores",
+                "pages": [
+                  "api-reference/source/plots/overview",
+                  "api-reference/source/plots/annual-scimago-quartile"
                 ]
               }
             ]

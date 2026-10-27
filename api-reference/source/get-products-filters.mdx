@@ -1,0 +1,81 @@
+---
+title: "Filtros de productos de una fuente"
+api: "GET https://api.dev.impactu.colav.co/source/{source_id}/products/filters"
+description: "Opciones disponibles para filtrar los productos de una fuente, con su cantidad de resultados."
+---
+
+import WorksFilterParams from "/snippets/works-filter-params.mdx";
+import WorksFiltersResponse from "/snippets/works-filters-response.mdx";
+
+Devuelve los valores que puedes usar en los filtros de [Productos de una fuente](/api-reference/source/get-products). Son los mismos filtros de [Buscar productos](/api-reference/search/works-filters), pero calculados solo sobre los productos publicados en la fuente indicada.
+
+Las opciones y sus conteos dependen de los filtros que envíes: si aplicas un filtro, solo se devuelven las opciones que existen dentro de ese resultado.
+
+## Parámetros de ruta
+
+<ParamField path="source_id" type="string" required>
+  Identificador de la fuente. Ejemplo: `6aad68732be7843cde64e41b`.
+</ParamField>
+
+## Parámetros de consulta
+
+Todos son opcionales. Aceptan varios valores separados por coma.
+
+<WorksFilterParams />
+
+## Respuesta
+
+<WorksFiltersResponse />
+
+<ResponseExample>
+```json 200
+{
+  "years": { "min_year": 1990, "max_year": 2026 },
+  "authors_count": { "min_authors": 1, "max_authors": 25 },
+  "authors_ranking": [
+    { "value": "Investigador Asociado", "label": "Investigador Asociado", "count": 45 }
+  ],
+  "groups_ranking": [
+    { "value": "A1", "label": "A1", "count": 80 }
+  ],
+  "countries": [
+    { "value": "CO", "label": "Colombia", "count": 240 },
+    { "value": "US", "label": "United States", "count": 12 }
+  ],
+  "product_types": [
+    {
+      "value": "openalex",
+      "title": "OpenAlex",
+      "children": [
+        { "value": "openalex_article", "title": "Article", "count": 210 }
+      ]
+    }
+  ],
+  "status": [
+    {
+      "value": "open",
+      "title": "Abierto",
+      "count": 200,
+      "children": [
+        { "value": "diamond", "title": "Diamante", "count": 180 }
+      ]
+    },
+    { "value": "closed", "title": "Cerrado", "count": 45 }
+  ],
+  "topics": [
+    {
+      "value": "https://openalex.org/subfields/1305",
+      "title": "Biotechnology",
+      "count": 60,
+      "children": [
+        { "value": "https://openalex.org/T10015", "title": "CRISPR and Genetic Engineering", "count": 20 }
+      ]
+    }
+  ]
+}
+```
+
+```json 400
+{ "error": "mensaje de error de validación" }
+```
+</ResponseExample>

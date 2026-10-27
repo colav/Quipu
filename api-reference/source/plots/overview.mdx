@@ -1,0 +1,17 @@
+---
+title: "Indicadores de una fuente"
+description: "Catálogo de indicadores que devuelve el endpoint de productos de una fuente con el parámetro plot."
+sidebarTitle: "Catálogo"
+---
+
+Con el parámetro `plot`, el endpoint [Productos de una fuente](/api-reference/source/get-products) devuelve un indicador en lugar de la lista de productos.
+
+```text
+GET /source/{source_id}/products?plot=<indicador>
+```
+
+Los indicadores aceptan los mismos filtros que el listado de productos.
+
+| Indicador | Valor de `plot` | Gráfico |
+| --- | --- | --- |
+| [Cuartil Scimago por año](/api-reference/source/plots/annual-scimago-quartile) | `annual_scimago_quartile` | Barras |

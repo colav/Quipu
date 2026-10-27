@@ -27,7 +27,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | **Search** | ✅ Documentado | 10 | — |
 | **Affiliation** | ✅ Documentado | 9 | 28 |
 | **Person** | ✅ Documentado | 8 | 16 |
-| Source (por id) | ⏳ Pendiente | | |
+| **Source** | ✅ Documentado | 5 | 1 |
 | Work (por id) | ⏳ Pendiente | | |
 | Patent y Project (por id) | ⏳ Pendiente | | |
 | APC | ⏳ Pendiente | | |
@@ -82,6 +82,20 @@ El endpoint de productos acepta el parámetro `plot` para devolver uno de los **
 
 El endpoint de productos acepta el parámetro `plot` para devolver uno de los **16 indicadores** del [catálogo de indicadores de autores](https://quyca.mintlify.site/api-reference/person/plots/overview).
 
+### 🗞️ Endpoints del grupo Source
+
+| Página | Endpoint |
+| --- | --- |
+| Obtener una fuente | `GET /source/{source_id}` |
+| Productos de investigación | `GET /source/{source_id}/products` |
+| Filtros de productos | `GET /source/{source_id}/products/filters` |
+| Exportar productos a CSV | `GET /source/{source_id}/products/csv` |
+| Exportar productos a Excel | `GET /source/{source_id}/products/excel` |
+
+El CSV y el Excel tienen la misma estructura de columnas que la exportación de afiliación, con la columna adicional `scimago_quartile`.
+
+El endpoint de productos acepta el parámetro `plot` para devolver el **1 indicador** del [catálogo de indicadores de fuentes](https://quyca.mintlify.site/api-reference/source/plots/overview).
+
 ## 📁 Estructura del repositorio
 
 ```
@@ -92,6 +106,7 @@ Quipu/
 │   ├── search/                      # Endpoints de búsqueda global
 │   ├── affiliation/                 # Endpoints de la entidad Affiliation
 │   │   └── plots/                   # 28 indicadores con ?plot=
+│   ├── source/                      # Endpoints de la entidad Source (revistas)
 │   └── person/                      # Endpoints de la entidad Person (autores)
 │       └── plots/                   # 16 indicadores con ?plot=
 ├── guides/                          # Guías transversales (filtros, paginación…)
@@ -103,7 +118,8 @@ Quipu/
 ├── scripts/                         # Scripts de automatización
 │   ├── validate_docs.py             # Valida completitud de docs.json
 │   ├── generate_plot_pages.py       # Regenera indicadores de Affiliation
-│   └── generate_person_plot_pages.py# Regenera indicadores de Person
+│   ├── generate_person_plot_pages.py# Regenera indicadores de Person
+│   └── generate_source_plot_pages.py# Regenera indicadores de Source
 └── .github/workflows/
     ├── validate-docs.yml            # CI: valida en cada push/PR a main
     └── generate-plots.yml           # Manual: regenera indicadores desde la API
@@ -155,6 +171,9 @@ python scripts/generate_plot_pages.py
 
 # Indicadores de Person (16 plots)
 python scripts/generate_person_plot_pages.py
+
+# Indicadores de Source (1 plot)
+python scripts/generate_source_plot_pages.py
 ```
 
 También puedes disparar la regeneración desde GitHub Actions con el workflow `generate-plots.yml` (pestaña *Actions* → *Generate plot pages* → *Run workflow*). Se abre un PR automáticamente con los archivos actualizados.
