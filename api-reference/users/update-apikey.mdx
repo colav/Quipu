@@ -1,0 +1,50 @@
+---
+title: "Actualizar expiración del API Key"
+api: "PATCH https://api.dev.impactu.colav.co/users/{email}/apikey"
+description: "Actualiza la fecha de expiración del API Key existente del usuario."
+---
+
+<Note>
+  El usuario autenticado solo puede modificar su propio API Key.
+</Note>
+
+## Parámetros de ruta
+
+<ParamField path="email" type="string" required>
+  Correo electrónico del usuario. Debe coincidir con el usuario autenticado.
+</ParamField>
+
+## Cuerpo de la solicitud
+
+<ParamField body="expires" type="integer" required>
+  Nueva fecha de expiración en segundos Unix. Debe ser una fecha futura con al
+  menos 1 día de margen.
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="success" type="boolean">
+  `true` si la expiración fue actualizada correctamente.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Mensaje de confirmación o error.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{ "success": true, "msg": "Expiración actualizada correctamente." }
+```
+
+```json 400
+{ "success": false, "msg": "La fecha de expiración debe ser al menos 1 día en el futuro." }
+```
+
+```json 401
+{ "success": false, "msg": "Token no proporcionado o inválido. Por favor inicia sesión nuevamente." }
+```
+
+```json 403
+{ "success": false, "msg": "No tienes permiso para modificar el API Key de otro usuario." }
+```
+</ResponseExample>

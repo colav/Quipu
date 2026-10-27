@@ -1,0 +1,57 @@
+---
+title: "Crear usuario"
+api: "POST https://api.dev.impactu.colav.co/admin/users/{email}"
+description: "Crea un nuevo usuario en la plataforma. Solo accesible con rol admin."
+---
+
+<Note>
+  Requiere sesión activa con rol `admin`.
+</Note>
+
+## Parámetros de ruta
+
+<ParamField path="email" type="string" required>
+  Correo electrónico del nuevo usuario.
+</ParamField>
+
+## Cuerpo de la solicitud
+
+<ParamField body="institution" type="string" required>
+  Nombre de la institución a la que pertenece el usuario.
+</ParamField>
+
+<ParamField body="ror_id" type="string" required>
+  Identificador ROR de la institución. Ejemplo: `059yx9a68`.
+</ParamField>
+
+<ParamField body="role" type="string" required>
+  Rol del usuario en la plataforma. Ejemplo: `staff`.
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="success" type="boolean">
+  `true` si el usuario fue creado correctamente.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Mensaje de confirmación o error.
+</ResponseField>
+
+<ResponseExample>
+```json 201
+{ "success": true, "msg": "Usuario creado correctamente." }
+```
+
+```json 409
+{ "success": false, "msg": "El usuario ya existe para esta institución." }
+```
+
+```json 401
+{ "success": false, "msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente." }
+```
+
+```json 403
+{ "success": false, "msg": "Permiso denegado: No pueden realizar esta acción." }
+```
+</ResponseExample>

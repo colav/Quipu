@@ -1,0 +1,67 @@
+---
+title: "Generar API Key"
+api: "POST https://api.dev.impactu.colav.co/users/{email}/apikey"
+description: "Genera o regenera el API Key del usuario autenticado. Si ya existía uno, se reemplaza."
+---
+
+<Note>
+  El usuario autenticado solo puede gestionar su propio API Key. El `{email}`
+  en la ruta debe coincidir con la identidad del JWT en la cookie
+  `access_token_cookie`.
+</Note>
+
+## Parámetros de ruta
+
+<ParamField path="email" type="string" required>
+  Correo electrónico del usuario. Debe coincidir con el usuario autenticado.
+</ParamField>
+
+## Cuerpo de la solicitud
+
+<ParamField body="expires" type="integer">
+  Fecha de expiración en segundos Unix. Opcional. Si se proporciona, debe ser
+  una fecha futura con al menos 1 día de margen.
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="success" type="boolean">
+  `true` si el API Key fue generado correctamente.
+</ResponseField>
+
+<ResponseField name="apikey" type="object">
+  Datos del API Key generado.
+  <Expandable title="propiedades">
+    <ResponseField name="id" type="string">
+      El API Key. Guárdalo en un lugar seguro; no se muestra de nuevo.
+    </ResponseField>
+    <ResponseField name="expires" type="integer">
+      Fecha de expiración en segundos Unix. Ausente si no se configuró
+      expiración.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "apikey": {
+    "id": "ak_0000000000000000000000000000000000000000",
+    "expires": 1830000000
+  }
+}
+```
+
+```json 400
+{ "success": false, "msg": "La fecha de expiración debe ser al menos 1 día en el futuro." }
+```
+
+```json 401
+{ "success": false, "msg": "Token no proporcionado o inválido. Por favor inicia sesión nuevamente." }
+```
+
+```json 403
+{ "success": false, "msg": "No tienes permiso para gestionar el API Key de otro usuario." }
+```
+</ResponseExample>

@@ -153,6 +153,28 @@
             ]
           },
           {
+            "group": "Autenticación",
+            "pages": [
+              "api-reference/auth/login",
+              "api-reference/auth/logout",
+              "api-reference/auth/me"
+            ]
+          },
+          {
+            "group": "Usuarios",
+            "pages": [
+              "api-reference/users/list-users",
+              "api-reference/users/create-user",
+              "api-reference/users/edit-user",
+              "api-reference/users/reset-password",
+              "api-reference/users/deactivate-user",
+              "api-reference/users/activate-user",
+              "api-reference/users/create-apikey",
+              "api-reference/users/update-apikey",
+              "api-reference/users/delete-apikey"
+            ]
+          },
+          {
             "group": "Affiliation",
             "pages": [
               "api-reference/affiliation/get-affiliation",
