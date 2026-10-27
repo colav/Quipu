@@ -1,0 +1,96 @@
+---
+title: "Enviar archivo de Staff"
+api: "POST https://api.dev.impactu.colav.co/submit/staff"
+description: "Sube un Excel de talento humano (.xlsx), lo valida contra las reglas de negocio y devuelve un reporte de calidad en PDF."
+---
+
+<Note>
+  Requiere sesión activa. El JWT se lee desde la cookie `access_token_cookie`.
+  La solicitud debe enviarse como `multipart/form-data`.
+</Note>
+
+## Cuerpo de la solicitud
+
+<ParamField body="file" type="file" required>
+  Archivo Excel `.xlsx` con los datos de talento humano. Debe contener una fila
+  por persona vinculada.
+</ParamField>
+
+## Formato del archivo
+
+El archivo debe tener exactamente las siguientes columnas (en minúscula con guion bajo):
+
+| Columna | Obligatoria | Descripción |
+| --- | --- | --- |
+| `tipo_documento` | ✅ | Tipo de documento de identidad. |
+| `identificacion` | ✅ | Número de documento. |
+| `primer_apellido` | ✅* | Primer apellido. Requerido si no se envía `nombre_completo`. |
+| `segundo_apellido` | — | Segundo apellido. Puede estar vacío sin penalización. |
+| `nombres` | ✅* | Nombres. Requerido si no se envía `nombre_completo`. |
+| `nombre_completo` | — | Nombre completo. Si está presente, reemplaza `primer_apellido`, `segundo_apellido` y `nombres`. No puede contener números. |
+| `fecha_nacimiento` | — | Fecha en formato `DD/MM/YYYY`. |
+| `sexo` | — | Valor de catálogo. Fuera de catálogo → normalizado a `desconocido`. |
+| `nivel_academico` | — | Valor de catálogo. Fuera de catálogo → normalizado a `desconocido`. |
+| `tipo_contrato` | — | Valor de catálogo. Fuera de catálogo → normalizado a `desconocido`. |
+| `jornada_laboral` | — | Valor de catálogo. Fuera de catálogo → normalizado a `desconocido`. |
+| `categoria_laboral` | — | Valor de catálogo. Fuera de catálogo → normalizado a `desconocido`. |
+| `fecha_inicial_vinculacion` | — | Fecha en formato `DD/MM/YYYY`. |
+| `fecha_final_vinculacion` | — | Fecha en formato `DD/MM/YYYY`. |
+| `codigo_unidad_academica` | ✅ | Código único de la unidad académica. |
+| `unidad_academica` | ✅ | Nombre de la unidad académica. |
+| `codigo_subunidad_academica` | — | Puede estar vacío sin penalización. |
+| `subunidad_academica` | — | Puede estar vacío sin penalización. |
+
+<Note>
+  Los campos de catálogo (`sexo`, `nivel_academico`, etc.) no generan error si
+  su valor no pertenece al catálogo, pero se normalizan a `desconocido` y se
+  reportan como advertencia. Las fechas con alias de "sin información" (`n/a`,
+  `no aplica`, etc.) también se normalizan a `desconocido`.
+</Note>
+
+## Respuesta
+
+<ResponseField name="success" type="boolean">
+  `true` si el archivo fue procesado (independientemente del número de errores).
+</ResponseField>
+
+<ResponseField name="errors" type="integer">
+  Número de errores encontrados en el archivo.
+</ResponseField>
+
+<ResponseField name="duplicates" type="integer">
+  Número de registros duplicados detectados.
+</ResponseField>
+
+<ResponseField name="pdf_base64" type="string">
+  Reporte de calidad en formato PDF codificado en Base64. Incluye el resumen
+  de errores, advertencias y normalizaciones aplicadas.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Mensaje de resultado del procesamiento.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "errors": 2,
+  "duplicates": 1,
+  "pdf_base64": "JVBERi0xLjQKJ...",
+  "msg": "Archivo procesado con 2 errores y 1 duplicado."
+}
+```
+
+```json 400
+{ "success": false, "msg": "Archivo requerido" }
+```
+
+```json 401
+{ "success": false, "msg": "Token inválido o expirado" }
+```
+
+```json 422
+{ "success": false, "msg": "El archivo enviado no cumple con el formato requerido de columnas" }
+```
+</ResponseExample>
