@@ -22,21 +22,21 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 
 ## 🗂️ Cobertura
 
-| Grupo | Estado | Contenido |
-| --- | --- | --- |
-| **Search** | ✅ Documentado | Personas, productos, afiliaciones, fuentes, patentes, proyectos y geografía, además de los endpoints de filtros disponibles |
-| Affiliation (por id) | ⏳ Pendiente | |
-| Person (por id) | ⏳ Pendiente | |
-| Source (por id) | ⏳ Pendiente | |
-| Work (por id) | ⏳ Pendiente | |
-| Patent y Project (por id) | ⏳ Pendiente | |
-| APC | ⏳ Pendiente | |
-| Completer | ⏳ Pendiente | |
-| Usuarios y autenticación | ⏳ Pendiente | |
-| Submit | ⏳ Pendiente | |
-| Sistema (info, ping, docs) | ⏳ Pendiente | |
+| Grupo | Estado | Endpoints | Indicadores |
+| --- | --- | --- | --- |
+| **Search** | ✅ Documentado | 10 | — |
+| **Affiliation** | ✅ Documentado | 9 | 28 |
+| **Person** | ✅ Documentado | 8 | 16 |
+| Source (por id) | ⏳ Pendiente | | |
+| Work (por id) | ⏳ Pendiente | | |
+| Patent y Project (por id) | ⏳ Pendiente | | |
+| APC | ⏳ Pendiente | | |
+| Completer | ⏳ Pendiente | | |
+| Usuarios y autenticación | ⏳ Pendiente | | |
+| Submit | ⏳ Pendiente | | |
+| Sistema (info, ping, docs) | ⏳ Pendiente | | |
 
-### Endpoints del grupo Search
+### 🔍 Endpoints del grupo Search
 
 | Página | Endpoint |
 | --- | --- |
@@ -51,28 +51,62 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | Buscar proyectos | `GET /search/projects` |
 | Buscar entidades geográficas | `GET /search/geo/{geo_type}` |
 
+### 🏛️ Endpoints del grupo Affiliation
+
+| Página | Endpoint |
+| --- | --- |
+| Obtener una afiliación | `GET /affiliation/{affiliation_type}/{affiliation_id}` |
+| Afiliaciones relacionadas | `GET /affiliation/{affiliation_type}/{affiliation_id}/affiliations` |
+| Productos de investigación | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products` |
+| Filtros de productos | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products/filters` |
+| Exportar productos a CSV | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products/csv` |
+| Exportar productos a Excel | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/products/excel` |
+| Patentes | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/patents` |
+| Proyectos | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/projects` |
+| Noticias | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/news` |
+
+El endpoint de productos acepta el parámetro `plot` para devolver uno de los **28 indicadores** del [catálogo de indicadores de afiliación](https://quyca.mintlify.site/api-reference/affiliation/plots/overview).
+
+### 👤 Endpoints del grupo Person
+
+| Página | Endpoint |
+| --- | --- |
+| Obtener un autor | `GET /person/{person_id}` |
+| Productos de investigación | `GET /person/{person_id}/research/products` |
+| Filtros de productos | `GET /person/{person_id}/research/products/filters` |
+| Exportar productos a CSV | `GET /person/{person_id}/research/products/csv` |
+| Exportar productos a Excel | `GET /person/{person_id}/research/products/excel` |
+| Patentes | `GET /person/{person_id}/research/patents` |
+| Proyectos | `GET /person/{person_id}/research/projects` |
+| Noticias | `GET /person/{person_id}/research/news` |
+
+El endpoint de productos acepta el parámetro `plot` para devolver uno de los **16 indicadores** del [catálogo de indicadores de autores](https://quyca.mintlify.site/api-reference/person/plots/overview).
+
 ## 📁 Estructura del repositorio
 
 ```
 Quipu/
-├── docs.json                  # Configuración y navegación de Mintlify
-├── index.mdx                  # Página de inicio
+├── docs.json                        # Configuración y navegación de Mintlify
+├── index.mdx                        # Página de inicio
 ├── api-reference/
-│   └── search/                # Una página por endpoint
-│       ├── persons.mdx
-│       ├── works.mdx
-│       ├── works-filters.mdx
-│       ├── affiliations.mdx
-│       ├── affiliations-filters.mdx
-│       ├── sources.mdx
-│       ├── sources-filters.mdx
-│       ├── patents.mdx
-│       ├── projects.mdx
-│       └── geo.mdx
-└── snippets/                  # Fragmentos reutilizables
-    ├── pagination-params.mdx  # max y page
-    ├── sort-alphabetical.mdx  # sort alfabético (patentes y proyectos)
-    └── meta-response.mdx      # Campo meta de las respuestas
+│   ├── search/                      # Endpoints de búsqueda global
+│   ├── affiliation/                 # Endpoints de la entidad Affiliation
+│   │   └── plots/                   # 28 indicadores con ?plot=
+│   └── person/                      # Endpoints de la entidad Person (autores)
+│       └── plots/                   # 16 indicadores con ?plot=
+├── guides/                          # Guías transversales (filtros, paginación…)
+├── snippets/                        # Fragmentos MDX reutilizables
+│   ├── pagination-params.mdx        # Parámetros max y page
+│   ├── meta-response.mdx            # Objeto meta de respuestas paginadas
+│   ├── works-filter-params.mdx      # Filtros de productos de investigación
+│   └── works-filters-response.mdx  # Estructura de respuesta de los filtros
+├── scripts/                         # Scripts de automatización
+│   ├── validate_docs.py             # Valida completitud de docs.json
+│   ├── generate_plot_pages.py       # Regenera indicadores de Affiliation
+│   └── generate_person_plot_pages.py# Regenera indicadores de Person
+└── .github/workflows/
+    ├── validate-docs.yml            # CI: valida en cada push/PR a main
+    └── generate-plots.yml           # Manual: regenera indicadores desde la API
 ```
 
 Cada carpeta de `api-reference/` corresponde a un blueprint del `router.py` de quyca.
@@ -99,13 +133,40 @@ Antes de abrir un pull request, revisa que no haya enlaces rotos:
 mint broken-links
 ```
 
+## ⚙️ Scripts de automatización
+
+### Validación
+
+Verifica que cada página de `docs.json` tenga su `.mdx`, detecta huérfanos y comprueba links internos:
+
+```bash
+python -X utf8 scripts/validate_docs.py
+```
+
+El workflow `validate-docs.yml` ejecuta este script automáticamente en cada push o PR a `main`.
+
+### Regeneración de indicadores
+
+Los indicadores (`?plot=`) se generan consultando la API desplegada en `api.dev.impactu.colav.co`:
+
+```bash
+# Indicadores de Affiliation (28 plots)
+python scripts/generate_plot_pages.py
+
+# Indicadores de Person (16 plots)
+python scripts/generate_person_plot_pages.py
+```
+
+También puedes disparar la regeneración desde GitHub Actions con el workflow `generate-plots.yml` (pestaña *Actions* → *Generate plot pages* → *Run workflow*). Se abre un PR automáticamente con los archivos actualizados.
+
 ## ✍️ Cómo documentar un endpoint
 
 1. **Parte del código real.** Toma la ruta del `router.py` (con su `url_prefix`) y el modelo Pydantic de los parámetros (`QueryParams` u otro). No copies el comentario `apidoc` sin verificarlo.
-2. **Usa una respuesta real** de la API para armar los campos y el ejemplo.
+2. **Verifica con la API.** Usa `curl` o el navegador contra `api.dev.impactu.colav.co` para confirmar nombres de campos y estructura real.
 3. **Crea la página** en la carpeta del grupo (por ejemplo, `api-reference/search/nuevo.mdx`).
 4. **Agrégala a `docs.json`** dentro de su grupo.
-5. **Previsualiza** con `mint dev` y abre un pull request.
+5. **Valida** con `python -X utf8 scripts/validate_docs.py`.
+6. **Previsualiza** con `mintlify dev` y abre un pull request.
 
 ### Plantilla de página
 
@@ -154,7 +215,7 @@ import MetaResponse from '/snippets/meta-response.mdx';
 - **Filtros con varios valores:** se separan por coma (por ejemplo, `years=2020,2026`).
 - **Fechas:** se expresan en segundos Unix; un `-1` en una fecha final indica vigente.
 - **Opciones de los filtros:** cada listado enlaza a su endpoint de filtros disponibles, de donde salen los valores válidos.
-- **Ejemplos de respuesta:** recortados y con datos de personas anonimizados. No publiques nombres, edades ni identificadores reales.
+- **Ejemplos de respuesta:** recortados y con datos ficticios. No uses nombres, edades, ORCID ni identificadores que correspondan a personas reales. Usa `0000000001`, `0000000002`… para `person_id` y `example-institution-id`, `COL0000000`… para afiliaciones.
 - **Idioma:** español.
 
 ## 🌐 Publicación
