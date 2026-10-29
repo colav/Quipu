@@ -33,6 +33,8 @@ La respuesta es un objeto cuyas listas dependen del tipo de afiliación consulta
 | `department`       |             |               |    ✅    |    ✅     |
 | `group`            |             |               |          |    ✅     |
 
+Una institución sin facultades ni departamentos también incluye `authors`. Si la afiliación no existe, o el tipo no es uno de los cuatro, la respuesta es `200` con las listas vacías.
+
 <ResponseField name="faculties" type="object[]">
   Facultades de la institución.
   <Expandable title="propiedades">
@@ -66,57 +68,30 @@ La respuesta es un objeto cuyas listas dependen del tipo de afiliación consulta
 </ResponseField>
 
 <ResponseExample>
-```json Institución
+```json 200 — Institución
 {
-  "faculties": [
-    { "id": "03bp5hc83_2", "name": "Facultad de Artes" },
-    { "id": "03bp5hc83_3", "name": "Facultad de Ciencias Exactas y Naturales" }
-  ],
-  "departments": [
-    { "id": "03bp5hc83_2_21620001_3153", "name": "Departamento de Artes Visuales" },
-    { "id": "03bp5hc83_2_21620002_3152", "name": "Departamento de Música" }
-  ],
-  "groups": [
-    { "id": "COL0000407", "name": "Alimentación y Nutrición Humana" },
-    { "id": "COL0000461", "name": "Analisis de Residuos" }
-  ]
+  "faculties": [{"id": "example-institution-id_2", "name": "Facultad Ejemplo"}],
+  "departments": [{"id": "example-institution-id_2_21620001_3153", "name": "Departamento Ejemplo"}],
+  "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}]
 }
 ```
 
-```json Facultad
+```json 200 — Facultad
 {
-  "departments": [
-    {
-      "id": "03bp5hc83_2_21620001_3153",
-      "name": "Departamento de Artes Visuales"
-    },
-    { "id": "03bp5hc83_2_21620003_3154", "name": "Departamento de Teatro" }
-  ],
-  "groups": [{ "id": "COL0078615", "name": "Didarte. Didáctica de las Artes" }],
-  "authors": [{ "id": "0000194638", "full_name": "Nombre Apellido Apellido" }]
+  "departments": [{"id": "example-institution-id_20_22020002_3131", "name": "Departamento Ejemplo"}],
+  "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+  "authors": [{"id": "0000000001", "full_name": "María Ejemplo García"}]
 }
 ```
 
-```json Departamento
+```json 200 — Departamento
 {
-  "groups": [
-    {
-      "id": "COL0011053",
-      "name": "Teoría, Práctica e Historia del Arte en Colombia"
-    }
-  ],
-  "authors": [{ "id": "0000194638", "full_name": "Nombre Apellido Apellido" }]
+  "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+  "authors": [{"id": "0000000001", "full_name": "María Ejemplo García"}]
 }
 ```
 
-```json Grupo
-{
-  "authors": [{ "id": "0000000001", "full_name": "Nombre Apellido Apellido" }]
-}
+```json 200 — Grupo
+{"authors": [{"id": "0000000001", "full_name": "María Ejemplo García"}]}
 ```
-
-```json 400
-{ "error": "mensaje de error" }
-```
-
 </ResponseExample>
