@@ -1,0 +1,65 @@
+---
+title: "Autores de los productos"
+sidebarTitle: "Autorías"
+description: "Cuántos autores devuelve cada endpoint, en qué orden, cómo saber si la lista está recortada y dónde consultar la lista completa."
+---
+
+Cada producto trae su lista de autores en `authors`, en el orden en que firman el producto, y el total en `authors_count`. Algunos productos tienen miles de autores. Por eso, como hace [OpenAlex](https://help.openalex.org/data/authorships/), **los listados devuelven solo los primeros 100**; el detalle de un producto los devuelve todos.
+
+## Cuántos autores devuelve cada endpoint
+
+| Endpoint | `view=full` | `view=summary` |
+| --- | --- | --- |
+| Listados de productos: [Buscar productos](/api-reference/search/works) y los productos de una [afiliación](/api-reference/affiliation/get-research-products), un [autor](/api-reference/person/get-research-products), una [fuente](/api-reference/source/get-products) o una [entidad geográfica](/api-reference/geo/get-geo-products) | Primeros 100 | Primeros 10 |
+| [Obtener un producto](/api-reference/work/get-work) y [Buscar un producto por DOI](/api-reference/work/get-work-by-doi) | Todos | Primeros 10 |
+| [Autores de un producto](/api-reference/work/get-work-authors) | Todos | Todos, con menos campos por autor |
+| Exportaciones CSV y Excel de productos | Ver [exportaciones](#exportaciones) | — |
+
+El límite de los listados también se aplica cuando se piden campos con `fields`.
+
+Las patentes y los proyectos no tienen el límite de 100: sus listados devuelven todos los autores, o los primeros 10 con `view=summary`.
+
+## Cómo saber si la lista está recortada
+
+`authors_count` siempre es el total real de autores del producto, también en los listados. Si es mayor que la cantidad de elementos de `authors`, la lista está recortada. Para mostrar todos los autores, consulta [Autores de un producto](/api-reference/work/get-work-authors).
+
+```json
+{
+  "id": "6ab556bc5418a51e32602975",
+  "authors_count": 5002,
+  "authors": [
+    { "id": "0000000001", "full_name": "María Ejemplo García" },
+    "… 99 autores más, en el orden en que firman …"
+  ]
+}
+```
+
+Para mostrar el resto en la interfaz, resta del total los autores que muestres. Por ejemplo, con dos nombres: «María Ejemplo García, Juan Ejemplo Pérez y 5.000 autores más».
+
+## Filtros, orden y conteos
+
+El recorte se hace al final, después de filtrar, ordenar y paginar. Los filtros, el orden y `meta.count` siempre tienen en cuenta a **todos** los autores.
+
+<Warning>
+  Un producto puede aparecer en los productos de un autor o de una afiliación
+  aunque ese autor no esté entre los primeros 100. En ese caso no aparece en
+  `authors` del listado. Consulta [Autores de un
+  producto](/api-reference/work/get-work-authors) para verlo.
+</Warning>
+
+## Exportaciones
+
+Las exportaciones CSV y Excel de productos (de una afiliación, un autor o una fuente) aplican su propia regla. Si un producto tiene más de 50 autores, solo se tienen en cuenta los autores con identificador de Scienti, es decir, los registrados en Colombia. Con 50 autores o menos, se tienen en cuenta todos.
+
+La regla afecta a todas las columnas que salen de los autores: `authors`, `institutions`, `faculties`, `departments`, `groups`, `groups_ranking` y `countries`. En la columna `authors`, los nombres van en orden alfabético, no en el orden de firma.
+
+## Por qué
+
+Solo el 0,2 % de los productos tiene más de 100 autores, pero esos productos concentran más de la mitad de todos los registros de autores de la base de datos. El producto más grande tiene 5.002 autores: con todos pesa unos 420 KB y con los primeros 100, unos 32 KB.
+
+Recortar los listados reduce el tamaño de las respuestas y el trabajo del servidor sin quitar productos de los resultados. Por ejemplo, la primera página de 10 productos de una institución grande pasó de 4,4 MB a 1,5 MB.
+
+<Note>
+  Filtrar con `authors_count=-100` no es equivalente: excluye de los resultados
+  los productos con más de 100 autores en lugar de recortar su lista.
+</Note>
