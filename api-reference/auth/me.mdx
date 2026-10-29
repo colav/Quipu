@@ -43,19 +43,19 @@ description: "Verifica si la sesión está activa leyendo el JWT desde la cookie
   "status": "sesion_activa",
   "msg": "Sesión activa",
   "user": {
-    "_id": "03bp5hc83",
-    "email": "usuario@universidad.edu.co",
-    "institution": "Universidad de Antioquia",
+    "_id": "example-institution-id",
+    "email": "usuario@example.com",
+    "institution": "Universidad Ejemplo",
     "role": "staff"
   }
 }
 ```
 
 ```json 401 — sin sesión
-{ "status": "sesion_no_iniciada", "msg": "No hay sesión activa" }
+{"msg": "Sesión no iniciada", "status": "sesion_no_iniciada"}
 ```
 
 ```json 401 — token expirado
-{ "status": "token_expirado", "msg": "La sesión ha expirado. Inicia sesión nuevamente." }
+{ "status": "token_expirado", "msg": "Token expirado o inválido" }
 ```
 </ResponseExample>
