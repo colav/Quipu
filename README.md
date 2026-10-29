@@ -4,7 +4,7 @@
 
 **Documentación de la API de [quyca](https://github.com/colav/quyca), el backend de ImpactU**
 
-[![Documentación](https://img.shields.io/badge/docs-Mintlify-0D9373)](https://quyca.mintlify.site/index)
+[![Documentación](https://img.shields.io/badge/docs-Mintlify-0D9373)](https://co-la-v.mintlify.site/)
 [![Hecho con Mintlify](https://img.shields.io/badge/hecho%20con-Mintlify-0D9373)](https://mintlify.com)
 [![Licencia](https://img.shields.io/badge/licencia-BSD--3--Clause-blue)](#-licencia)
 
