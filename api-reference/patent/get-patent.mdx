@@ -4,11 +4,18 @@ api: "GET https://api.dev.impactu.colav.co/patent/{patent_id}"
 description: "Devuelve una patente a partir de su identificador."
 ---
 
+import ViewParam from "/snippets/view-param.mdx";
+import EntityMeta from "/snippets/entity-meta.mdx";
+
 ## Parámetros de ruta
 
 <ParamField path="patent_id" type="string" required>
   Identificador de la patente. Ejemplo: `6ab847915418a51e32855aa6`.
 </ParamField>
+
+## Parámetros de consulta
+
+<ViewParam />
 
 ## Respuesta
 
@@ -58,56 +65,107 @@ description: "Devuelve una patente a partir de su identificador."
   </Expandable>
 </ResponseField>
 
+<EntityMeta />
+
 <ResponseExample>
 ```json 200
 {
   "data": {
-    "id": "6ab847915418a51e32855aa6",
-    "title": "Título de la patente de ejemplo",
-    "titles": [
-      { "lang": "es", "source": "minciencias", "title": "Título de la patente de ejemplo" }
-    ],
-    "language": "es",
-    "product_types": [
-      { "name": "Patente de invención", "source": "minciencias" }
-    ],
-    "types": [
-      { "level": 1, "source": "minciencias", "type": "Patente de invención", "provenance": "minciencias" },
-      { "level": 0, "source": "minciencias", "type": "Nuevo conocimiento", "provenance": "minciencias" }
-    ],
-    "ranking": [
-      { "rank": "PIV-PA4", "source": "minciencias", "date": 1444885200 }
-    ],
     "authors": [
       {
-        "id": "0000000001",
-        "full_name": "Nombre Apellido Apellido",
         "affiliations": [
           {
-            "id": "COL0000000",
+            "addresses": null,
+            "end_date": null,
+            "external_ids": null,
+            "h5_index": null,
+            "h_index": null,
+            "id": "COL0000001",
             "name": "Grupo de Investigación Ejemplo",
-            "types": [{ "source": "minciencias", "type": "group" }]
+            "position": null,
+            "ranking": null,
+            "ror": null,
+            "start_date": null,
+            "types": [
+              {
+                "code": null,
+                "level": null,
+                "provenance": null,
+                "source": "minciencias",
+                "type": "group",
+                "type_class": null
+              }
+            ],
+            "years": []
           }
         ],
-        "external_ids": [
-          { "id": "0000000001", "source": "scienti", "provenance": "staff" }
-        ]
+        "countries": null,
+        "external_ids": [{"id": "0000000001", "provenance": "staff", "source": "scienti"}],
+        "first_names": null,
+        "full_name": "María Ejemplo García",
+        "h5_index": null,
+        "h_index": null,
+        "id": "0000000001",
+        "last_names": null,
+        "ranking": null,
+        "sex": null,
+        "type": null
       }
     ],
     "authors_count": 1,
-    "groups": [
-      { "id": "COL0000000", "name": "Grupo de Investigación Ejemplo" }
-    ],
-    "external_ids": [
-      { "id": "PIV-0000000001-28-1", "source": "minciencias", "provenance": "minciencias" }
-    ],
+    "external_ids": [{"id": "0000000001-28", "provenance": "minciencias", "source": "scienti"}],
     "external_urls": [],
-    "updated": [{ "source": "minciencias", "time": 1790461841 }]
-  }
+    "groups": [
+      {
+        "citations_count": null,
+        "h5_index": null,
+        "h_index": null,
+        "id": "COL0000001",
+        "name": "Grupo de Investigación Ejemplo",
+        "ranking": null
+      }
+    ],
+    "id": "6ab847915418a51e32855aa6",
+    "language": "es",
+    "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
+    "ranking": [
+      {
+        "date": 1444885200,
+        "from_date": null,
+        "issn": null,
+        "level": null,
+        "order": null,
+        "rank": "PIV-PA4",
+        "source": "minciencias",
+        "to_date": null
+      }
+    ],
+    "title": "Equipo para la producción de alquil ésteres de ácidos grasos empleando un reactor de película líquida operado en contracorriente",
+    "titles": [
+      {
+        "lang": "es",
+        "provenance": null,
+        "source": "minciencias",
+        "title": "Equipo para la producción de alquil ésteres de ácidos grasos empleando un reactor de película líquida operado en contracorriente"
+      }
+    ],
+    "types": [
+      {
+        "code": null,
+        "level": 1,
+        "provenance": "minciencias",
+        "source": "minciencias",
+        "type": "Patente de invención",
+        "type_class": null
+      }
+    ],
+    "updated": [{"source": "minciencias", "time": 1790461841}]
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
 }
 ```
 
-```json 400
-{ "error": "mensaje de error" }
+```json 404
+{"error": "The patent with id 000000000000000000000000 does not exist."}
 ```
 </ResponseExample>

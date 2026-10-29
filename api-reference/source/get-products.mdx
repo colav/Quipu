@@ -7,6 +7,8 @@ description: "Lista de forma paginada los productos de investigación publicados
 import PaginationParams from "/snippets/pagination-params.mdx";
 import MetaResponse from "/snippets/meta-response.mdx";
 import WorksFilterParams from "/snippets/works-filter-params.mdx";
+import ViewParam from "/snippets/view-param.mdx";
+import FieldsParam from "/snippets/fields-param.mdx";
 
 Este endpoint tiene dos modos:
 
@@ -29,18 +31,9 @@ Este endpoint tiene dos modos:
   (año de publicación). Ejemplo: `year_desc`.
 </ParamField>
 
-<ParamField query="view" type="string" default="full">
-  Nivel de detalle de la respuesta: `full` o `summary`. Con `summary`, la lista
-  de autores de cada producto se recorta a 10.
-</ParamField>
+<ViewParam />
 
-<ParamField query="fields" type="string">
-  Campos de primer nivel que quieres recibir, separados por coma. No admite
-  campos anidados. Campos permitidos: `id`, `authors`, `titles`, `keywords`,
-  `topics`, `subjects`, `source`, `types`, `year_published`,
-  `citations_by_year`, `citations_count` y `updated`. Ejemplo:
-  `fields=authors,titles`.
-</ParamField>
+<FieldsParam />
 
 <ParamField query="plot" type="string">
   Nombre del indicador a devolver. Con este parámetro la respuesta es el
@@ -71,60 +64,14 @@ La estructura de cada producto es la misma que en [Productos de una afiliación]
 <ResponseExample>
 ```json 200
 {
-  "data": [
-    {
-      "id": "6ab4ac4e5418a51e324cc06a",
-      "title": "Título del artículo de ejemplo",
-      "language": "es",
-      "year_published": 2022,
-      "doi": "https://doi.org/10.00000/ejemplo.2022.001",
-      "authors": [
-        {
-          "id": "0000000001",
-          "full_name": "Nombre Apellido Apellido",
-          "affiliations": [
-            {
-              "id": "03bp5hc83",
-              "name": "Universidad de Antioquia",
-              "types": [{ "source": "ror", "type": "education" }]
-            }
-          ]
-        }
-      ],
-      "authors_count": 1,
-      "citations_count": [
-        { "count": 12, "source": "openalex" },
-        { "count": 15, "source": "scholar" }
-      ],
-      "product_types": [
-        { "name": "article", "source": "openalex" },
-        { "name": "Artículo de revista", "source": "impactu" }
-      ],
-      "source": {
-        "id": "6aad68732be7843cde64e000",
-        "name": "Revista Ejemplo de Ciencias"
-      },
-      "open_access": {
-        "is_open_access": true,
-        "open_access_status": "diamond"
-      },
-      "updated": [{ "source": "openalex", "time": 1790225486 }]
-    }
-  ],
-  "meta": {
-    "count": 245,
-    "cursor": {
-      "next": "https://api.dev.impactu.colav.co/source/6aad68732be7843cde64e000/products?max=1&page=2",
-      "previous": null
-    },
-    "db_response_time_ms": 45,
-    "page": 1,
-    "size": 1
-  }
+  "data": [],
+  "meta": {"count": 0, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 2}
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nfields\n  Value error, Invalid fields: abstract. Allowed fields: authors, citations_by_year, citations_count, id, keywords, so…"
+}
 ```
 </ResponseExample>

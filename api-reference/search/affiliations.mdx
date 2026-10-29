@@ -6,6 +6,7 @@ description: "Búsqueda paginada de afiliaciones (instituciones, facultades, dep
 
 import PaginationParams from "/snippets/pagination-params.mdx";
 import MetaResponse from "/snippets/meta-response.mdx";
+import ViewParam from "/snippets/view-param.mdx";
 
 ## Parámetros de ruta
 
@@ -27,9 +28,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
   (más citaciones), `h` (índice h) y `h5` (índice h5). Ejemplo: `products_desc`.
 </ParamField>
 
-<ParamField query="view" type="string" default="full">
-  Nivel de detalle de la respuesta: `full` o `summary`.
-</ParamField>
+<ViewParam />
 
 ### Filtros
 
@@ -85,9 +84,6 @@ Los tres filtros aceptan varios valores separados por coma.
       Direcciones: `city`, `state`, `country`, `country_code`, `postcode`,
       `lat`, `lng`.
     </ResponseField>
-    <ResponseField name="logo" type="string | null">
-      Logo.
-    </ResponseField>
     <ResponseField name="year_established" type="integer | null">
       Año de fundación.
     </ResponseField>
@@ -108,6 +104,10 @@ Los tres filtros aceptan varios valores separados por coma.
     </ResponseField>
     <ResponseField name="ranking" type="object[]">
       Clasificaciones (por ejemplo, la de un grupo de investigación).
+    </ResponseField>
+    <ResponseField name="affiliations" type="object[] | null">
+      Afiliaciones superiores directas (por ejemplo, la institución de una
+      facultad). En la búsqueda puede llegar en `null`.
     </ResponseField>
     <ResponseField name="relations" type="object[]">
       Afiliaciones relacionadas (`id`, `name`, `types`, `external_urls`). Por
@@ -138,61 +138,85 @@ Los tres filtros aceptan varios valores separados por coma.
 {
   "data": [
     {
-      "id": "03bp5hc83_30",
-      "name": "Facultad de Medicina",
-      "names": [
-        { "lang": "es", "name": "Facultad de Medicina", "provenance": null, "source": "staff" }
-      ],
-      "types": [
-        { "source": "staff", "type": "faculty", "provenance": null }
-      ],
+      "abbreviations": ["UE"],
       "addresses": [
         {
-          "city": "Medellín",
-          "state": "Antioquia",
-          "country": "Colombia",
-          "country_code": "CO",
-          "lat": 6.25184,
-          "lng": -75.56359,
-          "postcode": ""
+          "city": "Gothenburg",
+          "country": "Suecia",
+          "country_code": "SE",
+          "lat": 57.70716,
+          "lng": 11.96679,
+          "postcode": "",
+          "state": "Västra Götaland"
         }
       ],
-      "products_count": 17529,
-      "citations_count": [
-        { "count": 213665, "provenance": null, "source": "openalex" }
-      ],
-      "h_index": 165,
-      "h5_index": 59,
-      "relations": [
+      "affiliations": null,
+      "aliases": [],
+      "citations_count": [{"count": 69, "provenance": null, "source": "scholar"}],
+      "description": [],
+      "external_ids": [{"id": "example-grid-id", "provenance": "ror", "source": "grid"}],
+      "external_urls": [{"provenance": null, "source": "grid", "url": "https://www.example.edu.co"}],
+      "h5_index": 0,
+      "h_index": 1,
+      "id": "example-institution-id",
+      "name": "Universidad Ejemplo",
+      "names": [{"lang": "en", "name": "Universidad Ejemplo", "provenance": null, "source": "ror"}],
+      "products_count": 1,
+      "ranking": [],
+      "relations": [],
+      "status": ["active"],
+      "subjects": [],
+      "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "archive", "type_class": null}],
+      "updated": [{"source": "ror", "time": 1789879262}],
+      "year_established": 2001
+    },
+    {
+      "abbreviations": ["UE"],
+      "addresses": [
         {
-          "id": "03bp5hc83",
-          "name": "Universidad de Antioquia",
-          "types": [{ "source": "ror", "type": "education", "provenance": null }]
-        },
-        {
-          "id": "03bp5hc83_30_20720001_3211",
-          "name": "Departamento de Morfología",
-          "types": [{ "source": "staff", "type": "department", "provenance": null }]
+          "city": "Londres",
+          "country": "Reino Unido",
+          "country_code": "GB",
+          "lat": 51.50853,
+          "lng": -0.12574,
+          "postcode": "",
+          "state": "England"
         }
       ],
-      "updated": [{ "source": "staff", "time": 1789879630 }]
+      "affiliations": null,
+      "aliases": [],
+      "citations_count": [{"count": 83, "provenance": null, "source": "openalex"}],
+      "description": [],
+      "external_ids": [{"id": "example-wikidata-id", "provenance": "ror", "source": "wikidata"}],
+      "external_urls": [{"provenance": "wikidata", "source": "logo", "url": "https://www.example.edu.co"}],
+      "h5_index": 1,
+      "h_index": 3,
+      "id": "example-institution-id-2",
+      "name": "Universidad Ejemplo 2",
+      "names": [{"lang": "en", "name": "Universidad Ejemplo 2", "provenance": null, "source": "ror"}],
+      "products_count": 11,
+      "ranking": [],
+      "relations": [],
+      "status": ["active"],
+      "subjects": [],
+      "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "archive", "type_class": null}],
+      "updated": [{"source": "ror", "time": 1789879262}],
+      "year_established": 1753
     }
   ],
   "meta": {
-    "count": 79,
-    "cursor": {
-      "next": "https://api.dev.impactu.colav.co/search/affiliations/faculty?max=1&page=2",
-      "previous": null
-    },
-    "db_response_time_ms": 5,
+    "count": 55111,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/affiliations/institution?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
     "page": 1,
-    "size": 1
+    "size": 2
   }
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
-
 </ResponseExample>

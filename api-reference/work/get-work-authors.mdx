@@ -4,17 +4,22 @@ api: "GET https://api.dev.impactu.colav.co/work/{work_id}/authors"
 description: "Devuelve la lista de autores de un producto bibliográfico."
 ---
 
+import EntityMeta from "/snippets/entity-meta.mdx";
+
 ## Parámetros de ruta
 
 <ParamField path="work_id" type="string" required>
   Identificador del producto. Ejemplo: `6ab4ac4e5418a51e324cc06a`.
 </ParamField>
 
-<Note>
-  Este endpoint no recibe parámetros de consulta. La lista completa de autores
-  también está disponible en el campo `authors` de
-  [Obtener un producto](/api-reference/work/get-work).
-</Note>
+## Parámetros de consulta
+
+<ParamField query="view" type="string" default="full">
+  Nivel de detalle. Con `summary`, cada autor trae solo `id`, `full_name`,
+  `type` y `affiliations`, y se omiten los campos sin dato.
+</ParamField>
+
+La lista completa de autores también está en el campo `authors` de [Obtener un producto](/api-reference/work/get-work), que con `view=summary` la recorta a 10.
 
 ## Respuesta
 
@@ -52,50 +57,130 @@ description: "Devuelve la lista de autores de un producto bibliográfico."
     <ResponseField name="h5_index" type="integer | null">
       Índice h de los últimos 5 años.
     </ResponseField>
+    <ResponseField name="type" type="string | null">
+      Rol del autor en el producto, cuando la fuente lo registra (por ejemplo,
+      en tesis).
+    </ResponseField>
+    <ResponseField name="countries" type="string[] | null">
+      Países asociados al autor.
+    </ResponseField>
   </Expandable>
 </ResponseField>
+
+<EntityMeta />
 
 <ResponseExample>
 ```json 200
 {
   "data": [
     {
-      "id": "0000000001",
-      "full_name": "Nombre Apellido Apellido",
-      "first_names": ["Nombre"],
-      "last_names": ["Apellido", "Apellido"],
-      "sex": "m",
       "affiliations": [
         {
-          "id": "03bp5hc83",
-          "name": "Universidad de Antioquia",
-          "types": [{ "source": "ror", "type": "education" }],
-          "start_date": 1152489600,
-          "end_date": -1
-        },
-        {
-          "id": "COL0000000",
-          "name": "Grupo de Investigación Ejemplo",
-          "types": [{ "source": "scienti", "type": "group" }],
-          "start_date": 1009861200,
-          "end_date": -1
+          "addresses": [
+            {
+              "city": "Bogotá",
+              "country": "Colombia",
+              "country_code": "CO",
+              "lat": null,
+              "lng": null,
+              "postcode": null,
+              "state": null
+            }
+          ],
+          "end_date": -1,
+          "external_ids": [{"id": "example-isni-id", "provenance": "ror", "source": "isni"}],
+          "h5_index": null,
+          "h_index": null,
+          "id": "example-institution-id",
+          "name": "Universidad Ejemplo",
+          "position": null,
+          "ranking": null,
+          "ror": null,
+          "start_date": -1,
+          "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}],
+          "years": []
         }
       ],
-      "external_ids": [
-        { "id": "https://orcid.org/0000-0000-0000-0001", "source": "orcid" },
-        { "id": "https://openalex.org/A0000000001", "source": "openalex" }
-      ],
+      "countries": null,
+      "external_ids": [{"id": "0000000001", "provenance": "staff", "source": "scienti"}],
+      "first_names": ["María"],
+      "full_name": "María Ejemplo García",
+      "h5_index": null,
+      "h_index": null,
+      "id": "0000000001",
+      "last_names": ["Ejemplo"],
       "ranking": [
-        { "rank": "Investigador Asociado", "source": "minciencias", "date": 1614229200 }
+        {
+          "date": 1383195600,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": "12",
+          "rank": "Investigador Junior",
+          "source": "minciencias",
+          "to_date": null
+        }
       ],
-      "h_index": 5,
-      "h5_index": 3
+      "sex": "Hombre",
+      "type": "author"
+    },
+    {
+      "affiliations": [
+        {
+          "addresses": [
+            {
+              "city": "Bogotá",
+              "country": "Colombia",
+              "country_code": "CO",
+              "lat": null,
+              "lng": null,
+              "postcode": null,
+              "state": null
+            }
+          ],
+          "end_date": 1765324800,
+          "external_ids": [{"id": "example-isni-id", "provenance": "ror", "source": "isni"}],
+          "h5_index": null,
+          "h_index": null,
+          "id": "example-institution-id-3",
+          "name": "Universidad Ejemplo 3",
+          "position": null,
+          "ranking": null,
+          "ror": null,
+          "start_date": 1547424000,
+          "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}],
+          "years": []
+        }
+      ],
+      "countries": null,
+      "external_ids": [{"id": "0000000002", "provenance": "staff", "source": "scienti"}],
+      "first_names": ["Juan"],
+      "full_name": "Juan Ejemplo Pérez",
+      "h5_index": null,
+      "h_index": null,
+      "id": "0000000002",
+      "last_names": ["Ejemplo"],
+      "ranking": [
+        {
+          "date": 1547442000,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "término indefinido",
+          "source": "tipo_contrato",
+          "to_date": null
+        }
+      ],
+      "sex": "Hombre",
+      "type": "author"
     }
-  ]
+  ],
+  "meta": {"count": 93, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 93}
 }
 ```
 
-```json 400
-{ "error": "mensaje de error" }
+```json 404
+{"error": "The work with id 000000000000000000000000 does not exist."}
 ```
 </ResponseExample>

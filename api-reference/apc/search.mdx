@@ -7,13 +7,21 @@ description: "Exporta un CSV con datos de APC de los productos bibliográficos q
 ## Parámetros de consulta
 
 <ParamField query="keywords" type="string">
-  Texto para filtrar los resultados. Cuando se omite, el endpoint devuelve los
-  datos de APC de **todos** los productos de la base de datos, lo que puede
-  producir archivos muy grandes.
+  Texto para filtrar los resultados. Con `keywords` se exportan todos los
+  productos que coinciden, sin paginación.
+</ParamField>
+
+<ParamField query="max" type="integer" default="10">
+  Solo sin `keywords`: filas por página, de 1 a 250.
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  Solo sin `keywords`: número de página, de 1 a 10. La página 11 en adelante
+  responde `400`.
 </ParamField>
 
 <Note>
-  Este endpoint devuelve un archivo CSV, no JSON. El nombre del archivo
+  Este endpoint devuelve un archivo CSV (`Content-Type: text/csv`), no JSON. El nombre del archivo
   descargado es `search.csv`.
 </Note>
 
@@ -39,12 +47,11 @@ El cuerpo de la respuesta es un archivo CSV con las siguientes columnas:
 <ResponseExample>
 ```csv 200
 work_doi,work_title,source_name,source_apc_value,source_apc_currency,work_apc_value,work_apc_currency
-https://doi.org/10.0000/ejemplo.001,Título del artículo de ejemplo,Revista Ejemplo,1500,USD,,
-https://doi.org/10.0000/ejemplo.002,Otro artículo de ejemplo,Journal of Example,2000,USD,2000,USD
-,Producto sin DOI,,,,,
+,MODELO DE SISTEMA DE GESTIÓN DE SEGURIDAD DE LA INFORMACIÓN BASADO EN LA NORMA NTC/ISO IEC 27001 PARA INSTITUCIONES DE EDUCACIÓN BÁSICA DE LA COMUNA UNIVERSIDAD DE LA CIUDAD DE PEREIRA,,,,,
+,ESTRATEGIAS PARA LA TOMA DE DECISIONES EN EL SECTOR SALUD: CASO ?SIME E.U?,,,,,
 ```
 
 ```json 400
-{ "error": "mensaje de error" }
+{"error": "Without keywords only the first 10 pages (max 250 works each) can be exported."}
 ```
 </ResponseExample>

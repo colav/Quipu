@@ -7,6 +7,7 @@ description: "Búsqueda paginada de patentes por palabras clave."
 import PaginationParams from "/snippets/pagination-params.mdx";
 import SortAlphabetical from "/snippets/sort-alphabetical.mdx";
 import MetaResponse from "/snippets/meta-response.mdx";
+import ViewParam from "/snippets/view-param.mdx";
 
 ## Parámetros de consulta
 
@@ -18,9 +19,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
 
 <SortAlphabetical />
 
-<ParamField query="view" type="string" default="full">
-  Nivel de detalle de la respuesta: `full` o `summary`.
-</ParamField>
+<ViewParam />
 
 <Note>Este endpoint no tiene filtros.</Note>
 
@@ -78,50 +77,201 @@ import MetaResponse from "/snippets/meta-response.mdx";
 {
   "data": [
     {
-      "id": "6ab847985418a51e32855f6c",
-      "title": "\"DISPOSITIVO DE EXTRACCIÓN DE GRANOS\"",
-      "language": "gl",
       "authors": [
         {
-          "id": "0000903710",
-          "full_name": "Nombre Apellido Apellido",
           "affiliations": [
             {
-              "id": "snies_1818",
-              "name": "Universidad Cooperativa de Colombia",
-              "types": [{ "source": "scienti", "type": "education", "provenance": "scienti" }]
+              "addresses": null,
+              "end_date": null,
+              "external_ids": null,
+              "h5_index": null,
+              "h_index": null,
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "position": null,
+              "ranking": null,
+              "ror": null,
+              "start_date": null,
+              "types": [
+                {
+                  "code": null,
+                  "level": null,
+                  "provenance": null,
+                  "source": "minciencias",
+                  "type": "group",
+                  "type_class": null
+                }
+              ],
+              "years": []
             }
-          ]
+          ],
+          "countries": null,
+          "external_ids": null,
+          "first_names": null,
+          "full_name": "María Ejemplo García",
+          "h5_index": null,
+          "h_index": null,
+          "id": "0000000001",
+          "last_names": null,
+          "ranking": null,
+          "sex": null,
+          "type": null
         }
       ],
       "authors_count": 1,
+      "external_ids": [{"id": "0000000001-28", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
       "groups": [
-        { "id": "COL0062428", "name": "Grupo de Investigación en Tecnologías de la Información" }
+        {
+          "citations_count": null,
+          "h5_index": null,
+          "h_index": null,
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": null
+        }
       ],
-      "product_types": [
-        { "name": "Patente de invención", "source": "minciencias" }
-      ],
+      "id": "6ab847915418a51e32855aa6",
+      "language": "es",
+      "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
       "ranking": [
-        { "rank": "PIV-PA4", "source": "minciencias", "date": 1614229200 }
+        {
+          "date": 1444885200,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "PIV-PA4",
+          "source": "minciencias",
+          "to_date": null
+        }
       ],
-      "updated": [{ "source": "minciencias", "time": 1790461848 }]
+      "title": "Equipo para la producción de alquil ésteres de ácidos grasos empleando un reactor de película líquida operado en contracorriente",
+      "titles": [
+        {
+          "lang": "es",
+          "provenance": null,
+          "source": "minciencias",
+          "title": "Equipo para la producción de alquil ésteres de ácidos grasos empleando un reactor de película líquida operado en contracorriente"
+        }
+      ],
+      "types": [
+        {
+          "code": null,
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Patente de invención",
+          "type_class": null
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790461841}]
+    },
+    {
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": null,
+              "end_date": null,
+              "external_ids": null,
+              "h5_index": null,
+              "h_index": null,
+              "id": "COL0000002",
+              "name": "Grupo de Investigación Ejemplo",
+              "position": null,
+              "ranking": null,
+              "ror": null,
+              "start_date": null,
+              "types": [
+                {
+                  "code": null,
+                  "level": null,
+                  "provenance": null,
+                  "source": "scienti",
+                  "type": "group",
+                  "type_class": null
+                }
+              ],
+              "years": []
+            }
+          ],
+          "countries": null,
+          "external_ids": null,
+          "first_names": null,
+          "full_name": "Juan Ejemplo Pérez",
+          "h5_index": null,
+          "h_index": null,
+          "id": "0000000002",
+          "last_names": null,
+          "ranking": null,
+          "sex": null,
+          "type": null
+        }
+      ],
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000002-71", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [
+        {
+          "citations_count": null,
+          "h5_index": null,
+          "h_index": null,
+          "id": "COL0000002",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": null
+        }
+      ],
+      "id": "6ab847915418a51e32855aa7",
+      "language": "es",
+      "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
+      "ranking": [
+        {
+          "date": 1494565200,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "PIV-PA4",
+          "source": "minciencias",
+          "to_date": null
+        }
+      ],
+      "title": "Regleta para determinación de la distorsión (magnificación o minimización) en radiografía panorámica convencional",
+      "titles": [
+        {
+          "lang": "es",
+          "provenance": null,
+          "source": "minciencias",
+          "title": "Regleta para determinación de la distorsión (magnificación o minimización) en radiografía panorámica convencional"
+        }
+      ],
+      "types": [
+        {
+          "code": null,
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Patente de invención",
+          "type_class": null
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790461841}]
     }
   ],
   "meta": {
     "count": 1904,
-    "cursor": {
-      "next": "https://api.dev.impactu.colav.co/search/patents?max=1&page=2&sort=alphabetical_asc",
-      "previous": null
-    },
-    "db_response_time_ms": 10,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/patents?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
     "page": 1,
-    "size": 1
+    "size": 2
   }
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
-
 </ResponseExample>

@@ -6,6 +6,7 @@ description: "Lista de forma paginada los proyectos de investigación de un auto
 
 import PaginationParams from "/snippets/pagination-params.mdx";
 import MetaResponse from "/snippets/meta-response.mdx";
+import ViewParam from "/snippets/view-param.mdx";
 
 ## Parámetros de ruta
 
@@ -22,9 +23,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
   `citations`, `alphabetical` y `year`. Ejemplo: `year_desc`.
 </ParamField>
 
-<ParamField query="view" type="string" default="full">
-  Nivel de detalle: `full` o `summary`.
-</ParamField>
+<ViewParam />
 
 <Note>
   La estructura de la respuesta es idéntica a la de [Proyectos de una afiliación](/api-reference/affiliation/get-research-projects).
@@ -39,34 +38,103 @@ import MetaResponse from "/snippets/meta-response.mdx";
 {
   "data": [
     {
-      "id": "6ab4ac4e5418a51e324cc06c",
-      "title": "Evaluación del estado nutricional en gestantes colombianas",
-      "language": "es",
-      "year_init": 2019,
-      "year_end": 2022,
-      "authors_count": 5,
-      "types": [{ "source": "minciencias", "type": "project" }],
-      "product_types": [{ "name": "Proyecto de investigación", "source": "minciencias" }],
-      "external_ids": [
-        { "id": "111571250882", "source": "minciencias", "provenance": "minciencias" }
+      "abstract": "",
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
+        }
       ],
-      "updated": [{ "source": "minciencias", "time": 1789879321 }]
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab8466b5418a51e32849536",
+      "language": "es",
+      "product_types": [{"name": "Proyecto de Investigacion y Desarrollo", "source": "minciencias"}],
+      "ranking": [{"date": 1575608400, "rank": "PID-PID_C", "source": "minciencias"}],
+      "title": "Electrocoagulación de efluentes de la industria textil empleando magnesio. Caso de estudio: Soluciones modelo de índigo carmín",
+      "titles": [
+        {
+          "lang": "es",
+          "source": "minciencias",
+          "title": "Electrocoagulación de efluentes de la industria textil empleando magnesio. Caso de estudio: Soluciones modelo de índigo carmín"
+        }
+      ],
+      "types": [
+        {
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Proyecto de Investigacion y Desarrollo"
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790461547}]
+    },
+    {
+      "abstract": "",
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
+        }
+      ],
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab8466b5418a51e32849537",
+      "language": "en",
+      "product_types": [{"name": "Proyecto de Investigacion y Desarrollo", "source": "minciencias"}],
+      "ranking": [{"date": 1575608400, "rank": "PID-PID_A", "source": "minciencias"}],
+      "title": "Improving Energy Efficiency of Coal Power Stations Located in the  Colombian Pacific Region",
+      "titles": [
+        {
+          "lang": "en",
+          "source": "minciencias",
+          "title": "Improving Energy Efficiency of Coal Power Stations Located in the  Colombian Pacific Region"
+        }
+      ],
+      "types": [
+        {
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Proyecto de Investigacion y Desarrollo"
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790461547}]
     }
   ],
   "meta": {
-    "count": 18,
-    "cursor": {
-      "next": "https://api.dev.impactu.colav.co/person/0000000001/research/projects?max=1&page=2",
-      "previous": null
-    },
-    "db_response_time_ms": 22,
+    "count": 7,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/person/0000000001/research/projects?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
     "page": 1,
-    "size": 1
+    "size": 2
   }
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
 </ResponseExample>

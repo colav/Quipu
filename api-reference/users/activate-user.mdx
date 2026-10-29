@@ -26,15 +26,15 @@ description: "Reactiva una cuenta de usuario previamente desactivada (is_active 
 
 <ResponseExample>
 ```json 200
-{ "success": true, "msg": "Usuario activado correctamente." }
+{ "success": true, "msg": "El usuario usuario@example.com ha sido activado." }
 ```
 
 ```json 404
-{ "success": false, "msg": "Usuario no encontrado." }
+{ "success": false, "msg": "Usuario con correo usuario@example.com no encontrado" }
 ```
 
 ```json 401
-{ "success": false, "msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente." }
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
 ```
 
 ```json 403

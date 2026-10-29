@@ -6,6 +6,7 @@ description: "Lista de forma paginada las patentes asociadas a una afiliación."
 
 import PaginationParams from "/snippets/pagination-params.mdx";
 import MetaResponse from "/snippets/meta-response.mdx";
+import ViewParam from "/snippets/view-param.mdx";
 
 ## Parámetros de ruta
 
@@ -27,10 +28,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
   `year` (año de publicación). Ejemplo: `year_desc`.
 </ParamField>
 
-<ParamField query="view" type="string" default="full">
-  Nivel de detalle de la respuesta: `full` o `summary`. Con `summary` se
-  devuelven solo los campos esenciales de cada patente.
-</ParamField>
+<ViewParam />
 
 <Note>
   Si no envías `max`, `page` ni `sort`, se aplican `max=10`, `page=1` y
@@ -92,62 +90,84 @@ import MetaResponse from "/snippets/meta-response.mdx";
 {
   "data": [
     {
-      "id": "6ab4ac4e5418a51e324cc06b",
-      "title": "Método para la extracción de compuestos bioactivos",
-      "titles": [
-        {
-          "title": "Método para la extracción de compuestos bioactivos",
-          "lang": "es",
-          "source": "scienti",
-          "provenance": null
-        }
-      ],
-      "language": "es",
       "authors": [
         {
-          "id": "0000000002",
-          "full_name": "Nombre Apellido Apellido",
           "affiliations": [
             {
-              "id": "03bp5hc83",
-              "name": "Universidad de Antioquia",
-              "types": [{ "source": "ror", "type": "education" }]
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
             }
-          ]
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
         }
       ],
       "authors_count": 1,
-      "groups": [
+      "external_ids": [{"id": "0000000001-5494", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab847915418a51e32855ab0",
+      "language": "es",
+      "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
+      "ranking": [{"date": 1383195600, "rank": "PIV-PA4", "source": "minciencias"}],
+      "title": "Proceso continuo para la elaboración de nanopartículas y nanopartículas obtenidas mediante dicho proceso",
+      "titles": [
         {
-          "id": "COL0001262",
-          "name": "CENTAURO",
-          "citations_count": [{ "count": 45, "source": "openalex" }],
-          "ranking": [{ "rank": "A1", "source": "minciencias", "date": 1614229200 }]
+          "lang": "es",
+          "source": "minciencias",
+          "title": "Proceso continuo para la elaboración de nanopartículas y nanopartículas obtenidas mediante dicho proceso"
         }
       ],
-      "types": [{ "source": "scienti", "type": "patent", "provenance": null }],
-      "product_types": [{ "name": "Patente de invención", "source": "minciencias" }],
-      "external_ids": [
-        { "id": "NC2023/0001234", "source": "scienti", "provenance": "scienti" }
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Patente de invención"}],
+      "updated": [{"source": "minciencias", "time": 1790461841}]
+    },
+    {
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
+        }
       ],
-      "updated": [{ "source": "scienti", "time": 1789879321 }]
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000001-5509", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab847915418a51e32855afb",
+      "language": "es",
+      "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
+      "ranking": [{"date": 1383195600, "rank": "PIV-PA4", "source": "minciencias"}],
+      "title": "Proceso de Microencapsulacion de Sustancias Volatiles",
+      "titles": [{"lang": "es", "source": "minciencias", "title": "Proceso de Microencapsulacion de Sustancias Volatiles"}],
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Patente de invención"}],
+      "updated": [{"source": "minciencias", "time": 1790461841}]
     }
   ],
   "meta": {
-    "count": 42,
+    "count": 85,
     "cursor": {
-      "next": "https://api.dev.impactu.colav.co/affiliation/institution/03bp5hc83/research/patents?max=1&page=2",
+      "next": "https://api.dev.impactu.colav.co/affiliation/institution/example-institution-id/research/patents?max=2&page=2",
       "previous": null
     },
-    "db_response_time_ms": 35,
+    "db_response_time_ms": 25,
     "page": 1,
-    "size": 1
+    "size": 2
   }
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
-
 </ResponseExample>

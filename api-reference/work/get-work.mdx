@@ -4,15 +4,20 @@ api: "GET https://api.dev.impactu.colav.co/work/{work_id}"
 description: "Devuelve un producto bibliográfico a partir de su identificador."
 ---
 
+import ViewParam from "/snippets/view-param.mdx";
+import EntityMeta from "/snippets/entity-meta.mdx";
+
 ## Parámetros de ruta
 
 <ParamField path="work_id" type="string" required>
   Identificador del producto. Ejemplo: `6ab4ac4e5418a51e324cc06a`.
 </ParamField>
 
-<Note>
-  Este endpoint no recibe parámetros de paginación ni de filtro.
-</Note>
+## Parámetros de consulta
+
+<ViewParam />
+
+No recibe parámetros de paginación ni de filtro.
 
 ## Respuesta
 
@@ -46,13 +51,8 @@ description: "Devuelve un producto bibliográfico a partir de su identificador."
     <ResponseField name="keywords" type="array">
       Palabras clave.
     </ResponseField>
-    <ResponseField name="abstract" type="object | null">
-      Resumen en formato de índice invertido de OpenAlex: las claves son
-      palabras y los valores son listas de posiciones.
-    </ResponseField>
-    <ResponseField name="abstracts" type="object[]">
-      Resúmenes por fuente (`abstract`, `lang`, `source`, `provenance`). Cada
-      `abstract` también es un índice invertido.
+    <ResponseField name="abstract" type="string | null">
+      Resumen principal en texto.
     </ResponseField>
     <ResponseField name="authors" type="object[]">
       Autores del producto con sus afiliaciones, identificadores externos,
@@ -81,6 +81,24 @@ description: "Devuelve un producto bibliográfico a partir de su identificador."
     <ResponseField name="bibliographic_info" type="object">
       Información bibliográfica: `volume`, `issue`, `start_page`, `end_page`,
       `pages` y `bibtex`.
+    </ResponseField>
+    <ResponseField name="bibtex" type="string | null">
+      Entrada BibTeX.
+    </ResponseField>
+    <ResponseField name="volume" type="string | integer | null">
+      Volumen. Copia de `bibliographic_info.volume`.
+    </ResponseField>
+    <ResponseField name="pages" type="string | null">
+      Páginas. Copia de `bibliographic_info.pages`.
+    </ResponseField>
+    <ResponseField name="start_page" type="string | null">
+      Página inicial. Copia de `bibliographic_info.start_page`.
+    </ResponseField>
+    <ResponseField name="end_page" type="string | null">
+      Página final. Copia de `bibliographic_info.end_page`.
+    </ResponseField>
+    <ResponseField name="publisher" type="string | null">
+      Nombre de la editorial.
     </ResponseField>
     <ResponseField name="citations_count" type="object[]">
       Citas por fuente (`count`, `source`, `provenance`).
@@ -122,83 +140,288 @@ description: "Devuelve un producto bibliográfico a partir de su identificador."
   </Expandable>
 </ResponseField>
 
+<EntityMeta />
+
 <ResponseExample>
 ```json 200
 {
   "data": {
-    "id": "6ab4ac4e5418a51e324cc06a",
-    "title": "Título del artículo de ejemplo",
-    "language": "es",
-    "year_published": 2022,
-    "doi": "https://doi.org/10.00000/ejemplo.2022.001",
+    "abstract": {
+      "(ACIN)": [5],
+      "(IETS)": [17],
+      "19.": [44],
+      "Asociación": [1],
+      "Colombia.": [74],
+      "Colombiana": [2],
+      "Covid": [43],
+      "Covid-19,": [68],
+      "Estas": [45],
+      "Evaluación": [10],
+      "Infectología": [4],
+      "Instituto": [8],
+      "La": [0],
+      "Nuevas": [12],
+      "Salud": [16],
+      "Tecnologías": [13],
+      "al": [48],
+      "atención": [61],
+      "atención,": [36],
+      "basadas": [27],
+      "buscar": [53],
+      "casos": [41],
+      "conformó": [18],
+      "consenso": [31],
+      "contexto": [71],
+      "dar": [54],
+      "de": [3],
+      "desarrollarrecomendaciones": [24],
+      "diagnóstico": [37],
+      "el": [7],
+      "en": [28],
+      "evidencia,": [29],
+      "expertos": [33],
+      "grupo": [20],
+      "guías": [46],
+      "informadas": [25],
+      "la": [15],
+      "los": [57],
+      "manejo": [39],
+      "nacional": [72],
+      "para": [23],
+      "personal": [49],
+      "por": [30],
+      "recomendaciones": [55],
+      "salud": [51],
+      "sondirigidas": [47],
+      "trabajo": [22],
+      "un": [19],
+      "y": [6],
+      "ámbitos": [58]
+    },
+    "apc": {
+      "charges": null,
+      "currency": null,
+      "paid": {"currency": "USD", "provenance": "openalex", "source": null, "value": 100, "value_usd": 100}
+    },
     "authors": [
       {
-        "id": "0000000001",
-        "full_name": "Nombre Apellido Apellido",
         "affiliations": [
           {
-            "id": "03bp5hc83",
-            "name": "Universidad de Antioquia",
-            "types": [{ "source": "ror", "type": "education" }]
-          },
-          {
-            "id": "COL0000000",
-            "name": "Grupo de Investigación Ejemplo",
-            "types": [{ "source": "scienti", "type": "group" }]
+            "addresses": [
+              {
+                "city": "Bogotá",
+                "country": "Colombia",
+                "country_code": "CO",
+                "lat": null,
+                "lng": null,
+                "postcode": null,
+                "state": null
+              }
+            ],
+            "end_date": -1,
+            "external_ids": [{"id": "example-isni-id", "provenance": "ror", "source": "isni"}],
+            "h5_index": null,
+            "h_index": null,
+            "id": "example-institution-id",
+            "name": "Universidad Ejemplo",
+            "position": null,
+            "ranking": null,
+            "ror": null,
+            "start_date": -1,
+            "types": [
+              {
+                "code": null,
+                "level": null,
+                "provenance": null,
+                "source": "ror",
+                "type": "education",
+                "type_class": null
+              }
+            ],
+            "years": []
           }
         ],
-        "external_ids": [
-          { "id": "https://orcid.org/0000-0000-0000-0001", "source": "orcid" }
+        "countries": null,
+        "external_ids": [{"id": "0000000001", "provenance": "staff", "source": "scienti"}],
+        "first_names": ["María"],
+        "full_name": "María Ejemplo García",
+        "h5_index": null,
+        "h_index": null,
+        "id": "0000000001",
+        "last_names": ["Ejemplo"],
+        "ranking": [
+          {
+            "date": 1383195600,
+            "from_date": null,
+            "issn": null,
+            "level": null,
+            "order": "12",
+            "rank": "Investigador Junior",
+            "source": "minciencias",
+            "to_date": null
+          }
+        ],
+        "sex": "Hombre",
+        "type": "author"
+      }
+    ],
+    "authors_count": 93,
+    "bibliographic_info": {
+      "bibtex": "@article{ejemplo,\n  title={Resumen: Consenso colombiano de atenci{\\'o}n, diagn{\\'o}stico y manejo de la infecci{\\'o}n por SARS-COV-2/COVID-19 en establecimiento…",
+      "end_page": "1",
+      "issue": "3",
+      "pages": null,
+      "start_page": "1",
+      "volume": "24"
+    },
+    "bibtex": null,
+    "citations_by_year": [{"cited_by_count": 4, "year": 2025}],
+    "citations_count": [{"count": 136, "provenance": null, "source": "openalex"}],
+    "date_published": 1585198800,
+    "doi": "https://doi.org/10.22354/in.v24i3.851",
+    "end_page": null,
+    "external_ids": [{"id": "0000000082-649", "provenance": "minciencias", "source": "scienti"}],
+    "external_urls": [{"provenance": "dspace", "source": "dspace", "url": "http://hdl.handle.net/20.500.12495/2626"}],
+    "groups": [
+      {
+        "citations_count": [{"count": 4, "provenance": null, "source": "openalex"}],
+        "h5_index": null,
+        "h_index": null,
+        "id": "COL0000002",
+        "name": "Grupo de Investigación Ejemplo",
+        "ranking": [
+          {
+            "date": 1614229200,
+            "from_date": null,
+            "issn": null,
+            "level": null,
+            "order": "3",
+            "rank": "B",
+            "source": "minciencias",
+            "to_date": null
+          }
         ]
       }
     ],
-    "authors_count": 1,
-    "groups": [
-      {
-        "id": "COL0000000",
-        "name": "Grupo de Investigación Ejemplo",
-        "citations_count": [{ "count": 45, "source": "openalex" }],
-        "ranking": [{ "rank": "A", "source": "minciencias", "date": 1614229200 }]
-      }
-    ],
-    "product_types": [
-      { "name": "article", "source": "openalex" },
-      { "name": "Artículo de revista", "source": "impactu" }
-    ],
-    "source": {
-      "id": "6aad68732be7843cde64e000",
-      "name": "Revista Ejemplo de Ciencias",
-      "scimago_quartile": "Q2",
-      "publisher": { "name": "Universidad Ejemplo", "country_code": "CO" }
-    },
-    "bibliographic_info": {
-      "volume": "10",
-      "issue": "1",
-      "start_page": "1",
-      "end_page": "15",
-      "bibtex": "@article{ejemplo2022titulo, title={Título del artículo}, ...}"
-    },
-    "citations_count": [
-      { "count": 8, "source": "openalex" },
-      { "count": 12, "source": "scholar" }
-    ],
+    "id": "6ab55e975418a51e3263ccc5",
+    "keywords": [],
+    "language": "es",
     "open_access": {
+      "has_repository_fulltext": true,
       "is_open_access": true,
       "open_access_status": "gold",
-      "url": "https://revista-ejemplo.co/articulos/001"
+      "url": "http://revistainfectio.org/P_OJS/index.php/infectio/article/download/851/946"
     },
+    "pages": null,
     "primary_topic": {
-      "display_name": "Machine Learning",
-      "subfield": { "display_name": "Artificial Intelligence" },
-      "field": { "display_name": "Computer Science" },
-      "domain": { "display_name": "Physical Sciences" }
+      "display_name": "Public Health and Environmental Issues",
+      "domain": {"display_name": "Physical Sciences", "id": "https://openalex.org/domains/3"},
+      "field": {"display_name": "Environmental Science", "id": "https://openalex.org/fields/23"},
+      "id": "https://openalex.org/T14169",
+      "score": 0.9533,
+      "subfield": {"display_name": "Health, Toxicology and Mutagenesis", "id": "https://openalex.org/subfields/2307"}
     },
-    "updated": [{ "source": "openalex", "time": 1790225486 }]
-  }
+    "product_types": [{"name": "article", "source": "openalex"}],
+    "publisher": null,
+    "ranking": [
+      {
+        "date": 1614229200,
+        "from_date": null,
+        "issn": null,
+        "level": null,
+        "order": null,
+        "rank": "ART-ART_B",
+        "source": "minciencias",
+        "to_date": null
+      }
+    ],
+    "references": [],
+    "references_count": null,
+    "source": {
+      "apc": {"charges": 100, "currency": "USD", "paid": null},
+      "external_ids": [{"id": "0123-9392", "provenance": null, "source": "issn"}],
+      "external_urls": [
+        {
+          "provenance": null,
+          "source": "aims_scope",
+          "url": "http://www.revistainfectio.org/index.php/infectio/about/editorialPolicies#focusAndScope"
+        }
+      ],
+      "id": "6aad68772be7843cde64e5e8",
+      "is_in_doaj": null,
+      "issn": [{"pissn": "0123-9392"}],
+      "issn_l": "0123-9392",
+      "name": "Infectio",
+      "names": [{"lang": "en", "name": "Infectio", "provenance": null, "source": "doaj"}],
+      "publisher": {"country_code": "CO", "id": "", "name": "Asociación Colombiana de Infectología"},
+      "ranking": [
+        {
+          "date": null,
+          "from_date": 1325394000,
+          "issn": null,
+          "level": null,
+          "order": 31056,
+          "rank": "-",
+          "source": "scimago Best Quartile",
+          "to_date": 1356930000
+        }
+      ],
+      "scimago_quartile": null,
+      "serials": null,
+      "types": [{"code": null, "level": null, "provenance": null, "source": "doaj", "type": "journal", "type_class": null}],
+      "updated": [{"source": "doaj", "time": 1789749367}]
+    },
+    "start_page": null,
+    "subjects": [
+      {
+        "provenance": null,
+        "source": "openalex",
+        "subjects": [{"external_ids": null, "id": "6aad70482be7843cde6adff5", "level": 1, "name": "Humanities"}]
+      }
+    ],
+    "subtitle": null,
+    "title": "Consenso colombiano de atención, diagnóstico y manejo de la infección por SARS-COV-2/COVID 19 en establecimientos de atención de la salud. Recomendaciones basad…",
+    "titles": [
+      {
+        "lang": "es",
+        "provenance": null,
+        "source": "openalex",
+        "title": "Consenso colombiano de atención, diagnóstico y manejo de la infección por SARS-COV-2/COVID 19 en establecimientos de atención de la salud. Recomendaciones basad…"
+      }
+    ],
+    "topics": [
+      {
+        "display_name": "Public Health and Environmental Issues",
+        "domain": {"display_name": "Physical Sciences", "id": "https://openalex.org/domains/3"},
+        "field": {"display_name": "Environmental Science", "id": "https://openalex.org/fields/23"},
+        "id": "https://openalex.org/T14169",
+        "score": 0.9533,
+        "subfield": {"display_name": "Health, Toxicology and Mutagenesis", "id": "https://openalex.org/subfields/2307"}
+      }
+    ],
+    "types": [
+      {
+        "code": null,
+        "level": null,
+        "provenance": "openalex",
+        "source": "openalex",
+        "type": "article",
+        "type_class": null
+      }
+    ],
+    "updated": [{"source": "openalex", "time": 1790271127}],
+    "volume": null,
+    "year_published": 2020
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
 }
 ```
 
+```json 404
+{"error": "The work with id 000000000000000000000000 does not exist."}
+```
+
 ```json 400
-{ "error": "mensaje de error" }
+{"error": "Invalid id 'abc'."}
 ```
 </ResponseExample>

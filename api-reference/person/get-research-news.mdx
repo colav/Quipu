@@ -29,31 +29,14 @@ import MetaResponse from "/snippets/meta-response.mdx";
 <ResponseExample>
 ```json 200
 {
-  "data": [
-    {
-      "url_id": "abc123def456",
-      "medium_id": "med789",
-      "url": "https://www.udea.edu.co/noticias/investigacion-nutricion-2024",
-      "url_title": "Investigadora de la UdeA presenta avances en nutrición materno-infantil",
-      "url_language": "es",
-      "url_date": "2024-09-10T08:00:00",
-      "medium": "https://www.udea.edu.co"
-    }
-  ],
-  "meta": {
-    "count": 7,
-    "cursor": {
-      "next": null,
-      "previous": null
-    },
-    "db_response_time_ms": 9,
-    "page": 1,
-    "size": 1
-  }
+  "data": [],
+  "meta": {"count": 0, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 2}
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
 </ResponseExample>

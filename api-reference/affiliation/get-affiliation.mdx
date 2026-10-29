@@ -4,6 +4,9 @@ api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affil
 description: "Devuelve una afiliación (institución, facultad, departamento o grupo) a partir de su identificador."
 ---
 
+import ViewParam from "/snippets/view-param.mdx";
+import EntityMeta from "/snippets/entity-meta.mdx";
+
 ## Parámetros de ruta
 
 <ParamField path="affiliation_type" type="string" required>
@@ -16,16 +19,18 @@ description: "Devuelve una afiliación (institución, facultad, departamento o g
   `COL0001262` (grupo).
 </ParamField>
 
-<Note>
-  Este endpoint no recibe parámetros de consulta: `max`, `page`, `sort` y `view`
-  no aplican.
-</Note>
+## Parámetros de consulta
+
+<ViewParam />
+
+`max`, `page` y `sort` no aplican.
 
 <Note>
-  La API no valida `affiliation_type` contra el identificador: devuelve la
-  afiliación que corresponde a `affiliation_id` aunque el tipo no coincida. Por
+  La API no valida `affiliation_type`: devuelve la afiliación que corresponde a
+  `affiliation_id` con cualquier tipo, aunque no coincida o no exista. Por
   ejemplo, `/affiliation/faculty/03bp5hc83` devuelve la institución, sin error.
-  Usa el tipo correcto para evitar confusiones.
+  Usa el tipo correcto: de él dependen las afiliaciones superiores que se
+  incluyen en `affiliations`.
 </Note>
 
 ## Respuesta
@@ -54,9 +59,6 @@ description: "Devuelve una afiliación (institución, facultad, departamento o g
     <ResponseField name="addresses" type="object[]">
       Direcciones: `city`, `state`, `country`, `country_code`, `postcode`,
       `lat`, `lng`.
-    </ResponseField>
-    <ResponseField name="logo" type="string | null">
-      URL del logo.
     </ResponseField>
     <ResponseField name="year_established" type="integer | null">
       Año de fundación.
@@ -110,6 +112,10 @@ description: "Devuelve una afiliación (institución, facultad, departamento o g
   </Expandable>
 </ResponseField>
 
+<EntityMeta />
+
+El identificador llega en `_id`, no en `id` como en las demás entidades. Con `view=summary` se omiten los campos sin dato.
+
 ### Diferencias según el tipo
 
 | Campo          | Institución      | Facultad                    | Departamento                 | Grupo                   |
@@ -120,124 +126,252 @@ description: "Devuelve una afiliación (institución, facultad, departamento o g
 | `ranking`      | sin datos útiles | vacío                       | vacío                        | clasificación del grupo |
 
 <ResponseExample>
-```json Institución
+```json 200 — Institución
 {
   "data": {
-    "_id": "03bp5hc83",
-    "name": "Universidad de Antioquia",
-    "names": [
-      { "lang": "es", "name": "Universidad de Antioquia", "provenance": null, "source": "ror" },
-      { "lang": "en", "name": "University of Antioquia", "provenance": null, "source": "ror" }
-    ],
-    "abbreviations": ["UdeA", "Universidad de Antioquia", "University of Antioquia"],
-    "types": [
-      { "source": "ror", "type": "education", "provenance": null },
-      { "source": "type", "type": "public", "provenance": "snies" }
-    ],
+    "_id": "example-institution-id",
+    "abbreviations": ["UE"],
     "addresses": [
       {
         "city": "Medellín",
-        "state": "Antioquia",
         "country": "Colombia",
         "country_code": "CO",
         "lat": 6.25184,
         "lng": -75.56359,
-        "postcode": ""
+        "postcode": "",
+        "state": "Antioquia"
       }
-    ],
-    "year_established": 1803,
-    "products_count": 135364,
-    "citations_count": [
-      { "count": 650554, "provenance": null, "source": "openalex" }
-    ],
-    "h_index": 242,
-    "h5_index": 100,
-    "status": ["active"],
-    "external_ids": [
-      { "id": "https://ror.org/03bp5hc83", "provenance": "ror", "source": "ror" }
     ],
     "affiliations": [],
-    "relations": [],
-    "updated": [{ "source": "ror", "time": 1789879321 }]
-  }
-}
-```
-
-```json Facultad
-{
-  "data": {
-    "_id": "03bp5hc83_20",
-    "name": "Facultad de Educación",
-    "types": [{ "source": "staff", "type": "faculty", "provenance": null }],
-    "products_count": 6580,
-    "h_index": 31,
-    "h5_index": 12,
-    "affiliations": [{ "id": "03bp5hc83", "name": "Universidad de Antioquia" }],
-    "relations": [
-      { "id": "03bp5hc83", "name": "Universidad de Antioquia" },
+    "aliases": [],
+    "citations_count": [{"count": 610587, "provenance": null, "source": "scholar"}],
+    "description": [],
+    "external_ids": [{"id": "example-isni-id", "provenance": "ror", "source": "isni"}],
+    "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+    "h5_index": 100,
+    "h_index": 242,
+    "name": "Universidad Ejemplo",
+    "names": [{"lang": "es", "name": "Universidad Ejemplo", "provenance": null, "source": "ror"}],
+    "products_count": 135364,
+    "ranking": [
       {
-        "id": "03bp5hc83_20_22020003_3132",
-        "name": "Departamento de Educación Infantil"
+        "date": null,
+        "from_date": null,
+        "issn": null,
+        "level": null,
+        "order": null,
+        "rank": null,
+        "source": null,
+        "to_date": null
       }
     ],
-    "updated": [{ "source": "staff", "time": 1789879630 }]
-  }
+    "relations": [],
+    "status": ["active"],
+    "subjects": [],
+    "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}],
+    "updated": [{"source": "ror", "time": 1789879321}],
+    "year_established": 1803
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
 }
 ```
 
-```json Departamento
+```json 200 — Facultad
 {
   "data": {
-    "_id": "03bp5hc83_2_21620003_3154",
-    "name": "Departamento de Teatro",
-    "types": [{ "source": "staff", "type": "department", "provenance": null }],
-    "products_count": 761,
-    "h_index": 4,
-    "h5_index": 4,
-    "affiliations": [
-      { "id": "03bp5hc83", "name": "Universidad de Antioquia" },
-      { "id": "03bp5hc83_2", "name": "Facultad de Artes" }
+    "_id": "example-institution-id_20",
+    "abbreviations": [],
+    "addresses": [
+      {
+        "city": "Medellín",
+        "country": "Colombia",
+        "country_code": "CO",
+        "lat": 6.25184,
+        "lng": -75.56359,
+        "postcode": "",
+        "state": "Antioquia"
+      }
     ],
-    "updated": [{ "source": "staff", "time": 1789879629 }]
-  }
+    "affiliations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "aliases": [],
+    "citations_count": [{"count": 8658, "provenance": null, "source": "scholar"}],
+    "description": [],
+    "external_ids": [{"id": "example-staff-id", "provenance": null, "source": "staff"}],
+    "external_urls": [],
+    "h5_index": 12,
+    "h_index": 31,
+    "name": "Facultad Ejemplo",
+    "names": [{"lang": "es", "name": "Facultad Ejemplo", "provenance": null, "source": "staff"}],
+    "products_count": 6580,
+    "ranking": [],
+    "relations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "status": [],
+    "subjects": [],
+    "types": [{"code": null, "level": null, "provenance": null, "source": "staff", "type": "faculty", "type_class": null}],
+    "updated": [{"source": "staff", "time": 1789879630}],
+    "year_established": null
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
 }
 ```
 
-```json Grupo
+```json 200 — Departamento
 {
   "data": {
-    "_id": "COL0001262",
-    "name": "CENTAURO",
-    "types": [{ "source": "scienti", "type": "group", "provenance": null }],
-    "year_established": 1997,
-    "products_count": 800,
-    "h_index": 34,
-    "h5_index": 8,
-    "ranking": [{ "rank": "A1", "source": "minciencias", "date": 1614229200 }],
-    "status": [{ "source": "minciencias", "status": "activo" }],
+    "_id": "example-institution-id_2_example-staff-id",
+    "abbreviations": [],
+    "addresses": [
+      {
+        "city": "Medellín",
+        "country": "Colombia",
+        "country_code": "CO",
+        "lat": 6.25184,
+        "lng": -75.56359,
+        "postcode": "",
+        "state": "Antioquia"
+      }
+    ],
+    "affiliations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "aliases": [],
+    "citations_count": [{"count": 28, "provenance": null, "source": "scholar"}],
+    "description": [],
+    "external_ids": [{"id": "example-staff-id", "provenance": null, "source": "staff"}],
+    "external_urls": [],
+    "h5_index": 4,
+    "h_index": 4,
+    "name": "Departamento Ejemplo",
+    "names": [{"lang": "es", "name": "Departamento Ejemplo", "provenance": null, "source": "staff"}],
+    "products_count": 761,
+    "ranking": [],
+    "relations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "status": [],
+    "subjects": [],
+    "types": [{"code": null, "level": null, "provenance": null, "source": "staff", "type": "department", "type_class": null}],
+    "updated": [{"source": "staff", "time": 1789879629}],
+    "year_established": null
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 200 — Grupo
+{
+  "data": {
+    "_id": "COL0000001",
+    "abbreviations": [],
+    "addresses": [
+      {
+        "city": "Medellín",
+        "country": "Colombia",
+        "country_code": "CO",
+        "lat": 6.25184,
+        "lng": -75.56359,
+        "postcode": "",
+        "state": "Antioquia"
+      }
+    ],
+    "affiliations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "aliases": [],
+    "citations_count": [{"count": 3928, "provenance": null, "source": "scholar"}],
     "description": [
       {
-        "source": "scienti",
         "description": {
-          "TXT_VISION": "Texto de la visión del grupo...",
-          "TXT_OBJETIVOS": "Texto de los objetivos del grupo..."
-        }
+          "TXT_ESTADO_ARTE": "El grupo Centauro ha logrado un importante aporte en publicaciones y en resultados de investigación en sus diferentes líneas de investigación consolidadazas: 1)…",
+          "TXT_OBJETIVOS": "El grupo Centauro tiene como objetivos los siguientes:\r\n\r\n1. Generar proyectos de investigación enfocados al avance del conocimiento científico y a la búsqueda …",
+          "TXT_PLAN_TRABAJO": "El grupo Grupo de Investigación Ejemplo (Grupo de investigación en Ciencias Veterinarias), tiene como objetivo el apoyo al desarrollo científico y tecnológico y al avance de las Cien…",
+          "TXT_PROD_DESTACADA": "1. Creación de dos líneas de maestría: una en Medicina Tropical y otra en Farmacología en la Corporación Ciencias Básicas Biomédicas, que cuenta ahora con un es…",
+          "TXT_RETOS": "1. Consecución regular de recursos externos nacionales e internacionales para la financiación de proyectos de investigación en sus diferentes líneas y campos de…",
+          "TXT_VISION": "Visión Centauro 2027\r\n\r\nPara el año 2027, el grupo Centauro será un grupo de referencia nacional e internacional en el campo de las Ciencias Veterinarias, en vi…"
+        },
+        "source": "scienti"
       }
     ],
+    "external_ids": [{"id": "example-scienti-id", "provenance": null, "source": "scienti"}],
+    "external_urls": [],
+    "h5_index": 8,
+    "h_index": 34,
+    "name": "Grupo de Investigación Ejemplo",
+    "names": [{"lang": "es", "name": "Grupo de Investigación Ejemplo", "provenance": null, "source": "scienti"}],
+    "products_count": 800,
+    "ranking": [
+      {
+        "date": null,
+        "from_date": 1653368400,
+        "issn": null,
+        "level": null,
+        "order": null,
+        "rank": "A1",
+        "source": "scienti",
+        "to_date": 1716440400
+      }
+    ],
+    "relations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "status": [{"source": "minciencias", "status": "activo"}],
     "subjects": [
       {
+        "provenance": null,
         "source": "OCDE",
-        "subjects": [{ "id": "", "level": 1, "name": "Ciencias Veterinarias" }]
+        "subjects": [
+          {
+            "external_ids": [{"id": "4C01", "provenance": null, "source": "OCDE"}],
+            "id": "",
+            "level": 2,
+            "name": "Ciencias Veterinarias"
+          }
+        ]
       }
     ],
-    "affiliations": [{ "id": "03bp5hc83", "name": "Universidad de Antioquia" }],
-    "updated": [{ "source": "minciencias", "time": 1789888310 }]
-  }
+    "types": [{"code": null, "level": null, "provenance": null, "source": "scienti", "type": "group", "type_class": null}],
+    "updated": [{"source": "scienti", "time": 1789888124}],
+    "year_established": 1997
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
 }
 ```
 
-```json 400
-{ "error": "The affiliation with id 03bp5hc83_999 does not exist." }
+```json 404
+{"error": "The affiliation with id 0000000000 does not exist."}
 ```
-
 </ResponseExample>

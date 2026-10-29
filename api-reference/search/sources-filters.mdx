@@ -131,42 +131,19 @@ La respuesta es un objeto con un campo por filtro.
 <ResponseExample>
 ```json 200
 {
-  "apc_range": { "min_apc": 0.01, "max_apc": 8900 },
-  "publication_time": { "min_weeks": 1, "max_weeks": 100 },
-  "license_type": [
-    { "value": "CC BY", "title": "CC BY", "count": 11798 }
-  ],
-  "scimago_quartiles": [
-    { "value": "Q1", "title": "Q1", "count": 17237 }
-  ],
-  "source_types": [
-    { "value": "journal", "title": "Revista", "count": 257907 }
-  ],
-  "status": [
-    { "value": "closed", "title": "Cerrado", "count": 282451 },
-    {
-      "value": "open",
-      "title": "Abierto",
-      "count": 67307,
-      "children": [
-        { "value": "diamond", "title": "Diamante", "count": 58406 },
-        { "value": "gold", "title": "Dorado", "count": 8660 },
-        { "value": "hybrid", "title": "Híbrido", "count": 241 }
-      ]
-    }
-  ],
-  "topics": [
-    {
-      "value": "https://openalex.org/T13255",
-      "title": "Business, Innovation, and Economy",
-      "count": 1662
-    }
-  ]
+  "apc_range": {"max_apc": 8900, "min_apc": 0.01},
+  "license_type": [{"count": 11798, "title": "CC BY", "value": "CC BY"}],
+  "publication_time": {"max_weeks": 100, "min_weeks": 1},
+  "scimago_quartiles": [{"count": 33978, "title": "Sin cuartil", "value": "-"}],
+  "source_types": [{"count": 257907, "title": "Revista", "value": "journal"}],
+  "status": [{"count": 282451, "title": "Cerrado", "value": "closed"}],
+  "topics": [{"count": 1662, "title": "Business, Innovation, and Economy", "value": "https://openalex.org/T13255"}]
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
-
 </ResponseExample>

@@ -4,15 +4,18 @@ api: "GET https://api.dev.impactu.colav.co/person/{person_id}"
 description: "Devuelve el perfil de un autor a partir de su identificador."
 ---
 
+import ViewParam from "/snippets/view-param.mdx";
+import EntityMeta from "/snippets/entity-meta.mdx";
+
 ## Parámetros de ruta
 
 <ParamField path="person_id" type="string" required>
   Identificador del autor. Ejemplo: `0000000001`.
 </ParamField>
 
-<Note>
-  Este endpoint no recibe parámetros de consulta.
-</Note>
+## Parámetros de consulta
+
+<ViewParam />
 
 ## Respuesta
 
@@ -24,6 +27,21 @@ description: "Devuelve el perfil de un autor a partir de su identificador."
     </ResponseField>
     <ResponseField name="full_name" type="string | null">
       Nombre completo.
+    </ResponseField>
+    <ResponseField name="first_names" type="string[]">
+      Nombres.
+    </ResponseField>
+    <ResponseField name="last_names" type="string[]">
+      Apellidos.
+    </ResponseField>
+    <ResponseField name="initials" type="string | null">
+      Iniciales de los nombres.
+    </ResponseField>
+    <ResponseField name="aliases" type="string[]">
+      Variantes del nombre con las que aparece en las fuentes.
+    </ResponseField>
+    <ResponseField name="sex" type="string | null">
+      Sexo.
     </ResponseField>
     <ResponseField name="affiliations" type="object[]">
       Afiliaciones del autor (instituciones, facultades, departamentos y grupos).
@@ -70,63 +88,82 @@ description: "Devuelve el perfil de un autor a partir de su identificador."
     <ResponseField name="h5_index" type="integer | null">
       Índice h de los últimos 5 años.
     </ResponseField>
-    <ResponseField name="logo" type="string | null">
-      URL del logo de la institución principal del autor.
+    <ResponseField name="degrees" type="object[]">
+      Formación académica (`degree`, `date`, `source`, `institutions`).
     </ResponseField>
-    <ResponseField name="age" type="integer | null">
-      Edad calculada a partir de la fecha de nacimiento. Solo presente cuando el
-      dato está disponible.
+    <ResponseField name="ranking" type="object[]">
+      Categorías y clasificaciones: tipo de contrato, jornada, categoría laboral
+      y Minciencias (`rank`, `source`, `date`).
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Áreas de conocimiento agrupadas por fuente (por ejemplo, OECD).
+    </ResponseField>
+    <ResponseField name="keywords" type="string[]">
+      Palabras clave.
+    </ResponseField>
+    <ResponseField name="related_works" type="array">
+      Trabajos relacionados.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Última actualización por fuente (`source`, `time` en segundos Unix).
     </ResponseField>
   </Expandable>
 </ResponseField>
+
+<EntityMeta />
+
+<Note>
+  La API no publica documentos de identidad, fecha o lugar de nacimiento, edad
+  ni estado civil. De `external_ids` solo se publican las fuentes `linkedin`,
+  `openalex`, `orcid`, `publons`, `researchgate`, `scholar`, `scienti`,
+  `scopus`, `ssrn` y `wos`.
+</Note>
 
 <ResponseExample>
 ```json 200
 {
   "data": {
-    "id": "0000000001",
-    "full_name": "María Ejemplo García",
     "affiliations": [
       {
+        "end_date": -1,
+        "external_urls": [],
         "id": "example-institution-id",
         "name": "Universidad Ejemplo",
-        "start_date": 1109116800,
-        "end_date": -1,
-        "types": [
-          { "source": "ror", "type": "education" },
-          { "source": "openalex", "type": "education" }
-        ],
-        "years": [2005, 2006, 2007, 2008, 2009, 2010],
-        "external_urls": []
-      },
-      {
-        "id": "COL0000000",
-        "name": "Grupo de Investigación Ejemplo",
-        "start_date": 1341118800,
-        "end_date": -1,
-        "types": [{ "source": "scienti", "type": "group" }],
-        "years": [],
-        "external_urls": []
+        "start_date": 916617600,
+        "types": [{"source": "ror", "type": "education"}],
+        "years": [1999]
       }
     ],
-    "external_ids": [
-      { "id": "0000000001", "provenance": "scienti", "source": "scienti" },
-      { "id": "https://orcid.org/0000-0000-0000-0001", "provenance": "minciencias", "source": "orcid" },
-      { "id": "https://scholar.google.com/citations?user=EXAMPLEID00", "provenance": "minciencias", "source": "scholar" },
-      { "id": "https://openalex.org/A0000000001", "provenance": "openalex", "source": "openalex" }
+    "aliases": ["maría ejemplo garcía"],
+    "citations_count": [{"count": 980, "source": "openalex"}],
+    "degrees": [{"date": -1, "degree": "doctorado", "id": "", "institutions": [], "source": "nivel_académico"}],
+    "external_ids": [{"id": "0000000001", "provenance": "scienti", "source": "scienti"}],
+    "first_names": ["María"],
+    "full_name": "María Ejemplo García",
+    "h5_index": 6,
+    "h_index": 13,
+    "id": "0000000001",
+    "initials": "M",
+    "keywords": [],
+    "last_names": ["Ejemplo"],
+    "products_count": 3247,
+    "ranking": [{"date": 916635600, "rank": "vinculado", "source": "tipo_contrato"}],
+    "related_works": [],
+    "sex": "Mujer",
+    "subjects": [
+      {
+        "provenance": "minciencias",
+        "source": "OECD",
+        "subjects": [{"external_ids": [{"id": "1", "source": "OECD"}], "id": "", "level": 0, "name": "Ciencias Naturales"}]
+      }
     ],
-    "citations_count": [
-      { "count": 340, "source": "openalex" },
-      { "count": 780, "source": "scholar" }
-    ],
-    "products_count": 135,
-    "h_index": 9,
-    "h5_index": 4
-  }
+    "updated": [{"source": "staff", "time": 1790089866}]
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
 }
 ```
 
-```json 400
-{ "error": "The person with id 9999999999 does not exist." }
+```json 404
+{"error": "The person with id 0000000001 does not exist."}
 ```
 </ResponseExample>

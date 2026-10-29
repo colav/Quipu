@@ -33,10 +33,11 @@ description: "Genera o regenera el API Key del usuario autenticado. Si ya exist�
   Datos del API Key generado.
   <Expandable title="propiedades">
     <ResponseField name="id" type="string">
-      El API Key. Guárdalo en un lugar seguro; no se muestra de nuevo.
+      El API Key: 10 letras y dígitos. Guárdalo en un lugar seguro; no se
+      muestra de nuevo.
     </ResponseField>
     <ResponseField name="expires" type="integer">
-      Fecha de expiración en segundos Unix. Ausente si no se configuró
+      Fecha de expiración en segundos Unix. `null` si no se configuró
       expiración.
     </ResponseField>
   </Expandable>
@@ -47,18 +48,18 @@ description: "Genera o regenera el API Key del usuario autenticado. Si ya exist�
 {
   "success": true,
   "apikey": {
-    "id": "ak_0000000000000000000000000000000000000000",
+    "id": "aB3dE5fG7h",
     "expires": 1830000000
   }
 }
 ```
 
 ```json 400
-{ "success": false, "msg": "La fecha de expiración debe ser al menos 1 día en el futuro." }
+{ "success": false, "msg": "La expiración mínima del API key es de 1 día" }
 ```
 
 ```json 401
-{ "success": false, "msg": "Token no proporcionado o inválido. Por favor inicia sesión nuevamente." }
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
 ```
 
 ```json 403

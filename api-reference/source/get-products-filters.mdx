@@ -29,53 +29,12 @@ Todos son opcionales. Aceptan varios valores separados por coma.
 
 <ResponseExample>
 ```json 200
-{
-  "years": { "min_year": 1990, "max_year": 2026 },
-  "authors_count": { "min_authors": 1, "max_authors": 25 },
-  "authors_ranking": [
-    { "value": "Investigador Asociado", "label": "Investigador Asociado", "count": 45 }
-  ],
-  "groups_ranking": [
-    { "value": "A1", "label": "A1", "count": 80 }
-  ],
-  "countries": [
-    { "value": "CO", "label": "Colombia", "count": 240 },
-    { "value": "US", "label": "United States", "count": 12 }
-  ],
-  "product_types": [
-    {
-      "value": "openalex",
-      "title": "OpenAlex",
-      "children": [
-        { "value": "openalex_article", "title": "Article", "count": 210 }
-      ]
-    }
-  ],
-  "status": [
-    {
-      "value": "open",
-      "title": "Abierto",
-      "count": 200,
-      "children": [
-        { "value": "diamond", "title": "Diamante", "count": 180 }
-      ]
-    },
-    { "value": "closed", "title": "Cerrado", "count": 45 }
-  ],
-  "topics": [
-    {
-      "value": "https://openalex.org/subfields/1305",
-      "title": "Biotechnology",
-      "count": 60,
-      "children": [
-        { "value": "https://openalex.org/T10015", "title": "CRISPR and Genetic Engineering", "count": 20 }
-      ]
-    }
-  ]
-}
+{"authors_count": {"max_authors": null, "min_authors": null}, "years": {"max_year": null, "min_year": null}}
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
 </ResponseExample>

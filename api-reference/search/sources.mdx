@@ -6,6 +6,7 @@ description: "Búsqueda paginada de fuentes (revistas, repositorios y otras) por
 
 import PaginationParams from "/snippets/pagination-params.mdx";
 import MetaResponse from "/snippets/meta-response.mdx";
+import ViewParam from "/snippets/view-param.mdx";
 
 ## Parámetros de consulta
 
@@ -21,9 +22,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
   (citas de OpenAlex) y `alphabetical` (por nombre). Ejemplo: `products_desc`.
 </ParamField>
 
-<ParamField query="view" type="string" default="full">
-  Nivel de detalle de la respuesta: `full` o `summary`.
-</ParamField>
+<ViewParam />
 
 ### Filtros
 
@@ -165,6 +164,21 @@ Todos los filtros aceptan varios valores separados por coma.
       Última actualización por fuente de información (`source`, `time` en
       segundos Unix).
     </ResponseField>
+    <ResponseField name="addresses" type="array">
+      Direcciones. Llega vacío en las fuentes.
+    </ResponseField>
+    <ResponseField name="relations" type="array">
+      Relaciones con otras entidades. Llega vacío en las fuentes.
+    </ResponseField>
+    <ResponseField name="affiliation_names" type="null">
+      Campo sin uso en las fuentes; llega en `null`.
+    </ResponseField>
+    <ResponseField name="date_published" type="null">
+      Campo sin uso en las fuentes; llega en `null`.
+    </ResponseField>
+    <ResponseField name="review_process" type="null">
+      Campo sin uso; los procesos de revisión están en `review_processes`.
+    </ResponseField>
   </Expandable>
 </ResponseField>
 
@@ -175,58 +189,157 @@ Todos los filtros aceptan varios valores separados por coma.
 {
   "data": [
     {
-      "id": "6aad688f2be7843cde652cfb",
-      "names": [
-        { "lang": "en", "name": "SHILAP", "provenance": null, "source": "doaj" }
-      ],
-      "type": "journal",
-      "publisher": {
-        "id": "",
-        "name": "Sociedad Hispano-Luso-Americana de Lepidopterología",
-        "country_code": "ES"
-      },
-      "languages": ["ES", "EN"],
-      "products_count": 14628,
-      "citations_count": [
-        { "count": 19189, "provenance": null, "source": "openalex" }
-      ],
-      "scimago_best_quartile": "Q2",
-      "open_access_status": "diamond",
-      "open_access_start_year": 2022,
-      "publication_time_weeks": 30,
+      "abbreviations": [],
+      "addresses": [],
+      "affiliation_names": null,
+      "apc": {"charges": null, "currency": null, "paid": null},
+      "citations_count": [],
+      "copyright": {"author_retains": true, "url": "https://journals.uni-lj.si/keria/about/submissions"},
+      "date_published": null,
+      "external_ids": [{"id": "1580-0261", "provenance": null, "source": "issn"}],
+      "external_urls": [{"provenance": null, "source": "aims_scope", "url": "https://journals.uni-lj.si/keria/about"}],
+      "global_citations_count": 171,
+      "global_products_count": 694,
+      "id": "6aad68732be7843cde64e41b",
+      "keywords": ["greek and latin studies"],
+      "languages": ["EN"],
       "licenses": [
-        { "type": "CC BY", "BY": true, "NC": false, "ND": false, "SA": false,
-          "url": "https://creativecommons.org/licenses/by/4.0/" }
-      ],
-      "ranking": [
         {
-          "source": "scimago Best Quartile",
-          "rank": "Q2",
-          "from_date": 1735707600,
-          "to_date": 1767157200
+          "BY": true,
+          "NC": false,
+          "ND": false,
+          "SA": true,
+          "type": "CC BY-SA",
+          "url": "https://creativecommons.org/licenses/by-sa/4.0/"
         }
       ],
-      "external_ids": [
-        { "id": "0300-5267", "provenance": null, "source": "issn" }
+      "names": [{"lang": "en", "name": "Keria: Studia Latina et Graeca", "provenance": null, "source": "doaj"}],
+      "open_access_start_year": 1999,
+      "open_access_status": "diamond",
+      "plagiarism_detection": false,
+      "products_count": 0,
+      "publication_time_weeks": 20,
+      "publisher": {"country_code": "SI", "id": "", "name": "University of Ljubljana Press (Založba Univerze v Ljubljani)"},
+      "ranking": [
+        {
+          "date": null,
+          "from_date": 1546318800,
+          "issn": null,
+          "level": null,
+          "order": 33103,
+          "rank": "-",
+          "source": "scimago Best Quartile",
+          "to_date": 1577768400
+        }
       ],
-      "updated": [{ "source": "doaj", "time": 1789749391 }]
+      "relations": [],
+      "review_process": null,
+      "review_processes": ["Double anonymous peer review"],
+      "scimago_best_quartile": "Q2",
+      "subjects": [
+        {
+          "provenance": null,
+          "source": "LCC",
+          "subjects": [
+            {
+              "external_ids": [{"id": "PA", "provenance": null, "source": "LCC"}],
+              "id": "",
+              "level": null,
+              "name": "Greek language and literature. Latin language and literature"
+            }
+          ]
+        }
+      ],
+      "topics": [],
+      "type": "journal",
+      "types": [{"code": null, "level": null, "provenance": null, "source": "doaj", "type": "journal", "type_class": null}],
+      "updated": [{"source": "doaj", "time": 1789749363}],
+      "waiver": {"has_waiver": false, "url": null}
+    },
+    {
+      "abbreviations": [],
+      "addresses": [],
+      "affiliation_names": null,
+      "apc": {"charges": null, "currency": null, "paid": null},
+      "citations_count": [{"count": 5, "provenance": null, "source": "openalex"}],
+      "copyright": {
+        "author_retains": true,
+        "url": "https://revistas.unilasalle.edu.br/index.php/redes/about/submissions#copyrightNotice"
+      },
+      "date_published": null,
+      "external_ids": [{"id": "139355", "provenance": null, "source": "scienti"}],
+      "external_urls": [
+        {
+          "provenance": null,
+          "source": "aims_scope",
+          "url": "https://revistas.unilasalle.edu.br/index.php/redes/about/editorialPolicies#focusAndScope"
+        }
+      ],
+      "global_citations_count": 907,
+      "global_products_count": 399,
+      "id": "6aad68732be7843cde64e41c",
+      "keywords": ["law"],
+      "languages": ["PT"],
+      "licenses": [{"BY": true, "NC": true, "ND": false, "SA": false, "type": "CC BY-NC", "url": null}],
+      "names": [{"lang": "en", "name": "Redes (Canoas)", "provenance": null, "source": "doaj"}],
+      "open_access_start_year": 2013,
+      "open_access_status": "diamond",
+      "plagiarism_detection": false,
+      "products_count": 5,
+      "publication_time_weeks": 12,
+      "publisher": {"country_code": "BR", "id": "", "name": "Universidade La Salle"},
+      "ranking": [
+        {
+          "date": null,
+          "from_date": 1546318800,
+          "issn": null,
+          "level": null,
+          "order": 34198,
+          "rank": "-",
+          "source": "scimago Best Quartile",
+          "to_date": 1577768400
+        }
+      ],
+      "relations": [],
+      "review_process": null,
+      "review_processes": ["Anonymous peer review"],
+      "scimago_best_quartile": "Q2",
+      "subjects": [
+        {
+          "provenance": null,
+          "source": "LCC",
+          "subjects": [{"external_ids": [{"id": "K", "provenance": null, "source": "LCC"}], "id": "", "level": null, "name": "Law"}]
+        }
+      ],
+      "topics": [
+        {
+          "display_name": "Human Rights and Immigration",
+          "domain": {"display_name": "Social Sciences", "id": "https://openalex.org/domains/2"},
+          "field": {"display_name": "Social Sciences", "id": "https://openalex.org/fields/33"},
+          "id": "https://openalex.org/T14490",
+          "score": null,
+          "subfield": {"display_name": "Sociology and Political Science", "id": "https://openalex.org/subfields/3312"}
+        }
+      ],
+      "type": "journal",
+      "types": [{"code": null, "level": null, "provenance": null, "source": "doaj", "type": "journal", "type_class": null}],
+      "updated": [{"source": "doaj", "time": 1789749363}],
+      "waiver": {"has_waiver": false, "url": null}
     }
   ],
   "meta": {
     "count": 349758,
-    "cursor": {
-      "next": "https://api.dev.impactu.colav.co/search/sources?max=1&page=2&sort=products_desc",
-      "previous": null
-    },
-    "db_response_time_ms": 120,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/sources?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
     "page": 1,
-    "size": 1
+    "size": 2
   }
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
-
 </ResponseExample>

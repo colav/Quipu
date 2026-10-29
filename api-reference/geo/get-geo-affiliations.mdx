@@ -17,6 +17,8 @@ description: "Devuelve las instituciones y grupos de investigación asociados a 
 
 ## Respuesta
 
+La respuesta no está envuelta en `data`. Si la entidad no existe, la respuesta es `200` con las listas vacías.
+
 <ResponseField name="institutions" type="object[]">
   Instituciones asociadas a la entidad. Cada elemento contiene `id` y `name`.
 </ResponseField>
@@ -25,21 +27,24 @@ description: "Devuelve las instituciones y grupos de investigación asociados a 
   Grupos de investigación asociados. Cada elemento contiene `id` y `name`.
 </ResponseField>
 
+<ResponseField name="cities" type="object[]">
+  Solo con `state`: ciudades del departamento. Cada elemento contiene `id` y
+  `name`.
+</ResponseField>
+
 <ResponseExample>
-```json 200
+```json 200 — Departamento
 {
-  "institutions": [
-    { "id": "03bp5hc83", "name": "Universidad de Antioquia" },
-    { "id": "snies_1102", "name": "Universidad Nacional de Colombia" }
-  ],
-  "groups": [
-    { "id": "COL0011886", "name": "Historia de la Práctica Pedagógica en Colombia" },
-    { "id": "COL0013011", "name": "Administración y Organizaciones" }
-  ]
+  "institutions": [{"id": "example-institution-id", "name": "Universidad Ejemplo"}],
+  "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+  "cities": [{"id": "05045", "name": "Apartadó"}]
 }
 ```
 
-```json 400
-{ "error": "mensaje de error" }
+```json 200 — Ciudad
+{
+  "institutions": [{"id": "example-institution-id", "name": "Universidad Ejemplo"}],
+  "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}]
+}
 ```
 </ResponseExample>

@@ -6,31 +6,50 @@ description: "Devuelve el historial de métricas de calidad y cobertura de datos
 
 ## Respuesta
 
-Array de snapshots históricos. Cada elemento representa un punto en el tiempo con estadísticas detalladas de cada colección de la base de datos.
+La respuesta es una lista de mediciones, de la más reciente a la más antigua. Cada elemento resume la cobertura de datos de cada colección en un momento dado.
 
-<ResponseField name="[]" type="object[]">
-  Lista de snapshots de métricas.
-  <Expandable title="propiedades de cada snapshot">
-    <ResponseField name="affiliations_collection" type="object">
-      Métricas de la colección de afiliaciones: conteo de instituciones
-      colombianas, cobertura de identificadores externos por fuente
-      (`ror`, `openalex`, `minciencias`, `scienti`, `wikidata`, etc.) y
-      desglose de procedencia (`provenance_breakdown`) indicando cuántas
-      entidades provienen exclusiva o conjuntamente de cada fuente.
-    </ResponseField>
-    <ResponseField name="works_collection" type="object">
-      Métricas de la colección de productos bibliográficos: cobertura de DOI,
-      acceso abierto, citas, fuentes identificadas y desglose por procedencia.
-    </ResponseField>
-    <ResponseField name="persons_collection" type="object">
-      Métricas de la colección de autores: cobertura de ORCID, OpenAlex,
-      afiliaciones y desglose por procedencia.
-    </ResponseField>
-    <ResponseField name="sources_collection" type="object">
-      Métricas de la colección de fuentes: cobertura de ISSN, Scimago,
-      cuartiles y desglose por procedencia.
-    </ResponseField>
-  </Expandable>
+<ResponseField name="computed_at" type="integer">
+  Fecha de la medición en segundos Unix.
+</ResponseField>
+
+<ResponseField name="db_update" type="integer">
+  Fecha de la actualización de la base de datos medida, en segundos Unix.
+</ResponseField>
+
+<ResponseField name="affiliations_collection" type="object">
+  Afiliaciones: `total`, instituciones colombianas (`colombian`,
+  `colombian_without_minciencias_id`), `research_groups`, `with_citations` y
+  desgloses por identificador externo (`external_ids_breakdown`), procedencia
+  (`provenance_breakdown`) y tipo (`types_breakdown`).
+</ResponseField>
+
+<ResponseField name="works_collection" type="object">
+  Productos: `total`, `with_doi`, `with_abstract`, `with_citations`,
+  `with_apc_paid`, `open_access_status_known` y desgloses por procedencia y
+  tipo.
+</ResponseField>
+
+<ResponseField name="person_collection" type="object">
+  Personas: `total`, `with_orcid`, `with_citations`, `with_hindex`,
+  `with_staff`, `with_cedula` (solo el conteo) y desgloses por identificador
+  externo y procedencia.
+</ResponseField>
+
+<ResponseField name="sources_collection" type="object">
+  Fuentes: `total`, `with_apc` y desgloses por identificador externo, licencia,
+  acceso abierto, procedencia, cuartil Scimago y tipo de fuente.
+</ResponseField>
+
+<ResponseField name="patents_count" type="integer">
+  Total de patentes.
+</ResponseField>
+
+<ResponseField name="projects_count" type="integer">
+  Total de proyectos.
+</ResponseField>
+
+<ResponseField name="news_count" type="integer">
+  Total de noticias.
 </ResponseField>
 
 <ResponseExample>
@@ -41,36 +60,514 @@ Array de snapshots históricos. Cada elemento representa un punto en el tiempo c
       "colombian": 9491,
       "colombian_without_minciencias_id": 1727,
       "external_ids_breakdown": {
-        "ror": 54081,
-        "openalex": 54045,
-        "wikidata": 53363,
+        "COD_INST": 1752,
+        "ID_INSTITUCION": 1752,
+        "fundref": 10718,
+        "grid": 54081,
+        "isni": 35014,
         "minciencias": 7764,
+        "nit": 1042,
+        "openalex": 54045,
+        "ror": 54081,
         "scienti": 828,
-        "snies": 284
+        "snies": 284,
+        "staff": 498,
+        "wikidata": 53363,
+        "wikipedia": 29919
       },
       "provenance_breakdown": {
         "exclusive_intersection": {
-          "openalex_ror_wikidata": 30655,
           "minciencias": 6936,
-          "scienti": 1117
+          "minciencias_scienti": 639,
+          "none": 4,
+          "openalex_ror": 22571,
+          "openalex_ror_scienti": 135,
+          "openalex_ror_scienti_wikidata": 684,
+          "openalex_ror_wikidata": 30655,
+          "ror": 28,
+          "ror_scienti": 1,
+          "ror_wikidata": 7,
+          "scienti": 1117,
+          "scienti_staff": 4,
+          "staff": 499
         },
         "intersection": {
-          "ror": 54081,
+          "minciencias": 7575,
+          "minciencias_scienti": 639,
           "openalex": 54045,
-          "minciencias": 7575
+          "openalex_ror": 54045,
+          "openalex_ror_scienti": 819,
+          "openalex_ror_scienti_wikidata": 684,
+          "openalex_ror_wikidata": 31339,
+          "openalex_scienti": 819,
+          "openalex_scienti_wikidata": 684,
+          "openalex_wikidata": 31339,
+          "ror": 54081,
+          "ror_scienti": 820,
+          "ror_scienti_wikidata": 684,
+          "ror_wikidata": 31346,
+          "scienti": 2580,
+          "scienti_staff": 4,
+          "scienti_wikidata": 684,
+          "staff": 503,
+          "wikidata": 31346
         }
-      }
+      },
+      "research_groups": 7937,
+      "total": 63280,
+      "types_breakdown": {
+        "archive": 749,
+        "company": 9575,
+        "department": 424,
+        "education": 15567,
+        "facility": 7731,
+        "faculty": 79,
+        "government": 3641,
+        "group": 7653,
+        "healthcare": 9873,
+        "nonprofit": 4801,
+        "other": 3447
+      },
+      "with_citations": 39482,
+      "with_country": 63212,
+      "with_hindex": 42046,
+      "with_products": 47590,
+      "with_relations": 8204,
+      "with_year_established": 61946
+    },
+    "computed_at": 1790777130,
+    "db_update": 1790716409,
+    "news_count": 26869,
+    "patents_count": 1904,
+    "person_collection": {
+      "external_ids_breakdown": {
+        "Cédula de Ciudadanía": 49205,
+        "Cédula de Extranjería": 3006,
+        "Pasaporte": 830,
+        "Passport": 1963,
+        "Tarjeta de Identidad": 16,
+        "linkedin": 18905,
+        "openalex": 1487132,
+        "orcid": 533676,
+        "publons": 1301,
+        "researchgate": 19036,
+        "scholar": 101135,
+        "scienti": 120034,
+        "scopus": 12481,
+        "ssrn": 526,
+        "wos": 155
+      },
+      "provenance_breakdown": {
+        "exclusive_intersection": {
+          "minciencias": 28241,
+          "minciencias_openalex": 7682,
+          "minciencias_openalex_orcid": 16878,
+          "minciencias_openalex_orcid_scholar": 14136,
+          "minciencias_openalex_orcid_scholar_scienti": 9306,
+          "minciencias_openalex_orcid_scholar_scienti_staff": 2166,
+          "minciencias_openalex_orcid_scholar_staff": 1133,
+          "minciencias_openalex_orcid_scienti": 6243,
+          "minciencias_openalex_orcid_scienti_staff": 822,
+          "minciencias_openalex_orcid_staff": 713,
+          "minciencias_openalex_scholar": 1536,
+          "minciencias_openalex_scholar_scienti": 656,
+          "minciencias_openalex_scholar_scienti_staff": 170,
+          "minciencias_openalex_scholar_staff": 107,
+          "minciencias_openalex_scienti": 3020,
+          "minciencias_openalex_scienti_staff": 299,
+          "minciencias_openalex_staff": 409,
+          "minciencias_orcid": 3382,
+          "minciencias_orcid_scholar": 129,
+          "minciencias_orcid_scholar_scienti": 37,
+          "minciencias_orcid_scholar_scienti_staff": 14,
+          "minciencias_orcid_scholar_staff": 2,
+          "minciencias_orcid_scienti": 662,
+          "minciencias_orcid_scienti_staff": 129,
+          "minciencias_orcid_staff": 23,
+          "minciencias_scholar": 198,
+          "minciencias_scholar_scienti": 210,
+          "minciencias_scholar_scienti_staff": 37,
+          "minciencias_scholar_staff": 24,
+          "minciencias_scienti": 12799,
+          "minciencias_scienti_staff": 1241,
+          "minciencias_staff": 528,
+          "openalex": 938433,
+          "openalex_orcid": 421084,
+          "openalex_orcid_scholar": 49511,
+          "openalex_orcid_scholar_scienti": 260,
+          "openalex_orcid_scholar_scienti_staff": 2,
+          "openalex_orcid_scholar_staff": 7,
+          "openalex_orcid_scienti": 632,
+          "openalex_orcid_scienti_staff": 8,
+          "openalex_orcid_staff": 39,
+          "openalex_scholar": 10839,
+          "openalex_scholar_scienti": 32,
+          "openalex_scholar_scienti_staff": 1,
+          "openalex_scholar_staff": 4,
+          "openalex_scienti": 928,
+          "openalex_scienti_staff": 4,
+          "openalex_staff": 72,
+          "orcid": 1,
+          "orcid_scienti": 4,
+          "orcid_scienti_staff": 1,
+          "scholar": 1305,
+          "scholar_scienti": 16,
+          "scholar_scienti_staff": 1,
+          "scholar_staff": 1,
+          "scienti": 5105,
+          "scienti_staff": 28,
+          "staff": 1368
+        },
+        "intersection": {
+          "minciencias": 112932,
+          "minciencias_openalex": 65276,
+          "minciencias_openalex_orcid": 51397,
+          "minciencias_openalex_orcid_scholar": 26741,
+          "minciencias_openalex_orcid_scholar_scienti": 11472,
+          "minciencias_openalex_orcid_scholar_scienti_staff": 2166,
+          "minciencias_openalex_orcid_scholar_staff": 3299,
+          "minciencias_openalex_orcid_scienti": 18537,
+          "minciencias_openalex_orcid_scienti_staff": 2988,
+          "minciencias_openalex_orcid_staff": 4834,
+          "minciencias_openalex_scholar": 29210,
+          "minciencias_openalex_scholar_scienti": 12298,
+          "minciencias_openalex_scholar_scienti_staff": 2336,
+          "minciencias_openalex_scholar_staff": 3576,
+          "minciencias_openalex_scienti": 22682,
+          "minciencias_openalex_scienti_staff": 3457,
+          "minciencias_openalex_staff": 5819,
+          "minciencias_orcid": 55775,
+          "minciencias_orcid_scholar": 26923,
+          "minciencias_orcid_scholar_scienti": 11523,
+          "minciencias_orcid_scholar_scienti_staff": 2180,
+          "minciencias_orcid_scholar_staff": 3315,
+          "minciencias_orcid_scienti": 19379,
+          "minciencias_orcid_scienti_staff": 3131,
+          "minciencias_orcid_staff": 5002,
+          "minciencias_scholar": 29861,
+          "minciencias_scholar_scienti": 12596,
+          "minciencias_scholar_scienti_staff": 2387,
+          "minciencias_scholar_staff": 3653,
+          "minciencias_scienti": 37811,
+          "minciencias_scienti_staff": 4878,
+          "minciencias_staff": 7817,
+          "openalex": 1487132,
+          "openalex_orcid": 522940,
+          "openalex_orcid_scholar": 76521,
+          "openalex_orcid_scholar_scienti": 11734,
+          "openalex_orcid_scholar_scienti_staff": 2168,
+          "openalex_orcid_scholar_staff": 3308,
+          "openalex_orcid_scienti": 19439,
+          "openalex_orcid_scienti_staff": 2998,
+          "openalex_orcid_staff": 4890,
+          "openalex_scholar": 89866,
+          "openalex_scholar_scienti": 12593,
+          "openalex_scholar_scienti_staff": 2339,
+          "openalex_scholar_staff": 3590,
+          "openalex_scienti": 24549,
+          "openalex_scienti_staff": 3472,
+          "openalex_staff": 5956,
+          "orcid": 527324,
+          "orcid_scholar": 76703,
+          "orcid_scholar_scienti": 11785,
+          "orcid_scholar_scienti_staff": 2182,
+          "orcid_scholar_staff": 3324,
+          "orcid_scienti": 20286,
+          "orcid_scienti_staff": 3142,
+          "orcid_staff": 5059,
+          "scholar": 91840,
+          "scholar_scienti": 12908,
+          "scholar_scienti_staff": 2391,
+          "scholar_staff": 3669,
+          "scienti": 44833,
+          "scienti_staff": 4923,
+          "staff": 9353
+        }
+      },
+      "total": 1542618,
+      "with_cedula": {"scienti": 39535, "staff": 6860, "total": 46395},
+      "with_citations": 1088263,
+      "with_hindex": 1090409,
+      "with_orcid": 533676,
+      "with_staff": 9353
+    },
+    "projects_count": 128687,
+    "sources_collection": {
+      "external_ids_breakdown": {
+        "eissn": 21905,
+        "issn": 199385,
+        "issn_l": 163592,
+        "openalex": 280063,
+        "pissn": 13089,
+        "publindex": 634,
+        "scienti": 18727,
+        "scimago": 75691
+      },
+      "license_type_breakdown": {
+        "CC BY": 11798,
+        "CC BY-NC": 4999,
+        "CC BY-NC-ND": 5104,
+        "CC BY-NC-SA": 2122,
+        "CC BY-ND": 421,
+        "CC BY-SA": 1987,
+        "CC0": 84,
+        "Public domain": 12,
+        "Publisher's own license": 167
+      },
+      "open_access_breakdown": {"closed": 282451, "diamond": 58406, "gold": 8660, "hybrid": 241},
+      "provenance_breakdown": {
+        "exclusive_intersection": {
+          "doaj": 1579,
+          "doaj_openalex": 9322,
+          "doaj_openalex_publindex": 1288,
+          "doaj_openalex_publindex_scienti": 551,
+          "doaj_openalex_publindex_scienti_scimago": 2546,
+          "doaj_openalex_publindex_scimago": 5884,
+          "doaj_openalex_scienti": 534,
+          "doaj_openalex_scienti_scimago": 41,
+          "doaj_openalex_scimago": 519,
+          "doaj_publindex": 121,
+          "doaj_publindex_scienti": 30,
+          "doaj_publindex_scienti_scimago": 26,
+          "doaj_publindex_scimago": 273,
+          "doaj_scienti": 88,
+          "doaj_scienti_scimago": 7,
+          "doaj_scimago": 55,
+          "openalex": 217528,
+          "openalex_publindex": 10978,
+          "openalex_publindex_scienti": 1153,
+          "openalex_publindex_scienti_scimago": 6562,
+          "openalex_publindex_scimago": 19419,
+          "openalex_scienti": 1284,
+          "openalex_scienti_scimago": 140,
+          "openalex_scimago": 2314,
+          "publindex": 24047,
+          "publindex_scienti": 745,
+          "publindex_scienti_scimago": 142,
+          "publindex_scimago": 2744,
+          "scienti": 4819,
+          "scienti_scimago": 59,
+          "scimago": 34960
+        },
+        "intersection": {
+          "doaj": 22864,
+          "doaj_openalex": 20685,
+          "doaj_openalex_publindex": 10269,
+          "doaj_openalex_publindex_scienti": 3097,
+          "doaj_openalex_publindex_scienti_scimago": 2546,
+          "doaj_openalex_publindex_scimago": 8430,
+          "doaj_openalex_scienti": 3672,
+          "doaj_openalex_scienti_scimago": 2587,
+          "doaj_openalex_scimago": 8990,
+          "doaj_publindex": 10719,
+          "doaj_publindex_scienti": 3153,
+          "doaj_publindex_scienti_scimago": 2572,
+          "doaj_publindex_scimago": 8729,
+          "doaj_scienti": 3823,
+          "doaj_scienti_scimago": 2620,
+          "doaj_scimago": 9351,
+          "openalex": 280063,
+          "openalex_publindex": 48381,
+          "openalex_publindex_scienti": 10812,
+          "openalex_publindex_scienti_scimago": 9108,
+          "openalex_publindex_scimago": 34411,
+          "openalex_scienti": 12811,
+          "openalex_scienti_scimago": 9289,
+          "openalex_scimago": 37425,
+          "publindex": 76509,
+          "publindex_scienti": 11755,
+          "publindex_scienti_scimago": 9276,
+          "publindex_scimago": 37596,
+          "scienti": 18727,
+          "scienti_scimago": 9523,
+          "scimago": 75691
+        }
+      },
+      "scimago_quartiles_breakdown": {"-": 33978, "Q1": 17237, "Q2": 10532, "Q3": 9123, "Q4": 4821},
+      "source_types_breakdown": {
+        "book series": 6977,
+        "conference": 10936,
+        "ebook platform": 28966,
+        "igsnCatalog": 35,
+        "journal": 225914,
+        "metadata": 2,
+        "other": 120,
+        "raidRegistry": 12,
+        "repository": 7094
+      },
+      "total": 349758,
+      "with_apc": 8901,
+      "with_licenses": 22864,
+      "with_products": 33360,
+      "with_publindex": 76509,
+      "with_publisher": 57994,
+      "with_ranking": 120667,
+      "with_topics": 33135
     },
     "works_collection": {
-      "with_doi": 1823045,
-      "open_access": 549211,
-      "with_citations": 987432
+      "open_access_status_known": 740412,
+      "provenance_breakdown": {
+        "exclusive_intersection": {
+          "ciarp": 41669,
+          "ciarp_dspace": 10234,
+          "ciarp_dspace_minciencias": 6825,
+          "ciarp_dspace_minciencias_openalex": 1722,
+          "ciarp_dspace_minciencias_openalex_scholar": 3244,
+          "ciarp_dspace_minciencias_openalex_scholar_scienti": 6206,
+          "ciarp_dspace_minciencias_openalex_scienti": 2062,
+          "ciarp_dspace_minciencias_scholar": 16,
+          "ciarp_dspace_minciencias_scholar_scienti": 57,
+          "ciarp_dspace_minciencias_scienti": 1944,
+          "ciarp_dspace_openalex": 3384,
+          "ciarp_dspace_openalex_scholar": 2184,
+          "ciarp_dspace_openalex_scholar_scienti": 2392,
+          "ciarp_dspace_openalex_scienti": 1574,
+          "ciarp_dspace_scholar": 89,
+          "ciarp_dspace_scholar_scienti": 123,
+          "ciarp_dspace_scienti": 1764,
+          "ciarp_minciencias": 11121,
+          "ciarp_minciencias_openalex": 2207,
+          "ciarp_minciencias_openalex_scholar": 9193,
+          "ciarp_minciencias_openalex_scholar_scienti": 9174,
+          "ciarp_minciencias_openalex_scienti": 1472,
+          "ciarp_minciencias_scholar": 192,
+          "ciarp_minciencias_scholar_scienti": 220,
+          "ciarp_minciencias_scienti": 5573,
+          "ciarp_openalex": 10110,
+          "ciarp_openalex_scholar": 11702,
+          "ciarp_openalex_scholar_scienti": 7008,
+          "ciarp_openalex_scienti": 2850,
+          "ciarp_scholar": 746,
+          "ciarp_scholar_scienti": 286,
+          "ciarp_scienti": 7471,
+          "dspace": 849293,
+          "dspace_minciencias": 101242,
+          "dspace_minciencias_openalex": 12875,
+          "dspace_minciencias_openalex_scholar": 18867,
+          "dspace_minciencias_openalex_scholar_scienti": 4676,
+          "dspace_minciencias_openalex_scienti": 2457,
+          "dspace_minciencias_scholar": 218,
+          "dspace_minciencias_scholar_scienti": 86,
+          "dspace_minciencias_scienti": 14513,
+          "dspace_openalex": 69818,
+          "dspace_openalex_scholar": 39064,
+          "dspace_openalex_scholar_scienti": 3563,
+          "dspace_openalex_scienti": 4350,
+          "dspace_scholar": 3350,
+          "dspace_scholar_scienti": 259,
+          "dspace_scienti": 21539,
+          "minciencias": 782301,
+          "minciencias_openalex": 19870,
+          "minciencias_openalex_scholar": 35239,
+          "minciencias_openalex_scholar_scienti": 8816,
+          "minciencias_openalex_scienti": 4184,
+          "minciencias_scholar": 1388,
+          "minciencias_scholar_scienti": 806,
+          "minciencias_scienti": 74508,
+          "openalex": 259173,
+          "openalex_scholar": 155895,
+          "openalex_scholar_scienti": 14252,
+          "openalex_scienti": 10829,
+          "scholar": 17071,
+          "scholar_scienti": 1665,
+          "scienti": 194997
+        },
+        "intersection": {
+          "ciarp": 164814,
+          "ciarp_dspace": 43820,
+          "ciarp_dspace_minciencias": 22076,
+          "ciarp_dspace_minciencias_openalex": 13234,
+          "ciarp_dspace_minciencias_openalex_scholar": 9450,
+          "ciarp_dspace_minciencias_openalex_scholar_scienti": 6206,
+          "ciarp_dspace_minciencias_openalex_scienti": 8268,
+          "ciarp_dspace_minciencias_scholar": 9523,
+          "ciarp_dspace_minciencias_scholar_scienti": 6263,
+          "ciarp_dspace_minciencias_scienti": 10269,
+          "ciarp_dspace_openalex": 22768,
+          "ciarp_dspace_openalex_scholar": 14026,
+          "ciarp_dspace_openalex_scholar_scienti": 8598,
+          "ciarp_dspace_openalex_scienti": 12234,
+          "ciarp_dspace_scholar": 14311,
+          "ciarp_dspace_scholar_scienti": 8778,
+          "ciarp_dspace_scienti": 16122,
+          "ciarp_minciencias": 61228,
+          "ciarp_minciencias_openalex": 35280,
+          "ciarp_minciencias_openalex_scholar": 27817,
+          "ciarp_minciencias_openalex_scholar_scienti": 15380,
+          "ciarp_minciencias_openalex_scienti": 18914,
+          "ciarp_minciencias_scholar": 28302,
+          "ciarp_minciencias_scholar_scienti": 15657,
+          "ciarp_minciencias_scienti": 26708,
+          "ciarp_openalex": 76484,
+          "ciarp_openalex_scholar": 51103,
+          "ciarp_openalex_scholar_scienti": 24780,
+          "ciarp_openalex_scienti": 32738,
+          "ciarp_scholar": 52832,
+          "ciarp_scholar_scienti": 25466,
+          "ciarp_scienti": 50176,
+          "dspace": 1189990,
+          "dspace_minciencias": 177010,
+          "dspace_minciencias_openalex": 52109,
+          "dspace_minciencias_openalex_scholar": 32993,
+          "dspace_minciencias_openalex_scholar_scienti": 10882,
+          "dspace_minciencias_openalex_scienti": 15401,
+          "dspace_minciencias_scholar": 33370,
+          "dspace_minciencias_scholar_scienti": 11025,
+          "dspace_minciencias_scienti": 32001,
+          "dspace_openalex": 178438,
+          "dspace_openalex_scholar": 80196,
+          "dspace_openalex_scholar_scienti": 16837,
+          "dspace_openalex_scienti": 27280,
+          "dspace_scholar": 84394,
+          "dspace_scholar_scienti": 17362,
+          "dspace_scienti": 67565,
+          "minciencias": 1143274,
+          "minciencias_openalex": 142264,
+          "minciencias_openalex_scholar": 95415,
+          "minciencias_openalex_scholar_scienti": 28872,
+          "minciencias_openalex_scienti": 39047,
+          "minciencias_scholar": 98398,
+          "minciencias_scholar_scienti": 30041,
+          "minciencias_scienti": 136754,
+          "openalex": 740412,
+          "openalex_scholar": 331475,
+          "openalex_scholar_scienti": 56087,
+          "openalex_scienti": 85865,
+          "scholar": 358047,
+          "scholar_scienti": 59589,
+          "scienti": 411676
+        }
+      },
+      "total": 2891978,
+      "types_breakdown": {
+        "impactu": [{"count": 978455, "type": "Artículo de revista"}],
+        "with_impactu_total": 2712489,
+        "without_impactu": {
+          "by_source": {
+            "coar": 22302,
+            "dspace": 260231,
+            "eu-repo": 82637,
+            "minciencias": 995,
+            "openalex": 10,
+            "redcol": 4631,
+            "scienti": 4375
+          },
+          "no_types": 22994,
+          "normalization_skipped": 5379
+        },
+        "without_impactu_total": 179489
+      },
+      "with_abstract": 1523967,
+      "with_apc_paid": 52236,
+      "with_citations": 389920,
+      "with_doi": 670641,
+      "with_primary_topic": 1570315,
+      "with_ranking_minciencias": 1143274,
+      "with_research_groups": 1238066,
+      "with_source": 712997,
+      "with_year_published": 1887750
     }
   }
 ]
-```
-
-```json 400
-{ "error": "mensaje de error" }
 ```
 </ResponseExample>

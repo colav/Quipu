@@ -4,6 +4,8 @@ api: "GET https://api.dev.impactu.colav.co/geo/{geo_type}/{geo_id}"
 description: "Devuelve una entidad geográfica (departamento o ciudad) a partir de su código DANE."
 ---
 
+import EntityMeta from "/snippets/entity-meta.mdx";
+
 ## Parámetros de ruta
 
 <ParamField path="geo_type" type="string" required>
@@ -14,6 +16,8 @@ description: "Devuelve una entidad geográfica (departamento o ciudad) a partir 
   Código DANE de la entidad. Ejemplos: `05` para Antioquia (state), `05001`
   para Medellín (city).
 </ParamField>
+
+No recibe parámetros de consulta: `view` no aplica a las entidades geográficas.
 
 ## Respuesta
 
@@ -66,83 +70,57 @@ description: "Devuelve una entidad geográfica (departamento o ciudad) a partir 
     <ResponseField name="cities_count" type="integer | null">
       Número de ciudades asociadas. Solo presente cuando `geo_type` es `state`.
     </ResponseField>
-    <ResponseField name="institutions" type="object[]">
-      Lista de instituciones asociadas (`id`, `name`).
-    </ResponseField>
-    <ResponseField name="groups" type="object[]">
-      Lista de grupos de investigación asociados (`id`, `name`).
-    </ResponseField>
-    <ResponseField name="cities" type="object[]">
-      Lista de ciudades asociadas (`id`, `name`). Solo presente cuando
-      `geo_type` es `state`.
-    </ResponseField>
   </Expandable>
 </ResponseField>
 
+<EntityMeta />
+
+Las instituciones, los grupos y, en los departamentos, las ciudades se consultan en [Afiliaciones de una entidad geográfica](/api-reference/geo/get-geo-affiliations).
+
 <ResponseExample>
-```json 200 — state
+```json 200 — Departamento
 {
   "data": {
-    "id": "05",
-    "name": "Antioquia",
-    "type": "state",
+    "authors_count": 43836,
+    "citations_count": [{"count": 1172650, "source": "openalex"}],
+    "cities_count": 22,
     "country": "Colombia",
     "country_code": "CO",
-    "external_ids": [{ "id": "05", "source": "dane" }],
-    "citations_count": [
-      { "count": 1172650, "source": "openalex" },
-      { "count": 1126729, "source": "scholar" }
-    ],
-    "products_count": 295187,
-    "authors_count": 43836,
-    "institutions_count": 178,
+    "external_ids": [{"id": "05", "source": "dane"}],
     "groups_count": 1117,
-    "cities_count": 22,
-    "institutions": [
-      { "id": "03bp5hc83", "name": "Universidad de Antioquia" },
-      { "id": "snies_1102", "name": "Universidad Nacional de Colombia" }
-    ],
-    "groups": [
-      { "id": "COL0011886", "name": "Historia de la Práctica Pedagógica en Colombia" }
-    ],
-    "cities": [
-      { "id": "05001", "name": "Medellín" },
-      { "id": "05088", "name": "Bello" }
-    ]
-  }
+    "id": "05",
+    "institutions_count": 178,
+    "name": "Antioquia",
+    "products_count": 295187,
+    "type": "state"
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
 }
 ```
 
-```json 200 — city
+```json 200 — Ciudad
 {
   "data": {
-    "id": "05001",
-    "name": "Medellín",
-    "type": "city",
+    "authors_count": 40431,
+    "citations_count": [{"count": 1103485, "source": "openalex"}],
     "country": "Colombia",
     "country_code": "CO",
-    "state": { "id": "05", "name": "Antioquia" },
+    "external_ids": [{"id": "05001", "source": "dane"}],
+    "groups_count": 1020,
+    "id": "05001",
+    "institutions_count": 131,
     "latitude": 6.246631,
     "longitude": -75.581775,
-    "external_ids": [{ "id": "05001", "source": "dane" }],
-    "citations_count": [
-      { "count": 1103485, "source": "openalex" }
-    ],
+    "name": "Medellín",
     "products_count": 275779,
-    "authors_count": 40431,
-    "institutions_count": 131,
-    "groups_count": 1020,
-    "institutions": [
-      { "id": "03bp5hc83", "name": "Universidad de Antioquia" }
-    ],
-    "groups": [
-      { "id": "COL0011886", "name": "Historia de la Práctica Pedagógica en Colombia" }
-    ]
-  }
+    "state": {"id": "05", "name": "Antioquia"},
+    "type": "city"
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
 }
 ```
 
-```json 400
-{ "error": "The state with id 001 does not exist." }
+```json 404
+{"error": "The geolocation with id 99999 does not exist."}
 ```
 </ResponseExample>

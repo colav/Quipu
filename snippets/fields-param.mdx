@@ -1,0 +1,8 @@
+<ParamField query="fields" type="string">
+  Campos de primer nivel que quieres recibir de cada producto, separados por
+  coma. `id` se devuelve siempre. No admite campos anidados. Campos permitidos:
+  `id`, `authors`, `titles`, `keywords`, `topics`, `subjects`, `source`,
+  `types`, `year_published`, `citations_by_year`, `citations_count` y
+  `updated`. Un campo fuera de la lista responde `400`. No cambia los resultados,
+  su orden ni `meta.count`. Ejemplo: `fields=authors,titles`.
+</ParamField>

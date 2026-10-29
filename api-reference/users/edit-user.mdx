@@ -46,10 +46,14 @@ Al menos uno de los dos campos es obligatorio.
 ```
 
 ```json 403
-{ "success": false, "msg": "No está permitido asignar el role 'admin'." }
+{ "success": false, "msg": "No se puede asignar el rol 'admin' a un usuario." }
 ```
 
 ```json 404
-{ "success": false, "msg": "Usuario no encontrado." }
+{ "success": false, "msg": "Usuario con correo usuario@example.com no encontrado." }
+```
+
+```json 401
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
 ```
 </ResponseExample>

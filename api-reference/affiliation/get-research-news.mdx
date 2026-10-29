@@ -44,7 +44,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
       Título de la noticia.
     </ResponseField>
     <ResponseField name="url_language" type="string | null">
-      Código de idioma de la noticia (por ejemplo, `es`, `en`).
+      Idioma de la noticia, en inglés y mayúsculas (por ejemplo, `SPANISH`).
     </ResponseField>
     <ResponseField name="url_date" type="string | null">
       Fecha de publicación de la noticia.
@@ -62,29 +62,40 @@ import MetaResponse from "/snippets/meta-response.mdx";
 {
   "data": [
     {
-      "url_id": "abc123def456",
-      "medium_id": "med789",
-      "url": "https://www.elmedio.com/noticias/investigacion-udea-2024",
-      "url_title": "Investigadores de la UdeA logran avance en tratamiento contra el dengue",
-      "url_language": "es",
-      "url_date": "2024-08-15T10:30:00",
-      "medium": "https://www.elmedio.com"
+      "medium": "https://www.elcolombiano.com/",
+      "medium_id": "0",
+      "url": "https://www.elcolombiano.com/colombia/salud/antidepresivo-en-spray-que-preguntas-deja-BG10342074",
+      "url_date": "2019-03-08 00:01:00+00:00",
+      "url_id": "0_1071",
+      "url_language": "SPANISH",
+      "url_title": "Antidepresivo en spray, ¿qué preguntas deja?"
+    },
+    {
+      "medium": "https://www.elcolombiano.com/",
+      "medium_id": "0",
+      "url": "https://www.elcolombiano.com/colombia/salud/la-soledad-una-epidemia-moderna-IX8123749",
+      "url_date": "2018-02-02 23:00:20+00:00",
+      "url_id": "0_1117",
+      "url_language": "SPANISH",
+      "url_title": "La soledad, ¿una epidemia moderna?"
     }
   ],
   "meta": {
-    "count": 53,
+    "count": 2333,
     "cursor": {
-      "next": "https://api.dev.impactu.colav.co/affiliation/institution/03bp5hc83/research/news?max=1&page=2",
+      "next": "https://api.dev.impactu.colav.co/affiliation/institution/example-institution-id/research/news?max=2&page=2",
       "previous": null
     },
-    "db_response_time_ms": 12,
+    "db_response_time_ms": 25,
     "page": 1,
-    "size": 1
+    "size": 2
   }
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
 </ResponseExample>

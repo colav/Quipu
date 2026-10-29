@@ -4,11 +4,18 @@ api: "GET https://api.dev.impactu.colav.co/project/{project_id}"
 description: "Devuelve un proyecto de investigación a partir de su identificador."
 ---
 
+import ViewParam from "/snippets/view-param.mdx";
+import EntityMeta from "/snippets/entity-meta.mdx";
+
 ## Parámetros de ruta
 
 <ParamField path="project_id" type="string" required>
   Identificador del proyecto. Ejemplo: `6ab4ac4e5418a51e324cc06c`.
 </ParamField>
+
+## Parámetros de consulta
+
+<ViewParam />
 
 ## Respuesta
 
@@ -77,68 +84,113 @@ description: "Devuelve un proyecto de investigación a partir de su identificado
   </Expandable>
 </ResponseField>
 
+<EntityMeta />
+
 <ResponseExample>
 ```json 200
 {
   "data": {
-    "id": "6ab4ac4e5418a51e324cc06c",
-    "title": "Título del proyecto de investigación de ejemplo",
-    "titles": [
-      { "lang": "es", "source": "minciencias", "title": "Título del proyecto de investigación de ejemplo" }
-    ],
-    "language": "es",
-    "abstract": "Resumen del proyecto de ejemplo.",
-    "keywords": ["palabra clave 1", "palabra clave 2"],
-    "year_init": 2019,
-    "year_end": 2022,
-    "date_init": null,
-    "date_end": null,
-    "product_types": [
-      { "name": "Proyecto de investigación", "source": "minciencias" }
-    ],
-    "types": [
-      { "level": 1, "source": "minciencias", "type": "Proyecto de investigación", "provenance": "minciencias" },
-      { "level": 0, "source": "minciencias", "type": "Nuevo conocimiento", "provenance": "minciencias" }
-    ],
-    "ranking": [
-      { "rank": "PI-PI", "source": "minciencias", "date": 1575608400 }
-    ],
+    "abstract": "",
     "authors": [
       {
-        "id": "0000000001",
-        "full_name": "Nombre Apellido Apellido",
         "affiliations": [
           {
-            "id": "03bp5hc83",
-            "name": "Universidad de Antioquia",
-            "types": [{ "source": "ror", "type": "education" }]
-          },
-          {
-            "id": "COL0000000",
+            "addresses": null,
+            "end_date": null,
+            "external_ids": null,
+            "h5_index": null,
+            "h_index": null,
+            "id": "COL0000001",
             "name": "Grupo de Investigación Ejemplo",
-            "types": [{ "source": "minciencias", "type": "group" }]
+            "position": null,
+            "ranking": null,
+            "ror": null,
+            "start_date": null,
+            "types": [
+              {
+                "code": null,
+                "level": null,
+                "provenance": null,
+                "source": "minciencias",
+                "type": "group",
+                "type_class": null
+              }
+            ],
+            "years": []
           }
         ],
-        "external_ids": [
-          { "id": "0000000001", "source": "scienti", "provenance": "minciencias" }
-        ]
+        "countries": null,
+        "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
+        "first_names": null,
+        "full_name": "María Ejemplo García",
+        "h5_index": null,
+        "h_index": null,
+        "id": "0000000001",
+        "last_names": null,
+        "ranking": null,
+        "sex": null,
+        "type": null
       }
     ],
     "authors_count": 1,
-    "groups": [
-      { "id": "COL0000000", "name": "Grupo de Investigación Ejemplo" }
-    ],
-    "external_ids": [
-      { "id": "PI-0000000001-15", "source": "minciencias", "provenance": "minciencias" },
-      { "id": "0000000001", "source": "scienti", "provenance": "minciencias" }
-    ],
+    "date_end": null,
+    "date_init": null,
+    "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
     "external_urls": [],
-    "updated": [{ "source": "minciencias", "time": 1790461135 }]
-  }
+    "groups": [
+      {
+        "citations_count": null,
+        "h5_index": null,
+        "h_index": null,
+        "id": "COL0000001",
+        "name": "Grupo de Investigación Ejemplo",
+        "ranking": null
+      }
+    ],
+    "id": "6ab844cf5418a51e3283862f",
+    "keywords": null,
+    "language": "es",
+    "product_types": [{"name": "Proyecto de extensión", "source": "minciencias"}],
+    "ranking": [
+      {
+        "date": 1575608400,
+        "from_date": null,
+        "issn": null,
+        "level": null,
+        "order": null,
+        "rank": "PE-PE",
+        "source": "minciencias",
+        "to_date": null
+      }
+    ],
+    "title": "4.\tFortalecimiento de la gestión del conocimiento en medidas de atención para violencia contra la mujer, estudio de caso municipio del Socorro, Santander 2017-2…",
+    "titles": [
+      {
+        "lang": "es",
+        "provenance": null,
+        "source": "minciencias",
+        "title": "4.\tFortalecimiento de la gestión del conocimiento en medidas de atención para violencia contra la mujer, estudio de caso municipio del Socorro, Santander 2017-2…"
+      }
+    ],
+    "types": [
+      {
+        "code": null,
+        "level": 1,
+        "provenance": "minciencias",
+        "source": "minciencias",
+        "type": "Proyecto de extensión",
+        "type_class": null
+      }
+    ],
+    "updated": [{"source": "minciencias", "time": 1790461135}],
+    "year_end": null,
+    "year_init": null
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
 }
 ```
 
-```json 400
-{ "error": "mensaje de error" }
+```json 404
+{"error": "The project with id 000000000000000000000000 does not exist."}
 ```
 </ResponseExample>

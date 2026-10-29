@@ -16,9 +16,9 @@ description: "Actualiza la fecha de expiración del API Key existente del usuari
 
 ## Cuerpo de la solicitud
 
-<ParamField body="expires" type="integer" required>
+<ParamField body="expires" type="integer">
   Nueva fecha de expiración en segundos Unix. Debe ser una fecha futura con al
-  menos 1 día de margen.
+  menos 1 día de margen. Si se omite, el API Key queda sin expiración.
 </ParamField>
 
 ## Respuesta
@@ -33,18 +33,18 @@ description: "Actualiza la fecha de expiración del API Key existente del usuari
 
 <ResponseExample>
 ```json 200
-{ "success": true, "msg": "Expiración actualizada correctamente." }
+{ "success": true, "msg": "Expiración del API key actualizada" }
 ```
 
 ```json 400
-{ "success": false, "msg": "La fecha de expiración debe ser al menos 1 día en el futuro." }
+{ "success": false, "msg": "La expiración mínima del API key es de 1 día" }
 ```
 
 ```json 401
-{ "success": false, "msg": "Token no proporcionado o inválido. Por favor inicia sesión nuevamente." }
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
 ```
 
 ```json 403
-{ "success": false, "msg": "No tienes permiso para modificar el API Key de otro usuario." }
+{ "success": false, "msg": "No tienes permiso para gestionar el API Key de otro usuario." }
 ```
 </ResponseExample>

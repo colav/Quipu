@@ -7,6 +7,8 @@ description: "Lista de forma paginada los productos de investigación de una afi
 import PaginationParams from "/snippets/pagination-params.mdx";
 import MetaResponse from "/snippets/meta-response.mdx";
 import WorksFilterParams from "/snippets/works-filter-params.mdx";
+import ViewParam from "/snippets/view-param.mdx";
+import FieldsParam from "/snippets/fields-param.mdx";
 
 Este endpoint tiene dos modos:
 
@@ -34,18 +36,9 @@ Este endpoint tiene dos modos:
   `year` (año de publicación). Ejemplo: `year_desc`.
 </ParamField>
 
-<ParamField query="view" type="string" default="full">
-  Nivel de detalle de la respuesta: `full` o `summary`. Con `summary`, la lista
-  de autores de cada producto se recorta a 10.
-</ParamField>
+<ViewParam />
 
-<ParamField query="fields" type="string">
-  Campos de primer nivel que quieres recibir, separados por coma. No admite
-  campos anidados. Campos permitidos: `id`, `authors`, `titles`, `keywords`,
-  `topics`, `subjects`, `source`, `types`, `year_published`,
-  `citations_by_year`, `citations_count` y `updated`. Ejemplo:
-  `fields=authors,titles`.
-</ParamField>
+<FieldsParam />
 
 <ParamField query="plot" type="string">
   Nombre del indicador a devolver. Con este parámetro la respuesta es el
@@ -164,62 +157,150 @@ Las opciones válidas se consultan en [Filtros de productos de una afiliación](
 {
   "data": [
     {
-      "id": "6ab4ac4e5418a51e324cc06a",
-      "title": "JUGUETES: RETRATOS HABLADOS Y CARTOGRAFÍA DE LOS RECUERDOS",
-      "language": "es",
+      "abstracts": [],
+      "apc": {"paid": {}},
       "authors": [
         {
-          "id": "0000000001",
-          "full_name": "Nombre Apellido Apellido",
           "affiliations": [
             {
-              "id": "COL0004685",
-              "name": "Estudios Literarios",
-              "start_date": 1009861200,
+              "addresses": [{"city": "Medellín", "country": "Colombia", "country_code": "CO"}],
               "end_date": -1,
-              "types": [{ "source": "scienti", "type": "group" }]
-            },
-            {
-              "id": "03bp5hc83",
-              "name": "Universidad de Antioquia",
-              "start_date": 1152489600,
-              "end_date": 1738281600,
-              "types": [{ "source": "ror", "type": "education" }]
+              "external_ids": [{"id": "example-scienti-id", "source": "scienti"}],
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "start_date": 1590987600,
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
             }
-          ]
+          ],
+          "external_ids": [{"id": "0000000001", "provenance": "scienti", "source": "scienti"}],
+          "first_names": ["María"],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001",
+          "last_names": ["Ejemplo"],
+          "ranking": [{"date": 1462408390, "rank": "EM", "source": "scienti"}],
+          "sex": "Hombre"
         }
       ],
       "authors_count": 1,
+      "bibliographic_info": {},
+      "citations_by_year": [],
+      "citations_count": [],
+      "doi": "",
+      "external_ids": [{"id": "AAD-0000000001-6-2", "provenance": "minciencias", "source": "minciencias"}],
+      "external_urls": [],
       "groups": [
         {
-          "id": "COL0004685",
-          "name": "Estudios Literarios",
-          "citations_count": [{ "count": 130, "source": "openalex" }],
-          "ranking": [{ "rank": "A1", "source": "minciencias", "date": 1614229200 }]
+          "citations_count": [{"count": 8, "source": "scholar"}],
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [{"from_date": 1653368400, "rank": "C", "source": "scienti", "to_date": 1716440400}]
         }
       ],
-      "product_types": [
-        { "name": "Obras o productos de arte, arquitectura y diseño", "source": "minciencias" },
-        { "name": "Investigación-creación", "source": "impactu" }
+      "id": "6ab4ac3f5418a51e324cb4cc",
+      "keywords": [],
+      "language": "es",
+      "open_access": {},
+      "primary_topic": {},
+      "product_types": [{"name": "Obras o productos de arte, arquitectura y diseño", "source": "minciencias"}],
+      "ranking": [{"date": 1614229200, "rank": "AAD-AAD_C", "source": "minciencias"}],
+      "references": [],
+      "source": {},
+      "subjects": [],
+      "title": "Suite de los ensamblajes",
+      "titles": [{"lang": "es", "source": "minciencias", "title": "Suite de los ensamblajes"}],
+      "topics": [],
+      "types": [
+        {
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Obras o productos de arte, arquitectura y diseño"
+        }
       ],
-      "updated": [{ "source": "minciencias", "time": 1790225486 }]
+      "updated": [{"source": "minciencias", "time": 1790225471}]
+    },
+    {
+      "abstracts": [],
+      "apc": {"paid": {}},
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": [{"city": "Medellín", "country": "Colombia", "country_code": "CO"}],
+              "end_date": -1,
+              "external_ids": [{"id": "example-scienti-id", "source": "scienti"}],
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "start_date": 1590987600,
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "external_ids": [{"id": "0000000001", "provenance": "scienti", "source": "scienti"}],
+          "first_names": ["María"],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001",
+          "last_names": ["Ejemplo"],
+          "ranking": [{"date": 1462408390, "rank": "EM", "source": "scienti"}],
+          "sex": "Hombre"
+        }
+      ],
+      "authors_count": 1,
+      "bibliographic_info": {},
+      "citations_by_year": [],
+      "citations_count": [],
+      "doi": "",
+      "external_ids": [{"id": "AAD-0000000001-8-4", "provenance": "minciencias", "source": "minciencias"}],
+      "external_urls": [],
+      "groups": [
+        {
+          "citations_count": [{"count": 8, "source": "scholar"}],
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [{"from_date": 1653368400, "rank": "C", "source": "scienti", "to_date": 1716440400}]
+        }
+      ],
+      "id": "6ab4ac3f5418a51e324cb4cd",
+      "keywords": [],
+      "language": "es",
+      "open_access": {},
+      "primary_topic": {},
+      "product_types": [{"name": "Obras o productos de arte, arquitectura y diseño", "source": "minciencias"}],
+      "ranking": [{"date": 1614229200, "rank": "AAD-AAD_C", "source": "minciencias"}],
+      "references": [],
+      "source": {},
+      "subjects": [],
+      "title": "Un Si mayor por la paz",
+      "titles": [{"lang": "es", "source": "minciencias", "title": "Un Si mayor por la paz"}],
+      "topics": [],
+      "types": [
+        {
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Obras o productos de arte, arquitectura y diseño"
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790225471}]
     }
   ],
   "meta": {
-    "count": 2837,
+    "count": 135364,
     "cursor": {
-      "next": "https://api.dev.impactu.colav.co/affiliation/faculty/03bp5hc83_20/research/products?max=1&authors_count=1&page=2",
+      "next": "https://api.dev.impactu.colav.co/affiliation/institution/example-institution-id/research/products?max=2&page=2",
       "previous": null
     },
-    "db_response_time_ms": 109,
+    "db_response_time_ms": 25,
     "page": 1,
-    "size": 1
+    "size": 2
   }
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nfields\n  Value error, Invalid fields: abstract. Allowed fields: authors, citations_by_year, citations_count, id, keywords, so…"
+}
 ```
-
 </ResponseExample>

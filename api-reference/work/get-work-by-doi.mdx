@@ -4,6 +4,10 @@ api: "GET https://api.dev.impactu.colav.co/work"
 description: "Devuelve los productos bibliográficos que coinciden con un DOI."
 ---
 
+import ViewParam from "/snippets/view-param.mdx";
+import FieldsParam from "/snippets/fields-param.mdx";
+import MetaResponse from "/snippets/meta-response.mdx";
+
 ## Parámetros de consulta
 
 <ParamField query="doi" type="string" required>
@@ -11,11 +15,15 @@ description: "Devuelve los productos bibliográficos que coinciden con un DOI."
   `https://doi.org/10.18316/2318-8081.15.1`.
 </ParamField>
 
+<ViewParam />
+
+<FieldsParam />
+
 <Note>
   La respuesta es una lista porque un mismo DOI puede estar asociado a más de
   un registro en la base de datos. En la mayoría de casos devuelve un solo
-  elemento. Si no se proporciona el parámetro `doi`, el endpoint devuelve un
-  error `401`.
+  elemento. Si no envías `doi`, la respuesta es `400`. Si ningún producto tiene
+  ese DOI, la respuesta es `200` con `data` vacío.
 </Note>
 
 ## Respuesta
@@ -25,44 +33,190 @@ description: "Devuelve los productos bibliográficos que coinciden con un DOI."
   es la misma que en [Obtener un producto](/api-reference/work/get-work).
 </ResponseField>
 
+<MetaResponse />
+
 <ResponseExample>
 ```json 200
 {
   "data": [
     {
-      "id": "6ab4ac4e5418a51e324cc06a",
-      "title": "Título del artículo de ejemplo",
-      "language": "es",
-      "year_published": 2022,
-      "doi": "https://doi.org/10.00000/ejemplo.2022.001",
-      "authors": [
+      "abstracts": [
         {
-          "id": "0000000001",
-          "full_name": "Nombre Apellido Apellido",
-          "affiliations": [
-            { "id": "03bp5hc83", "name": "Universidad de Antioquia" }
-          ]
+          "abstract": {
+            "(ACIN)": [5],
+            "(IETS)": [17],
+            "19.": [44],
+            "Asociación": [1],
+            "Colombia.": [74],
+            "Colombiana": [2],
+            "Covid": [43],
+            "Covid-19,": [68],
+            "Estas": [45],
+            "Evaluación": [10],
+            "Infectología": [4],
+            "Instituto": [8],
+            "La": [0],
+            "Nuevas": [12],
+            "Salud": [16],
+            "Tecnologías": [13],
+            "al": [48],
+            "atención": [61],
+            "atención,": [36],
+            "basadas": [27],
+            "buscar": [53],
+            "casos": [41],
+            "conformó": [18],
+            "consenso": [31],
+            "contexto": [71],
+            "dar": [54],
+            "de": [3],
+            "desarrollarrecomendaciones": [24],
+            "diagnóstico": [37],
+            "el": [7],
+            "en": [28],
+            "evidencia,": [29],
+            "expertos": [33],
+            "grupo": [20],
+            "guías": [46],
+            "informadas": [25],
+            "la": [15],
+            "los": [57],
+            "manejo": [39],
+            "nacional": [72],
+            "para": [23],
+            "personal": [49],
+            "por": [30],
+            "recomendaciones": [55],
+            "salud": [51],
+            "sondirigidas": [47],
+            "trabajo": [22],
+            "un": [19],
+            "y": [6],
+            "ámbitos": [58]
+          },
+          "lang": "es",
+          "provenance": "openalex",
+          "source": "openalex"
         }
       ],
-      "authors_count": 1,
-      "citations_count": [
-        { "count": 8, "source": "openalex" }
+      "apc": {"paid": {"currency": "USD", "provenance": "openalex", "value": 100, "value_usd": 100}},
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": [{"city": "Bogotá", "country": "Colombia", "country_code": "CO"}],
+              "end_date": -1,
+              "external_ids": [{"id": "example-isni-id", "provenance": "ror", "source": "isni"}],
+              "id": "example-institution-id",
+              "name": "Universidad Ejemplo",
+              "start_date": -1,
+              "types": [{"source": "ror", "type": "education"}],
+              "years": []
+            }
+          ],
+          "external_ids": [{"id": "0000000001", "provenance": "staff", "source": "scienti"}],
+          "first_names": ["María"],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001",
+          "last_names": ["Ejemplo"],
+          "ranking": [{"date": 1383195600, "order": "12", "rank": "Investigador Junior", "source": "minciencias"}],
+          "sex": "Hombre",
+          "type": "author"
+        }
       ],
-      "source": {
-        "id": "6aad68732be7843cde64e000",
-        "name": "Revista Ejemplo de Ciencias"
+      "authors_count": 93,
+      "bibliographic_info": {
+        "bibtex": "@article{ejemplo,\n  title={Resumen: Consenso colombiano de atenci{\\'o}n, diagn{\\'o}stico y manejo de la infecci{\\'o}n por SARS-COV-2/COVID-19 en establecimiento…",
+        "end_page": "1",
+        "issue": "3",
+        "start_page": "1",
+        "volume": "24"
       },
-      "updated": [{ "source": "openalex", "time": 1790225486 }]
+      "citations_by_year": [{"cited_by_count": 4, "year": 2025}],
+      "citations_count": [{"count": 136, "source": "openalex"}],
+      "date_published": 1585198800,
+      "doi": "https://doi.org/10.22354/in.v24i3.851",
+      "external_ids": [{"id": "0000000082-649", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [{"provenance": "dspace", "source": "dspace", "url": "http://hdl.handle.net/20.500.12495/2626"}],
+      "groups": [
+        {
+          "citations_count": [{"count": 4, "source": "openalex"}],
+          "id": "COL0000002",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [{"date": 1614229200, "order": "3", "rank": "B", "source": "minciencias"}]
+        }
+      ],
+      "id": "6ab55e975418a51e3263ccc5",
+      "keywords": [],
+      "open_access": {
+        "has_repository_fulltext": true,
+        "is_open_access": true,
+        "open_access_status": "gold",
+        "url": "http://revistainfectio.org/P_OJS/index.php/infectio/article/download/851/946"
+      },
+      "primary_topic": {
+        "display_name": "Public Health and Environmental Issues",
+        "domain": {"display_name": "Physical Sciences", "id": "https://openalex.org/domains/3"},
+        "field": {"display_name": "Environmental Science", "id": "https://openalex.org/fields/23"},
+        "id": "https://openalex.org/T14169",
+        "score": 0.9533,
+        "subfield": {"display_name": "Health, Toxicology and Mutagenesis", "id": "https://openalex.org/subfields/2307"}
+      },
+      "ranking": [{"date": 1614229200, "rank": "ART-ART_B", "source": "minciencias"}],
+      "references": [],
+      "source": {
+        "apc": {"charges": 100, "currency": "USD"},
+        "external_ids": [{"id": "0123-9392", "source": "issn"}],
+        "external_urls": [
+          {
+            "source": "aims_scope",
+            "url": "http://www.revistainfectio.org/index.php/infectio/about/editorialPolicies#focusAndScope"
+          }
+        ],
+        "id": "6aad68772be7843cde64e5e8",
+        "name": "Infectio",
+        "names": [{"lang": "en", "name": "Infectio", "source": "doaj"}],
+        "publisher": {"country_code": "CO", "id": "", "name": "Asociación Colombiana de Infectología"},
+        "ranking": [
+          {
+            "from_date": 1325394000,
+            "order": 31056,
+            "rank": "-",
+            "source": "scimago Best Quartile",
+            "to_date": 1356930000
+          }
+        ],
+        "types": [{"source": "doaj", "type": "journal"}],
+        "updated": [{"source": "doaj", "time": 1789749367}]
+      },
+      "subjects": [{"source": "openalex", "subjects": [{"id": "6aad70482be7843cde6adff5", "level": 1, "name": "Humanities"}]}],
+      "titles": [
+        {
+          "lang": "es",
+          "source": "openalex",
+          "title": "Consenso colombiano de atención, diagnóstico y manejo de la infección por SARS-COV-2/COVID 19 en establecimientos de atención de la salud. Recomendaciones basad…"
+        }
+      ],
+      "topics": [
+        {
+          "display_name": "Public Health and Environmental Issues",
+          "domain": {"display_name": "Physical Sciences", "id": "https://openalex.org/domains/3"},
+          "field": {"display_name": "Environmental Science", "id": "https://openalex.org/fields/23"},
+          "id": "https://openalex.org/T14169",
+          "score": 0.9533,
+          "subfield": {"display_name": "Health, Toxicology and Mutagenesis", "id": "https://openalex.org/subfields/2307"}
+        }
+      ],
+      "types": [{"provenance": "openalex", "source": "openalex", "type": "article"}],
+      "updated": [{"source": "openalex", "time": 1790271127}],
+      "year_published": 2020
     }
-  ]
+  ],
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 10}
 }
 ```
 
-```json 401
-{ "error": "Missing required parameter: doi" }
-```
-
-```json 404
-{ "error": "mensaje de error" }
+```json 400
+{"error": "Missing required parameter: doi"}
 ```
 </ResponseExample>

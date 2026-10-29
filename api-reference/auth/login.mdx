@@ -27,7 +27,7 @@ description: "Autentica con email y contraseña. Si es válido, establece una co
 </ResponseField>
 
 <ResponseField name="_id" type="string">
-  Identificador de la institución asociada al usuario.
+  Identificador ROR de la institución asociada al usuario.
 </ResponseField>
 
 <ResponseField name="institution" type="string">
@@ -42,21 +42,21 @@ description: "Autentica con email y contraseña. Si es válido, establece una co
 ```json 200
 {
   "success": true,
-  "_id": "03bp5hc83",
-  "institution": "Universidad de Antioquia",
+  "_id": "example-institution-id",
+  "institution": "Universidad Ejemplo",
   "role": "staff"
 }
 ```
 
 ```json 400
-{ "success": false, "msg": "correo y contraseña requeridos" }
+{"msg": "correo y contraseña requeridos", "success": false}
 ```
 
 ```json 401
-{ "success": false, "msg": "Credenciales inválidas" }
+{"msg": "Usuario con correo usuario@example.com no encontrado o contraseña no conciden", "success": false}
 ```
 
 ```json 403
-{ "success": false, "msg": "El usuario está desactivado. Contacta a un administrador." }
+{ "success": false, "msg": "El usuario está desactivado. Contacte al administrador del sistema" }
 ```
 </ResponseExample>

@@ -23,60 +23,55 @@ Todos son opcionales y funcionan igual que en [Buscar productos](/api-reference/
 <ResponseExample>
 ```json 200
 {
-  "years": { "min_year": 1970, "max_year": 2026 },
-  "authors_count": { "min_authors": 1, "max_authors": 77 },
-  "authors_ranking": [
-    { "value": "Investigador Junior", "label": "Investigador Junior", "count": 12091 },
-    { "value": "Investigador Sénior", "label": "Investigador Sénior", "count": 2251 }
-  ],
-  "groups_ranking": [
-    { "value": "A1", "label": "A1", "count": 809 },
-    { "value": "A", "label": "A", "count": 1881 }
-  ],
-  "countries": [
-    { "value": "CO", "label": "Colombia", "count": 6580 }
-  ],
-  "institutions_type": [
-    { "value": "education", "label": "Instituciones académicas", "count": 6579 },
-    { "value": "company", "label": "Empresas", "count": 9 }
-  ],
+  "authors_count": {"max_authors": 5002, "min_authors": 0},
+  "authors_ranking": [{"count": 2459197, "label": "Investigador Junior", "value": "Investigador Junior"}],
+  "countries": [{"count": 1787541, "label": "Colombia", "value": "CO"}],
+  "groups_ranking": [{"count": 352352, "label": "A1", "value": "A1"}],
+  "institutions_type": [{"count": 1573150, "label": "Instituciones académicas", "value": "education"}],
   "product_types": [
     {
-      "value": "impactu",
+      "children": [{"count": 978455, "title": "Artículo de revista", "value": "impactu_Artículo de revista"}],
       "title": "ImpactU",
-      "children": [
-        { "value": "impactu_Artículo de revista", "title": "Artículo de revista", "count": 1806 },
-        { "value": "impactu_Libro", "title": "Libro", "count": 335 }
-      ]
+      "value": "impactu"
     }
   ],
   "status": [
     {
-      "value": "open",
+      "children": [{"count": 290071, "title": "Diamante", "value": "diamond"}],
+      "count": 549211,
       "title": "Abierto",
-      "count": 869,
-      "children": [
-        { "value": "diamond", "title": "Diamante", "count": 598 },
-        { "value": "gold", "title": "Dorado", "count": 29 }
-      ]
-    },
-    { "value": "closed", "title": "Cerrado", "count": 269 }
+      "value": "open"
+    }
   ],
   "topics": [
     {
-      "value": "https://openalex.org/subfields/3304",
-      "title": "Education",
-      "count": 1393,
       "children": [
-        { "value": "https://openalex.org/T14483", "title": "Education and Teacher Training", "count": 276 }
-      ]
+        {
+          "children": [
+            {
+              "children": [{"count": 22593, "title": "Education and Teacher Training", "value": "https://openalex.org/T14483"}],
+              "count": 102372,
+              "title": "Education",
+              "value": "https://openalex.org/subfields/3304"
+            }
+          ],
+          "count": 453028,
+          "title": "Social Sciences",
+          "value": "https://openalex.org/fields/33"
+        }
+      ],
+      "count": 810297,
+      "title": "Social Sciences",
+      "value": "https://openalex.org/domains/2"
     }
-  ]
+  ],
+  "years": {"max_year": 4439, "min_year": 0}
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
-
 </ResponseExample>
