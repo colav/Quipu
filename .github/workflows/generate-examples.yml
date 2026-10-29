@@ -1,0 +1,56 @@
+name: Generate response examples
+
+on:
+  workflow_dispatch:
+    inputs:
+      entorno:
+        description: "Entorno de la API a consultar"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    name: Regenerate response examples from live API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Generate response examples
+        run: python scripts/generate_examples.py
+
+      - name: Validate generated output
+        run: python scripts/validate_docs.py
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "auto/regenerate-examples"
+          commit-message: "docs: regenerate response examples from live API"
+          title: "docs: regenerate response examples"
+          body: |
+            Regeneración automática de los bloques `<ResponseExample>` de `api-reference`
+            en el entorno `${{ github.event.inputs.entorno }}`, consultando la API desplegada en `api.dev.impactu.colav.co`.
+
+            - El título de cada bloque es el código HTTP que devolvió la API.
+            - Las respuestas están recortadas y anonimizadas (personas, afiliaciones, BibTeX).
+            - Si un código o un campo cambió, revisa también el texto de la página.
+
+            Disparado por `${{ github.event_name }}`.
+          delete-branch: true
