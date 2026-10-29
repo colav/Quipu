@@ -26,18 +26,18 @@ description: "Elimina el API Key asociado al usuario autenticado."
 
 <ResponseExample>
 ```json 200
-{ "success": true, "msg": "API Key eliminado correctamente." }
+{ "success": true, "msg": "API key eliminada correctamente" }
 ```
 
 ```json 404
-{ "success": false, "msg": "Usuario no encontrado." }
+{ "success": false, "msg": "Usuario usuario@example.com no encontrado" }
 ```
 
 ```json 401
-{ "success": false, "msg": "Token no proporcionado o inválido. Por favor inicia sesión nuevamente." }
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
 ```
 
 ```json 403
-{ "success": false, "msg": "No tienes permiso para eliminar el API Key de otro usuario." }
+{ "success": false, "msg": "No tienes permiso para gestionar el API Key de otro usuario." }
 ```
 </ResponseExample>

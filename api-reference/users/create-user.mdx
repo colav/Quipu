@@ -16,6 +16,8 @@ description: "Crea un nuevo usuario en la plataforma. Solo accesible con rol adm
 
 ## Cuerpo de la solicitud
 
+Debe traer exactamente estos tres campos: si falta o sobra alguno, responde `400`.
+
 <ParamField body="institution" type="string" required>
   Nombre de la institución a la que pertenece el usuario.
 </ParamField>
@@ -25,7 +27,7 @@ description: "Crea un nuevo usuario en la plataforma. Solo accesible con rol adm
 </ParamField>
 
 <ParamField body="role" type="string" required>
-  Rol del usuario en la plataforma. Ejemplo: `staff`.
+  Rol del usuario en la plataforma. Ejemplo: `staff`. No puede ser `admin`: responde `403`.
 </ParamField>
 
 ## Respuesta
@@ -40,15 +42,25 @@ description: "Crea un nuevo usuario en la plataforma. Solo accesible con rol adm
 
 <ResponseExample>
 ```json 201
-{ "success": true, "msg": "Usuario creado correctamente." }
+{
+  "success": true,
+  "msg": "Usuario usuario@example.com Creado exitosamente y contraseña enviada por correo electrónico."
+}
+```
+
+```json 400
+{ "success": false, "msg": "Faltan: ror_id" }
 ```
 
 ```json 409
-{ "success": false, "msg": "El usuario ya existe para esta institución." }
+{
+  "success": false,
+  "msg": "Para la institución: Universidad Ejemplo ya existe un correo registrado: otro@example.com. Si deseas asignar un nuevo correo, edita el usuario existente."
+}
 ```
 
 ```json 401
-{ "success": false, "msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente." }
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
 ```
 
 ```json 403

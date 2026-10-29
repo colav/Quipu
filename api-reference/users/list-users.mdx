@@ -19,7 +19,7 @@ description: "Devuelve la lista de todos los usuarios de la plataforma (excluye 
   Lista de usuarios.
   <Expandable title="propiedades de cada usuario">
     <ResponseField name="id" type="string">
-      Identificador del usuario.
+      Identificador ROR de la institución del usuario.
     </ResponseField>
     <ResponseField name="email" type="string">
       Correo electrónico.
@@ -42,9 +42,9 @@ description: "Devuelve la lista de todos los usuarios de la plataforma (excluye 
   "success": true,
   "data": [
     {
-      "id": "00000001",
-      "email": "usuario@universidad.edu.co",
-      "institution": "Universidad de Antioquia",
+      "id": "example-institution-id",
+      "email": "usuario@example.com",
+      "institution": "Universidad Ejemplo",
       "role": "staff",
       "is_active": true
     }
@@ -53,7 +53,7 @@ description: "Devuelve la lista de todos los usuarios de la plataforma (excluye 
 ```
 
 ```json 401
-{ "success": false, "msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente." }
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
 ```
 
 ```json 403
