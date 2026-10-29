@@ -25,7 +25,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | Grupo                      | Estado         | Endpoints | Indicadores |
 | -------------------------- | -------------- | --------- | ----------- |
 | **Search**                 | ✅ Documentado | 10        | —           |
-| **Affiliation**            | ✅ Documentado | 9         | 28          |
+| **Affiliation**            | ✅ Documentado | 9         | 30          |
 | **Person**                 | ✅ Documentado | 8         | 16          |
 | **Source**                 | ✅ Documentado | 5         | 1           |
 | **Work**                   | ✅ Documentado | 3         | —           |
@@ -68,7 +68,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | Proyectos                  | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/projects`         |
 | Noticias                   | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/news`             |
 
-El endpoint de productos acepta el parámetro `plot` para devolver uno de los **28 indicadores** del [catálogo de indicadores de afiliación](https://quyca.mintlify.site/api-reference/affiliation/plots/overview).
+El endpoint de productos acepta el parámetro `plot` para devolver uno de los **30 indicadores** del [catálogo de indicadores de afiliación](https://quyca.mintlify.site/api-reference/affiliation/plots/overview).
 
 ### 👤 Endpoints del grupo Person
 
@@ -116,7 +116,7 @@ Quipu/
 ├── api-reference/
 │   ├── search/                      # Endpoints de búsqueda global
 │   ├── affiliation/                 # Endpoints de la entidad Affiliation
-│   │   └── plots/                   # 28 indicadores con ?plot=
+│   │   └── plots/                   # 30 indicadores con ?plot=
 │   ├── source/                      # Endpoints de la entidad Source (revistas)
 │   ├── work/                        # Endpoints de la entidad Work (productos)
 │   └── person/                      # Endpoints de la entidad Person (autores)
@@ -126,14 +126,19 @@ Quipu/
 │   ├── pagination-params.mdx        # Parámetros max y page
 │   ├── meta-response.mdx            # Objeto meta de respuestas paginadas
 │   ├── works-filter-params.mdx      # Filtros de productos de investigación
-│   └── works-filters-response.mdx  # Estructura de respuesta de los filtros
+│   ├── works-filters-response.mdx   # Estructura de respuesta de los filtros
+│   ├── view-param.mdx               # Parámetro view (full o summary)
+│   ├── fields-param.mdx             # Parámetro fields de los listados de productos
+│   └── entity-meta.mdx              # Objeto meta de los detalles de una entidad
 ├── scripts/                         # Scripts de automatización
 │   ├── validate_docs.py             # Valida completitud de docs.json
+│   ├── generate_examples.py         # Regenera los ejemplos de respuesta desde la API
 │   ├── generate_plot_pages.py       # Regenera indicadores de Affiliation
 │   ├── generate_person_plot_pages.py# Regenera indicadores de Person
 │   └── generate_source_plot_pages.py# Regenera indicadores de Source
 └── .github/workflows/
     ├── validate-docs.yml            # CI: valida en cada push/PR a main
+    ├── generate-examples.yml        # Semanal y manual: regenera los ejemplos de respuesta
     └── generate-plots.yml           # Manual: regenera indicadores desde la API
 ```
 
@@ -173,12 +178,34 @@ python -X utf8 scripts/validate_docs.py
 
 El workflow `validate-docs.yml` ejecuta este script automáticamente en cada push o PR a `main`.
 
+### Ejemplos de respuesta y códigos HTTP
+
+`scripts/generate_examples.py` consulta `api.dev.impactu.colav.co` y reescribe los bloques `<ResponseExample>` de `api-reference`:
+
+- **Códigos HTTP reales.** El título de cada bloque es el código que devolvió la API, por ejemplo `json 404` o `json 200 — Institución`. Si un endpoint cambia de código, el ejemplo cambia con él.
+- **Casos declarados en el script.** `PAGES` define por página qué solicitudes se hacen: el caso exitoso y los errores (parámetro inválido, entidad inexistente, sin sesión).
+- **Datos ficticios.** Las respuestas se recortan y se anonimizan con la convención de esta guía: personas, afiliaciones, identificadores externos y BibTeX.
+- **Páginas con sesión.** En autenticación, usuarios y cargas solo se regeneran las respuestas que no necesitan sesión ni escriben en la base (`401`, `400`). Las demás se escriben a mano y el script las conserva.
+
+```bash
+# Todas las páginas
+python scripts/generate_examples.py
+
+# Solo algunas
+python scripts/generate_examples.py person/get-person work/get-work
+
+# Sin escribir: sale con 1 si algún ejemplo difiere de la API
+python scripts/generate_examples.py --check
+```
+
+El workflow `generate-examples.yml` lo ejecuta cada lunes y a demanda (_Actions_ → _Generate response examples_ → _Run workflow_). Si algún ejemplo cambió, abre un PR con los archivos actualizados. Cuando cambie un código o un campo, revisa también el texto de la página.
+
 ### Regeneración de indicadores
 
 Los indicadores (`?plot=`) se generan consultando la API desplegada en `api.dev.impactu.colav.co`:
 
 ```bash
-# Indicadores de Affiliation (28 plots)
+# Indicadores de Affiliation (30 plots)
 python scripts/generate_plot_pages.py
 
 # Indicadores de Person (16 plots)
