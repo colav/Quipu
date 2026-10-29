@@ -6,6 +6,7 @@ description: "Lista de forma paginada las patentes de un autor."
 
 import PaginationParams from "/snippets/pagination-params.mdx";
 import MetaResponse from "/snippets/meta-response.mdx";
+import ViewParam from "/snippets/view-param.mdx";
 
 ## Parámetros de ruta
 
@@ -22,9 +23,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
   `citations`, `alphabetical` y `year`. Ejemplo: `year_desc`.
 </ParamField>
 
-<ParamField query="view" type="string" default="full">
-  Nivel de detalle: `full` o `summary`.
-</ParamField>
+<ViewParam />
 
 <Note>
   La estructura de la respuesta es idéntica a la de [Patentes de una afiliación](/api-reference/affiliation/get-research-patents).
@@ -39,32 +38,81 @@ import MetaResponse from "/snippets/meta-response.mdx";
 {
   "data": [
     {
-      "id": "6ab4ac4e5418a51e324cc06b",
-      "title": "Composición nutricional para el tratamiento de desnutrición infantil",
-      "language": "es",
-      "authors_count": 2,
-      "types": [{ "source": "scienti", "type": "patent" }],
-      "product_types": [{ "name": "Patente de invención", "source": "minciencias" }],
-      "external_ids": [
-        { "id": "NC2022/0004521", "source": "scienti", "provenance": "scienti" }
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "minciencias", "type": "group"}],
+              "years": []
+            }
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
+        }
       ],
-      "updated": [{ "source": "scienti", "time": 1789879321 }]
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000001-28", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab847915418a51e32855aa6",
+      "language": "es",
+      "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
+      "ranking": [{"date": 1444885200, "rank": "PIV-PA4", "source": "minciencias"}],
+      "title": "Equipo para la producción de alquil ésteres de ácidos grasos empleando un reactor de película líquida operado en contracorriente",
+      "titles": [
+        {
+          "lang": "es",
+          "source": "minciencias",
+          "title": "Equipo para la producción de alquil ésteres de ácidos grasos empleando un reactor de película líquida operado en contracorriente"
+        }
+      ],
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Patente de invención"}],
+      "updated": [{"source": "minciencias", "time": 1790461841}]
+    },
+    {
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "minciencias", "type": "group"}],
+              "years": []
+            }
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
+        }
+      ],
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000001-1940", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab847925418a51e32855b65",
+      "language": "en",
+      "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
+      "ranking": [{"date": 1614229200, "rank": "PIV-PB4", "source": "minciencias"}],
+      "title": "Reaction system for producing (52) U.S. CI. Fatty alkyl esters using a liquid-film reactor operated countercurrentwise",
+      "titles": [
+        {
+          "lang": "en",
+          "source": "minciencias",
+          "title": "Reaction system for producing (52) U.S. CI. Fatty alkyl esters using a liquid-film reactor operated countercurrentwise"
+        }
+      ],
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Patente de invención"}],
+      "updated": [{"source": "minciencias", "time": 1790461842}]
     }
   ],
-  "meta": {
-    "count": 3,
-    "cursor": {
-      "next": null,
-      "previous": null
-    },
-    "db_response_time_ms": 18,
-    "page": 1,
-    "size": 1
-  }
+  "meta": {"count": 2, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 2}
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
 </ResponseExample>

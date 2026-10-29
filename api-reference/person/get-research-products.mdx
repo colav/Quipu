@@ -7,6 +7,8 @@ description: "Lista de forma paginada los productos de investigación de un auto
 import PaginationParams from "/snippets/pagination-params.mdx";
 import MetaResponse from "/snippets/meta-response.mdx";
 import WorksFilterParams from "/snippets/works-filter-params.mdx";
+import ViewParam from "/snippets/view-param.mdx";
+import FieldsParam from "/snippets/fields-param.mdx";
 
 Este endpoint tiene dos modos:
 
@@ -29,18 +31,9 @@ Este endpoint tiene dos modos:
   `year` (año de publicación). Ejemplo: `year_desc`.
 </ParamField>
 
-<ParamField query="view" type="string" default="full">
-  Nivel de detalle de la respuesta: `full` o `summary`. Con `summary`, la lista
-  de autores de cada producto se recorta a 10.
-</ParamField>
+<ViewParam />
 
-<ParamField query="fields" type="string">
-  Campos de primer nivel que quieres recibir, separados por coma. No admite
-  campos anidados. Campos permitidos: `id`, `authors`, `titles`, `keywords`,
-  `topics`, `subjects`, `source`, `types`, `year_published`,
-  `citations_by_year`, `citations_count` y `updated`. Ejemplo:
-  `fields=authors,titles`.
-</ParamField>
+<FieldsParam />
 
 <ParamField query="plot" type="string">
   Nombre del indicador a devolver. Con este parámetro la respuesta es el
@@ -73,47 +66,149 @@ La estructura de cada producto es idéntica a la de [Productos de una afiliació
 {
   "data": [
     {
-      "id": "6ab4ac4e5418a51e324cc06a",
-      "title": "Nutritional status and dietary intake in Colombian children",
-      "language": "en",
-      "year_published": 2022,
+      "abstracts": [],
+      "apc": {"paid": {}},
       "authors": [
         {
-          "id": "0000000001",
-          "full_name": "María Ejemplo García",
           "affiliations": [
             {
-              "id": "example-institution-id",
-              "name": "Universidad Ejemplo",
-              "start_date": 1109116800,
+              "addresses": [{"city": "Cali", "country": "Colombia", "country_code": "CO"}],
               "end_date": -1,
-              "types": [{ "source": "ror", "type": "education" }]
+              "external_ids": [{"id": "example-scienti-id", "source": "scienti"}],
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "start_date": 1222837200,
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
             }
-          ]
+          ],
+          "external_ids": [{"id": "0000000002", "provenance": "scienti", "source": "scienti"}],
+          "first_names": ["Juan"],
+          "full_name": "Juan Ejemplo Pérez",
+          "id": "0000000002",
+          "last_names": ["Ejemplo"],
+          "ranking": [{"date": 570690000, "rank": "vinculado", "source": "tipo_contrato"}],
+          "sex": "Hombre"
         }
       ],
-      "authors_count": 4,
-      "citations_count": [{ "count": 12, "source": "openalex" }],
-      "product_types": [
-        { "name": "Artículo de revista", "source": "impactu" }
+      "authors_count": 3,
+      "bibliographic_info": {},
+      "citations_by_year": [],
+      "citations_count": [],
+      "date_published": 1546318800,
+      "doi": "",
+      "external_ids": [{"id": "0000000002-29521", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [{"provenance": "scienti", "source": "scienti"}],
+      "groups": [
+        {
+          "citations_count": [{"count": 1339, "source": "scholar"}],
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [{"from_date": 1653368400, "rank": "A", "source": "scienti", "to_date": 1716440400}]
+        }
       ],
-      "updated": [{ "source": "openalex", "time": 1789879321 }]
+      "id": "6ab4addb5418a51e324df255",
+      "keywords": [],
+      "language": "en",
+      "open_access": {},
+      "primary_topic": {},
+      "product_types": [{"name": "Publicado en revista especializada", "source": "scienti"}],
+      "ranking": [{"date": 1614229200, "rank": "ART-ART_A1", "source": "minciencias"}],
+      "references": [],
+      "source": {},
+      "subjects": [],
+      "title": "An Image Processing System for Char Reactivity Analysis during Coal Combustion",
+      "titles": [
+        {
+          "lang": "en",
+          "source": "minciencias",
+          "title": "An Image Processing System for Char Reactivity Analysis during Coal Combustion"
+        }
+      ],
+      "topics": [],
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Artículos de investigación"}],
+      "updated": [{"source": "minciencias", "time": 1790225883}],
+      "year_published": 2019
+    },
+    {
+      "abstracts": [],
+      "apc": {"paid": {}},
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": [{"city": "Cali", "country": "Colombia", "country_code": "CO"}],
+              "end_date": -1,
+              "external_ids": [{"id": "example-scienti-id", "source": "scienti"}],
+              "id": "COL0000002",
+              "name": "Grupo de Investigación Ejemplo",
+              "start_date": 1435726800,
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "external_ids": [{"id": "0000000004", "provenance": "scienti", "source": "scienti"}],
+          "first_names": ["Carlos"],
+          "full_name": "Carlos Ejemplo Rodríguez",
+          "id": "0000000004",
+          "last_names": ["Ejemplo"],
+          "ranking": [{"date": 697093200, "rank": "vinculado", "source": "tipo_contrato"}],
+          "sex": "Mujer"
+        }
+      ],
+      "authors_count": 3,
+      "bibliographic_info": {},
+      "citations_by_year": [],
+      "citations_count": [],
+      "date_published": 1525150800,
+      "doi": "",
+      "external_ids": [{"id": "0000000004-105", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [{"provenance": "scienti", "source": "scienti", "url": "http://ceur-ws.org/Vol-2100/paper9.pdf"}],
+      "groups": [
+        {
+          "citations_count": [{"count": 882, "source": "scholar"}],
+          "id": "COL0000002",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [{"from_date": 1653368400, "rank": "A", "source": "scienti", "to_date": 1716440400}]
+        }
+      ],
+      "id": "6ab4af965418a51e324ef6db",
+      "keywords": [],
+      "language": "en",
+      "open_access": {},
+      "primary_topic": {},
+      "product_types": [{"name": "Publicado en revista especializada", "source": "scienti"}],
+      "ranking": [{"date": 1614229200, "rank": "ART-GC_ART", "source": "minciencias"}],
+      "references": [],
+      "source": {},
+      "subjects": [],
+      "title": "Ontology-based Automatic Reclassification of Tissues and Organs in Histological Images",
+      "titles": [
+        {
+          "lang": "en",
+          "source": "minciencias",
+          "title": "Ontology-based Automatic Reclassification of Tissues and Organs in Histological Images"
+        }
+      ],
+      "topics": [],
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Artículos"}],
+      "updated": [{"source": "minciencias", "time": 1790226326}],
+      "year_published": 2018
     }
   ],
   "meta": {
-    "count": 135,
-    "cursor": {
-      "next": "https://api.dev.impactu.colav.co/person/0000000001/research/products?max=1&page=2",
-      "previous": null
-    },
-    "db_response_time_ms": 85,
+    "count": 3224,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/person/0000000001/research/products?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
     "page": 1,
-    "size": 1
+    "size": 2
   }
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nfields\n  Value error, Invalid fields: abstract. Allowed fields: authors, citations_by_year, citations_count, id, keywords, so…"
+}
 ```
 </ResponseExample>
