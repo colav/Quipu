@@ -77,7 +77,8 @@ A diferencia de los listados de productos de una entidad, esta búsqueda incluye
       DOI.
     </ResponseField>
     <ResponseField name="authors" type="object[]">
-      Autores del producto.
+      Primeros 100 autores del producto, en orden de firma (10 con
+      `view=summary`). El total está en `authors_count`. Ver [Autores de los productos](/guides/authorship).
     </ResponseField>
     <ResponseField name="authors_count" type="integer">
       Cantidad de autores.
