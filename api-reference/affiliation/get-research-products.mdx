@@ -90,8 +90,10 @@ Las opciones válidas se consultan en [Filtros de productos de una afiliación](
       Palabras clave.
     </ResponseField>
     <ResponseField name="authors" type="object[]">
-      Autores con sus afiliaciones y clasificaciones (`id`, `full_name`,
-      `first_names`, `last_names`, `affiliations`, `ranking`, `external_ids`).
+      Primeros 100 autores, en orden de firma (10 con `view=summary`), con sus
+      afiliaciones y clasificaciones (`id`, `full_name`, `first_names`,
+      `last_names`, `affiliations`, `ranking`, `external_ids`). El total está en
+      `authors_count`. Ver [Autores de los productos](/guides/authorship).
     </ResponseField>
     <ResponseField name="authors_count" type="integer">
       Cantidad de autores.
