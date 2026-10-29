@@ -7,6 +7,7 @@ description: "Búsqueda paginada de proyectos de investigación por palabras cla
 import PaginationParams from "/snippets/pagination-params.mdx";
 import SortAlphabetical from "/snippets/sort-alphabetical.mdx";
 import MetaResponse from "/snippets/meta-response.mdx";
+import ViewParam from "/snippets/view-param.mdx";
 
 ## Parámetros de consulta
 
@@ -18,9 +19,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
 
 <SortAlphabetical />
 
-<ParamField query="view" type="string" default="full">
-  Nivel de detalle de la respuesta: `full` o `summary`.
-</ParamField>
+<ViewParam />
 
 <Note>Este endpoint no tiene filtros.</Note>
 
@@ -97,56 +96,213 @@ import MetaResponse from "/snippets/meta-response.mdx";
 {
   "data": [
     {
-      "id": "6ab847c85418a51e32857323",
-      "title": "Título del proyecto",
-      "language": "es",
       "abstract": "",
       "authors": [
         {
-          "id": "0000466395",
-          "full_name": "Nombre Apellido Apellido",
           "affiliations": [
             {
-              "id": "03bp5hc83",
-              "name": "Universidad de Antioquia",
-              "types": [{ "source": "ror", "type": "education", "provenance": null }]
+              "addresses": null,
+              "end_date": null,
+              "external_ids": null,
+              "h5_index": null,
+              "h_index": null,
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "position": null,
+              "ranking": null,
+              "ror": null,
+              "start_date": null,
+              "types": [
+                {
+                  "code": null,
+                  "level": null,
+                  "provenance": null,
+                  "source": "minciencias",
+                  "type": "group",
+                  "type_class": null
+                }
+              ],
+              "years": []
             }
-          ]
+          ],
+          "countries": null,
+          "external_ids": null,
+          "first_names": null,
+          "full_name": "María Ejemplo García",
+          "h5_index": null,
+          "h_index": null,
+          "id": "0000000001",
+          "last_names": null,
+          "ranking": null,
+          "sex": null,
+          "type": null
         }
       ],
       "authors_count": 1,
-      "groups": [
-        { "id": "COL0074901", "name": "Grupo de Investigación en Información, Conocimiento y Sociedad" }
-      ],
-      "date_init": null,
       "date_end": null,
-      "year_init": null,
+      "date_init": null,
+      "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [
+        {
+          "citations_count": null,
+          "h5_index": null,
+          "h_index": null,
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": null
+        }
+      ],
+      "id": "6ab844cf5418a51e3283862f",
+      "keywords": null,
+      "language": "es",
+      "product_types": [{"name": "Proyecto de extensión", "source": "minciencias"}],
+      "ranking": [
+        {
+          "date": 1575608400,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "PE-PE",
+          "source": "minciencias",
+          "to_date": null
+        }
+      ],
+      "title": "4.\tFortalecimiento de la gestión del conocimiento en medidas de atención para violencia contra la mujer, estudio de caso municipio del Socorro, Santander 2017-2…",
+      "titles": [
+        {
+          "lang": "es",
+          "provenance": null,
+          "source": "minciencias",
+          "title": "4.\tFortalecimiento de la gestión del conocimiento en medidas de atención para violencia contra la mujer, estudio de caso municipio del Socorro, Santander 2017-2…"
+        }
+      ],
+      "types": [
+        {
+          "code": null,
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Proyecto de extensión",
+          "type_class": null
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790461135}],
       "year_end": null,
-      "product_types": [
-        { "name": "Investigación", "source": "siiu" },
-        { "name": "Aplicada", "source": "siiu" }
+      "year_init": null
+    },
+    {
+      "abstract": "",
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": null,
+              "end_date": null,
+              "external_ids": null,
+              "h5_index": null,
+              "h_index": null,
+              "id": "COL0000002",
+              "name": "Grupo de Investigación Ejemplo",
+              "position": null,
+              "ranking": null,
+              "ror": null,
+              "start_date": null,
+              "types": [
+                {
+                  "code": null,
+                  "level": null,
+                  "provenance": null,
+                  "source": "minciencias",
+                  "type": "group",
+                  "type_class": null
+                }
+              ],
+              "years": []
+            }
+          ],
+          "countries": null,
+          "external_ids": null,
+          "first_names": null,
+          "full_name": "Juan Ejemplo Pérez",
+          "h5_index": null,
+          "h_index": null,
+          "id": "0000000002",
+          "last_names": null,
+          "ranking": null,
+          "sex": null,
+          "type": null
+        }
       ],
-      "external_ids": [
-        { "id": "2020-33891", "provenance": "siiu", "source": "codigo" }
+      "authors_count": 1,
+      "date_end": null,
+      "date_init": null,
+      "external_ids": [{"id": "0000000002", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [
+        {
+          "citations_count": null,
+          "h5_index": null,
+          "h_index": null,
+          "id": "COL0000002",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": null
+        }
       ],
-      "updated": [{ "source": "siiu", "time": 1790461895 }]
+      "id": "6ab844cf5418a51e32838630",
+      "keywords": null,
+      "language": "es",
+      "product_types": [{"name": "Proyecto de extensión", "source": "minciencias"}],
+      "ranking": [
+        {
+          "date": 1614229200,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "PE-PE",
+          "source": "minciencias",
+          "to_date": null
+        }
+      ],
+      "title": "Una mirada a la diversidad y la inclusión social, a través de los estereotipos, culturas y géneros en el diseño de modas",
+      "titles": [
+        {
+          "lang": "es",
+          "provenance": null,
+          "source": "minciencias",
+          "title": "Una mirada a la diversidad y la inclusión social, a través de los estereotipos, culturas y géneros en el diseño de modas"
+        }
+      ],
+      "types": [
+        {
+          "code": null,
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Proyecto de extensión",
+          "type_class": null
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790461135}],
+      "year_end": null,
+      "year_init": null
     }
   ],
   "meta": {
     "count": 128687,
-    "cursor": {
-      "next": "https://api.dev.impactu.colav.co/search/projects?max=1&page=2&sort=alphabetical_asc",
-      "previous": null
-    },
-    "db_response_time_ms": 100,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/projects?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
     "page": 1,
-    "size": 1
+    "size": 2
   }
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
-
 </ResponseExample>

@@ -64,27 +64,24 @@ Todos los campos son listas de opciones con la misma estructura:
 </ResponseField>
 
 <ResponseExample>
-```json Institución
+```json 200 — Institución
 {
-  "states": [
-    { "value": "England", "label": "England", "count": 2640 }
-  ],
-  "cities": [
-    { "value": "Londres", "label": "Londres", "count": 907 }
-  ]
+  "cities": [{"count": 907, "label": "Londres", "value": "Londres"}],
+  "states": [{"count": 2640, "label": "England", "value": "England"}]
 }
 ```
 
-```json Grupo
+```json 200 — Grupo
 {
-  "states": [{ "value": "Antioquia", "label": "Antioquia", "count": 480 }],
-  "cities": [{ "value": "Medellín", "label": "Medellín", "count": 410 }],
-  "groups_ranking": [{ "value": "B", "label": "B", "count": 1397 }]
+  "cities": [{"count": 2483, "label": "Bogotá", "value": "Bogotá"}],
+  "groups_ranking": [{"count": 2732, "label": "C", "value": "C"}],
+  "states": [{"count": 2135, "label": "Bogotá", "value": "Bogotá"}]
 }
 ```
 
 ```json 400
-{ "error": "mensaje de error de validación" }
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
 ```
-
 </ResponseExample>

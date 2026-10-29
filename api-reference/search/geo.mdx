@@ -28,10 +28,6 @@ import MetaResponse from "/snippets/meta-response.mdx";
   `alphabetical_asc`.
 </ParamField>
 
-<ParamField query="view" type="string" default="full">
-  Nivel de detalle de la respuesta: `full` o `summary`.
-</ParamField>
-
 <Note>Este endpoint no tiene filtros.</Note>
 
 ## Respuesta
@@ -92,78 +88,95 @@ La estructura cambia según `geo_type`. Los campos comunes son:
 <MetaResponse />
 
 <ResponseExample>
-```json Ciudad
+```json 200 — Ciudad
 {
   "data": [
     {
-      "id": "11001",
-      "name": "Bogotá, D.c.",
-      "type": "city",
+      "authors_count": 0,
+      "citations_count": [{"count": 0, "source": "openalex"}],
       "country": "Colombia",
       "country_code": "CO",
-      "state": { "id": "11", "name": "Bogotá, D.c." },
-      "latitude": 4.649251,
-      "longitude": -74.106992,
-      "external_ids": [{ "id": "11001", "source": "dane" }],
-      "authors_count": 133557,
-      "groups_count": 2489,
-      "institutions_count": 428,
-      "products_count": 680841,
-      "citations_count": [
-        { "count": 3012900, "source": "openalex" },
-        { "count": 3223321, "source": "scholar" }
-      ]
+      "external_ids": [{"id": "20011", "source": "dane"}],
+      "groups_count": 5,
+      "id": "20011",
+      "institutions_count": 1,
+      "latitude": 8.306811,
+      "longitude": -73.614027,
+      "name": "Aguachica",
+      "products_count": 265,
+      "state": {"id": "20", "name": "Cesar"},
+      "type": "city"
+    },
+    {
+      "authors_count": 0,
+      "citations_count": [],
+      "country": "Colombia",
+      "country_code": "CO",
+      "external_ids": [{"id": "15022", "source": "dane"}],
+      "groups_count": 1,
+      "id": "15022",
+      "institutions_count": 2,
+      "latitude": 4.970857,
+      "longitude": -73.378933,
+      "name": "Almeida",
+      "products_count": 0,
+      "state": {"id": "15", "name": "Boyacá"},
+      "type": "city"
     }
   ],
   "meta": {
-    "count": 166,
-    "cursor": {
-      "next": "https://api.dev.impactu.colav.co/search/geo/city?max=1&page=2",
-      "previous": null
-    },
-    "db_response_time_ms": 15,
+    "count": 135,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/geo/city?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
     "page": 1,
-    "size": 1
+    "size": 2
   }
 }
 ```
 
-```json Departamento
+```json 200 — Departamento
 {
   "data": [
     {
-      "id": "11",
-      "name": "Bogotá, D.c.",
-      "type": "state",
+      "authors_count": 221,
+      "citations_count": [{"count": 9907, "source": "openalex"}],
+      "cities_count": 1,
       "country": "Colombia",
       "country_code": "CO",
-      "cities_count": 1,
-      "external_ids": [{ "id": "11", "source": "dane" }],
-      "authors_count": 133557,
-      "groups_count": 2489,
-      "institutions_count": 428,
-      "products_count": 680841,
-      "citations_count": [
-        { "count": 3012900, "source": "openalex" },
-        { "count": 3223321, "source": "scholar" }
-      ]
+      "external_ids": [{"id": "91", "source": "dane"}],
+      "groups_count": 552,
+      "id": "91",
+      "institutions_count": 3,
+      "name": "Amazonas",
+      "products_count": 571,
+      "type": "state"
+    },
+    {
+      "authors_count": 43836,
+      "citations_count": [{"count": 1172650, "source": "openalex"}],
+      "cities_count": 22,
+      "country": "Colombia",
+      "country_code": "CO",
+      "external_ids": [{"id": "05", "source": "dane"}],
+      "groups_count": 1117,
+      "id": "05",
+      "institutions_count": 178,
+      "name": "Antioquia",
+      "products_count": 295187,
+      "type": "state"
     }
   ],
   "meta": {
-    "count": 166,
-    "cursor": {
-      "next": "https://api.dev.impactu.colav.co/search/geo/state?max=1&page=2",
-      "previous": null
-    },
-    "db_response_time_ms": 11,
+    "count": 31,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/geo/state?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
     "page": 1,
-    "size": 1
+    "size": 2
   }
 }
 ```
 
 ```json 400
-{ "error": "Invalid geo_type. Allowed values: city, state" }
+{"error": "Invalid geo_type. Allowed values: city, state"}
 ```
-
 </ResponseExample>
