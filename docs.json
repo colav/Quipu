@@ -25,7 +25,8 @@
           {
             "group": "Guías",
             "pages": [
-              "guides/filters"
+              "guides/filters",
+              "guides/authorship"
             ]
           }
         ]
