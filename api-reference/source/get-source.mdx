@@ -4,16 +4,20 @@ api: "GET https://api.dev.impactu.colav.co/source/{source_id}"
 description: "Devuelve una fuente (revista, conferencia u otro tipo de publicación) a partir de su identificador."
 ---
 
+import ViewParam from "/snippets/view-param.mdx";
+import EntityMeta from "/snippets/entity-meta.mdx";
+
 ## Parámetros de ruta
 
 <ParamField path="source_id" type="string" required>
   Identificador de la fuente. Ejemplo: `6aad68732be7843cde64e41b`.
 </ParamField>
 
-<Note>
-  Este endpoint no recibe parámetros de consulta: `max`, `page`, `sort` y `view`
-  no aplican.
-</Note>
+## Parámetros de consulta
+
+<ViewParam />
+
+`max`, `page` y `sort` no aplican.
 
 ## Respuesta
 
@@ -117,84 +121,68 @@ description: "Devuelve una fuente (revista, conferencia u otro tipo de publicaci
   </Expandable>
 </ResponseField>
 
+<EntityMeta />
+
 <ResponseExample>
 ```json 200
 {
   "data": {
-    "id": "6aad68732be7843cde64e000",
-    "names": [
-      { "lang": "es", "name": "Revista Ejemplo de Ciencias", "source": "scienti" },
-      { "lang": "en", "name": "Example Journal of Sciences", "source": "openalex" }
-    ],
-    "abbreviations": ["Rev. Ej. Cienc."],
-    "type": "journal",
-    "types": [
-      { "source": "scienti", "type": "EL" },
-      { "source": "openalex", "type": "journal" }
-    ],
-    "publisher": {
-      "id": "example-publisher-id",
-      "name": "Universidad Ejemplo",
-      "country_code": "CO"
-    },
-    "languages": ["ES", "EN"],
-    "keywords": ["ciencias exactas", "matemáticas", "física"],
-    "scimago_best_quartile": "Q2",
-    "open_access_status": "diamond",
-    "open_access_start_year": 2005,
-    "apc": { "charges": 0, "currency": null },
+    "abbreviations": [],
+    "addresses": [],
+    "apc": {},
+    "citations_count": [],
+    "copyright": {"author_retains": true, "url": "https://journals.uni-lj.si/keria/about/submissions"},
+    "external_ids": [{"id": "1580-0261", "source": "issn"}],
+    "external_urls": [{"source": "aims_scope", "url": "https://journals.uni-lj.si/keria/about"}],
+    "global_citations_count": 171,
+    "global_products_count": 694,
+    "id": "6aad68732be7843cde64e41b",
+    "keywords": ["greek and latin studies"],
+    "languages": ["EN"],
     "licenses": [
       {
-        "BY": true, "NC": false, "ND": false, "SA": true,
+        "BY": true,
+        "NC": false,
+        "ND": false,
+        "SA": true,
         "type": "CC BY-SA",
         "url": "https://creativecommons.org/licenses/by-sa/4.0/"
       }
     ],
-    "copyright": { "author_retains": true, "url": "https://revista-ejemplo.co/politica" },
-    "waiver": { "has_waiver": false, "url": null },
+    "names": [{"lang": "en", "name": "Keria: Studia Latina et Graeca", "source": "doaj"}],
+    "open_access_start_year": 1999,
+    "open_access_status": "diamond",
+    "plagiarism_detection": false,
+    "products_count": 0,
+    "publication_time_weeks": 20,
+    "publisher": {"country_code": "SI", "id": "", "name": "University of Ljubljana Press (Založba Univerze v Ljubljani)"},
+    "ranking": [{"from_date": 1546318800, "order": 33103, "rank": "-", "source": "scimago Best Quartile", "to_date": 1577768400}],
+    "relations": [],
     "review_processes": ["Double anonymous peer review"],
-    "plagiarism_detection": true,
-    "publication_time_weeks": 12,
-    "products_count": 245,
-    "global_products_count": 1820,
-    "citations_count": [{ "count": 0, "source": "openalex" }],
-    "global_citations_count": 3420,
-    "ranking": [
-      {
-        "rank": "Q2",
-        "source": "scimago Best Quartile",
-        "from_date": 1546318800,
-        "to_date": 1577768400,
-        "order": 12345
-      }
-    ],
+    "scimago_best_quartile": "Q2",
     "subjects": [
       {
-        "source": "scimago",
+        "source": "LCC",
         "subjects": [
-          { "id": "", "level": 0, "name": "Mathematics" },
-          { "id": "", "level": 0, "name": "Physics and Astronomy" }
+          {
+            "external_ids": [{"id": "PA", "source": "LCC"}],
+            "id": "",
+            "name": "Greek language and literature. Latin language and literature"
+          }
         ]
       }
     ],
-    "external_ids": [
-      { "id": "2000-0000", "source": "eissn" },
-      { "id": "1000-0000", "source": "pissn" },
-      { "id": "21100000000", "source": "scimago" }
-    ],
-    "external_urls": [
-      { "source": "journal", "url": "https://revista-ejemplo.co" },
-      { "source": "aims_scope", "url": "https://revista-ejemplo.co/alcance" }
-    ],
-    "updated": [
-      { "source": "scienti", "time": 1789879321 },
-      { "source": "openalex", "time": 1789879400 }
-    ]
-  }
+    "topics": [],
+    "type": "journal",
+    "types": [{"source": "doaj", "type": "journal"}],
+    "updated": [{"source": "doaj", "time": 1789749363}],
+    "waiver": {"has_waiver": false}
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
 }
 ```
 
 ```json 404
-{ "error": "Source not found" }
+{"error": "The source with id 000000000000000000000000 does not exist."}
 ```
 </ResponseExample>
