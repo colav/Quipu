@@ -18,11 +18,16 @@ description: "Sube un Excel CIARP (.xlsx), lo valida y devuelve un reporte de ca
 ## Respuesta
 
 <ResponseField name="success" type="boolean">
-  `true` si el archivo fue procesado.
+  `true` si el archivo no tiene errores. Con errores, la respuesta es `400` con
+  el mismo reporte.
 </ResponseField>
 
 <ResponseField name="errors" type="integer">
   Número de errores encontrados en el archivo.
+</ResponseField>
+
+<ResponseField name="warnings" type="integer">
+  Número de advertencias.
 </ResponseField>
 
 <ResponseField name="duplicates" type="integer">
@@ -34,29 +39,35 @@ description: "Sube un Excel CIARP (.xlsx), lo valida y devuelve un reporte de ca
 </ResponseField>
 
 <ResponseField name="msg" type="string">
-  Mensaje de resultado del procesamiento.
+  Solo en los errores: motivo del rechazo. Si faltan columnas o hay columnas sin nombre, la
+  respuesta es `422` y `details` lista cada problema.
 </ResponseField>
 
 <ResponseExample>
 ```json 200
-{
-  "success": true,
-  "errors": 0,
-  "duplicates": 0,
-  "pdf_base64": "JVBERi0xLjQKJ...",
-  "msg": "Archivo procesado correctamente."
-}
+{ "success": true, "errors": 0, "warnings": 3, "duplicates": 0, "pdf_base64": "JVBERi0xLjQKJ..." }
 ```
 
 ```json 400
 { "success": false, "msg": "Archivo requerido" }
 ```
 
+```json 400 — archivo con errores
+{ "success": false, "errors": 2, "warnings": 1, "duplicates": 1, "pdf_base64": "JVBERi0xLjQKJ..." }
+```
+
 ```json 401
-{ "success": false, "msg": "Token inválido o expirado" }
+{"msg": "Token inválido o expirado", "success": false}
 ```
 
 ```json 422
-{ "success": false, "msg": "El archivo enviado no cumple con el formato requerido de columnas" }
+{
+  "success": false,
+  "errors": 1,
+  "duplicates": 0,
+  "msg": "El archivo enviado no cumple con el formato requerido de columnas",
+  "details": ["Columnas faltantes: identificacion"],
+  "pdf_base64": "JVBERi0xLjQKJ..."
+}
 ```
 </ResponseExample>
