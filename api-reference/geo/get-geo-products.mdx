@@ -9,6 +9,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
 import WorksFilterParams from "/snippets/works-filter-params.mdx";
 import ViewParam from "/snippets/view-param.mdx";
 import FieldsParam from "/snippets/fields-param.mdx";
+import WorksListResponse from "/snippets/works-list-response.mdx";
 
 ## Parámetros de ruta
 
@@ -49,10 +50,7 @@ Los mismos filtros de [Buscar productos](/api-reference/search/works). Todos ace
 
 ## Respuesta
 
-<ResponseField name="data" type="object[]">
-  Lista de productos. La estructura de cada producto es la misma que en
-  [Productos de una afiliación](/api-reference/affiliation/get-research-products).
-</ResponseField>
+<WorksListResponse />
 
 <MetaResponse />
 
