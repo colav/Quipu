@@ -1,0 +1,247 @@
+---
+title: "Referencia rápida para LLMs"
+sidebarTitle: "Referencia para LLMs"
+description: "La API de ImpactU en una página, para agentes de IA y LLMs: endpoints, parámetros, filtros, patrones y errores comunes."
+---
+
+<Note>
+  Esta página está pensada para agentes de IA y LLMs. Si eres una persona,
+  empieza por la [Introducción](/api-reference/introduction) y la guía de
+  [Consultas y filtros](/guides/filters).
+</Note>
+
+Recursos para agentes:
+
+- Índice de la documentación: `https://help.impactu.colav.co/llms.txt`. Toda la documentación en un solo archivo: `https://help.impactu.colav.co/llms-full.txt` (unos 520 KB).
+- Cualquier página en Markdown: agrega `.md` a su URL. Por ejemplo, `https://help.impactu.colav.co/api-reference/llm-quick-reference.md`.
+- MCP de la documentación: `https://help.impactu.colav.co/mcp`. Busca y lee páginas de esta documentación; no consulta los datos de la API.
+
+## URL base y autenticación
+
+```text
+Base:     https://api.dev.impactu.colav.co
+Auth:     ninguna. Todos los GET de datos son públicos.
+Límite:   por ahora no hay límite de solicitudes.
+Formato:  JSON. Las exportaciones (/csv, /excel, /apc/...) devuelven un archivo.
+Fechas:   segundos Unix. Un end_date de -1 indica que la relación sigue vigente.
+Fuentes:  muchos campos (nombres, citas, tipos) traen un elemento por fuente, con source y provenance.
+```
+
+## Forma de las respuestas
+
+```text
+Listado:       {"data": [...], "meta": {"count", "page", "size", "db_response_time_ms", "cursor": {"next", "previous"}}}
+Una entidad:   {"data": {...}, "meta": {"count": 1, ...}}
+Sin envolver:  endpoints /filters, /affiliation/.../affiliations, /geo/.../affiliations, /info, /info/quality
+Indicador:     ?plot=... responde {"plot": ...}
+Completer:     lista de hasta 5 objetos, sin data ni meta
+Error:         {"error": "mensaje"}
+```
+
+## Endpoints
+
+```text
+# Búsqueda (paginada; acepta keywords)
+GET /search/works                        productos
+GET /search/person                       personas (autores)
+GET /search/affiliations/{type}          type: institution | faculty | department | group
+GET /search/sources                      revistas y otras fuentes
+GET /search/patents                      patentes
+GET /search/projects                     proyectos
+GET /search/geo/{geo_type}               geo_type: state | city (Colombia)
+GET /search/works/filters                opciones válidas de los filtros de productos
+GET /search/affiliations/{type}/filters  ídem para afiliaciones
+GET /search/sources/filters              ídem para fuentes
+
+# Una entidad
+GET /person/{id}
+GET /affiliation/{type}/{id}
+GET /source/{id}
+GET /work/{id}
+GET /work?doi=https://doi.org/10.xxxx/yyyy    por DOI, como URL completa
+GET /patent/{id}
+GET /project/{id}
+GET /geo/{geo_type}/{dane_code}               05 = Antioquia, 05001 = Medellín
+
+# Lo que pertenece a una entidad
+GET /person/{id}/research/products            también /affiliation/{type}/{id}/research/products,
+                                              /source/{id}/products y /geo/{geo_type}/{id}/research/products
+GET .../products/filters                      opciones de filtro dentro de la entidad (persona, afiliación, fuente)
+GET .../products/csv  |  .../products/excel   exportación con los mismos filtros (persona, afiliación, fuente)
+GET /person/{id}/research/patents | projects | news
+GET /affiliation/{type}/{id}/research/patents | projects | news
+GET /affiliation/{type}/{id}/affiliations     afiliaciones relacionadas
+GET /geo/{geo_type}/{id}/affiliations         instituciones, grupos y, en departamentos, ciudades
+GET /work/{id}/authors                        todos los autores (también /patent/{id}/authors y /project/{id}/authors)
+
+# Indicadores: el listado de productos con ?plot=
+GET /affiliation/{type}/{id}/research/products?plot=<nombre>   30 indicadores
+GET /person/{id}/research/products?plot=<nombre>               16 indicadores
+GET /source/{id}/products?plot=annual_scimago_quartile         1 indicador
+
+# Otros
+GET /completer/person/{prefijo}               hasta 5 sugerencias por prefijo
+GET /completer/affiliations/{type}/{prefijo}
+GET /completer/sources/{prefijo}
+GET /apc/search | /apc/person/{id} | /apc/affiliation/{id}     CSV de APC
+GET /info | /info/quality | /ping
+```
+
+Los nombres de los indicadores están en los catálogos de [afiliación](/api-reference/affiliation/plots/overview), [autor](/api-reference/person/plots/overview) y [fuente](/api-reference/source/plots/overview).
+
+## Importante: primero el ID, después la consulta
+
+<Warning>
+  No hay filtros por nombre. Un parámetro como `author=Juan Pérez` se ignora
+  sin error y devuelve resultados sin filtrar. Busca primero el ID de la
+  entidad y consulta con su ruta.
+</Warning>
+
+```bash
+# 1. Busca el ID
+GET /search/affiliations/institution?keywords=universidad antioquia&max=5&page=1&sort=products_desc
+# data[0].id = "03bp5hc83", data[0].name = "Universidad de Antioquia"
+
+# 2. Consulta con el ID
+GET /affiliation/institution/03bp5hc83/research/products?years=2020,2024&max=50&page=1&sort=year_desc
+```
+
+Lo mismo vale para personas (`/search/person`), fuentes (`/search/sources`) y entidades geográficas (`/search/geo/state`). Revisa el nombre de los resultados antes de elegir uno. Los IDs son cadenas opacas y su formato varía, incluso dentro de una misma entidad: hay personas con IDs como `0000624497` y como `A5128366519`. Copia el `id` que devuelve la búsqueda, no lo construyas.
+
+## Parámetros de los listados
+
+```text
+keywords=   texto de búsqueda (solo /search/*). Ver "Cómo funciona keywords".
+max=        resultados por página, de 1 a 250.
+page=       página, desde 1.
+sort=       campo_direccion, con un solo guion bajo: citations_desc, year_asc, alphabetical_asc...
+view=       full (por defecto) | summary: campos principales y autores recortados a 10.
+fields=     solo productos. Campos de primer nivel separados por coma; id llega siempre.
+            Permitidos: id, authors, titles, keywords, topics, subjects, source, types,
+            year_published, citations_by_year, citations_count, updated.
+plot=       en los productos de una afiliación, un autor o una fuente: devuelve un indicador.
+```
+
+<Warning>
+  Envía siempre `max`, `page` y `sort` juntos. Sin ninguno de los tres se
+  aplican `max=10`, `page=1` y `sort=citations_desc`. Pero si envías `max` sin
+  `page` ni `sort`, los resultados llegan **sin ningún orden**.
+</Warning>
+
+Campos de `sort` por endpoint:
+
+```text
+/search/works y productos de una entidad   citations, alphabetical, year
+/search/person, /search/affiliations       citations, products, h, h5
+/search/sources                            citations, products, alphabetical
+/search/patents, /projects, /geo           alphabetical
+```
+
+`citations` ordena por las citas de OpenAlex.
+
+## Cómo funciona `keywords`
+
+`keywords` es una búsqueda de texto de MongoDB. Une las palabras con **O**, no con Y, y no ordena por relevancia: el orden lo pone `sort`.
+
+```text
+keywords=malaria colombia        productos con "malaria" O "colombia" (274.773)
+keywords="malaria" "colombia"    productos con las dos palabras (1.024)
+keywords="juan carlos"           la frase exacta
+```
+
+Para exigir varias palabras, pon cada una entre comillas dobles.
+
+## Filtros de productos
+
+Los aceptan `/search/works`, los productos de una afiliación, un autor, una fuente o una entidad geográfica, sus exportaciones y `plot`.
+
+```text
+years=2020,2024                 rango mínimo,máximo. years=2020 es un solo año.
+status=open | closed            o el detalle: diamond, gold, green, hybrid, bronze
+product_types=impactu_Artículo de revista     el value del endpoint de filtros, con prefijo de fuente
+topics=https://openalex.org/T14483            tópico de OpenAlex, como URL
+countries=CO,US                 países de los coautores
+authors_count=5 | 5- | -5 | 5-8 exacto, al menos, hasta, rango
+authors_ranking=Investigador Junior
+groups_ranking=A1,A
+institutions_type=education,company
+```
+
+- Varios valores en un filtro, separados por coma, se unen con **O** (salvo `years`, que es un rango). Filtros distintos se unen con **Y**.
+- Afiliaciones (`/search/affiliations/{type}`): `states`, `cities`, `groups_ranking`.
+- Fuentes (`/search/sources`): `source_types`, `scimago_quartiles`, `apc_range`, `status`, `publication_time`, `license_type`, `topics`.
+
+Los valores válidos salen de los endpoints `/filters`. Cada filtro es una lista de `{value, title, count, children}`. Envía el `value`, también el de los `children`. Un valor que no existe no da error: devuelve 0 resultados.
+
+## Patrones comunes
+
+```bash
+# Productos de un autor, del más reciente al más antiguo
+GET /search/person?keywords="nombre" "apellido"&max=5&page=1&sort=products_desc
+GET /person/{id}/research/products?max=250&page=1&sort=year_desc
+
+# Solo contar
+GET /search/works?years=2024,2024&status=open&max=1&page=1&sort=citations_desc
+# meta.count
+
+# Producto por DOI
+GET /work?doi=https://doi.org/10.18316/2318-8081.15.1
+
+# Indicador de una institución, con filtros
+GET /affiliation/institution/03bp5hc83/research/products?plot=annual_citation_count&years=2020,2024
+# {"plot": [{"x": 2024, "y": ...}, ...]}
+
+# Respuestas livianas
+GET /search/works?keywords="malaria"&fields=titles,year_published,citations_count&max=50&page=1&sort=citations_desc
+
+# Siguiente página
+# meta.cursor.next trae la URL completa; es null en la última página.
+```
+
+## Límites
+
+```text
+max                        de 1 a 250
+Autores en los listados    los primeros 100 (10 con view=summary). El total está en authors_count.
+                           Para la lista completa: /work/{id}/authors.
+Completer                  5 sugerencias, por prefijo
+/apc/search sin keywords   page de 1 a 10
+Exportaciones CSV/Excel    con más de 50 autores, solo cuentan los autores con ID de Scienti
+```
+
+Detalle en [Autores de los productos](/guides/authorship).
+
+## Errores
+
+| Código | Cuándo |
+| --- | --- |
+| `400` | Parámetro inválido: `max` fuera de 1 a 250, `sort` mal formado, un campo de `fields` no permitido, `geo_type` distinto de `city` o `state`, `/work` sin `doi`. |
+| `404` | La entidad no existe, por ejemplo `/person/9999999999`. |
+| `500` | Error del servidor. Reintenta con espera exponencial. |
+
+Los listados de una entidad que no existe (por ejemplo `/person/9999999999/research/products`) responden `200` con `data` vacío, no `404`.
+
+## Errores comunes
+
+| Error | Qué pasa | Corrección |
+| --- | --- | --- |
+| `per_page=`, `limit=`, `q=`, `search=` | Se ignoran sin error y llegan 10 resultados sin filtrar. | Usa `max=` y `keywords=`. |
+| `max` sin `page` ni `sort` | Resultados sin orden. | Envía `max`, `page` y `sort` juntos. |
+| `sort=year:desc`, `sort=-year` | `400`. | `sort=year_desc`. |
+| `/work?doi=10.xxxx/yyyy` | `200` con `data` vacío. | El DOI como URL: `doi=https://doi.org/10.xxxx/yyyy`. |
+| `keywords=malaria colombia` para exigir las dos palabras | Une con O: devuelve 270 veces más resultados. | `keywords="malaria" "colombia"`. |
+| Filtrar por nombre (`author=`, `institution=`) | Se ignora sin error. | Busca el ID y usa la ruta de la entidad. |
+| Inventar el valor de un filtro (`status=Abierto`) | 0 resultados, sin error. | Usa el `value` de `/filters` (`status=open`). |
+| Contar autores con la longitud de `authors` | Máximo 100 en los listados. | Usa `authors_count`. |
+| Esperar `404` en el listado de una entidad inexistente | `200` vacío. | Comprueba la entidad con su `GET` de detalle. |
+
+## Endpoints con sesión
+
+Consultar datos no requiere sesión. La administración de usuarios (`/admin/users`), el API Key (`/users/{email}/apikey`), `/me` y las cargas (`/submit/*`) sí la requieren: un JWT en la cookie que crea `POST /login`, y en las solicitudes que no son `GET`, el encabezado `X-CSRF-TOKEN`. Un agente que solo consulta no los necesita. Detalle en la [Introducción](/api-reference/introduction).
+
+## Enlaces
+
+- [Introducción](/api-reference/introduction): formato, IDs y errores.
+- [Consultas y filtros](/guides/filters): paginación, orden y filtros con ejemplos.
+- [Autores de los productos](/guides/authorship): por qué los listados recortan los autores.
+- [Campos de un producto](/api-reference/work/get-work).
