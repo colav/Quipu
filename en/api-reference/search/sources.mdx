@@ -1,0 +1,345 @@
+---
+title: "Search sources"
+api: "GET https://api.dev.impactu.colav.co/search/sources"
+description: "Paginated search of sources (journals, repositories and others) by keywords and filters."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+
+## Query parameters
+
+<ParamField query="keywords" type="string">
+  Search text (source name).
+</ParamField>
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`, where the direction is `asc` or
+  `desc`. Fields for sources: `products` (number of products), `citations`
+  (OpenAlex citations) and `alphabetical` (by name). Example: `products_desc`.
+</ParamField>
+
+<ViewParam />
+
+### Filters
+
+All the filters accept several values separated by commas.
+
+<ParamField query="source_types" type="string">
+  Source type. Case-insensitive. Example: `journal,repository`.
+</ParamField>
+
+<ParamField query="scimago_quartiles" type="string">
+  Current Scimago quartile (Best Quartile). Values: `Q1`, `Q2`, `Q3`, `Q4` and `-`
+  (no quartile). Example: `Q1,Q2`.
+</ParamField>
+
+<ParamField query="status" type="string">
+  Open access route. Values: `diamond` (open, without APC), `gold`
+  (open, with APC), `hybrid` (closed, with APC), `closed` (closed, without APC) and
+  `open` (any open route: `diamond` or `gold`). Example: `diamond,gold`.
+</ParamField>
+
+<ParamField query="apc_range" type="string">
+  APC range in USD. With one value, it returns the sources with an APC greater than or equal to
+  that value. With two or more values, it uses the smallest and the largest as the limits of the
+  range. Example: `100,2000`.
+</ParamField>
+
+<ParamField query="publication_time" type="string">
+  Publication time in weeks. With one value, it returns the sources with a time
+  greater than or equal to that value. With two or more values, it uses the smallest and the largest as the
+  limits of the range (integers). Example: `4,12`.
+</ParamField>
+
+<ParamField query="license_type" type="string">
+  License type. Example: `CC BY,CC BY-NC`.
+</ParamField>
+
+<ParamField query="topics" type="string">
+  OpenAlex topic identifiers (full URL). Example:
+  `https://openalex.org/T10017,https://openalex.org/T14434`.
+</ParamField>
+
+<Note>
+  If you don't send `max`, `page` or `sort`, `max=10`, `page=1` and
+  `sort=citations_desc` apply. If you send `max` and `page` without `sort`,
+  `sort=citations_desc`. Invalid values of `apc_range` and
+  `publication_time` are ignored without returning an error.
+</Note>
+
+## Response
+
+<ResponseField name="data" type="array">
+  List of sources.
+  <Expandable title="properties of each source">
+    <ResponseField name="id" type="string">
+      Source identifier.
+    </ResponseField>
+    <ResponseField name="names" type="object[]">
+      Names by information source (`name`, `lang`, `source`,
+      `provenance`).
+    </ResponseField>
+    <ResponseField name="abbreviations" type="string[]">
+      Acronyms.
+    </ResponseField>
+    <ResponseField name="type" type="string">
+      Main type (for example, `journal`).
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Types by information source.
+    </ResponseField>
+    <ResponseField name="publisher" type="object">
+      Publisher (`name`, `country_code`, `id`).
+    </ResponseField>
+    <ResponseField name="languages" type="string[]">
+      Publication languages.
+    </ResponseField>
+    <ResponseField name="keywords" type="string[]">
+      Keywords.
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Number of products in the database.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citations by information source (`count`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="global_products_count" type="integer">
+      Total number of products of the source worldwide.
+    </ResponseField>
+    <ResponseField name="global_citations_count" type="integer">
+      Total number of citations of the source worldwide.
+    </ResponseField>
+    <ResponseField name="scimago_best_quartile" type="string | null">
+      Best current Scimago quartile.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      History of classifications (Scimago, Publindex and others) with their validity
+      (`from_date`, `to_date`).
+    </ResponseField>
+    <ResponseField name="open_access_status" type="string | null">
+      Open access route (`diamond`, `gold`, `hybrid`, `closed`).
+    </ResponseField>
+    <ResponseField name="open_access_start_year" type="integer | null">
+      Year since which it is open access.
+    </ResponseField>
+    <ResponseField name="apc" type="object">
+      Article processing charges (`charges`, `currency`, `paid`).
+    </ResponseField>
+    <ResponseField name="licenses" type="object[]">
+      Licenses (`type`, `url` and the flags `BY`, `NC`, `ND`, `SA`).
+    </ResponseField>
+    <ResponseField name="copyright" type="object">
+      Copyright (`author_retains`, `url`).
+    </ResponseField>
+    <ResponseField name="waiver" type="object">
+      APC waiver (`has_waiver`, `url`).
+    </ResponseField>
+    <ResponseField name="publication_time_weeks" type="integer | null">
+      Publication time in weeks.
+    </ResponseField>
+    <ResponseField name="review_processes" type="string[]">
+      Review processes.
+    </ResponseField>
+    <ResponseField name="plagiarism_detection" type="boolean | null">
+      Whether the source uses plagiarism detection.
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Subject areas grouped by information source.
+    </ResponseField>
+    <ResponseField name="topics" type="object[]">
+      OpenAlex topics (domain, field, subfield).
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers (ISSN, OpenAlex, Scimago, Scienti).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      External links (journal site, scope, instructions for
+      authors, license).
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Last update by information source (`source`, `time` in
+      Unix seconds).
+    </ResponseField>
+    <ResponseField name="addresses" type="array">
+      Addresses. Empty for sources.
+    </ResponseField>
+    <ResponseField name="relations" type="array">
+      Relations with other entities. Empty for sources.
+    </ResponseField>
+    <ResponseField name="affiliation_names" type="null">
+      Field not used for sources; it comes as `null`.
+    </ResponseField>
+    <ResponseField name="date_published" type="null">
+      Field not used for sources; it comes as `null`.
+    </ResponseField>
+    <ResponseField name="review_process" type="null">
+      Unused field; the review processes are in `review_processes`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "abbreviations": [],
+      "addresses": [],
+      "affiliation_names": null,
+      "apc": {"charges": null, "currency": null, "paid": null},
+      "citations_count": [],
+      "copyright": {"author_retains": true, "url": "https://journals.uni-lj.si/keria/about/submissions"},
+      "date_published": null,
+      "external_ids": [{"id": "1580-0261", "provenance": null, "source": "issn"}],
+      "external_urls": [{"provenance": null, "source": "aims_scope", "url": "https://journals.uni-lj.si/keria/about"}],
+      "global_citations_count": 171,
+      "global_products_count": 694,
+      "id": "6aad68732be7843cde64e41b",
+      "keywords": ["greek and latin studies"],
+      "languages": ["EN"],
+      "licenses": [
+        {
+          "BY": true,
+          "NC": false,
+          "ND": false,
+          "SA": true,
+          "type": "CC BY-SA",
+          "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+        }
+      ],
+      "names": [{"lang": "en", "name": "Keria: Studia Latina et Graeca", "provenance": null, "source": "doaj"}],
+      "open_access_start_year": 1999,
+      "open_access_status": "diamond",
+      "plagiarism_detection": false,
+      "products_count": 0,
+      "publication_time_weeks": 20,
+      "publisher": {"country_code": "SI", "id": "", "name": "University of Ljubljana Press (Založba Univerze v Ljubljani)"},
+      "ranking": [
+        {
+          "date": null,
+          "from_date": 1546318800,
+          "issn": null,
+          "level": null,
+          "order": 33103,
+          "rank": "-",
+          "source": "scimago Best Quartile",
+          "to_date": 1577768400
+        }
+      ],
+      "relations": [],
+      "review_process": null,
+      "review_processes": ["Double anonymous peer review"],
+      "scimago_best_quartile": "Q2",
+      "subjects": [
+        {
+          "provenance": null,
+          "source": "LCC",
+          "subjects": [
+            {
+              "external_ids": [{"id": "PA", "provenance": null, "source": "LCC"}],
+              "id": "",
+              "level": null,
+              "name": "Greek language and literature. Latin language and literature"
+            }
+          ]
+        }
+      ],
+      "topics": [],
+      "type": "journal",
+      "types": [{"code": null, "level": null, "provenance": null, "source": "doaj", "type": "journal", "type_class": null}],
+      "updated": [{"source": "doaj", "time": 1789749363}],
+      "waiver": {"has_waiver": false, "url": null}
+    },
+    {
+      "abbreviations": [],
+      "addresses": [],
+      "affiliation_names": null,
+      "apc": {"charges": null, "currency": null, "paid": null},
+      "citations_count": [{"count": 5, "provenance": null, "source": "openalex"}],
+      "copyright": {
+        "author_retains": true,
+        "url": "https://revistas.unilasalle.edu.br/index.php/redes/about/submissions#copyrightNotice"
+      },
+      "date_published": null,
+      "external_ids": [{"id": "139355", "provenance": null, "source": "scienti"}],
+      "external_urls": [
+        {
+          "provenance": null,
+          "source": "aims_scope",
+          "url": "https://revistas.unilasalle.edu.br/index.php/redes/about/editorialPolicies#focusAndScope"
+        }
+      ],
+      "global_citations_count": 907,
+      "global_products_count": 399,
+      "id": "6aad68732be7843cde64e41c",
+      "keywords": ["law"],
+      "languages": ["PT"],
+      "licenses": [{"BY": true, "NC": true, "ND": false, "SA": false, "type": "CC BY-NC", "url": null}],
+      "names": [{"lang": "en", "name": "Redes (Canoas)", "provenance": null, "source": "doaj"}],
+      "open_access_start_year": 2013,
+      "open_access_status": "diamond",
+      "plagiarism_detection": false,
+      "products_count": 5,
+      "publication_time_weeks": 12,
+      "publisher": {"country_code": "BR", "id": "", "name": "Universidade La Salle"},
+      "ranking": [
+        {
+          "date": null,
+          "from_date": 1546318800,
+          "issn": null,
+          "level": null,
+          "order": 34198,
+          "rank": "-",
+          "source": "scimago Best Quartile",
+          "to_date": 1577768400
+        }
+      ],
+      "relations": [],
+      "review_process": null,
+      "review_processes": ["Anonymous peer review"],
+      "scimago_best_quartile": "Q2",
+      "subjects": [
+        {
+          "provenance": null,
+          "source": "LCC",
+          "subjects": [{"external_ids": [{"id": "K", "provenance": null, "source": "LCC"}], "id": "", "level": null, "name": "Law"}]
+        }
+      ],
+      "topics": [
+        {
+          "display_name": "Human Rights and Immigration",
+          "domain": {"display_name": "Social Sciences", "id": "https://openalex.org/domains/2"},
+          "field": {"display_name": "Social Sciences", "id": "https://openalex.org/fields/33"},
+          "id": "https://openalex.org/T14490",
+          "score": null,
+          "subfield": {"display_name": "Sociology and Political Science", "id": "https://openalex.org/subfields/3312"}
+        }
+      ],
+      "type": "journal",
+      "types": [{"code": null, "level": null, "provenance": null, "source": "doaj", "type": "journal", "type_class": null}],
+      "updated": [{"source": "doaj", "time": 1789749363}],
+      "waiver": {"has_waiver": false, "url": null}
+    }
+  ],
+  "meta": {
+    "count": 349758,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/sources?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

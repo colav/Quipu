@@ -1,0 +1,65 @@
+---
+title: "H-index of faculties"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "H-index of faculties."
+sidebarTitle: "H-index of faculties"
+---
+
+H-index of faculties. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `institution`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `h_index_by_faculty`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | No data |
+| `department` | No data |
+| `group` | No data |
+
+## Response
+
+<ResponseExample>
+```json Institution
+{
+  "plot": [
+    {
+      "name": "Facultad de Medicina",
+      "percentage": 15.39,
+      "value": 165
+    },
+    {
+      "name": "Facultad de Ciencias Exactas y Naturales",
+      "percentage": 13.15,
+      "value": 141
+    },
+    {
+      "name": "Facultad de Ingeniería",
+      "percentage": 10.17,
+      "value": 109
+    },
+    {
+      "name": "Escuela de Microbiología",
+      "percentage": 7.84,
+      "value": 84
+    }
+  ],
+  "sum": 1072
+}
+```
+</ResponseExample>

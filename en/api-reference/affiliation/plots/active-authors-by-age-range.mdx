@@ -1,0 +1,149 @@
+---
+title: "Active authors by age range"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribution of active authors by age range."
+sidebarTitle: "Active authors by age range"
+---
+
+Distribution of active authors by age range. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `active_authors_by_age_range`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Response
+
+<ResponseExample>
+```json Institution
+{
+  "plot": [
+    {
+      "name": "14-26",
+      "percentage": 0.05,
+      "value": 1
+    },
+    {
+      "name": "27-59",
+      "percentage": 67.15,
+      "value": 1439
+    },
+    {
+      "name": "60+",
+      "percentage": 30.52,
+      "value": 654
+    },
+    {
+      "name": "Sin información",
+      "percentage": 2.29,
+      "value": 49
+    }
+  ],
+  "sum": 2143
+}
+```
+
+```json Faculty
+{
+  "plot": [
+    {
+      "name": "14-26",
+      "percentage": 0.0,
+      "value": 0
+    },
+    {
+      "name": "27-59",
+      "percentage": 67.14,
+      "value": 47
+    },
+    {
+      "name": "60+",
+      "percentage": 32.86,
+      "value": 23
+    },
+    {
+      "name": "Sin información",
+      "percentage": 0.0,
+      "value": 0
+    }
+  ],
+  "sum": 70
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "name": "14-26",
+      "percentage": 0.0,
+      "value": 0
+    },
+    {
+      "name": "27-59",
+      "percentage": 46.15,
+      "value": 6
+    },
+    {
+      "name": "60+",
+      "percentage": 53.85,
+      "value": 7
+    },
+    {
+      "name": "Sin información",
+      "percentage": 0.0,
+      "value": 0
+    }
+  ],
+  "sum": 13
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "name": "14-26",
+      "percentage": 0.0,
+      "value": 0
+    },
+    {
+      "name": "27-59",
+      "percentage": 72.22,
+      "value": 26
+    },
+    {
+      "name": "60+",
+      "percentage": 27.78,
+      "value": 10
+    },
+    {
+      "name": "Sin información",
+      "percentage": 0.0,
+      "value": 0
+    }
+  ],
+  "sum": 36
+}
+```
+</ResponseExample>

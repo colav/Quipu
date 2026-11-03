@@ -1,0 +1,237 @@
+---
+title: "Validate projects file"
+api: "POST https://api.dev.impactu.colav.co/submit/project"
+description: "Validates an Excel file of institutional projects (format v1.0) and returns a detailed report of errors and warnings."
+---
+
+<Note>
+  Requires an active session. The JWT is read from the `access_token_cookie` cookie
+  and the request must carry the `X-CSRF-TOKEN` header. It is sent as
+  `multipart/form-data`. This endpoint only validates: it does not save the file.
+</Note>
+
+## Request body
+
+<ParamField body="file" type="file" required>
+  Excel `.xlsx` file with the institutional projects. An `.xls` is rejected
+  with a message asking to save it as `.xlsx`. Only the first sheet is read,
+  with one row per project. If a project has several researchers or
+  funding sources, they are separated with `;` in the same cell, or the
+  row is repeated with the same `codigo_proyecto`.
+</ParamField>
+
+## Limits
+
+| Limit | Value | Response |
+| --- | --- | --- |
+| File size | 10 MB | `413`, without reading the file |
+| Uncompressed content (an `.xlsx` is a zip) | 100 MB | `400` |
+| Rows with data | 20,000 | `400` |
+| Problems listed in `issues` | 500 | `200`, with `issues_truncated: true` and the full counts |
+
+An empty or damaged file, or one that is not an Excel file, returns `400` with the reason.
+
+## File format
+
+The first row holds the headers. They are recognized even if the case, accents or spaces change, or if they carry the `*` with which the format document marks the mandatory ones: `Código Proyecto*` is `codigo_proyecto`. A column that is not in the format is ignored with a warning, and a repeated column is an error.
+
+| Column | Mandatory | Description |
+| --- | --- | --- |
+| `codigo_proyecto` | ✅ | Unique identifier of the project. It must not change in future updates. |
+| `titulo` | ✅ | Full name of the project. |
+| `fecha_inicio` | ✅ | Start date: a cell with a date format, or the text `DD/MM/YYYY`. |
+| `investigador_principal_id` | ✅ | Document number of the principal investigator, without spaces or separators. It must match the Staff format. |
+| `resumen` | Recommended | Summary or abstract of the project. If the column or the value is missing, a warning is reported. |
+| `objetivos` | — | General or specific objectives. |
+| `tipo_proyecto` | — | One of: `investigación`, `extensión`, `regalías`, `innovación`, `consultoría`. |
+| `estado` | — | One of: `propuesta`, `en ejecución`, `finalizado`, `suspendido`. |
+| `fecha_fin` | — | End date, with the same format as `fecha_inicio`. |
+| `investigador_principal_institucion_id` | — | ROR code of the principal investigator's institution: `03bp5hc83` or `https://ror.org/03bp5hc83`. |
+| `investigadores_ids` | — | Documents of the co-investigators, separated by `;`. |
+| `valor_total` | — | Total budget in COP: an integer, without currency signs or thousands separators (e.g. `50000000`). |
+| `valor_especie_total` | — | In-kind budget in COP, with the same format. |
+| `valor_fresco_total` | — | Budget in fresh resources in COP, with the same format. |
+| `fuente_financiacion_ids` | — | ROR codes or Wikidata IDs (`Q12345`) of the funding entities, separated by `;`. |
+| `instituciones_participantes_ids` | — | ROR codes or Wikidata IDs of the partner institutions, separated by `;`. |
+| `codigo_minciencias` | — | Code of the project in MinCiencias / CvLAC / GrupLAC. |
+| `codigo_bpin` | — | BPIN code for royalty or public investment projects. |
+| `convocatoria` | — | Name or code of the call. |
+| `regiones_ejecucion_id` | — | GeoNames codes of departments or regions (the number or its URL), separated by `;`. |
+| `unidad_academica_ids` | — | Codes of the responsible academic units, separated by `;`. They must match the Staff format. |
+| `grupos_id` | — | Scienti codes of the research groups, separated by `;`. |
+| `productos_asociados_ids` | — | Identifiers of derived products (DOI, DSpace Handle, MinCiencias code, OpenAlex ID), separated by `;`. |
+
+Catalogue values are accepted regardless of case, accents or extra spaces; a value outside the catalogue is an error. Blank rows are ignored.
+
+### Rules between fields
+
+| Rule | Severity |
+| --- | --- |
+| `fecha_fin` earlier than `fecha_inicio` | Error |
+| Project `finalizado` without `fecha_fin` (if the column exists) | Warning |
+| Project of `regalías` without `codigo_bpin` | Warning |
+| The principal investigator is also in `investigadores_ids` | Warning |
+| `valor_total` different from `valor_especie_total` + `valor_fresco_total` (if all three have a value) | Warning |
+| A repeated value in a list column | Warning |
+
+A project repeated over several rows can vary in the list columns. In the other columns, a value different from that of the project's first row with that field filled in is an error.
+
+## Response
+
+<ResponseField name="data" type="object">
+  Validation report.
+  <Expandable title="properties">
+    <ResponseField name="schema_version" type="string">
+      Version of the validation schema used.
+    </ResponseField>
+    <ResponseField name="valid" type="boolean">
+      `true` if the file has no errors (it may have warnings).
+    </ResponseField>
+    <ResponseField name="total_rows" type="integer">
+      Number of rows with data.
+    </ResponseField>
+    <ResponseField name="total_projects" type="integer | null">
+      Number of unique projects (by `codigo_proyecto`). `null` if there are
+      structural errors, such as a missing mandatory column: in that case the
+      rows are not validated.
+    </ResponseField>
+    <ResponseField name="errors_count" type="integer">
+      Number of errors found.
+    </ResponseField>
+    <ResponseField name="warnings_count" type="integer">
+      Number of warnings found.
+    </ResponseField>
+    <ResponseField name="issues_truncated" type="boolean">
+      `true` if there are more than 500 problems: `issues` lists the first 500 and the
+      counts include all of them.
+    </ResponseField>
+    <ResponseField name="issues" type="object[]">
+      List of problems, sorted by row (first those of the file, without a row)
+      and then by column.
+      <Expandable title="properties of each problem">
+        <ResponseField name="severity" type="string">
+          `error` or `warning`.
+        </ResponseField>
+        <ResponseField name="code" type="string">
+          Code of the problem type. For example, `missing_column`,
+          `unknown_column`, `required`, `recommended_missing`, `invalid_date`,
+          `invalid_money`, `invalid_enum`, `invalid_date_range` or
+          `conflicting_values`.
+        </ResponseField>
+        <ResponseField name="message" type="string">
+          Description of the problem.
+        </ResponseField>
+        <ResponseField name="row" type="integer | null">
+          Row number in Excel. `null` for problems of the file
+          (missing columns, extra sheets).
+        </ResponseField>
+        <ResponseField name="column" type="string | null">
+          Name of the affected column, if any.
+        </ResponseField>
+        <ResponseField name="value" type="string | null">
+          Value that caused the problem, if any.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200 — valid file
+{
+  "data": {
+    "schema_version": "1.0",
+    "valid": true,
+    "total_rows": 12,
+    "total_projects": 10,
+    "errors_count": 0,
+    "warnings_count": 1,
+    "issues_truncated": false,
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "recommended_missing",
+        "message": "Se recomienda diligenciar 'resumen'.",
+        "row": 3,
+        "column": "resumen",
+        "value": null
+      }
+    ]
+  }
+}
+```
+
+```json 200 — file with errors
+{
+  "data": {
+    "schema_version": "1.0",
+    "valid": false,
+    "total_rows": 5,
+    "total_projects": 5,
+    "errors_count": 2,
+    "warnings_count": 0,
+    "issues_truncated": false,
+    "issues": [
+      {
+        "severity": "error",
+        "code": "required",
+        "message": "El campo 'titulo' es obligatorio.",
+        "row": 2,
+        "column": "titulo",
+        "value": null
+      },
+      {
+        "severity": "error",
+        "code": "invalid_money",
+        "message": "Debe contener solo números, sin signos de moneda ni separadores de miles (ej. 50000000).",
+        "row": 4,
+        "column": "valor_total",
+        "value": "$ 5.000.000"
+      }
+    ]
+  }
+}
+```
+
+```json 200 — missing column
+{
+  "data": {
+    "schema_version": "1.0",
+    "valid": false,
+    "total_rows": 5,
+    "total_projects": null,
+    "errors_count": 1,
+    "warnings_count": 0,
+    "issues_truncated": false,
+    "issues": [
+      {
+        "severity": "error",
+        "code": "missing_column",
+        "message": "Falta la columna obligatoria 'codigo_proyecto'.",
+        "row": null,
+        "column": "codigo_proyecto",
+        "value": null
+      }
+    ]
+  }
+}
+```
+
+```json 400
+{"error": "Debe enviar el archivo en el campo 'file' (multipart/form-data)."}
+```
+
+```json 400 — unsupported format
+{
+  "error": "Extensión '.xls' no soportada. Formatos admitidos: .xlsx. Si el archivo es .xls, ábralo en Excel y guárdelo como .xlsx."
+}
+```
+
+```json 401
+{"msg": "Token inválido o expirado", "success": false}
+```
+
+```json 413
+{"error": "El archivo supera el tamaño máximo de 10 MB."}
+```
+</ResponseExample>

@@ -1,0 +1,95 @@
+---
+title: "Articles by publishing institution"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Articles by publishing institution."
+sidebarTitle: "Articles by publishing institution"
+---
+
+Articles by publishing institution. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `articles_by_publishing_institution`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/person/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Response
+
+The response structure is identical to that of the equivalent indicator for [affiliations](/en/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Faculty
+{
+  "plot": [
+    {
+      "name": "Misma",
+      "percentage": 0.0,
+      "value": 0
+    },
+    {
+      "name": "Diferente",
+      "percentage": 15.33,
+      "value": 1009
+    },
+    {
+      "name": "Sin información",
+      "percentage": 84.67,
+      "value": 5571
+    }
+  ],
+  "sum": 6580
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "name": "Misma",
+      "percentage": 0.0,
+      "value": 0
+    },
+    {
+      "name": "Diferente",
+      "percentage": 6.18,
+      "value": 47
+    },
+    {
+      "name": "Sin información",
+      "percentage": 93.82,
+      "value": 714
+    }
+  ],
+  "sum": 761
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "name": "Misma",
+      "percentage": 0.0,
+      "value": 0
+    },
+    {
+      "name": "Diferente",
+      "percentage": 38.5,
+      "value": 308
+    },
+    {
+      "name": "Sin información",
+      "percentage": 61.5,
+      "value": 492
+    }
+  ],
+  "sum": 800
+}
+```
+</ResponseExample>

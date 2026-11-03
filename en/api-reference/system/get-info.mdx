@@ -1,0 +1,74 @@
+---
+title: "General information"
+api: "GET https://api.dev.impactu.colav.co/info"
+description: "Returns the total counts of entities in the database and the date of the last update."
+---
+
+## Response
+
+<ResponseField name="db_update" type="integer">
+  Date of the last database update in Unix seconds.
+</ResponseField>
+
+<ResponseField name="total_products" type="integer">
+  Total bibliographic products.
+</ResponseField>
+
+<ResponseField name="total_authors" type="integer">
+  Total authors.
+</ResponseField>
+
+<ResponseField name="total_institutions" type="integer">
+  Total institutions.
+</ResponseField>
+
+<ResponseField name="total_faculties" type="integer">
+  Total faculties.
+</ResponseField>
+
+<ResponseField name="total_departments" type="integer">
+  Total academic departments.
+</ResponseField>
+
+<ResponseField name="total_groups" type="integer">
+  Total research groups.
+</ResponseField>
+
+<ResponseField name="total_patents" type="integer">
+  Total patents.
+</ResponseField>
+
+<ResponseField name="total_projects" type="integer">
+  Total projects.
+</ResponseField>
+
+<ResponseField name="total_sources" type="integer">
+  Total sources (journals and other types of publication).
+</ResponseField>
+
+<ResponseField name="total_news" type="integer">
+  Total news.
+</ResponseField>
+
+<ResponseField name="total_open_access" type="integer">
+  Total open access products.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "db_update": 1790716409,
+  "total_authors": 1542618,
+  "total_departments": 424,
+  "total_faculties": 79,
+  "total_groups": 7653,
+  "total_institutions": 55111,
+  "total_news": 26869,
+  "total_open_access": 549211,
+  "total_patents": 1904,
+  "total_products": 2891978,
+  "total_projects": 128687,
+  "total_sources": 349758
+}
+```
+</ResponseExample>

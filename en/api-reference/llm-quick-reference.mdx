@@ -1,0 +1,247 @@
+---
+title: "Quick reference for LLMs"
+sidebarTitle: "Reference for LLMs"
+description: "The ImpactU API on one page, for AI agents and LLMs: endpoints, parameters, filters, patterns and common mistakes."
+---
+
+<Note>
+  This page is meant for AI agents and LLMs. If you are a person, start with
+  the [Introduction](/en/api-reference/introduction) and the [Queries and
+  filters](/en/guides/filters) guide.
+</Note>
+
+Resources for agents:
+
+- Documentation index: `https://help.impactu.colav.co/llms.txt`. The whole documentation in a single file: `https://help.impactu.colav.co/llms-full.txt` (about 520 KB).
+- Any page in Markdown: add `.md` to its URL. For example, `https://help.impactu.colav.co/en/api-reference/llm-quick-reference.md`.
+- Documentation MCP: `https://help.impactu.colav.co/mcp`. It searches and reads pages of this documentation; it does not query the API's data.
+
+## Base URL and authentication
+
+```text
+Base:     https://api.dev.impactu.colav.co
+Auth:     none. Every data GET is public.
+Limit:    for now there is no request limit.
+Format:   JSON. Exports (/csv, /excel, /apc/...) return a file.
+Dates:    Unix seconds. An end_date of -1 means the relationship is still current.
+Sources:  many fields (names, citations, types) carry one item per source, with source and provenance.
+```
+
+## Response shape
+
+```text
+List:          {"data": [...], "meta": {"count", "page", "size", "db_response_time_ms", "cursor": {"next", "previous"}}}
+One entity:    {"data": {...}, "meta": {"count": 1, ...}}
+Unwrapped:     /filters endpoints, /affiliation/.../affiliations, /geo/.../affiliations, /info, /info/quality
+Indicator:     ?plot=... returns {"plot": ...}
+Completer:     a list of up to 5 objects, without data or meta
+Error:         {"error": "message"}
+```
+
+## Endpoints
+
+```text
+# Search (paginated; accepts keywords)
+GET /search/works                        products
+GET /search/person                       persons (authors)
+GET /search/affiliations/{type}          type: institution | faculty | department | group
+GET /search/sources                      journals and other sources
+GET /search/patents                      patents
+GET /search/projects                     projects
+GET /search/geo/{geo_type}               geo_type: state | city (Colombia)
+GET /search/works/filters                valid options of the product filters
+GET /search/affiliations/{type}/filters  same for affiliations
+GET /search/sources/filters              same for sources
+
+# One entity
+GET /person/{id}
+GET /affiliation/{type}/{id}
+GET /source/{id}
+GET /work/{id}
+GET /work?doi=https://doi.org/10.xxxx/yyyy    by DOI, as a full URL
+GET /patent/{id}
+GET /project/{id}
+GET /geo/{geo_type}/{dane_code}               05 = Antioquia, 05001 = Medellín
+
+# What belongs to an entity
+GET /person/{id}/research/products            also /affiliation/{type}/{id}/research/products,
+                                              /source/{id}/products and /geo/{geo_type}/{id}/research/products
+GET .../products/filters                      filter options within the entity (person, affiliation, source)
+GET .../products/csv  |  .../products/excel   export with the same filters (person, affiliation, source)
+GET /person/{id}/research/patents | projects | news
+GET /affiliation/{type}/{id}/research/patents | projects | news
+GET /affiliation/{type}/{id}/affiliations     related affiliations
+GET /geo/{geo_type}/{id}/affiliations         institutions, groups and, for departments, cities
+GET /work/{id}/authors                        all the authors (also /patent/{id}/authors and /project/{id}/authors)
+
+# Indicators: the product list with ?plot=
+GET /affiliation/{type}/{id}/research/products?plot=<name>     30 indicators
+GET /person/{id}/research/products?plot=<name>                 16 indicators
+GET /source/{id}/products?plot=annual_scimago_quartile         1 indicator
+
+# Other
+GET /completer/person/{prefix}                up to 5 suggestions by prefix
+GET /completer/affiliations/{type}/{prefix}
+GET /completer/sources/{prefix}
+GET /apc/search | /apc/person/{id} | /apc/affiliation/{id}     APC CSV
+GET /info | /info/quality | /ping
+```
+
+The indicator names are in the [affiliation](/en/api-reference/affiliation/plots/overview), [author](/en/api-reference/person/plots/overview) and [source](/en/api-reference/source/plots/overview) catalogues.
+
+## Important: first the ID, then the query
+
+<Warning>
+  There are no filters by name. A parameter such as `author=Juan Pérez` is
+  ignored without an error and returns unfiltered results. First look up the
+  entity's ID and then query with its path.
+</Warning>
+
+```bash
+# 1. Look up the ID
+GET /search/affiliations/institution?keywords=universidad antioquia&max=5&page=1&sort=products_desc
+# data[0].id = "03bp5hc83", data[0].name = "Universidad de Antioquia"
+
+# 2. Query with the ID
+GET /affiliation/institution/03bp5hc83/research/products?years=2020,2024&max=50&page=1&sort=year_desc
+```
+
+The same goes for persons (`/search/person`), sources (`/search/sources`) and geographic entities (`/search/geo/state`). Check the names of the results before picking one. IDs are opaque strings and their format varies, even within one entity: there are persons with IDs like `0000624497` and like `A5128366519`. Copy the `id` the search returns; don't build it.
+
+## List parameters
+
+```text
+keywords=   search text (only /search/*). See "How keywords works".
+max=        results per page, from 1 to 250.
+page=       page, from 1.
+sort=       field_direction, with a single underscore: citations_desc, year_asc, alphabetical_asc...
+view=       full (default) | summary: main fields and authors cut to 10.
+fields=     products only. Top-level fields separated by commas; id always comes.
+            Allowed: id, authors, titles, keywords, topics, subjects, source, types,
+            year_published, citations_by_year, citations_count, updated.
+plot=       on the products of an affiliation, an author or a source: returns an indicator.
+```
+
+<Warning>
+  Always send `max`, `page` and `sort` together. With none of the three,
+  `max=10`, `page=1` and `sort=citations_desc` apply. But if you send `max`
+  without `page` or `sort`, the results come **in no order at all**.
+</Warning>
+
+`sort` fields by endpoint:
+
+```text
+/search/works and an entity's products     citations, alphabetical, year
+/search/person, /search/affiliations       citations, products, h, h5
+/search/sources                            citations, products, alphabetical
+/search/patents, /projects, /geo           alphabetical
+```
+
+`citations` sorts by OpenAlex citations.
+
+## How `keywords` works
+
+`keywords` is a MongoDB text search. It joins the words with **OR**, not AND, and does not sort by relevance: `sort` sets the order.
+
+```text
+keywords=malaria colombia        products with "malaria" OR "colombia" (274,773)
+keywords="malaria" "colombia"    products with both words (1,024)
+keywords="juan carlos"           the exact phrase
+```
+
+To require several words, put each one in double quotes.
+
+## Product filters
+
+They are accepted by `/search/works`, the products of an affiliation, an author, a source or a geographic entity, their exports and `plot`.
+
+```text
+years=2020,2024                 range min,max. years=2020 is a single year.
+status=open | closed            or the detail: diamond, gold, green, hybrid, bronze
+product_types=impactu_Artículo de revista     the value from the filters endpoint, with the source prefix
+topics=https://openalex.org/T14483            OpenAlex topic, as a URL
+countries=CO,US                 co-authors' countries
+authors_count=5 | 5- | -5 | 5-8 exactly, at least, up to, range
+authors_ranking=Investigador Junior
+groups_ranking=A1,A
+institutions_type=education,company
+```
+
+- Several values in one filter, separated by commas, are joined with **OR** (except `years`, which is a range). Different filters are joined with **AND**.
+- Affiliations (`/search/affiliations/{type}`): `states`, `cities`, `groups_ranking`.
+- Sources (`/search/sources`): `source_types`, `scimago_quartiles`, `apc_range`, `status`, `publication_time`, `license_type`, `topics`.
+
+The valid values come from the `/filters` endpoints. Each filter is a list of `{value, title, count, children}`. Send the `value`, including those of the `children`. A value that doesn't exist gives no error: it returns 0 results.
+
+## Common patterns
+
+```bash
+# An author's products, from the most recent to the oldest
+GET /search/person?keywords="first name" "last name"&max=5&page=1&sort=products_desc
+GET /person/{id}/research/products?max=250&page=1&sort=year_desc
+
+# Count only
+GET /search/works?years=2024,2024&status=open&max=1&page=1&sort=citations_desc
+# meta.count
+
+# Product by DOI
+GET /work?doi=https://doi.org/10.18316/2318-8081.15.1
+
+# An institution's indicator, with filters
+GET /affiliation/institution/03bp5hc83/research/products?plot=annual_citation_count&years=2020,2024
+# {"plot": [{"x": 2024, "y": ...}, ...]}
+
+# Light responses
+GET /search/works?keywords="malaria"&fields=titles,year_published,citations_count&max=50&page=1&sort=citations_desc
+
+# Next page
+# meta.cursor.next holds the full URL; it is null on the last page.
+```
+
+## Limits
+
+```text
+max                        from 1 to 250
+Authors in lists           the first 100 (10 with view=summary). The total is in authors_count.
+                           For the full list: /work/{id}/authors.
+Completer                  5 suggestions, by prefix
+/apc/search without keywords   page from 1 to 10
+CSV/Excel exports          with more than 50 authors, only the authors with a Scienti ID count
+```
+
+Details in [Product authors](/en/guides/authorship).
+
+## Errors
+
+| Code | When |
+| --- | --- |
+| `400` | Invalid parameter: `max` outside 1 to 250, a badly formed `sort`, a `fields` field that is not allowed, a `geo_type` other than `city` or `state`, `/work` without `doi`. |
+| `404` | The entity doesn't exist, for example `/person/9999999999`. |
+| `500` | Server error. Retry with exponential backoff. |
+
+Lists of an entity that doesn't exist (for example `/person/9999999999/research/products`) return `200` with an empty `data`, not `404`.
+
+## Common mistakes
+
+| Mistake | What happens | Fix |
+| --- | --- | --- |
+| `per_page=`, `limit=`, `q=`, `search=` | Ignored without an error; 10 unfiltered results come back. | Use `max=` and `keywords=`. |
+| `max` without `page` or `sort` | Results in no order. | Send `max`, `page` and `sort` together. |
+| `sort=year:desc`, `sort=-year` | `400`. | `sort=year_desc`. |
+| `/work?doi=10.xxxx/yyyy` | `200` with an empty `data`. | The DOI as a URL: `doi=https://doi.org/10.xxxx/yyyy`. |
+| `keywords=malaria colombia` to require both words | Joined with OR: returns 270 times more results. | `keywords="malaria" "colombia"`. |
+| Filtering by name (`author=`, `institution=`) | Ignored without an error. | Look up the ID and use the entity's path. |
+| Making up a filter value (`status=Abierto`) | 0 results, no error. | Use the `value` from `/filters` (`status=open`). |
+| Counting authors by the length of `authors` | At most 100 in lists. | Use `authors_count`. |
+| Expecting `404` on the list of a nonexistent entity | An empty `200`. | Check the entity with its detail `GET`. |
+
+## Session endpoints
+
+Querying data needs no session. User administration (`/admin/users`), the API key (`/users/{email}/apikey`), `/me` and uploads (`/submit/*`) do: a JWT in the cookie that `POST /login` creates and, in requests other than `GET`, the `X-CSRF-TOKEN` header. An agent that only queries doesn't need them. Details in the [Introduction](/en/api-reference/introduction).
+
+## Links
+
+- [Introduction](/en/api-reference/introduction): format, IDs and errors.
+- [Queries and filters](/en/guides/filters): pagination, sorting and filters with examples.
+- [Product authors](/en/guides/authorship): why lists cut the authors.
+- [Fields of a product](/en/api-reference/work/get-work).

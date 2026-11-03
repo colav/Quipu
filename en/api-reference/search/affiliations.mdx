@@ -1,0 +1,222 @@
+---
+title: "Search affiliations"
+api: "GET https://api.dev.impactu.colav.co/search/affiliations/{affiliation_type}"
+description: "Paginated search of affiliations (institutions, faculties, departments and groups)."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+
+## Path parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Type of affiliation to search: `institution`, `faculty`, `department` or `group`.
+</ParamField>
+
+## Query parameters
+
+<ParamField query="keywords" type="string">
+  Search text (affiliation name).
+</ParamField>
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`, where the direction is `asc` or
+  `desc`. Fields for affiliations: `products` (most output), `citations`
+  (most citations), `h` (h-index) and `h5` (h5-index). Example: `products_desc`.
+</ParamField>
+
+<ViewParam />
+
+### Filters
+
+The three filters accept several values separated by commas.
+
+<ParamField query="states" type="string">
+  Departments of the affiliation's address. The normalized values are used
+  and their variants in the database are included. Example:
+  `Antioquia,Tolima`.
+</ParamField>
+
+<ParamField query="cities" type="string">
+  Cities of the affiliation's address. Variants such as "Bogotá, D.C." or
+  "Santiago de Cali" are also included. Example: `Bogotá,Cali`.
+</ParamField>
+
+<ParamField query="groups_ranking" type="string">
+  Current classification of the group. It is compared with the most recent ranking (by
+  `from_date`), whatever its source. Example: `A1,A2`.
+</ParamField>
+
+<Note>
+  If you don't send `max`, `page` or `sort`, `max=10`, `page=1` and
+  `sort=citations_desc` apply. If you send `max` and `page` without `sort`,
+  `sort=citations_desc`. With `affiliation_type=institution` all institution
+  types are included.
+</Note>
+
+## Response
+
+<ResponseField name="data" type="array">
+  List of affiliations.
+  <Expandable title="properties of each affiliation">
+    <ResponseField name="id" type="string">
+      Affiliation identifier.
+    </ResponseField>
+    <ResponseField name="name" type="string | null">
+      Main name (in Spanish if there is one).
+    </ResponseField>
+    <ResponseField name="names" type="object[]">
+      Names by source (`name`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="abbreviations" type="string[]">
+      Acronyms.
+    </ResponseField>
+    <ResponseField name="aliases" type="string[]">
+      Alternative names.
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Affiliation types by source (`type`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="addresses" type="object[]">
+      Addresses: `city`, `state`, `country`, `country_code`, `postcode`,
+      `lat`, `lng`.
+    </ResponseField>
+    <ResponseField name="year_established" type="integer | null">
+      Year founded.
+    </ResponseField>
+    <ResponseField name="description" type="object[]">
+      Descriptions by source.
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Number of products.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citations by source (`count`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="h_index" type="integer | null">
+      H-index.
+    </ResponseField>
+    <ResponseField name="h5_index" type="integer | null">
+      H-index of the last 5 years.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Classifications (for example, a research group's).
+    </ResponseField>
+    <ResponseField name="affiliations" type="object[] | null">
+      Direct parent affiliations (for example, the institution of a
+      faculty). In the search it can come as `null`.
+    </ResponseField>
+    <ResponseField name="relations" type="object[]">
+      Related affiliations (`id`, `name`, `types`, `external_urls`). For
+      example, the institution and the departments of a faculty.
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Subject areas.
+    </ResponseField>
+    <ResponseField name="status" type="array">
+      Status of the affiliation.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers (`id`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      External links.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Last update by source (`source`, `time` in Unix seconds).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "abbreviations": ["UE"],
+      "addresses": [
+        {
+          "city": "Gothenburg",
+          "country": "Suecia",
+          "country_code": "SE",
+          "lat": 57.70716,
+          "lng": 11.96679,
+          "postcode": "",
+          "state": "Västra Götaland"
+        }
+      ],
+      "affiliations": null,
+      "aliases": [],
+      "citations_count": [{"count": 69, "provenance": null, "source": "scholar"}],
+      "description": [],
+      "external_ids": [{"id": "example-grid-id", "provenance": "ror", "source": "grid"}],
+      "external_urls": [{"provenance": null, "source": "grid", "url": "https://www.example.edu.co"}],
+      "h5_index": 0,
+      "h_index": 1,
+      "id": "example-institution-id",
+      "name": "Universidad Ejemplo",
+      "names": [{"lang": "en", "name": "Universidad Ejemplo", "provenance": null, "source": "ror"}],
+      "products_count": 1,
+      "ranking": [],
+      "relations": [],
+      "status": ["active"],
+      "subjects": [],
+      "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "archive", "type_class": null}],
+      "updated": [{"source": "ror", "time": 1789879262}],
+      "year_established": 2001
+    },
+    {
+      "abbreviations": ["UE"],
+      "addresses": [
+        {
+          "city": "Londres",
+          "country": "Reino Unido",
+          "country_code": "GB",
+          "lat": 51.50853,
+          "lng": -0.12574,
+          "postcode": "",
+          "state": "England"
+        }
+      ],
+      "affiliations": null,
+      "aliases": [],
+      "citations_count": [{"count": 83, "provenance": null, "source": "openalex"}],
+      "description": [],
+      "external_ids": [{"id": "example-wikidata-id", "provenance": "ror", "source": "wikidata"}],
+      "external_urls": [{"provenance": "wikidata", "source": "logo", "url": "https://www.example.edu.co"}],
+      "h5_index": 1,
+      "h_index": 3,
+      "id": "example-institution-id-2",
+      "name": "Universidad Ejemplo 2",
+      "names": [{"lang": "en", "name": "Universidad Ejemplo 2", "provenance": null, "source": "ror"}],
+      "products_count": 11,
+      "ranking": [],
+      "relations": [],
+      "status": ["active"],
+      "subjects": [],
+      "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "archive", "type_class": null}],
+      "updated": [{"source": "ror", "time": 1789879262}],
+      "year_established": 1753
+    }
+  ],
+  "meta": {
+    "count": 55111,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/affiliations/institution?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

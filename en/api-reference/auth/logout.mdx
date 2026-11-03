@@ -1,0 +1,30 @@
+---
+title: "Log out"
+api: "POST https://api.dev.impactu.colav.co/logout"
+description: "Ends the session by deleting the client's JWT cookie."
+---
+
+<Note>
+  It needs no body and no token in the request body. The
+  `access_token_cookie` cookie is deleted in the response.
+</Note>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  Always `true` when logging out succeeds.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Confirmation message.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{"msg": "Sesión cerrada correctamente", "success": true}
+```
+
+```json 500
+{ "success": false, "msg": "Error interno del servidor" }
+```
+</ResponseExample>

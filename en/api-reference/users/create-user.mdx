@@ -1,0 +1,89 @@
+---
+title: "Create user"
+api: "POST https://api.dev.impactu.colav.co/admin/users/{email}"
+description: "Creates a new user on the platform and emails them their password. Only accessible with the admin role."
+---
+
+<Note>
+  Requires an active session with the `admin` role. The email with the
+  credentials is sent first and then the user is saved: if the email cannot
+  be sent, it returns `502` and nothing is created, so it can be retried.
+</Note>
+
+## Path parameters
+
+<ParamField path="email" type="string" required>
+  Email address of the new user. If it doesn't have a valid format, it returns
+  `400`.
+</ParamField>
+
+## Request body
+
+It must have exactly these three fields, with non-empty text: if any is missing, extra or empty, it returns `400`.
+
+<ParamField body="institution" type="string" required>
+  Name of the institution the user belongs to.
+</ParamField>
+
+<ParamField body="ror_id" type="string" required>
+  ROR identifier of the institution. Example: `059yx9a68`. Each institution
+  has a single user: if one already exists for that `ror_id`, it returns `409`.
+</ParamField>
+
+<ParamField body="role" type="string" required>
+  User's role on the platform. Example: `staff`. It cannot be `admin`: it returns `403`.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  `true` if the user was created successfully.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Confirmation or error message.
+</ResponseField>
+
+<ResponseExample>
+```json 201
+{
+  "success": true,
+  "msg": "Usuario usuario@example.com Creado exitosamente y contraseña enviada por correo electrónico."
+}
+```
+
+```json 400
+{ "success": false, "msg": "Faltan: ror_id" }
+```
+
+```json 400 — invalid email
+{ "success": false, "msg": "El correo 'usuario@example' no es válido." }
+```
+
+```json 409
+{
+  "success": false,
+  "msg": "Para la institución: Universidad Ejemplo ya existe un correo registrado: otro@example.com. Si deseas asignar un nuevo correo, edita el usuario existente."
+}
+```
+
+```json 409 — existing email
+{ "success": false, "msg": "El usuario con correo usuario@example.com ya existe." }
+```
+
+```json 401
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
+```
+
+```json 403
+{ "success": false, "msg": "Permiso denegado: No pueden realizar esta acción." }
+```
+
+```json 403 — admin role
+{ "success": false, "msg": "No se pueden crear usuarios con el role 'admin'." }
+```
+
+```json 502
+{ "success": false, "msg": "No se pudo enviar el correo con las credenciales. No se guardó ningún cambio." }
+```
+</ResponseExample>

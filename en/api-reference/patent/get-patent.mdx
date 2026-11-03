@@ -1,0 +1,171 @@
+---
+title: "Get a patent"
+api: "GET https://api.dev.impactu.colav.co/patent/{patent_id}"
+description: "Returns a patent from its identifier."
+---
+
+import ViewParam from "/snippets/en/view-param.mdx";
+import EntityMeta from "/snippets/en/entity-meta.mdx";
+
+## Path parameters
+
+<ParamField path="patent_id" type="string" required>
+  Patent identifier. Example: `6ab847915418a51e32855aa6`.
+</ParamField>
+
+## Query parameters
+
+<ViewParam />
+
+## Response
+
+<ResponseField name="data" type="object">
+  The requested patent.
+  <Expandable title="properties">
+    <ResponseField name="id" type="string">
+      Patent identifier.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Main title.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Titles by source (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="language" type="string | null">
+      Language (ISO 639-1 code).
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Product types by source (`name`, `source`). For example:
+      `"Patente de invención"` according to Minciencias.
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Types by source with `type`, `level`, `source` and `provenance`.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Patent classifications (`rank`, `source`, `date`).
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      Authors with their affiliations and external identifiers.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Number of authors.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Associated research groups (`id`, `name`).
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers (`id`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      External links (`url`, `source`).
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Last update by source (`source`, `time` in Unix seconds).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<EntityMeta />
+
+<ResponseExample>
+```json 200
+{
+  "data": {
+    "authors": [
+      {
+        "affiliations": [
+          {
+            "addresses": null,
+            "end_date": null,
+            "external_ids": null,
+            "h5_index": null,
+            "h_index": null,
+            "id": "COL0000001",
+            "name": "Grupo de Investigación Ejemplo",
+            "position": null,
+            "ranking": null,
+            "ror": null,
+            "start_date": null,
+            "types": [
+              {
+                "code": null,
+                "level": null,
+                "provenance": null,
+                "source": "minciencias",
+                "type": "group",
+                "type_class": null
+              }
+            ],
+            "years": []
+          }
+        ],
+        "countries": null,
+        "external_ids": [{"id": "0000000001", "provenance": "staff", "source": "scienti"}],
+        "first_names": null,
+        "full_name": "María Ejemplo García",
+        "h5_index": null,
+        "h_index": null,
+        "id": "0000000001",
+        "last_names": null,
+        "ranking": null,
+        "sex": null,
+        "type": null
+      }
+    ],
+    "authors_count": 1,
+    "external_ids": [{"id": "0000000001-28", "provenance": "minciencias", "source": "scienti"}],
+    "external_urls": [],
+    "groups": [
+      {
+        "citations_count": null,
+        "h5_index": null,
+        "h_index": null,
+        "id": "COL0000001",
+        "name": "Grupo de Investigación Ejemplo",
+        "ranking": null
+      }
+    ],
+    "id": "6ab847915418a51e32855aa6",
+    "language": "es",
+    "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
+    "ranking": [
+      {
+        "date": 1444885200,
+        "from_date": null,
+        "issn": null,
+        "level": null,
+        "order": null,
+        "rank": "PIV-PA4",
+        "source": "minciencias",
+        "to_date": null
+      }
+    ],
+    "title": "Equipo para la producción de alquil ésteres de ácidos grasos empleando un reactor de película líquida operado en contracorriente",
+    "titles": [
+      {
+        "lang": "es",
+        "provenance": null,
+        "source": "minciencias",
+        "title": "Equipo para la producción de alquil ésteres de ácidos grasos empleando un reactor de película líquida operado en contracorriente"
+      }
+    ],
+    "types": [
+      {
+        "code": null,
+        "level": 1,
+        "provenance": "minciencias",
+        "source": "minciencias",
+        "type": "Patente de invención",
+        "type_class": null
+      }
+    ],
+    "updated": [{"source": "minciencias", "time": 1790461841}]
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 404
+{"error": "The patent with id 000000000000000000000000 does not exist."}
+```
+</ResponseExample>

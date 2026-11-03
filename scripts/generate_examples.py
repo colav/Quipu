@@ -1,5 +1,8 @@
 """Regenera los ejemplos de respuesta (<ResponseExample>) de api-reference consultando la API de desarrollo.
 
+Cada página se actualiza en español (api-reference/) y, si existe, en inglés (en/api-reference/), con los mismos
+bloques y la variante del título traducida (`json 200 — Institution`).
+
 El título de cada bloque es el código HTTP que devolvió la API (`json 200`, `json 404`, `json 200 — Institución`),
 así que los códigos documentados siempre son los reales. Las respuestas se recortan y se anonimizan según la
 convención del README: personas como `0000000001`, instituciones como `example-institution-id` y grupos como
@@ -21,6 +24,7 @@ import requests
 
 BASE = os.environ.get("API_BASE", "https://api.dev.impactu.colav.co")
 ROOT = Path(__file__).parent.parent / "api-reference"
+ROOT_EN = Path(__file__).parent.parent / "en" / "api-reference"
 FENCE = "`" * 3
 TIMEOUT = 300
 
@@ -82,6 +86,15 @@ AFFILIATION_VARIANTS = [
     ("department", "Departamento"),
     ("group", "Grupo"),
 ]
+# Variantes de los títulos en la versión en inglés de las páginas.
+VARIANTS_EN = {
+    "Institución": "Institution",
+    "Facultad": "Faculty",
+    "Departamento": "Department",
+    "Grupo": "Group",
+    "Ciudad": "City",
+    "sin sesión": "no session",
+}
 USER = f"/admin/users/{EXAMPLE_EMAIL}"
 APIKEY = f"/users/{EXAMPLE_EMAIL}/apikey"
 
@@ -491,9 +504,17 @@ def merge_blocks(current: str, generated: list[tuple[str, str]]) -> str:
     return "\n\n".join(block for _, block in blocks)
 
 
-def update_page(page_path: Path, page: Page, samples: dict[str, str]) -> bool:
+def to_english(title: str, block: str) -> tuple[str, str]:
+    """Traduce la variante del título de un bloque generado (`200 — Institución` → `200 — Institution`)."""
+    code, sep, variant = title.partition(" — ")
+    if not sep:
+        return title, block
+    english = f"{code} — {VARIANTS_EN.get(variant, variant)}"
+    return english, block.replace(f" {title}\n", f" {english}\n", 1)
+
+
+def update_page(page_path: Path, page: Page, generated: list[tuple[str, str]]) -> bool:
     content = page_path.read_text(encoding="utf-8")
-    generated = [render(case, samples) for case in page.cases]
     match = EXAMPLE_RE.search(content)
     if match is None:
         raise ValueError(f"{page_path} no tiene <ResponseExample>")
@@ -513,9 +534,13 @@ def main() -> None:
     for name, page in PAGES.items():
         if only and name not in only:
             continue
-        if update_page(ROOT / f"{name}.mdx", page, samples):
+        generated = [render(case, samples) for case in page.cases]
+        if update_page(ROOT / f"{name}.mdx", page, generated):
             changed.append(name)
-        print(f"{'cambió' if name in changed else 'igual '}  {name}")
+        english = ROOT_EN / f"{name}.mdx"
+        if english.exists() and update_page(english, page, [to_english(*block) for block in generated]):
+            changed.append(f"en/{name}")
+        print(f"{'cambió' if name in changed or f'en/{name}' in changed else 'igual '}  {name}")
     print(f"\n{len(changed)} página(s) con ejemplos distintos de la API.")
     if changed and "--check" in sys.argv:
         sys.exit(1)

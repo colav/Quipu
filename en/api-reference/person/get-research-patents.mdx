@@ -1,0 +1,118 @@
+---
+title: "Author patents"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/patents"
+description: "Paginated list of an author's patents."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+
+## Path parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier. Example: `0000000001`.
+</ParamField>
+
+## Query parameters
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`. Available fields:
+  `citations`, `alphabetical` and `year`. Example: `year_desc`.
+</ParamField>
+
+<ViewParam />
+
+<Note>
+  The response structure is identical to that of [Affiliation patents](/en/api-reference/affiliation/get-research-patents).
+</Note>
+
+## Response
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "minciencias", "type": "group"}],
+              "years": []
+            }
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
+        }
+      ],
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000001-28", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab847915418a51e32855aa6",
+      "language": "es",
+      "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
+      "ranking": [{"date": 1444885200, "rank": "PIV-PA4", "source": "minciencias"}],
+      "title": "Equipo para la producción de alquil ésteres de ácidos grasos empleando un reactor de película líquida operado en contracorriente",
+      "titles": [
+        {
+          "lang": "es",
+          "source": "minciencias",
+          "title": "Equipo para la producción de alquil ésteres de ácidos grasos empleando un reactor de película líquida operado en contracorriente"
+        }
+      ],
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Patente de invención"}],
+      "updated": [{"source": "minciencias", "time": 1790461841}]
+    },
+    {
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "minciencias", "type": "group"}],
+              "years": []
+            }
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
+        }
+      ],
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000001-1940", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab847925418a51e32855b65",
+      "language": "en",
+      "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
+      "ranking": [{"date": 1614229200, "rank": "PIV-PB4", "source": "minciencias"}],
+      "title": "Reaction system for producing (52) U.S. CI. Fatty alkyl esters using a liquid-film reactor operated countercurrentwise",
+      "titles": [
+        {
+          "lang": "en",
+          "source": "minciencias",
+          "title": "Reaction system for producing (52) U.S. CI. Fatty alkyl esters using a liquid-film reactor operated countercurrentwise"
+        }
+      ],
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Patente de invención"}],
+      "updated": [{"source": "minciencias", "time": 1790461842}]
+    }
+  ],
+  "meta": {"count": 2, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 2}
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

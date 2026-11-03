@@ -1,0 +1,93 @@
+---
+title: "Autocomplete affiliations"
+api: "GET https://api.dev.impactu.colav.co/completer/affiliations/{aff_type}/{text}"
+description: "Returns up to 5 suggestions of affiliations (institutions, groups, departments or faculties) whose name starts with the given text."
+---
+
+## Path parameters
+
+<ParamField path="aff_type" type="string" required>
+  Affiliation subtype. Allowed values:
+
+  | Value | Description | Example path |
+  | --- | --- | --- |
+  | `institution` | Institutions (universities, research centres) | `/completer/affiliations/institution/univ` |
+  | `group` | Research groups | `/completer/affiliations/group/bio` |
+  | `department` | Academic departments | `/completer/affiliations/department/ing` |
+  | `faculty` | Faculties | `/completer/affiliations/faculty/med` |
+</ParamField>
+
+<ParamField path="text" type="string" required>
+  Prefix of the affiliation name. Example: `univ` returns affiliations
+  whose name starts with "univ".
+</ParamField>
+
+<Note>
+  The search uses Elasticsearch and matches by **prefix**. It always returns
+  at most 5 results.
+</Note>
+
+## Response
+
+An array of up to 5 objects with the following fields:
+
+<ResponseField name="[]" type="object[]">
+  List of suggestions.
+  <Expandable title="properties of each suggestion">
+    <ResponseField name="_id" type="string">
+      Identifier of the affiliation in the database.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Name of the affiliation (longest available variant).
+    </ResponseField>
+    <ResponseField name="text" type="string">
+      Text used by Elasticsearch for the suggestion.
+    </ResponseField>
+    <ResponseField name="_score" type="number">
+      Elasticsearch relevance score.
+    </ResponseField>
+    <ResponseField name="_source" type="object">
+      Internal Elasticsearch document. It contains `name` (an object with the field
+      `input`), `full_name`, `country_code` and `types`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200 — institution
+[
+  {
+    "_id": "03bp5hc83",
+    "_index": "kahi_dev_institution",
+    "_score": 10.0,
+    "name": "Universidad de Antioquia",
+    "text": "UdeA",
+    "_source": {
+      "full_name": "Universidad de Antioquia",
+      "name": { "input": ["Universidad"], "weight": 10 },
+      "country_code": "CO",
+      "types": [{ "source": "ror", "type": "Education" }]
+    }
+  }
+]
+```
+
+```json 200 — group
+[
+  {
+    "_id": "COL0000000",
+    "_index": "kahi_dev_group",
+    "_score": 10.0,
+    "name": "Grupo de Biología Molecular",
+    "text": "Biologia Molecular",
+    "_source": {
+      "name": { "input": ["Biologia Molecular"], "weight": 10 }
+    }
+  }
+]
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>

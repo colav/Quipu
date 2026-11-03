@@ -1,0 +1,67 @@
+---
+title: "Session status"
+api: "GET https://api.dev.impactu.colav.co/me"
+description: "Checks whether the session is active by reading the JWT from the HttpOnly cookie."
+---
+
+<Note>
+  It takes no parameters. The server reads the `access_token_cookie` cookie
+  automatically. It returns `401` if there is no active session, if the token
+  expired or if the account was deactivated or deleted after logging in.
+</Note>
+
+## Response
+
+<ResponseField name="status" type="string">
+  Session status: `sesion_activa`, `sesion_no_iniciada` or `token_expirado`.
+  A token from a deactivated or nonexistent account is also `token_expirado`.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Message describing the status.
+</ResponseField>
+
+<ResponseField name="user" type="object">
+  Data of the authenticated user. Only present when `status` is `sesion_activa`.
+  <Expandable title="properties">
+    <ResponseField name="_id" type="string">
+      Identifier of the user's institution.
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      User's email address.
+    </ResponseField>
+    <ResponseField name="institution" type="string">
+      Name of the institution.
+    </ResponseField>
+    <ResponseField name="role" type="string">
+      User's role.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "status": "sesion_activa",
+  "msg": "Sesión activa",
+  "user": {
+    "_id": "example-institution-id",
+    "email": "usuario@example.com",
+    "institution": "Universidad Ejemplo",
+    "role": "staff"
+  }
+}
+```
+
+```json 401 — no session
+{"msg": "Sesión no iniciada", "status": "sesion_no_iniciada"}
+```
+
+```json 401 — expired token
+{ "status": "token_expirado", "msg": "Token expirado o inválido" }
+```
+
+```json 401 — deactivated account
+{ "status": "token_expirado", "msg": "Token revocado o inválido" }
+```
+</ResponseExample>

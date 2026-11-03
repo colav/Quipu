@@ -1,0 +1,205 @@
+---
+title: "Products of a geographic entity"
+api: "GET https://api.dev.impactu.colav.co/geo/{geo_type}/{geo_id}/research/products"
+description: "Returns the bibliographic products associated with a department or city, with pagination and sorting."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import WorksFilterParams from "/snippets/en/works-filter-params.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+import FieldsParam from "/snippets/en/fields-param.mdx";
+import WorksListResponse from "/snippets/en/works-list-response.mdx";
+
+## Path parameters
+
+<ParamField path="geo_type" type="string" required>
+  Geographic entity type. Allowed values: `state` or `city`.
+</ParamField>
+
+<ParamField path="geo_id" type="string" required>
+  DANE code of the entity. Examples: `05` for Antioquia, `05001` for
+  Medellín.
+</ParamField>
+
+## Query parameters
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`, where the direction is `asc` or
+  `desc`. Fields for products: `citations`, `alphabetical` (by title) and
+  `year` (publication year). Example: `year_desc`.
+</ParamField>
+
+<ViewParam />
+
+<FieldsParam />
+
+### Filters
+
+The same filters as [Search products](/en/api-reference/search/works). All of them accept several values separated by commas.
+
+<WorksFilterParams />
+
+<Note>
+  If you don't send `max`, `page` or `sort`, `max=10`, `page=1` and
+  `sort=citations_desc` apply. If you send `max` and `page` without `sort`,
+  `sort=citations_desc` applies.
+</Note>
+
+## Response
+
+<WorksListResponse />
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "abstracts": [],
+      "apc": {"paid": {}},
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": [{"city": "Medellín", "country": "Colombia", "country_code": "CO"}],
+              "end_date": "",
+              "external_ids": [{"id": "example-minciencias-id", "source": "minciencias"}],
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "start_date": 1433998800,
+              "types": [{"source": "minciencias", "type": "group"}],
+              "years": []
+            }
+          ],
+          "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
+          "first_names": ["María"],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001",
+          "last_names": ["Ejemplo"],
+          "ranking": [{"date": 1494565200, "order": "12", "rank": "Investigador Junior", "source": "minciencias"}],
+          "sex": "Hombre"
+        }
+      ],
+      "authors_count": 1,
+      "bibliographic_info": {},
+      "citations_by_year": [],
+      "citations_count": [],
+      "doi": "",
+      "external_ids": [{"id": "AAD-0000000001-1-1", "provenance": "minciencias", "source": "minciencias"}],
+      "external_urls": [],
+      "groups": [
+        {
+          "citations_count": [{"count": 0, "source": "openalex"}],
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [{"date": 1614229200, "order": "3", "rank": "B", "source": "minciencias"}]
+        }
+      ],
+      "id": "6ab4ac415418a51e324cb660",
+      "keywords": [],
+      "language": "fr",
+      "open_access": {},
+      "primary_topic": {},
+      "product_types": [{"name": "Obras o productos de arte, arquitectura y diseño", "source": "minciencias"}],
+      "ranking": [{"date": 1614229200, "rank": "AAD-AAD_C", "source": "minciencias"}],
+      "references": [],
+      "source": {},
+      "subjects": [],
+      "title": "Reja Débil",
+      "titles": [{"lang": "fr", "source": "minciencias", "title": "Reja Débil"}],
+      "topics": [],
+      "types": [
+        {
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Obras o productos de arte, arquitectura y diseño"
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790225473}]
+    },
+    {
+      "abstracts": [],
+      "apc": {"paid": {}},
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": [{"city": "Medellín", "country": "Colombia", "country_code": "CO"}],
+              "end_date": "",
+              "external_ids": [{"id": "example-minciencias-id", "source": "minciencias"}],
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "start_date": 1433998800,
+              "types": [{"source": "minciencias", "type": "group"}],
+              "years": []
+            }
+          ],
+          "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
+          "first_names": ["María"],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001",
+          "last_names": ["Ejemplo"],
+          "ranking": [{"date": 1494565200, "order": "12", "rank": "Investigador Junior", "source": "minciencias"}],
+          "sex": "Hombre"
+        }
+      ],
+      "authors_count": 1,
+      "bibliographic_info": {},
+      "citations_by_year": [],
+      "citations_count": [],
+      "doi": "",
+      "external_ids": [{"id": "AAD-0000000001-2-2", "provenance": "minciencias", "source": "minciencias"}],
+      "external_urls": [],
+      "groups": [
+        {
+          "citations_count": [{"count": 0, "source": "openalex"}],
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [{"date": 1614229200, "order": "3", "rank": "B", "source": "minciencias"}]
+        }
+      ],
+      "id": "6ab4ac415418a51e324cb661",
+      "keywords": [],
+      "language": "es",
+      "open_access": {},
+      "primary_topic": {},
+      "product_types": [{"name": "Obras o productos de arte, arquitectura y diseño", "source": "minciencias"}],
+      "ranking": [{"date": 1614229200, "rank": "AAD-AAD_C", "source": "minciencias"}],
+      "references": [],
+      "source": {},
+      "subjects": [],
+      "title": "Insultos Discriminatorios",
+      "titles": [{"lang": "es", "source": "minciencias", "title": "Insultos Discriminatorios"}],
+      "topics": [],
+      "types": [
+        {
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Obras o productos de arte, arquitectura y diseño"
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790225473}]
+    }
+  ],
+  "meta": {
+    "count": 275779,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/geo/city/05001/research/products?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

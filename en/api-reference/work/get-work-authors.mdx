@@ -1,0 +1,186 @@
+---
+title: "Product authors"
+api: "GET https://api.dev.impactu.colav.co/work/{work_id}/authors"
+description: "Returns the list of authors of a bibliographic product."
+---
+
+import EntityMeta from "/snippets/en/entity-meta.mdx";
+
+## Path parameters
+
+<ParamField path="work_id" type="string" required>
+  Product identifier. Example: `6ab4ac4e5418a51e324cc06a`.
+</ParamField>
+
+## Query parameters
+
+<ParamField query="view" type="string" default="full">
+  Level of detail. With `summary`, each author carries only `id`, `full_name`,
+  `type` and `affiliations`, and fields without data are left out.
+</ParamField>
+
+The full author list is also in the `authors` field of [Get a product](/en/api-reference/work/get-work), which cuts it to 10 with `view=summary`. Product lists only carry the first 100: see [Product authors](/en/guides/authorship).
+
+## Response
+
+<ResponseField name="data" type="object[]">
+  List of the product's authors.
+  <Expandable title="properties of each author">
+    <ResponseField name="id" type="string">
+      Author identifier.
+    </ResponseField>
+    <ResponseField name="full_name" type="string">
+      Full name.
+    </ResponseField>
+    <ResponseField name="first_names" type="string[]">
+      First names.
+    </ResponseField>
+    <ResponseField name="last_names" type="string[]">
+      Last names.
+    </ResponseField>
+    <ResponseField name="sex" type="string">
+      Sex of the author.
+    </ResponseField>
+    <ResponseField name="affiliations" type="object[]">
+      Author's affiliations at the time of publication: `id`, `name`,
+      `types`, `addresses`, `external_ids`, `start_date`, `end_date`.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers: ORCID, OpenAlex, etc.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Author classifications (for example, from Minciencias).
+    </ResponseField>
+    <ResponseField name="h_index" type="integer | null">
+      H-index.
+    </ResponseField>
+    <ResponseField name="h5_index" type="integer | null">
+      H-index of the last 5 years.
+    </ResponseField>
+    <ResponseField name="type" type="string | null">
+      Role of the author in the product, when the source records it (for example,
+      in theses).
+    </ResponseField>
+    <ResponseField name="countries" type="string[] | null">
+      Countries associated with the author.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<EntityMeta />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "affiliations": [
+        {
+          "addresses": [
+            {
+              "city": "Bogotá",
+              "country": "Colombia",
+              "country_code": "CO",
+              "lat": null,
+              "lng": null,
+              "postcode": null,
+              "state": null
+            }
+          ],
+          "end_date": -1,
+          "external_ids": [{"id": "example-isni-id", "provenance": "ror", "source": "isni"}],
+          "h5_index": null,
+          "h_index": null,
+          "id": "example-institution-id",
+          "name": "Universidad Ejemplo",
+          "position": null,
+          "ranking": null,
+          "ror": null,
+          "start_date": -1,
+          "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}],
+          "years": []
+        }
+      ],
+      "countries": null,
+      "external_ids": [{"id": "0000000001", "provenance": "staff", "source": "scienti"}],
+      "first_names": ["María"],
+      "full_name": "María Ejemplo García",
+      "h5_index": null,
+      "h_index": null,
+      "id": "0000000001",
+      "last_names": ["Ejemplo"],
+      "ranking": [
+        {
+          "date": 1383195600,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": "12",
+          "rank": "Investigador Junior",
+          "source": "minciencias",
+          "to_date": null
+        }
+      ],
+      "sex": "Hombre",
+      "type": "author"
+    },
+    {
+      "affiliations": [
+        {
+          "addresses": [
+            {
+              "city": "Bogotá",
+              "country": "Colombia",
+              "country_code": "CO",
+              "lat": null,
+              "lng": null,
+              "postcode": null,
+              "state": null
+            }
+          ],
+          "end_date": 1765324800,
+          "external_ids": [{"id": "example-isni-id", "provenance": "ror", "source": "isni"}],
+          "h5_index": null,
+          "h_index": null,
+          "id": "example-institution-id-3",
+          "name": "Universidad Ejemplo 3",
+          "position": null,
+          "ranking": null,
+          "ror": null,
+          "start_date": 1547424000,
+          "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}],
+          "years": []
+        }
+      ],
+      "countries": null,
+      "external_ids": [{"id": "0000000002", "provenance": "staff", "source": "scienti"}],
+      "first_names": ["Juan"],
+      "full_name": "Juan Ejemplo Pérez",
+      "h5_index": null,
+      "h_index": null,
+      "id": "0000000002",
+      "last_names": ["Ejemplo"],
+      "ranking": [
+        {
+          "date": 1547442000,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "término indefinido",
+          "source": "tipo_contrato",
+          "to_date": null
+        }
+      ],
+      "sex": "Hombre",
+      "type": "author"
+    }
+  ],
+  "meta": {"count": 93, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 93}
+}
+```
+
+```json 404
+{"error": "The work with id 000000000000000000000000 does not exist."}
+```
+</ResponseExample>

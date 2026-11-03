@@ -1,0 +1,53 @@
+---
+title: "Scimago quartile per year"
+api: "GET https://api.dev.impactu.colav.co/source/{source_id}/products"
+description: "Scimago quartile of the source in each available year."
+sidebarTitle: "Scimago quartile per year"
+---
+
+Scimago quartile of the source in each available year. Chart type: **Bar**.
+
+<Note>
+  Unlike the other bar indicators, the Y axis holds the quartile as a text
+  string (`"Q1"`, `"Q2"`, `"Q3"`, `"Q4"` or `"Sin cuartil"`), not a
+  numeric value.
+</Note>
+
+## Parameters
+
+<ParamField path="source_id" type="string" required>
+  Source identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `annual_scimago_quartile`.
+</ParamField>
+
+## Response
+
+<ResponseField name="plot" type="object[]">
+  List of chart points, sorted by ascending year.
+  <Expandable title="properties of each point">
+    <ResponseField name="x" type="integer">
+      Year.
+    </ResponseField>
+    <ResponseField name="y" type="string">
+      Scimago quartile of the source in that year: `"Q1"`, `"Q2"`, `"Q3"`, `"Q4"`,
+      or `"Sin cuartil"` (no quartile) when no classification is available.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json Example
+{
+  "plot": [
+    { "x": 2020, "y": "Sin cuartil" },
+    { "x": 2021, "y": "Q3" },
+    { "x": 2022, "y": "Q2" },
+    { "x": 2023, "y": "Q2" },
+    { "x": 2024, "y": "Q1" }
+  ]
+}
+```
+</ResponseExample>

@@ -1,0 +1,27 @@
+<ResponseField name="meta" type="object">
+  Response metadata.
+  <Expandable title="properties">
+    <ResponseField name="count" type="integer">
+      Total number of results matching the query.
+    </ResponseField>
+    <ResponseField name="page" type="integer">
+      Current page.
+    </ResponseField>
+    <ResponseField name="size" type="integer">
+      Number of results returned on this page.
+    </ResponseField>
+    <ResponseField name="db_response_time_ms" type="integer">
+      Database response time in milliseconds.
+    </ResponseField>
+    <ResponseField name="cursor" type="object">
+      <Expandable title="properties">
+        <ResponseField name="next" type="string | null">
+          URL of the next page.
+        </ResponseField>
+        <ResponseField name="previous" type="string | null">
+          URL of the previous page.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

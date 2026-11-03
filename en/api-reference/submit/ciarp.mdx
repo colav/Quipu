@@ -1,0 +1,94 @@
+---
+title: "Send CIARP file"
+api: "POST https://api.dev.impactu.colav.co/submit/ciarp"
+description: "Uploads a CIARP Excel file (.xlsx), validates it and returns a quality report in PDF."
+---
+
+<Note>
+  Requires an active session. The JWT is read from the `access_token_cookie` cookie
+  and the request must carry the `X-CSRF-TOKEN` header. It is sent as
+  `multipart/form-data`.
+</Note>
+
+The quality report is emailed every time the file can be validated. If the file has no errors, it is also saved in the institution's folder on Google Drive, or in the server's local storage if Drive fails.
+
+## Request body
+
+<ParamField body="file" type="file" required>
+  Excel `.xlsx` file with the CIARP data. Another format, a file that cannot
+  be read or a file without data return `400`.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  `true` if the file has no errors. With errors, the response is `400` with
+  the same report.
+</ResponseField>
+
+<ResponseField name="errors" type="integer">
+  Number of errors found in the file.
+</ResponseField>
+
+<ResponseField name="warnings" type="integer">
+  Number of warnings.
+</ResponseField>
+
+<ResponseField name="duplicates" type="integer">
+  Number of duplicate records detected.
+</ResponseField>
+
+<ResponseField name="pdf_base64" type="string | null">
+  Quality report in PDF format encoded in Base64. `null` if the file
+  has no errors, warnings or duplicates.
+</ResponseField>
+
+<ResponseField name="file_msg" type="string">
+  Only with `200`: result of saving, with the name under which the
+  file was stored.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Only on errors: reason for the rejection. If columns are missing or there are unnamed columns, the
+  response is `422` and `details` lists each problem.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "errors": 0,
+  "warnings": 3,
+  "duplicates": 0,
+  "pdf_base64": "JVBERi0xLjQKJ...",
+  "file_msg": "Archivo ciarp_example-institution-id_2026-10-15_14:32.xlsx guardado correctamente."
+}
+```
+
+```json 400
+{ "success": false, "msg": "Archivo requerido" }
+```
+
+```json 400 — file with errors
+{ "success": false, "errors": 2, "warnings": 1, "duplicates": 1, "pdf_base64": "JVBERi0xLjQKJ..." }
+```
+
+```json 400 — empty file
+{ "success": false, "msg": "El archivo cargado está vacío. Verifique que contenga información." }
+```
+
+```json 401
+{"msg": "Token inválido o expirado", "success": false}
+```
+
+```json 422
+{
+  "success": false,
+  "errors": 1,
+  "duplicates": 0,
+  "msg": "El archivo enviado no cumple con el formato requerido de columnas",
+  "details": ["Columnas faltantes: identificación"],
+  "pdf_base64": "JVBERi0xLjQKJ..."
+}
+```
+</ResponseExample>

@@ -12,233 +12,475 @@
     "dark": "/images/quyca-logo-dark.svg"
   },
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "Documentación",
-        "groups": [
+        "language": "es",
+        "tabs": [
           {
-            "group": "Introducción",
-            "pages": [
-              "index"
+            "tab": "Documentación",
+            "groups": [
+              {
+                "group": "Introducción",
+                "pages": [
+                  "index"
+                ]
+              },
+              {
+                "group": "Guías",
+                "pages": [
+                  "guides/filters",
+                  "guides/authorship"
+                ]
+              }
             ]
           },
           {
-            "group": "Guías",
-            "pages": [
-              "guides/filters",
-              "guides/authorship"
+            "tab": "API Referencia",
+            "groups": [
+              {
+                "group": "Introducción",
+                "pages": [
+                  "api-reference/introduction",
+                  "api-reference/llm-quick-reference"
+                ]
+              },
+              {
+                "group": "Search",
+                "pages": [
+                  "api-reference/search/persons",
+                  "api-reference/search/works",
+                  "api-reference/search/works-filters",
+                  "api-reference/search/affiliations",
+                  "api-reference/search/affiliations-filters",
+                  "api-reference/search/sources",
+                  "api-reference/search/sources-filters",
+                  "api-reference/search/patents",
+                  "api-reference/search/projects",
+                  "api-reference/search/geo"
+                ]
+              },
+              {
+                "group": "Person",
+                "pages": [
+                  "api-reference/person/get-person",
+                  "api-reference/person/get-research-products",
+                  "api-reference/person/get-research-products-filters",
+                  "api-reference/person/get-research-products-csv",
+                  "api-reference/person/get-research-products-excel",
+                  "api-reference/person/get-research-patents",
+                  "api-reference/person/get-research-projects",
+                  "api-reference/person/get-research-news",
+                  {
+                    "group": "Indicadores",
+                    "pages": [
+                      "api-reference/person/plots/overview",
+                      "api-reference/person/plots/annual-evolution-by-impactu-classification",
+                      "api-reference/person/plots/annual-citation-count",
+                      "api-reference/person/plots/annual-apc-expenses",
+                      "api-reference/person/plots/annual-articles-open-access",
+                      "api-reference/person/plots/annual-articles-by-top-publishers",
+                      "api-reference/person/plots/most-used-title-words",
+                      "api-reference/person/plots/articles-by-publisher",
+                      "api-reference/person/plots/products-by-subject",
+                      "api-reference/person/plots/products-by-database",
+                      "api-reference/person/plots/articles-by-access-route",
+                      "api-reference/person/plots/articles-by-scienti-category",
+                      "api-reference/person/plots/articles-by-scimago-quartile",
+                      "api-reference/person/plots/articles-by-publishing-institution",
+                      "api-reference/person/plots/coauthorship-by-country-map",
+                      "api-reference/person/plots/coauthorship-by-colombian-department-map",
+                      "api-reference/person/plots/author-coauthorship-network"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Source",
+                "pages": [
+                  "api-reference/source/get-source",
+                  "api-reference/source/get-products",
+                  "api-reference/source/get-products-filters",
+                  "api-reference/source/get-products-csv",
+                  "api-reference/source/get-products-excel",
+                  {
+                    "group": "Indicadores",
+                    "pages": [
+                      "api-reference/source/plots/overview",
+                      "api-reference/source/plots/annual-scimago-quartile"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Work",
+                "pages": [
+                  "api-reference/work/get-work",
+                  "api-reference/work/get-work-by-doi",
+                  "api-reference/work/get-work-authors"
+                ]
+              },
+              {
+                "group": "Patent",
+                "pages": [
+                  "api-reference/patent/get-patent",
+                  "api-reference/patent/get-patent-authors"
+                ]
+              },
+              {
+                "group": "Project",
+                "pages": [
+                  "api-reference/project/get-project",
+                  "api-reference/project/get-project-authors"
+                ]
+              },
+              {
+                "group": "Geo",
+                "pages": [
+                  "api-reference/geo/get-geo",
+                  "api-reference/geo/get-geo-affiliations",
+                  "api-reference/geo/get-geo-products"
+                ]
+              },
+              {
+                "group": "APC",
+                "pages": [
+                  "api-reference/apc/search",
+                  "api-reference/apc/person",
+                  "api-reference/apc/affiliation"
+                ]
+              },
+              {
+                "group": "Completer",
+                "pages": [
+                  "api-reference/completer/get-person",
+                  "api-reference/completer/get-affiliations",
+                  "api-reference/completer/get-sources"
+                ]
+              },
+              {
+                "group": "Autenticación",
+                "pages": [
+                  "api-reference/auth/login",
+                  "api-reference/auth/logout",
+                  "api-reference/auth/me"
+                ]
+              },
+              {
+                "group": "Usuarios",
+                "pages": [
+                  "api-reference/users/list-users",
+                  "api-reference/users/create-user",
+                  "api-reference/users/edit-user",
+                  "api-reference/users/reset-password",
+                  "api-reference/users/deactivate-user",
+                  "api-reference/users/activate-user",
+                  "api-reference/users/create-apikey",
+                  "api-reference/users/update-apikey",
+                  "api-reference/users/delete-apikey"
+                ]
+              },
+              {
+                "group": "Submit",
+                "pages": [
+                  "api-reference/submit/staff",
+                  "api-reference/submit/ciarp",
+                  "api-reference/submit/scienti",
+                  "api-reference/submit/project"
+                ]
+              },
+              {
+                "group": "Sistema",
+                "pages": [
+                  "api-reference/system/get-info",
+                  "api-reference/system/get-quality",
+                  "api-reference/system/ping"
+                ]
+              },
+              {
+                "group": "Affiliation",
+                "pages": [
+                  "api-reference/affiliation/get-affiliation",
+                  "api-reference/affiliation/get-related-affiliations",
+                  "api-reference/affiliation/get-research-products",
+                  "api-reference/affiliation/get-research-products-filters",
+                  "api-reference/affiliation/get-research-products-csv",
+                  "api-reference/affiliation/get-research-products-excel",
+                  "api-reference/affiliation/get-research-patents",
+                  "api-reference/affiliation/get-research-projects",
+                  "api-reference/affiliation/get-research-news",
+                  {
+                    "group": "Indicadores",
+                    "pages": [
+                      "api-reference/affiliation/plots/overview",
+                      "api-reference/affiliation/plots/faculties-by-product-type",
+                      "api-reference/affiliation/plots/departments-by-product-type",
+                      "api-reference/affiliation/plots/research-groups-by-product-type",
+                      "api-reference/affiliation/plots/citations-by-faculty",
+                      "api-reference/affiliation/plots/citations-by-department",
+                      "api-reference/affiliation/plots/citations-by-research-group",
+                      "api-reference/affiliation/plots/apc-expenses-by-faculty",
+                      "api-reference/affiliation/plots/apc-expenses-by-department",
+                      "api-reference/affiliation/plots/apc-expenses-by-group",
+                      "api-reference/affiliation/plots/h-index-by-faculty",
+                      "api-reference/affiliation/plots/h-index-by-department",
+                      "api-reference/affiliation/plots/h-index-by-research-group",
+                      "api-reference/affiliation/plots/annual-evolution-by-impactu-classification",
+                      "api-reference/affiliation/plots/annual-citation-count",
+                      "api-reference/affiliation/plots/annual-articles-open-access",
+                      "api-reference/affiliation/plots/annual-articles-by-top-publishers",
+                      "api-reference/affiliation/plots/annual-apc-expenses",
+                      "api-reference/affiliation/plots/most-used-title-words",
+                      "api-reference/affiliation/plots/articles-by-publisher",
+                      "api-reference/affiliation/plots/products-by-subject",
+                      "api-reference/affiliation/plots/articles-by-access-route",
+                      "api-reference/affiliation/plots/active-authors-by-sex",
+                      "api-reference/affiliation/plots/active-authors-by-age-range",
+                      "api-reference/affiliation/plots/articles-by-scienti-category",
+                      "api-reference/affiliation/plots/articles-by-scimago-quartile",
+                      "api-reference/affiliation/plots/articles-by-publishing-institution",
+                      "api-reference/affiliation/plots/products-by-database",
+                      "api-reference/affiliation/plots/coauthorship-by-country-map",
+                      "api-reference/affiliation/plots/coauthorship-by-colombian-department-map",
+                      "api-reference/affiliation/plots/institutional-coauthorship-network"
+                    ]
+                  }
+                ]
+              }
             ]
           }
         ]
       },
       {
-        "tab": "API Referencia",
-        "groups": [
+        "language": "en",
+        "tabs": [
           {
-            "group": "Introducción",
-            "pages": [
-              "api-reference/introduction",
-              "api-reference/llm-quick-reference"
-            ]
-          },
-          {
-            "group": "Search",
-            "pages": [
-              "api-reference/search/persons",
-              "api-reference/search/works",
-              "api-reference/search/works-filters",
-              "api-reference/search/affiliations",
-              "api-reference/search/affiliations-filters",
-              "api-reference/search/sources",
-              "api-reference/search/sources-filters",
-              "api-reference/search/patents",
-              "api-reference/search/projects",
-              "api-reference/search/geo"
-            ]
-          },
-          {
-            "group": "Person",
-            "pages": [
-              "api-reference/person/get-person",
-              "api-reference/person/get-research-products",
-              "api-reference/person/get-research-products-filters",
-              "api-reference/person/get-research-products-csv",
-              "api-reference/person/get-research-products-excel",
-              "api-reference/person/get-research-patents",
-              "api-reference/person/get-research-projects",
-              "api-reference/person/get-research-news",
+            "tab": "Documentation",
+            "groups": [
               {
-                "group": "Indicadores",
+                "group": "Introduction",
                 "pages": [
-                  "api-reference/person/plots/overview",
-                  "api-reference/person/plots/annual-evolution-by-impactu-classification",
-                  "api-reference/person/plots/annual-citation-count",
-                  "api-reference/person/plots/annual-apc-expenses",
-                  "api-reference/person/plots/annual-articles-open-access",
-                  "api-reference/person/plots/annual-articles-by-top-publishers",
-                  "api-reference/person/plots/most-used-title-words",
-                  "api-reference/person/plots/articles-by-publisher",
-                  "api-reference/person/plots/products-by-subject",
-                  "api-reference/person/plots/products-by-database",
-                  "api-reference/person/plots/articles-by-access-route",
-                  "api-reference/person/plots/articles-by-scienti-category",
-                  "api-reference/person/plots/articles-by-scimago-quartile",
-                  "api-reference/person/plots/articles-by-publishing-institution",
-                  "api-reference/person/plots/coauthorship-by-country-map",
-                  "api-reference/person/plots/coauthorship-by-colombian-department-map",
-                  "api-reference/person/plots/author-coauthorship-network"
+                  "en/index"
+                ]
+              },
+              {
+                "group": "Guides",
+                "pages": [
+                  "en/guides/filters",
+                  "en/guides/authorship"
                 ]
               }
             ]
           },
           {
-            "group": "Source",
-            "pages": [
-              "api-reference/source/get-source",
-              "api-reference/source/get-products",
-              "api-reference/source/get-products-filters",
-              "api-reference/source/get-products-csv",
-              "api-reference/source/get-products-excel",
+            "tab": "API Reference",
+            "groups": [
               {
-                "group": "Indicadores",
+                "group": "Introduction",
                 "pages": [
-                  "api-reference/source/plots/overview",
-                  "api-reference/source/plots/annual-scimago-quartile"
+                  "en/api-reference/introduction",
+                  "en/api-reference/llm-quick-reference"
                 ]
-              }
-            ]
-          },
-          {
-            "group": "Work",
-            "pages": [
-              "api-reference/work/get-work",
-              "api-reference/work/get-work-by-doi",
-              "api-reference/work/get-work-authors"
-            ]
-          },
-          {
-            "group": "Patent",
-            "pages": [
-              "api-reference/patent/get-patent",
-              "api-reference/patent/get-patent-authors"
-            ]
-          },
-          {
-            "group": "Project",
-            "pages": [
-              "api-reference/project/get-project",
-              "api-reference/project/get-project-authors"
-            ]
-          },
-          {
-            "group": "Geo",
-            "pages": [
-              "api-reference/geo/get-geo",
-              "api-reference/geo/get-geo-affiliations",
-              "api-reference/geo/get-geo-products"
-            ]
-          },
-          {
-            "group": "APC",
-            "pages": [
-              "api-reference/apc/search",
-              "api-reference/apc/person",
-              "api-reference/apc/affiliation"
-            ]
-          },
-          {
-            "group": "Completer",
-            "pages": [
-              "api-reference/completer/get-person",
-              "api-reference/completer/get-affiliations",
-              "api-reference/completer/get-sources"
-            ]
-          },
-          {
-            "group": "Autenticación",
-            "pages": [
-              "api-reference/auth/login",
-              "api-reference/auth/logout",
-              "api-reference/auth/me"
-            ]
-          },
-          {
-            "group": "Usuarios",
-            "pages": [
-              "api-reference/users/list-users",
-              "api-reference/users/create-user",
-              "api-reference/users/edit-user",
-              "api-reference/users/reset-password",
-              "api-reference/users/deactivate-user",
-              "api-reference/users/activate-user",
-              "api-reference/users/create-apikey",
-              "api-reference/users/update-apikey",
-              "api-reference/users/delete-apikey"
-            ]
-          },
-          {
-            "group": "Submit",
-            "pages": [
-              "api-reference/submit/staff",
-              "api-reference/submit/ciarp",
-              "api-reference/submit/scienti",
-              "api-reference/submit/project"
-            ]
-          },
-          {
-            "group": "Sistema",
-            "pages": [
-              "api-reference/system/get-info",
-              "api-reference/system/get-quality",
-              "api-reference/system/ping"
-            ]
-          },
-          {
-            "group": "Affiliation",
-            "pages": [
-              "api-reference/affiliation/get-affiliation",
-              "api-reference/affiliation/get-related-affiliations",
-              "api-reference/affiliation/get-research-products",
-              "api-reference/affiliation/get-research-products-filters",
-              "api-reference/affiliation/get-research-products-csv",
-              "api-reference/affiliation/get-research-products-excel",
-              "api-reference/affiliation/get-research-patents",
-              "api-reference/affiliation/get-research-projects",
-              "api-reference/affiliation/get-research-news",
+              },
               {
-                "group": "Indicadores",
+                "group": "Search",
                 "pages": [
-                  "api-reference/affiliation/plots/overview",
-                  "api-reference/affiliation/plots/faculties-by-product-type",
-                  "api-reference/affiliation/plots/departments-by-product-type",
-                  "api-reference/affiliation/plots/research-groups-by-product-type",
-                  "api-reference/affiliation/plots/citations-by-faculty",
-                  "api-reference/affiliation/plots/citations-by-department",
-                  "api-reference/affiliation/plots/citations-by-research-group",
-                  "api-reference/affiliation/plots/apc-expenses-by-faculty",
-                  "api-reference/affiliation/plots/apc-expenses-by-department",
-                  "api-reference/affiliation/plots/apc-expenses-by-group",
-                  "api-reference/affiliation/plots/h-index-by-faculty",
-                  "api-reference/affiliation/plots/h-index-by-department",
-                  "api-reference/affiliation/plots/h-index-by-research-group",
-                  "api-reference/affiliation/plots/annual-evolution-by-impactu-classification",
-                  "api-reference/affiliation/plots/annual-citation-count",
-                  "api-reference/affiliation/plots/annual-articles-open-access",
-                  "api-reference/affiliation/plots/annual-articles-by-top-publishers",
-                  "api-reference/affiliation/plots/annual-apc-expenses",
-                  "api-reference/affiliation/plots/most-used-title-words",
-                  "api-reference/affiliation/plots/articles-by-publisher",
-                  "api-reference/affiliation/plots/products-by-subject",
-                  "api-reference/affiliation/plots/articles-by-access-route",
-                  "api-reference/affiliation/plots/active-authors-by-sex",
-                  "api-reference/affiliation/plots/active-authors-by-age-range",
-                  "api-reference/affiliation/plots/articles-by-scienti-category",
-                  "api-reference/affiliation/plots/articles-by-scimago-quartile",
-                  "api-reference/affiliation/plots/articles-by-publishing-institution",
-                  "api-reference/affiliation/plots/products-by-database",
-                  "api-reference/affiliation/plots/coauthorship-by-country-map",
-                  "api-reference/affiliation/plots/coauthorship-by-colombian-department-map",
-                  "api-reference/affiliation/plots/institutional-coauthorship-network"
+                  "en/api-reference/search/persons",
+                  "en/api-reference/search/works",
+                  "en/api-reference/search/works-filters",
+                  "en/api-reference/search/affiliations",
+                  "en/api-reference/search/affiliations-filters",
+                  "en/api-reference/search/sources",
+                  "en/api-reference/search/sources-filters",
+                  "en/api-reference/search/patents",
+                  "en/api-reference/search/projects",
+                  "en/api-reference/search/geo"
+                ]
+              },
+              {
+                "group": "Person",
+                "pages": [
+                  "en/api-reference/person/get-person",
+                  "en/api-reference/person/get-research-products",
+                  "en/api-reference/person/get-research-products-filters",
+                  "en/api-reference/person/get-research-products-csv",
+                  "en/api-reference/person/get-research-products-excel",
+                  "en/api-reference/person/get-research-patents",
+                  "en/api-reference/person/get-research-projects",
+                  "en/api-reference/person/get-research-news",
+                  {
+                    "group": "Indicators",
+                    "pages": [
+                      "en/api-reference/person/plots/overview",
+                      "en/api-reference/person/plots/annual-evolution-by-impactu-classification",
+                      "en/api-reference/person/plots/annual-citation-count",
+                      "en/api-reference/person/plots/annual-apc-expenses",
+                      "en/api-reference/person/plots/annual-articles-open-access",
+                      "en/api-reference/person/plots/annual-articles-by-top-publishers",
+                      "en/api-reference/person/plots/most-used-title-words",
+                      "en/api-reference/person/plots/articles-by-publisher",
+                      "en/api-reference/person/plots/products-by-subject",
+                      "en/api-reference/person/plots/products-by-database",
+                      "en/api-reference/person/plots/articles-by-access-route",
+                      "en/api-reference/person/plots/articles-by-scienti-category",
+                      "en/api-reference/person/plots/articles-by-scimago-quartile",
+                      "en/api-reference/person/plots/articles-by-publishing-institution",
+                      "en/api-reference/person/plots/coauthorship-by-country-map",
+                      "en/api-reference/person/plots/coauthorship-by-colombian-department-map",
+                      "en/api-reference/person/plots/author-coauthorship-network"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Source",
+                "pages": [
+                  "en/api-reference/source/get-source",
+                  "en/api-reference/source/get-products",
+                  "en/api-reference/source/get-products-filters",
+                  "en/api-reference/source/get-products-csv",
+                  "en/api-reference/source/get-products-excel",
+                  {
+                    "group": "Indicators",
+                    "pages": [
+                      "en/api-reference/source/plots/overview",
+                      "en/api-reference/source/plots/annual-scimago-quartile"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Work",
+                "pages": [
+                  "en/api-reference/work/get-work",
+                  "en/api-reference/work/get-work-by-doi",
+                  "en/api-reference/work/get-work-authors"
+                ]
+              },
+              {
+                "group": "Patent",
+                "pages": [
+                  "en/api-reference/patent/get-patent",
+                  "en/api-reference/patent/get-patent-authors"
+                ]
+              },
+              {
+                "group": "Project",
+                "pages": [
+                  "en/api-reference/project/get-project",
+                  "en/api-reference/project/get-project-authors"
+                ]
+              },
+              {
+                "group": "Geo",
+                "pages": [
+                  "en/api-reference/geo/get-geo",
+                  "en/api-reference/geo/get-geo-affiliations",
+                  "en/api-reference/geo/get-geo-products"
+                ]
+              },
+              {
+                "group": "APC",
+                "pages": [
+                  "en/api-reference/apc/search",
+                  "en/api-reference/apc/person",
+                  "en/api-reference/apc/affiliation"
+                ]
+              },
+              {
+                "group": "Completer",
+                "pages": [
+                  "en/api-reference/completer/get-person",
+                  "en/api-reference/completer/get-affiliations",
+                  "en/api-reference/completer/get-sources"
+                ]
+              },
+              {
+                "group": "Authentication",
+                "pages": [
+                  "en/api-reference/auth/login",
+                  "en/api-reference/auth/logout",
+                  "en/api-reference/auth/me"
+                ]
+              },
+              {
+                "group": "Users",
+                "pages": [
+                  "en/api-reference/users/list-users",
+                  "en/api-reference/users/create-user",
+                  "en/api-reference/users/edit-user",
+                  "en/api-reference/users/reset-password",
+                  "en/api-reference/users/deactivate-user",
+                  "en/api-reference/users/activate-user",
+                  "en/api-reference/users/create-apikey",
+                  "en/api-reference/users/update-apikey",
+                  "en/api-reference/users/delete-apikey"
+                ]
+              },
+              {
+                "group": "Submit",
+                "pages": [
+                  "en/api-reference/submit/staff",
+                  "en/api-reference/submit/ciarp",
+                  "en/api-reference/submit/scienti",
+                  "en/api-reference/submit/project"
+                ]
+              },
+              {
+                "group": "System",
+                "pages": [
+                  "en/api-reference/system/get-info",
+                  "en/api-reference/system/get-quality",
+                  "en/api-reference/system/ping"
+                ]
+              },
+              {
+                "group": "Affiliation",
+                "pages": [
+                  "en/api-reference/affiliation/get-affiliation",
+                  "en/api-reference/affiliation/get-related-affiliations",
+                  "en/api-reference/affiliation/get-research-products",
+                  "en/api-reference/affiliation/get-research-products-filters",
+                  "en/api-reference/affiliation/get-research-products-csv",
+                  "en/api-reference/affiliation/get-research-products-excel",
+                  "en/api-reference/affiliation/get-research-patents",
+                  "en/api-reference/affiliation/get-research-projects",
+                  "en/api-reference/affiliation/get-research-news",
+                  {
+                    "group": "Indicators",
+                    "pages": [
+                      "en/api-reference/affiliation/plots/overview",
+                      "en/api-reference/affiliation/plots/faculties-by-product-type",
+                      "en/api-reference/affiliation/plots/departments-by-product-type",
+                      "en/api-reference/affiliation/plots/research-groups-by-product-type",
+                      "en/api-reference/affiliation/plots/citations-by-faculty",
+                      "en/api-reference/affiliation/plots/citations-by-department",
+                      "en/api-reference/affiliation/plots/citations-by-research-group",
+                      "en/api-reference/affiliation/plots/apc-expenses-by-faculty",
+                      "en/api-reference/affiliation/plots/apc-expenses-by-department",
+                      "en/api-reference/affiliation/plots/apc-expenses-by-group",
+                      "en/api-reference/affiliation/plots/h-index-by-faculty",
+                      "en/api-reference/affiliation/plots/h-index-by-department",
+                      "en/api-reference/affiliation/plots/h-index-by-research-group",
+                      "en/api-reference/affiliation/plots/annual-evolution-by-impactu-classification",
+                      "en/api-reference/affiliation/plots/annual-citation-count",
+                      "en/api-reference/affiliation/plots/annual-articles-open-access",
+                      "en/api-reference/affiliation/plots/annual-articles-by-top-publishers",
+                      "en/api-reference/affiliation/plots/annual-apc-expenses",
+                      "en/api-reference/affiliation/plots/most-used-title-words",
+                      "en/api-reference/affiliation/plots/articles-by-publisher",
+                      "en/api-reference/affiliation/plots/products-by-subject",
+                      "en/api-reference/affiliation/plots/articles-by-access-route",
+                      "en/api-reference/affiliation/plots/active-authors-by-sex",
+                      "en/api-reference/affiliation/plots/active-authors-by-age-range",
+                      "en/api-reference/affiliation/plots/articles-by-scienti-category",
+                      "en/api-reference/affiliation/plots/articles-by-scimago-quartile",
+                      "en/api-reference/affiliation/plots/articles-by-publishing-institution",
+                      "en/api-reference/affiliation/plots/products-by-database",
+                      "en/api-reference/affiliation/plots/coauthorship-by-country-map",
+                      "en/api-reference/affiliation/plots/coauthorship-by-colombian-department-map",
+                      "en/api-reference/affiliation/plots/institutional-coauthorship-network"
+                    ]
+                  }
                 ]
               }
             ]

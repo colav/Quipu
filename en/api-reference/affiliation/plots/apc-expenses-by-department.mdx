@@ -1,0 +1,88 @@
+---
+title: "Distribution of APC expenses among departments"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribution of APC expenses among departments."
+sidebarTitle: "Distribution of APC expenses among departments"
+---
+
+Distribution of APC expenses among departments. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `institution`, `faculty`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `apc_expenses_by_department`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | No data |
+| `group` | No data |
+
+## Response
+
+<ResponseExample>
+```json Institution
+{
+  "plot": [
+    {
+      "name": "Departamento de Formación Académica",
+      "percentage": 12.12,
+      "value": 2566952
+    },
+    {
+      "name": "Departamento de Microbiología y Parasitología",
+      "percentage": 9.61,
+      "value": 2035634
+    },
+    {
+      "name": "Instituto de Investigaciones Médicas",
+      "percentage": 7.29,
+      "value": 1543759
+    },
+    {
+      "name": "Instituto de Biología",
+      "percentage": 6.64,
+      "value": 1405553
+    }
+  ],
+  "sum": 21183283
+}
+```
+
+```json Faculty
+{
+  "plot": [
+    {
+      "name": "Departamento de Pedagogía",
+      "percentage": 81.0,
+      "value": 22812
+    },
+    {
+      "name": "Departamento de Enseñanza de las Ciencias y las Artes",
+      "percentage": 11.6,
+      "value": 3266
+    },
+    {
+      "name": "Departamento de Educación Infantil",
+      "percentage": 7.41,
+      "value": 2086
+    }
+  ],
+  "sum": 28164
+}
+```
+</ResponseExample>

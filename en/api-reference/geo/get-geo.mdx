@@ -1,0 +1,126 @@
+---
+title: "Get a geographic entity"
+api: "GET https://api.dev.impactu.colav.co/geo/{geo_type}/{geo_id}"
+description: "Returns a geographic entity (department or city) from its DANE code."
+---
+
+import EntityMeta from "/snippets/en/entity-meta.mdx";
+
+## Path parameters
+
+<ParamField path="geo_type" type="string" required>
+  Geographic entity type. Allowed values: `state` (department) or `city` (city).
+</ParamField>
+
+<ParamField path="geo_id" type="string" required>
+  DANE code of the entity. Examples: `05` for Antioquia (state), `05001`
+  for Medellín (city).
+</ParamField>
+
+It takes no query parameters: `view` does not apply to geographic entities.
+
+## Response
+
+<ResponseField name="data" type="object">
+  The requested geographic entity.
+  <Expandable title="properties">
+    <ResponseField name="id" type="string">
+      DANE code of the entity.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Name of the entity.
+    </ResponseField>
+    <ResponseField name="type" type="string">
+      Type: `state` or `city`.
+    </ResponseField>
+    <ResponseField name="country" type="string">
+      Country it belongs to.
+    </ResponseField>
+    <ResponseField name="country_code" type="string">
+      ISO 3166-1 alpha-2 code of the country.
+    </ResponseField>
+    <ResponseField name="state" type="object | null">
+      Department the city belongs to (`id`, `name`). Only present
+      when `geo_type` is `city`.
+    </ResponseField>
+    <ResponseField name="latitude" type="number | null">
+      Latitude. Only present when `geo_type` is `city`.
+    </ResponseField>
+    <ResponseField name="longitude" type="number | null">
+      Longitude. Only present when `geo_type` is `city`.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers (`id`, `source`). For example, the DANE code.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Total citations of the associated products, by source (`count`, `source`).
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Number of associated bibliographic products.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Number of associated authors.
+    </ResponseField>
+    <ResponseField name="institutions_count" type="integer">
+      Number of associated institutions.
+    </ResponseField>
+    <ResponseField name="groups_count" type="integer">
+      Number of associated research groups.
+    </ResponseField>
+    <ResponseField name="cities_count" type="integer | null">
+      Number of associated cities. Only present when `geo_type` is `state`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<EntityMeta />
+
+The institutions, the groups and, for departments, the cities are listed in [Affiliations of a geographic entity](/en/api-reference/geo/get-geo-affiliations).
+
+<ResponseExample>
+```json 200 — Department
+{
+  "data": {
+    "authors_count": 43836,
+    "citations_count": [{"count": 1172650, "source": "openalex"}],
+    "cities_count": 22,
+    "country": "Colombia",
+    "country_code": "CO",
+    "external_ids": [{"id": "05", "source": "dane"}],
+    "groups_count": 1117,
+    "id": "05",
+    "institutions_count": 178,
+    "name": "Antioquia",
+    "products_count": 295187,
+    "type": "state"
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 200 — City
+{
+  "data": {
+    "authors_count": 40431,
+    "citations_count": [{"count": 1103485, "source": "openalex"}],
+    "country": "Colombia",
+    "country_code": "CO",
+    "external_ids": [{"id": "05001", "source": "dane"}],
+    "groups_count": 1020,
+    "id": "05001",
+    "institutions_count": 131,
+    "latitude": 6.246631,
+    "longitude": -75.581775,
+    "name": "Medellín",
+    "products_count": 275779,
+    "state": {"id": "05", "name": "Antioquia"},
+    "type": "city"
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 404
+{"error": "The geolocation with id 99999 does not exist."}
+```
+</ResponseExample>

@@ -1,0 +1,145 @@
+---
+title: "Send Staff file"
+api: "POST https://api.dev.impactu.colav.co/submit/staff"
+description: "Uploads a human resources Excel file (.xlsx), validates it against the business rules and returns a quality report in PDF."
+---
+
+<Note>
+  Requires an active session. The JWT is read from the `access_token_cookie` cookie
+  and the request must carry the `X-CSRF-TOKEN` header. It is sent as
+  `multipart/form-data`.
+</Note>
+
+The quality report is emailed every time the file can be validated. If the file has no errors, two copies are saved in the institution's folder on Google Drive: the original file, with the prefix `ORIGINAL_`, and the normalized one. If Drive fails, they are saved in the server's local storage.
+
+## Request body
+
+<ParamField body="file" type="file" required>
+  Excel `.xlsx` file with the human resources data. It must contain one row
+  per affiliated person. Another format, a file that cannot be read or a
+  file without data return `400`.
+</ParamField>
+
+## File format
+
+Every column of the table must be in the file, except `nombre_completo`, which is optional. If one is missing or there is an unnamed column with data, it returns `422`. Headers are recognized regardless of case, accents or surrounding spaces, and columns that are not in the table are ignored.
+
+| Column | Mandatory value | Description |
+| --- | --- | --- |
+| `tipo_documento` | ✅ | Type of identity document. |
+| `identificacion` | ✅ | Document number. |
+| `primer_apellido` | ✅* | First last name. Required if `nombre_completo` is not sent. |
+| `segundo_apellido` | — | Second last name. It can be empty without penalty. |
+| `nombres` | ✅* | First names. Required if `nombre_completo` is not sent. |
+| `nombre_completo` | — | Full name. If the column is present, it replaces `primer_apellido`, `segundo_apellido` and `nombres`, which are no longer mandatory. It cannot contain numbers. |
+| `orcid` | — | ORCID. Normalized to `https://orcid.org/0000-0000-0000-0000`. |
+| `cvlac` | — | CvLAC. The code is stored, even if the URL with `cod_rh` is given. |
+| `scholar` | — | Google Scholar. Normalized to `https://scholar.google.com/citations?user=...`. |
+| `nivel_academico` | — | Catalogue value. Outside the catalogue → normalized to `desconocido`. |
+| `tipo_contrato` | — | Catalogue value. Outside the catalogue → normalized to `desconocido`. |
+| `jornada_laboral` | — | Catalogue value. Outside the catalogue → normalized to `desconocido`. |
+| `categoria_laboral` | — | Catalogue value. Outside the catalogue → normalized to `desconocido`. |
+| `sexo` | — | Catalogue value. Outside the catalogue → normalized to `desconocido`. |
+| `fecha_nacimiento` | — | Date in the format `DD/MM/YYYY`. |
+| `fecha_inicial_vinculacion` | — | Date in the format `DD/MM/YYYY`. |
+| `fecha_final_vinculacion` | — | Date in the format `DD/MM/YYYY`. |
+| `codigo_unidad_academica` | ✅ | Unique code of the academic unit. |
+| `unidad_academica` | ✅ | Name of the academic unit. |
+| `codigo_subunidad_academica` | — | It can be empty without penalty. |
+| `subunidad_academica` | — | It can be empty without penalty. |
+
+<Note>
+  Catalogue fields (`sexo`, `nivel_academico`, etc.) don't produce an error if
+  their value is not in the catalogue, but they are normalized to `desconocido` and
+  reported as a warning. Dates with "no information" aliases (`n/a`,
+  `no aplica`, etc.) are also normalized to `desconocido`.
+</Note>
+
+Blank rows are ignored without shifting the numbering: each finding of the report points to its original row in the sheet.
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  `true` if the file has no errors. With errors, the response is `400` with
+  the same report.
+</ResponseField>
+
+<ResponseField name="errors" type="integer">
+  Number of errors found in the file.
+</ResponseField>
+
+<ResponseField name="warnings" type="integer">
+  Number of warnings.
+</ResponseField>
+
+<ResponseField name="duplicates" type="integer">
+  Number of duplicate records detected.
+</ResponseField>
+
+<ResponseField name="normalized_unique_values_count" type="integer">
+  Number of distinct values that were normalized (for example, `M` → `hombre`).
+</ResponseField>
+
+<ResponseField name="pdf_base64" type="string | null">
+  Quality report in PDF format encoded in Base64. It includes the summary
+  of errors, warnings and normalizations applied. `null` if there is nothing
+  to report.
+</ResponseField>
+
+<ResponseField name="file_msg" type="string">
+  Only with `200`: result of saving the normalized file.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Only on errors: reason for the rejection. If columns are missing or there are unnamed
+  columns, the response is `422` and `details` lists each problem. If the
+  file cannot be saved, the response is `500`.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "errors": 0,
+  "warnings": 3,
+  "duplicates": 0,
+  "normalized_unique_values_count": 2,
+  "pdf_base64": "JVBERi0xLjQKJ...",
+  "file_msg": "Archivo staff_example-institution-id_2026-10-15_14:32.xlsx guardado correctamente."
+}
+```
+
+```json 400
+{ "success": false, "msg": "Archivo requerido" }
+```
+
+```json 400 — file with errors
+{
+  "success": false,
+  "errors": 2,
+  "warnings": 1,
+  "duplicates": 1,
+  "normalized_unique_values_count": 0,
+  "pdf_base64": "JVBERi0xLjQKJ..."
+}
+```
+
+```json 400 — empty file
+{ "success": false, "msg": "El archivo cargado está vacío. Verifique que contenga información." }
+```
+
+```json 401
+{"msg": "Token inválido o expirado", "success": false}
+```
+
+```json 422
+{
+  "success": false,
+  "errors": 1,
+  "duplicates": 0,
+  "msg": "El archivo enviado no cumple con el formato requerido de columnas",
+  "details": ["Columnas faltantes: orcid, cvlac, scholar"],
+  "pdf_base64": "JVBERi0xLjQKJ..."
+}
+```
+</ResponseExample>

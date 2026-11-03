@@ -1,0 +1,215 @@
+---
+title: "Author products"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Paginated list of an author's research products, or one of their indicators with the plot parameter."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import WorksFilterParams from "/snippets/en/works-filter-params.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+import FieldsParam from "/snippets/en/fields-param.mdx";
+import WorksListResponse from "/snippets/en/works-list-response.mdx";
+
+This endpoint has two modes:
+
+- **Product list** (without `plot`): returns the author's products with pagination, sorting and filters.
+- **Indicators** (with `plot`): returns the data of one of the author's indicators. See the [indicator catalogue](/en/api-reference/person/plots/overview).
+
+## Path parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier. Example: `0000000001`.
+</ParamField>
+
+## Query parameters
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`, where the direction is `asc` or
+  `desc`. Fields for products: `citations`, `alphabetical` (by title) and
+  `year` (publication year). Example: `year_desc`.
+</ParamField>
+
+<ViewParam />
+
+<FieldsParam />
+
+<ParamField query="plot" type="string">
+  Name of the indicator to return. With this parameter the response is the
+  indicator, without pagination. See the [indicator
+  catalogue](/en/api-reference/person/plots/overview).
+</ParamField>
+
+### Filters
+
+The same filters as [Search products](/en/api-reference/search/works). They also apply to indicators.
+
+<WorksFilterParams />
+
+The valid options can be looked up in [Author product filters](/en/api-reference/person/get-research-products-filters).
+
+<Note>
+  If you don't send `max`, `page` or `sort`, `max=10`, `page=1` and
+  `sort=citations_desc` apply. If you send `max` and `page` without `sort`,
+  `sort=citations_desc` applies.
+</Note>
+
+## List response
+
+<WorksListResponse />
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "abstracts": [],
+      "apc": {"paid": {}},
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": [{"city": "Cali", "country": "Colombia", "country_code": "CO"}],
+              "end_date": -1,
+              "external_ids": [{"id": "example-scienti-id", "source": "scienti"}],
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "start_date": 1222837200,
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "external_ids": [{"id": "0000000002", "provenance": "scienti", "source": "scienti"}],
+          "first_names": ["Juan"],
+          "full_name": "Juan Ejemplo Pérez",
+          "id": "0000000002",
+          "last_names": ["Ejemplo"],
+          "ranking": [{"date": 570690000, "rank": "vinculado", "source": "tipo_contrato"}],
+          "sex": "Hombre"
+        }
+      ],
+      "authors_count": 3,
+      "bibliographic_info": {},
+      "citations_by_year": [],
+      "citations_count": [],
+      "date_published": 1546318800,
+      "doi": "",
+      "external_ids": [{"id": "0000000002-29521", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [{"provenance": "scienti", "source": "scienti"}],
+      "groups": [
+        {
+          "citations_count": [{"count": 1339, "source": "scholar"}],
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [{"from_date": 1653368400, "rank": "A", "source": "scienti", "to_date": 1716440400}]
+        }
+      ],
+      "id": "6ab4addb5418a51e324df255",
+      "keywords": [],
+      "language": "en",
+      "open_access": {},
+      "primary_topic": {},
+      "product_types": [{"name": "Publicado en revista especializada", "source": "scienti"}],
+      "ranking": [{"date": 1614229200, "rank": "ART-ART_A1", "source": "minciencias"}],
+      "references": [],
+      "source": {},
+      "subjects": [],
+      "title": "An Image Processing System for Char Reactivity Analysis during Coal Combustion",
+      "titles": [
+        {
+          "lang": "en",
+          "source": "minciencias",
+          "title": "An Image Processing System for Char Reactivity Analysis during Coal Combustion"
+        }
+      ],
+      "topics": [],
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Artículos de investigación"}],
+      "updated": [{"source": "minciencias", "time": 1790225883}],
+      "year_published": 2019
+    },
+    {
+      "abstracts": [],
+      "apc": {"paid": {}},
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": [{"city": "Cali", "country": "Colombia", "country_code": "CO"}],
+              "end_date": -1,
+              "external_ids": [{"id": "example-scienti-id", "source": "scienti"}],
+              "id": "COL0000002",
+              "name": "Grupo de Investigación Ejemplo",
+              "start_date": 1435726800,
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "external_ids": [{"id": "0000000004", "provenance": "scienti", "source": "scienti"}],
+          "first_names": ["Carlos"],
+          "full_name": "Carlos Ejemplo Rodríguez",
+          "id": "0000000004",
+          "last_names": ["Ejemplo"],
+          "ranking": [{"date": 697093200, "rank": "vinculado", "source": "tipo_contrato"}],
+          "sex": "Mujer"
+        }
+      ],
+      "authors_count": 3,
+      "bibliographic_info": {},
+      "citations_by_year": [],
+      "citations_count": [],
+      "date_published": 1525150800,
+      "doi": "",
+      "external_ids": [{"id": "0000000004-105", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [{"provenance": "scienti", "source": "scienti", "url": "http://ceur-ws.org/Vol-2100/paper9.pdf"}],
+      "groups": [
+        {
+          "citations_count": [{"count": 882, "source": "scholar"}],
+          "id": "COL0000002",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [{"from_date": 1653368400, "rank": "A", "source": "scienti", "to_date": 1716440400}]
+        }
+      ],
+      "id": "6ab4af965418a51e324ef6db",
+      "keywords": [],
+      "language": "en",
+      "open_access": {},
+      "primary_topic": {},
+      "product_types": [{"name": "Publicado en revista especializada", "source": "scienti"}],
+      "ranking": [{"date": 1614229200, "rank": "ART-GC_ART", "source": "minciencias"}],
+      "references": [],
+      "source": {},
+      "subjects": [],
+      "title": "Ontology-based Automatic Reclassification of Tissues and Organs in Histological Images",
+      "titles": [
+        {
+          "lang": "en",
+          "source": "minciencias",
+          "title": "Ontology-based Automatic Reclassification of Tissues and Organs in Histological Images"
+        }
+      ],
+      "topics": [],
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Artículos"}],
+      "updated": [{"source": "minciencias", "time": 1790226326}],
+      "year_published": 2018
+    }
+  ],
+  "meta": {
+    "count": 3224,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/person/0000000001/research/products?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nfields\n  Value error, Invalid fields: abstract. Allowed fields: authors, citations_by_year, citations_count, id, keywords, so…"
+}
+```
+</ResponseExample>

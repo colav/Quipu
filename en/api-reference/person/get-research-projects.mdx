@@ -1,0 +1,140 @@
+---
+title: "Author projects"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/projects"
+description: "Paginated list of an author's research projects."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+
+## Path parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier. Example: `0000150053`.
+</ParamField>
+
+## Query parameters
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`. Available fields:
+  `citations`, `alphabetical` and `year`. Example: `year_desc`.
+</ParamField>
+
+<ViewParam />
+
+<Note>
+  The response structure is identical to that of [Affiliation projects](/en/api-reference/affiliation/get-research-projects).
+</Note>
+
+## Response
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "abstract": "",
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
+        }
+      ],
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab8466b5418a51e32849536",
+      "language": "es",
+      "product_types": [{"name": "Proyecto de Investigacion y Desarrollo", "source": "minciencias"}],
+      "ranking": [{"date": 1575608400, "rank": "PID-PID_C", "source": "minciencias"}],
+      "title": "Electrocoagulación de efluentes de la industria textil empleando magnesio. Caso de estudio: Soluciones modelo de índigo carmín",
+      "titles": [
+        {
+          "lang": "es",
+          "source": "minciencias",
+          "title": "Electrocoagulación de efluentes de la industria textil empleando magnesio. Caso de estudio: Soluciones modelo de índigo carmín"
+        }
+      ],
+      "types": [
+        {
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Proyecto de Investigacion y Desarrollo"
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790461547}]
+    },
+    {
+      "abstract": "",
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
+        }
+      ],
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab8466b5418a51e32849537",
+      "language": "en",
+      "product_types": [{"name": "Proyecto de Investigacion y Desarrollo", "source": "minciencias"}],
+      "ranking": [{"date": 1575608400, "rank": "PID-PID_A", "source": "minciencias"}],
+      "title": "Improving Energy Efficiency of Coal Power Stations Located in the  Colombian Pacific Region",
+      "titles": [
+        {
+          "lang": "en",
+          "source": "minciencias",
+          "title": "Improving Energy Efficiency of Coal Power Stations Located in the  Colombian Pacific Region"
+        }
+      ],
+      "types": [
+        {
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Proyecto de Investigacion y Desarrollo"
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790461547}]
+    }
+  ],
+  "meta": {
+    "count": 7,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/person/0000000001/research/projects?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

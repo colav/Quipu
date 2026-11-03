@@ -1,0 +1,129 @@
+---
+title: "Citations per year"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Number of citations received per year."
+sidebarTitle: "Citations per year"
+---
+
+Number of citations received per year. Chart type: **Bar**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `annual_citation_count`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Response
+
+<ResponseExample>
+```json Institution
+{
+  "plot": [
+    {
+      "x": 2026,
+      "y": 15747
+    },
+    {
+      "x": 2025,
+      "y": 76614
+    },
+    {
+      "x": 2024,
+      "y": 80050
+    },
+    {
+      "x": 2023,
+      "y": 73536
+    }
+  ]
+}
+```
+
+```json Faculty
+{
+  "plot": [
+    {
+      "x": 2026,
+      "y": 89
+    },
+    {
+      "x": 2025,
+      "y": 495
+    },
+    {
+      "x": 2024,
+      "y": 544
+    },
+    {
+      "x": 2023,
+      "y": 654
+    }
+  ]
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "x": 2025,
+      "y": 4
+    },
+    {
+      "x": 2024,
+      "y": 15
+    },
+    {
+      "x": 2023,
+      "y": 10
+    },
+    {
+      "x": 2022,
+      "y": 9
+    }
+  ]
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "x": 2026,
+      "y": 90
+    },
+    {
+      "x": 2025,
+      "y": 338
+    },
+    {
+      "x": 2024,
+      "y": 455
+    },
+    {
+      "x": 2023,
+      "y": 381
+    }
+  ]
+}
+```
+</ResponseExample>

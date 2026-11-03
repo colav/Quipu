@@ -1,0 +1,376 @@
+---
+title: "Get an affiliation"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}"
+description: "Returns an affiliation (institution, faculty, department or group) from its identifier."
+---
+
+import ViewParam from "/snippets/en/view-param.mdx";
+import EntityMeta from "/snippets/en/entity-meta.mdx";
+
+## Path parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type: `institution`, `faculty`, `department` or `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier. Examples: `03bp5hc83` (institution),
+  `03bp5hc83_20` (faculty), `03bp5hc83_2_21620003_3154` (department),
+  `COL0001262` (group).
+</ParamField>
+
+## Query parameters
+
+<ViewParam />
+
+`max`, `page` and `sort` do not apply.
+
+<Note>
+  The API does not validate `affiliation_type`: it returns the affiliation that
+  matches `affiliation_id` with any type, even if it doesn't match or doesn't
+  exist. For example, `/affiliation/faculty/03bp5hc83` returns the institution,
+  without an error. Use the right type: the parent affiliations included in
+  `affiliations` depend on it.
+</Note>
+
+## Response
+
+<ResponseField name="data" type="object">
+  The requested affiliation.
+  <Expandable title="properties">
+    <ResponseField name="_id" type="string">
+      Affiliation identifier.
+    </ResponseField>
+    <ResponseField name="name" type="string | null">
+      Main name (in Spanish if there is one).
+    </ResponseField>
+    <ResponseField name="names" type="object[]">
+      Names by source (`name`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="abbreviations" type="string[]">
+      Acronyms and short names.
+    </ResponseField>
+    <ResponseField name="aliases" type="string[]">
+      Alternative names.
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Affiliation types by source (`type`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="addresses" type="object[]">
+      Addresses: `city`, `state`, `country`, `country_code`, `postcode`,
+      `lat`, `lng`.
+    </ResponseField>
+    <ResponseField name="year_established" type="integer | null">
+      Year founded.
+    </ResponseField>
+    <ResponseField name="description" type="object[]">
+      Descriptions by source. For groups it includes texts such as state of the
+      art, objectives, work plan, highlighted output, challenges and vision.
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Number of products.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citations by source (`count`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="h_index" type="integer | null">
+      H-index.
+    </ResponseField>
+    <ResponseField name="h5_index" type="integer | null">
+      H-index of the last 5 years.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Classifications, for example a group's (`rank`, `source`,
+      `from_date`, `to_date`).
+    </ResponseField>
+    <ResponseField name="affiliations" type="object[]">
+      Direct parent affiliations (for example, the institution of a
+      faculty).
+    </ResponseField>
+    <ResponseField name="relations" type="object[]">
+      Related affiliations: the parents and, for faculties, also their
+      departments and units (`id`, `name`, `types`, `external_urls`).
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Subject areas grouped by source (for example, OECD for groups).
+    </ResponseField>
+    <ResponseField name="status" type="array">
+      Status. It can be a list of strings (institutions) or of objects with
+      `source` and `status` (groups).
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers (ROR, OpenAlex, SNIES, Scienti, Minciencias,
+      among others).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      External links (website, Wikipedia, OpenAlex, ROR).
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Last update by source (`source`, `time` in Unix seconds).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<EntityMeta />
+
+The identifier comes in `_id`, not in `id` as in the other entities. With `view=summary`, fields without data are left out.
+
+### Differences by type
+
+| Field          | Institution     | Faculty                      | Department                      | Group                 |
+| -------------- | --------------- | ---------------------------- | ------------------------------- | --------------------- |
+| `affiliations` | empty           | the institution              | the institution and the faculty | the institution       |
+| `relations`    | empty           | institution and departments  | institution and faculty         | institution           |
+| `description`  | empty           | empty                        | empty                           | the group's texts     |
+| `ranking`      | no useful data  | empty                        | empty                           | group classification  |
+
+<ResponseExample>
+```json 200 — Institution
+{
+  "data": {
+    "_id": "example-institution-id",
+    "abbreviations": ["UE"],
+    "addresses": [
+      {
+        "city": "Medellín",
+        "country": "Colombia",
+        "country_code": "CO",
+        "lat": 6.25184,
+        "lng": -75.56359,
+        "postcode": "",
+        "state": "Antioquia"
+      }
+    ],
+    "affiliations": [],
+    "aliases": [],
+    "citations_count": [{"count": 610587, "provenance": null, "source": "scholar"}],
+    "description": [],
+    "external_ids": [{"id": "example-isni-id", "provenance": "ror", "source": "isni"}],
+    "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+    "h5_index": 100,
+    "h_index": 242,
+    "name": "Universidad Ejemplo",
+    "names": [{"lang": "es", "name": "Universidad Ejemplo", "provenance": null, "source": "ror"}],
+    "products_count": 135364,
+    "ranking": [
+      {
+        "date": null,
+        "from_date": null,
+        "issn": null,
+        "level": null,
+        "order": null,
+        "rank": null,
+        "source": null,
+        "to_date": null
+      }
+    ],
+    "relations": [],
+    "status": ["active"],
+    "subjects": [],
+    "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}],
+    "updated": [{"source": "ror", "time": 1789879321}],
+    "year_established": 1803
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 200 — Faculty
+{
+  "data": {
+    "_id": "example-institution-id_20",
+    "abbreviations": [],
+    "addresses": [
+      {
+        "city": "Medellín",
+        "country": "Colombia",
+        "country_code": "CO",
+        "lat": 6.25184,
+        "lng": -75.56359,
+        "postcode": "",
+        "state": "Antioquia"
+      }
+    ],
+    "affiliations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "aliases": [],
+    "citations_count": [{"count": 8658, "provenance": null, "source": "scholar"}],
+    "description": [],
+    "external_ids": [{"id": "example-staff-id", "provenance": null, "source": "staff"}],
+    "external_urls": [],
+    "h5_index": 12,
+    "h_index": 31,
+    "name": "Facultad Ejemplo",
+    "names": [{"lang": "es", "name": "Facultad Ejemplo", "provenance": null, "source": "staff"}],
+    "products_count": 6580,
+    "ranking": [],
+    "relations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "status": [],
+    "subjects": [],
+    "types": [{"code": null, "level": null, "provenance": null, "source": "staff", "type": "faculty", "type_class": null}],
+    "updated": [{"source": "staff", "time": 1789879630}],
+    "year_established": null
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 200 — Department
+{
+  "data": {
+    "_id": "example-institution-id_2_example-staff-id",
+    "abbreviations": [],
+    "addresses": [
+      {
+        "city": "Medellín",
+        "country": "Colombia",
+        "country_code": "CO",
+        "lat": 6.25184,
+        "lng": -75.56359,
+        "postcode": "",
+        "state": "Antioquia"
+      }
+    ],
+    "affiliations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "aliases": [],
+    "citations_count": [{"count": 28, "provenance": null, "source": "scholar"}],
+    "description": [],
+    "external_ids": [{"id": "example-staff-id", "provenance": null, "source": "staff"}],
+    "external_urls": [],
+    "h5_index": 4,
+    "h_index": 4,
+    "name": "Departamento Ejemplo",
+    "names": [{"lang": "es", "name": "Departamento Ejemplo", "provenance": null, "source": "staff"}],
+    "products_count": 761,
+    "ranking": [],
+    "relations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "status": [],
+    "subjects": [],
+    "types": [{"code": null, "level": null, "provenance": null, "source": "staff", "type": "department", "type_class": null}],
+    "updated": [{"source": "staff", "time": 1789879629}],
+    "year_established": null
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 200 — Group
+{
+  "data": {
+    "_id": "COL0000001",
+    "abbreviations": [],
+    "addresses": [
+      {
+        "city": "Medellín",
+        "country": "Colombia",
+        "country_code": "CO",
+        "lat": 6.25184,
+        "lng": -75.56359,
+        "postcode": "",
+        "state": "Antioquia"
+      }
+    ],
+    "affiliations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "aliases": [],
+    "citations_count": [{"count": 3928, "provenance": null, "source": "scholar"}],
+    "description": [
+      {
+        "description": {
+          "TXT_ESTADO_ARTE": "El grupo Centauro ha logrado un importante aporte en publicaciones y en resultados de investigación en sus diferentes líneas de investigación consolidadazas: 1)…",
+          "TXT_OBJETIVOS": "El grupo Centauro tiene como objetivos los siguientes:\r\n\r\n1. Generar proyectos de investigación enfocados al avance del conocimiento científico y a la búsqueda …",
+          "TXT_PLAN_TRABAJO": "El grupo Grupo de Investigación Ejemplo (Grupo de investigación en Ciencias Veterinarias), tiene como objetivo el apoyo al desarrollo científico y tecnológico y al avance de las Cien…",
+          "TXT_PROD_DESTACADA": "1. Creación de dos líneas de maestría: una en Medicina Tropical y otra en Farmacología en la Corporación Ciencias Básicas Biomédicas, que cuenta ahora con un es…",
+          "TXT_RETOS": "1. Consecución regular de recursos externos nacionales e internacionales para la financiación de proyectos de investigación en sus diferentes líneas y campos de…",
+          "TXT_VISION": "Visión Centauro 2027\r\n\r\nPara el año 2027, el grupo Centauro será un grupo de referencia nacional e internacional en el campo de las Ciencias Veterinarias, en vi…"
+        },
+        "source": "scienti"
+      }
+    ],
+    "external_ids": [{"id": "example-scienti-id", "provenance": null, "source": "scienti"}],
+    "external_urls": [],
+    "h5_index": 8,
+    "h_index": 34,
+    "name": "Grupo de Investigación Ejemplo",
+    "names": [{"lang": "es", "name": "Grupo de Investigación Ejemplo", "provenance": null, "source": "scienti"}],
+    "products_count": 800,
+    "ranking": [
+      {
+        "date": null,
+        "from_date": 1653368400,
+        "issn": null,
+        "level": null,
+        "order": null,
+        "rank": "A1",
+        "source": "scienti",
+        "to_date": 1716440400
+      }
+    ],
+    "relations": [
+      {
+        "external_urls": [{"provenance": "scienti", "source": "site", "url": "https://www.example.edu.co"}],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}]
+      }
+    ],
+    "status": [{"source": "minciencias", "status": "activo"}],
+    "subjects": [
+      {
+        "provenance": null,
+        "source": "OCDE",
+        "subjects": [
+          {
+            "external_ids": [{"id": "4C01", "provenance": null, "source": "OCDE"}],
+            "id": "",
+            "level": 2,
+            "name": "Ciencias Veterinarias"
+          }
+        ]
+      }
+    ],
+    "types": [{"code": null, "level": null, "provenance": null, "source": "scienti", "type": "group", "type_class": null}],
+    "updated": [{"source": "scienti", "time": 1789888124}],
+    "year_established": 1997
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 404
+{"error": "The affiliation with id 0000000000 does not exist."}
+```
+</ResponseExample>

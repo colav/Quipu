@@ -1,0 +1,428 @@
+---
+title: "Get a product"
+api: "GET https://api.dev.impactu.colav.co/work/{work_id}"
+description: "Returns a bibliographic product from its identifier."
+---
+
+import ViewParam from "/snippets/en/view-param.mdx";
+import EntityMeta from "/snippets/en/entity-meta.mdx";
+
+## Path parameters
+
+<ParamField path="work_id" type="string" required>
+  Product identifier. Example: `6ab4ac4e5418a51e324cc06a`.
+</ParamField>
+
+## Query parameters
+
+<ViewParam />
+
+It takes no pagination or filter parameters.
+
+## Response
+
+<ResponseField name="data" type="object">
+  The requested product.
+  <Expandable title="properties">
+    <ResponseField name="id" type="string">
+      Product identifier.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Main title.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Titles by source (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="subtitle" type="string | null">
+      Subtitle.
+    </ResponseField>
+    <ResponseField name="language" type="string">
+      Language (ISO 639-1 code).
+    </ResponseField>
+    <ResponseField name="year_published" type="integer">
+      Publication year.
+    </ResponseField>
+    <ResponseField name="date_published" type="integer | null">
+      Publication date in Unix seconds.
+    </ResponseField>
+    <ResponseField name="doi" type="string | null">
+      Full DOI (for example `https://doi.org/10.1000/xyz`).
+    </ResponseField>
+    <ResponseField name="keywords" type="array">
+      Keywords.
+    </ResponseField>
+    <ResponseField name="abstract" type="string | null">
+      Main abstract as text.
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      All the authors of the product, in signing order (10 with
+      `view=summary`), with their affiliations, external identifiers,
+      classifications and available demographic data. See [Product authors](/en/guides/authorship).
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Number of authors.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Associated research groups, with their citations and classifications.
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Product types by source (`name`, `source`).
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Types by source with level and classification.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Product classifications (for example, from Minciencias).
+    </ResponseField>
+    <ResponseField name="source" type="object">
+      Source (journal or other type) where it was published. It includes `id`, `name`,
+      `names`, `types`, `external_ids`, `external_urls`, `ranking`,
+      `publisher`, `apc`, `scimago_quartile` and `updated`.
+    </ResponseField>
+    <ResponseField name="bibliographic_info" type="object">
+      Bibliographic information: `volume`, `issue`, `start_page`, `end_page`,
+      `pages` and `bibtex`.
+    </ResponseField>
+    <ResponseField name="bibtex" type="string | null">
+      BibTeX entry.
+    </ResponseField>
+    <ResponseField name="volume" type="string | integer | null">
+      Volume. Copy of `bibliographic_info.volume`.
+    </ResponseField>
+    <ResponseField name="pages" type="string | null">
+      Pages. Copy of `bibliographic_info.pages`.
+    </ResponseField>
+    <ResponseField name="start_page" type="string | null">
+      Start page. Copy of `bibliographic_info.start_page`.
+    </ResponseField>
+    <ResponseField name="end_page" type="string | null">
+      End page. Copy of `bibliographic_info.end_page`.
+    </ResponseField>
+    <ResponseField name="publisher" type="string | null">
+      Name of the publisher.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citations by source (`count`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="citations_by_year" type="object[]">
+      Citations per year (`year`, `cited_by_count`).
+    </ResponseField>
+    <ResponseField name="open_access" type="object">
+      Open access status: `is_open_access`, `open_access_status`,
+      `url` and `has_repository_fulltext`.
+    </ResponseField>
+    <ResponseField name="apc" type="object">
+      APC information: `charges`, `currency` and `paid`.
+    </ResponseField>
+    <ResponseField name="primary_topic" type="object">
+      Primary topic with its subfield, field and domain (OpenAlex).
+    </ResponseField>
+    <ResponseField name="topics" type="object[]">
+      Associated topics.
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Subject areas grouped by source.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers.
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      External links: DOI, Scholar, open access, etc.
+    </ResponseField>
+    <ResponseField name="references" type="array">
+      Bibliographic references.
+    </ResponseField>
+    <ResponseField name="references_count" type="integer | null">
+      Number of references.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Last update by source (`source`, `time` in Unix seconds).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<EntityMeta />
+
+<ResponseExample>
+```json 200
+{
+  "data": {
+    "abstract": {
+      "(ACIN)": [5],
+      "(IETS)": [17],
+      "19.": [44],
+      "Asociación": [1],
+      "Colombia.": [74],
+      "Colombiana": [2],
+      "Covid": [43],
+      "Covid-19,": [68],
+      "Estas": [45],
+      "Evaluación": [10],
+      "Infectología": [4],
+      "Instituto": [8],
+      "La": [0],
+      "Nuevas": [12],
+      "Salud": [16],
+      "Tecnologías": [13],
+      "al": [48],
+      "atención": [61],
+      "atención,": [36],
+      "basadas": [27],
+      "buscar": [53],
+      "casos": [41],
+      "conformó": [18],
+      "consenso": [31],
+      "contexto": [71],
+      "dar": [54],
+      "de": [3],
+      "desarrollarrecomendaciones": [24],
+      "diagnóstico": [37],
+      "el": [7],
+      "en": [28],
+      "evidencia,": [29],
+      "expertos": [33],
+      "grupo": [20],
+      "guías": [46],
+      "informadas": [25],
+      "la": [15],
+      "los": [57],
+      "manejo": [39],
+      "nacional": [72],
+      "para": [23],
+      "personal": [49],
+      "por": [30],
+      "recomendaciones": [55],
+      "salud": [51],
+      "sondirigidas": [47],
+      "trabajo": [22],
+      "un": [19],
+      "y": [6],
+      "ámbitos": [58]
+    },
+    "apc": {
+      "charges": null,
+      "currency": null,
+      "paid": {"currency": "USD", "provenance": "openalex", "source": null, "value": 100, "value_usd": 100}
+    },
+    "authors": [
+      {
+        "affiliations": [
+          {
+            "addresses": [
+              {
+                "city": "Bogotá",
+                "country": "Colombia",
+                "country_code": "CO",
+                "lat": null,
+                "lng": null,
+                "postcode": null,
+                "state": null
+              }
+            ],
+            "end_date": -1,
+            "external_ids": [{"id": "example-isni-id", "provenance": "ror", "source": "isni"}],
+            "h5_index": null,
+            "h_index": null,
+            "id": "example-institution-id",
+            "name": "Universidad Ejemplo",
+            "position": null,
+            "ranking": null,
+            "ror": null,
+            "start_date": -1,
+            "types": [
+              {
+                "code": null,
+                "level": null,
+                "provenance": null,
+                "source": "ror",
+                "type": "education",
+                "type_class": null
+              }
+            ],
+            "years": []
+          }
+        ],
+        "countries": null,
+        "external_ids": [{"id": "0000000001", "provenance": "staff", "source": "scienti"}],
+        "first_names": ["María"],
+        "full_name": "María Ejemplo García",
+        "h5_index": null,
+        "h_index": null,
+        "id": "0000000001",
+        "last_names": ["Ejemplo"],
+        "ranking": [
+          {
+            "date": 1383195600,
+            "from_date": null,
+            "issn": null,
+            "level": null,
+            "order": "12",
+            "rank": "Investigador Junior",
+            "source": "minciencias",
+            "to_date": null
+          }
+        ],
+        "sex": "Hombre",
+        "type": "author"
+      }
+    ],
+    "authors_count": 93,
+    "bibliographic_info": {
+      "bibtex": "@article{ejemplo,\n  title={Resumen: Consenso colombiano de atenci{\\'o}n, diagn{\\'o}stico y manejo de la infecci{\\'o}n por SARS-COV-2/COVID-19 en establecimiento…",
+      "end_page": "1",
+      "issue": "3",
+      "pages": null,
+      "start_page": "1",
+      "volume": "24"
+    },
+    "bibtex": null,
+    "citations_by_year": [{"cited_by_count": 4, "year": 2025}],
+    "citations_count": [{"count": 136, "provenance": null, "source": "openalex"}],
+    "date_published": 1585198800,
+    "doi": "https://doi.org/10.22354/in.v24i3.851",
+    "end_page": null,
+    "external_ids": [{"id": "0000000082-649", "provenance": "minciencias", "source": "scienti"}],
+    "external_urls": [{"provenance": "dspace", "source": "dspace", "url": "http://hdl.handle.net/20.500.12495/2626"}],
+    "groups": [
+      {
+        "citations_count": [{"count": 4, "provenance": null, "source": "openalex"}],
+        "h5_index": null,
+        "h_index": null,
+        "id": "COL0000002",
+        "name": "Grupo de Investigación Ejemplo",
+        "ranking": [
+          {
+            "date": 1614229200,
+            "from_date": null,
+            "issn": null,
+            "level": null,
+            "order": "3",
+            "rank": "B",
+            "source": "minciencias",
+            "to_date": null
+          }
+        ]
+      }
+    ],
+    "id": "6ab55e975418a51e3263ccc5",
+    "keywords": [],
+    "language": "es",
+    "open_access": {
+      "has_repository_fulltext": true,
+      "is_open_access": true,
+      "open_access_status": "gold",
+      "url": "http://revistainfectio.org/P_OJS/index.php/infectio/article/download/851/946"
+    },
+    "pages": null,
+    "primary_topic": {
+      "display_name": "Public Health and Environmental Issues",
+      "domain": {"display_name": "Physical Sciences", "id": "https://openalex.org/domains/3"},
+      "field": {"display_name": "Environmental Science", "id": "https://openalex.org/fields/23"},
+      "id": "https://openalex.org/T14169",
+      "score": 0.9533,
+      "subfield": {"display_name": "Health, Toxicology and Mutagenesis", "id": "https://openalex.org/subfields/2307"}
+    },
+    "product_types": [{"name": "article", "source": "openalex"}],
+    "publisher": null,
+    "ranking": [
+      {
+        "date": 1614229200,
+        "from_date": null,
+        "issn": null,
+        "level": null,
+        "order": null,
+        "rank": "ART-ART_B",
+        "source": "minciencias",
+        "to_date": null
+      }
+    ],
+    "references": [],
+    "references_count": null,
+    "source": {
+      "apc": {"charges": 100, "currency": "USD", "paid": null},
+      "external_ids": [{"id": "0123-9392", "provenance": null, "source": "issn"}],
+      "external_urls": [
+        {
+          "provenance": null,
+          "source": "aims_scope",
+          "url": "http://www.revistainfectio.org/index.php/infectio/about/editorialPolicies#focusAndScope"
+        }
+      ],
+      "id": "6aad68772be7843cde64e5e8",
+      "is_in_doaj": null,
+      "issn": [{"pissn": "0123-9392"}],
+      "issn_l": "0123-9392",
+      "name": "Infectio",
+      "names": [{"lang": "en", "name": "Infectio", "provenance": null, "source": "doaj"}],
+      "publisher": {"country_code": "CO", "id": "", "name": "Asociación Colombiana de Infectología"},
+      "ranking": [
+        {
+          "date": null,
+          "from_date": 1325394000,
+          "issn": null,
+          "level": null,
+          "order": 31056,
+          "rank": "-",
+          "source": "scimago Best Quartile",
+          "to_date": 1356930000
+        }
+      ],
+      "scimago_quartile": null,
+      "serials": null,
+      "types": [{"code": null, "level": null, "provenance": null, "source": "doaj", "type": "journal", "type_class": null}],
+      "updated": [{"source": "doaj", "time": 1789749367}]
+    },
+    "start_page": null,
+    "subjects": [
+      {
+        "provenance": null,
+        "source": "openalex",
+        "subjects": [{"external_ids": null, "id": "6aad70482be7843cde6adff5", "level": 1, "name": "Humanities"}]
+      }
+    ],
+    "subtitle": null,
+    "title": "Consenso colombiano de atención, diagnóstico y manejo de la infección por SARS-COV-2/COVID 19 en establecimientos de atención de la salud. Recomendaciones basad…",
+    "titles": [
+      {
+        "lang": "es",
+        "provenance": null,
+        "source": "openalex",
+        "title": "Consenso colombiano de atención, diagnóstico y manejo de la infección por SARS-COV-2/COVID 19 en establecimientos de atención de la salud. Recomendaciones basad…"
+      }
+    ],
+    "topics": [
+      {
+        "display_name": "Public Health and Environmental Issues",
+        "domain": {"display_name": "Physical Sciences", "id": "https://openalex.org/domains/3"},
+        "field": {"display_name": "Environmental Science", "id": "https://openalex.org/fields/23"},
+        "id": "https://openalex.org/T14169",
+        "score": 0.9533,
+        "subfield": {"display_name": "Health, Toxicology and Mutagenesis", "id": "https://openalex.org/subfields/2307"}
+      }
+    ],
+    "types": [
+      {
+        "code": null,
+        "level": null,
+        "provenance": "openalex",
+        "source": "openalex",
+        "type": "article",
+        "type_class": null
+      }
+    ],
+    "updated": [{"source": "openalex", "time": 1790271127}],
+    "volume": null,
+    "year_published": 2020
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 404
+{"error": "The work with id 000000000000000000000000 does not exist."}
+```
+
+```json 400
+{"error": "Invalid id 'abc'."}
+```
+</ResponseExample>

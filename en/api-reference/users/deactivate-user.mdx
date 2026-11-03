@@ -1,0 +1,46 @@
+---
+title: "Deactivate user"
+api: "DELETE https://api.dev.impactu.colav.co/admin/users/{email}"
+description: "Deactivates a user account (is_active = false). It does not delete the record."
+---
+
+<Note>
+  Requires an active session with the `admin` role. The account is deactivated but not
+  deleted. A deactivated user cannot log in, and the sessions they
+  already had open stop working at once (they return `403`). To
+  reactivate it use [Activate user](/en/api-reference/users/activate-user).
+</Note>
+
+## Path parameters
+
+<ParamField path="email" type="string" required>
+  Email address of the user to deactivate.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  `true` if the deactivation succeeded.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Confirmation or error message.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{ "success": true, "msg": "El usuario usuario@example.com ha sido desactivado." }
+```
+
+```json 404
+{ "success": false, "msg": "Usuario con correo usuario@example.com no encontrado" }
+```
+
+```json 401
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
+```
+
+```json 403
+{ "success": false, "msg": "Permiso denegado: No pueden realizar esta acción." }
+```
+</ResponseExample>

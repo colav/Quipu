@@ -1,0 +1,308 @@
+---
+title: "Search projects"
+api: "GET https://api.dev.impactu.colav.co/search/projects"
+description: "Paginated search of research projects by keywords."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import SortAlphabetical from "/snippets/en/sort-alphabetical.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+
+## Query parameters
+
+<ParamField query="keywords" type="string">
+  Search text (project title).
+</ParamField>
+
+<PaginationParams />
+
+<SortAlphabetical />
+
+<ViewParam />
+
+<Note>This endpoint has no filters.</Note>
+
+## Response
+
+<ResponseField name="data" type="array">
+  List of projects.
+  <Expandable title="properties of each project">
+    <ResponseField name="id" type="string">
+      Project identifier.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Title.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Titles by source (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="abstract" type="string">
+      Abstract.
+    </ResponseField>
+    <ResponseField name="language" type="string">
+      Language.
+    </ResponseField>
+    <ResponseField name="keywords" type="string[] | null">
+      Keywords.
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      Authors (researchers), with their affiliations.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Number of authors.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Associated research groups (`id`, `name`).
+    </ResponseField>
+    <ResponseField name="date_init" type="integer | null">
+      Start date in Unix seconds.
+    </ResponseField>
+    <ResponseField name="date_end" type="integer | null">
+      End date in Unix seconds.
+    </ResponseField>
+    <ResponseField name="year_init" type="integer | null">
+      Start year.
+    </ResponseField>
+    <ResponseField name="year_end" type="integer | null">
+      End year.
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Product types (`name`, `source`).
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Project types by source, with their level (`type`, `code`, `level`,
+      `source`).
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Classifications.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers (`id`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      External links.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Last update by source (`source`, `time` in Unix seconds).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "abstract": "",
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": null,
+              "end_date": null,
+              "external_ids": null,
+              "h5_index": null,
+              "h_index": null,
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "position": null,
+              "ranking": null,
+              "ror": null,
+              "start_date": null,
+              "types": [
+                {
+                  "code": null,
+                  "level": null,
+                  "provenance": null,
+                  "source": "minciencias",
+                  "type": "group",
+                  "type_class": null
+                }
+              ],
+              "years": []
+            }
+          ],
+          "countries": null,
+          "external_ids": null,
+          "first_names": null,
+          "full_name": "María Ejemplo García",
+          "h5_index": null,
+          "h_index": null,
+          "id": "0000000001",
+          "last_names": null,
+          "ranking": null,
+          "sex": null,
+          "type": null
+        }
+      ],
+      "authors_count": 1,
+      "date_end": null,
+      "date_init": null,
+      "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [
+        {
+          "citations_count": null,
+          "h5_index": null,
+          "h_index": null,
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": null
+        }
+      ],
+      "id": "6ab844cf5418a51e3283862f",
+      "keywords": null,
+      "language": "es",
+      "product_types": [{"name": "Proyecto de extensión", "source": "minciencias"}],
+      "ranking": [
+        {
+          "date": 1575608400,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "PE-PE",
+          "source": "minciencias",
+          "to_date": null
+        }
+      ],
+      "title": "4.\tFortalecimiento de la gestión del conocimiento en medidas de atención para violencia contra la mujer, estudio de caso municipio del Socorro, Santander 2017-2…",
+      "titles": [
+        {
+          "lang": "es",
+          "provenance": null,
+          "source": "minciencias",
+          "title": "4.\tFortalecimiento de la gestión del conocimiento en medidas de atención para violencia contra la mujer, estudio de caso municipio del Socorro, Santander 2017-2…"
+        }
+      ],
+      "types": [
+        {
+          "code": null,
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Proyecto de extensión",
+          "type_class": null
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790461135}],
+      "year_end": null,
+      "year_init": null
+    },
+    {
+      "abstract": "",
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": null,
+              "end_date": null,
+              "external_ids": null,
+              "h5_index": null,
+              "h_index": null,
+              "id": "COL0000002",
+              "name": "Grupo de Investigación Ejemplo",
+              "position": null,
+              "ranking": null,
+              "ror": null,
+              "start_date": null,
+              "types": [
+                {
+                  "code": null,
+                  "level": null,
+                  "provenance": null,
+                  "source": "minciencias",
+                  "type": "group",
+                  "type_class": null
+                }
+              ],
+              "years": []
+            }
+          ],
+          "countries": null,
+          "external_ids": null,
+          "first_names": null,
+          "full_name": "Juan Ejemplo Pérez",
+          "h5_index": null,
+          "h_index": null,
+          "id": "0000000002",
+          "last_names": null,
+          "ranking": null,
+          "sex": null,
+          "type": null
+        }
+      ],
+      "authors_count": 1,
+      "date_end": null,
+      "date_init": null,
+      "external_ids": [{"id": "0000000002", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [
+        {
+          "citations_count": null,
+          "h5_index": null,
+          "h_index": null,
+          "id": "COL0000002",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": null
+        }
+      ],
+      "id": "6ab844cf5418a51e32838630",
+      "keywords": null,
+      "language": "es",
+      "product_types": [{"name": "Proyecto de extensión", "source": "minciencias"}],
+      "ranking": [
+        {
+          "date": 1614229200,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "PE-PE",
+          "source": "minciencias",
+          "to_date": null
+        }
+      ],
+      "title": "Una mirada a la diversidad y la inclusión social, a través de los estereotipos, culturas y géneros en el diseño de modas",
+      "titles": [
+        {
+          "lang": "es",
+          "provenance": null,
+          "source": "minciencias",
+          "title": "Una mirada a la diversidad y la inclusión social, a través de los estereotipos, culturas y géneros en el diseño de modas"
+        }
+      ],
+      "types": [
+        {
+          "code": null,
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Proyecto de extensión",
+          "type_class": null
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790461135}],
+      "year_end": null,
+      "year_init": null
+    }
+  ],
+  "meta": {
+    "count": 128687,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/projects?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

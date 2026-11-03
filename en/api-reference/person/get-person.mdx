@@ -1,0 +1,169 @@
+---
+title: "Get an author"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}"
+description: "Returns an author's profile from its identifier."
+---
+
+import ViewParam from "/snippets/en/view-param.mdx";
+import EntityMeta from "/snippets/en/entity-meta.mdx";
+
+## Path parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier. Example: `0000000001`.
+</ParamField>
+
+## Query parameters
+
+<ViewParam />
+
+## Response
+
+<ResponseField name="data" type="object">
+  Author profile.
+  <Expandable title="properties">
+    <ResponseField name="id" type="string">
+      Author identifier.
+    </ResponseField>
+    <ResponseField name="full_name" type="string | null">
+      Full name.
+    </ResponseField>
+    <ResponseField name="first_names" type="string[]">
+      First names.
+    </ResponseField>
+    <ResponseField name="last_names" type="string[]">
+      Last names.
+    </ResponseField>
+    <ResponseField name="initials" type="string | null">
+      Initials of the first names.
+    </ResponseField>
+    <ResponseField name="aliases" type="string[]">
+      Name variants with which the author appears in the sources.
+    </ResponseField>
+    <ResponseField name="sex" type="string | null">
+      Sex.
+    </ResponseField>
+    <ResponseField name="affiliations" type="object[]">
+      Author's affiliations (institutions, faculties, departments and groups).
+      <Expandable title="properties of each affiliation">
+        <ResponseField name="id" type="string | null">
+          Affiliation identifier.
+        </ResponseField>
+        <ResponseField name="name" type="string | null">
+          Affiliation name.
+        </ResponseField>
+        <ResponseField name="types" type="object[]">
+          Affiliation types by source (`type`, `source`, `provenance`).
+        </ResponseField>
+        <ResponseField name="start_date" type="integer | string | null">
+          Start date of the affiliation in Unix seconds. `-1` if it has no recorded end.
+        </ResponseField>
+        <ResponseField name="end_date" type="integer | string | null">
+          End date of the affiliation in Unix seconds. `-1` if it is still active.
+        </ResponseField>
+        <ResponseField name="years" type="integer[]">
+          Years with output recorded in this affiliation.
+        </ResponseField>
+        <ResponseField name="position" type="string | null">
+          Job or position in the affiliation.
+        </ResponseField>
+        <ResponseField name="external_urls" type="object[]">
+          External URLs of the affiliation.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers (Scienti, ORCID, Scholar, ResearchGate, OpenAlex, among others).
+      Fields: `id`, `source`, `provenance`.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citations by source (`count`, `source`).
+    </ResponseField>
+    <ResponseField name="products_count" type="integer | null">
+      Total number of research products.
+    </ResponseField>
+    <ResponseField name="h_index" type="integer | null">
+      H-index.
+    </ResponseField>
+    <ResponseField name="h5_index" type="integer | null">
+      H-index of the last 5 years.
+    </ResponseField>
+    <ResponseField name="degrees" type="object[]">
+      Academic degrees (`degree`, `date`, `source`, `institutions`).
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Categories and classifications: contract type, working hours, job category
+      and Minciencias (`rank`, `source`, `date`).
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Subject areas grouped by source (for example, OECD).
+    </ResponseField>
+    <ResponseField name="keywords" type="string[]">
+      Keywords.
+    </ResponseField>
+    <ResponseField name="related_works" type="array">
+      Related works.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Last update by source (`source`, `time` in Unix seconds).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<EntityMeta />
+
+<Note>
+  The API does not publish identity documents, date or place of birth, age
+  or marital status. Of `external_ids`, only the sources `linkedin`,
+  `openalex`, `orcid`, `publons`, `researchgate`, `scholar`, `scienti`,
+  `scopus`, `ssrn` and `wos` are published.
+</Note>
+
+<ResponseExample>
+```json 200
+{
+  "data": {
+    "affiliations": [
+      {
+        "end_date": -1,
+        "external_urls": [],
+        "id": "example-institution-id",
+        "name": "Universidad Ejemplo",
+        "start_date": 916617600,
+        "types": [{"source": "ror", "type": "education"}],
+        "years": [1999]
+      }
+    ],
+    "aliases": ["maría ejemplo garcía"],
+    "citations_count": [{"count": 980, "source": "openalex"}],
+    "degrees": [{"date": -1, "degree": "doctorado", "id": "", "institutions": [], "source": "nivel_académico"}],
+    "external_ids": [{"id": "0000000001", "provenance": "scienti", "source": "scienti"}],
+    "first_names": ["María"],
+    "full_name": "María Ejemplo García",
+    "h5_index": 6,
+    "h_index": 13,
+    "id": "0000000001",
+    "initials": "M",
+    "keywords": [],
+    "last_names": ["Ejemplo"],
+    "products_count": 3247,
+    "ranking": [{"date": 916635600, "rank": "vinculado", "source": "tipo_contrato"}],
+    "related_works": [],
+    "sex": "Mujer",
+    "subjects": [
+      {
+        "provenance": "minciencias",
+        "source": "OECD",
+        "subjects": [{"external_ids": [{"id": "1", "source": "OECD"}], "id": "", "level": 0, "name": "Ciencias Naturales"}]
+      }
+    ],
+    "updated": [{"source": "staff", "time": 1790089866}]
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 404
+{"error": "The person with id 0000000001 does not exist."}
+```
+</ResponseExample>

@@ -1,0 +1,65 @@
+---
+title: "Distribution of citations among faculties"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribution of citations among faculties."
+sidebarTitle: "Distribution of citations among faculties"
+---
+
+Distribution of citations among faculties. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `institution`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `citations_by_faculty`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | No data |
+| `department` | No data |
+| `group` | No data |
+
+## Response
+
+<ResponseExample>
+```json Institution
+{
+  "plot": [
+    {
+      "name": "Facultad de Medicina",
+      "percentage": 23.88,
+      "value": 32
+    },
+    {
+      "name": "Facultad de Enfermería",
+      "percentage": 20.9,
+      "value": 28
+    },
+    {
+      "name": "Instituto De Filosofía",
+      "percentage": 20.15,
+      "value": 27
+    },
+    {
+      "name": "Facultad de Ciencias Agrarias",
+      "percentage": 14.93,
+      "value": 20
+    }
+  ],
+  "sum": 134
+}
+```
+</ResponseExample>

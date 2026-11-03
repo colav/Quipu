@@ -1,0 +1,110 @@
+---
+title: "Articles by publisher"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Articles by publisher."
+sidebarTitle: "Articles by publisher"
+---
+
+Articles by publisher. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `articles_by_publisher`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/person/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Response
+
+The response structure is identical to that of the equivalent indicator for [affiliations](/en/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Faculty
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 84.67,
+      "value": 5571
+    },
+    {
+      "name": "UNIVERSIDAD DE ANTIOQUIA",
+      "percentage": 1.6,
+      "value": 105
+    },
+    {
+      "name": "Universidad Pedagógica Nacional",
+      "percentage": 0.9,
+      "value": 59
+    },
+    {
+      "name": "Facultad De Educacion Universidad De Antioquia",
+      "percentage": 0.87,
+      "value": 57
+    }
+  ],
+  "sum": 6580
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 93.82,
+      "value": 714
+    },
+    {
+      "name": "Editorial Universidad de Antioquia",
+      "percentage": 1.58,
+      "value": 12
+    },
+    {
+      "name": "Kimpress",
+      "percentage": 0.92,
+      "value": 7
+    },
+    {
+      "name": "Centro Editorial De La Universidad De Caldas",
+      "percentage": 0.53,
+      "value": 4
+    }
+  ],
+  "sum": 761
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 61.5,
+      "value": 492
+    },
+    {
+      "name": "Universidad de Antioquia",
+      "percentage": 13.25,
+      "value": 106
+    },
+    {
+      "name": "Biblioteca Universidad de Cordoba",
+      "percentage": 2.12,
+      "value": 17
+    },
+    {
+      "name": "Instituto Nacional de Salud",
+      "percentage": 1.75,
+      "value": 14
+    }
+  ],
+  "sum": 800
+}
+```
+</ResponseExample>

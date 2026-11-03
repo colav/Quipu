@@ -1,0 +1,221 @@
+---
+title: "Affiliation products"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Paginated list of an affiliation's research products, or one of its indicators with the plot parameter."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import WorksFilterParams from "/snippets/en/works-filter-params.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+import FieldsParam from "/snippets/en/fields-param.mdx";
+import WorksListResponse from "/snippets/en/works-list-response.mdx";
+
+This endpoint has two modes:
+
+- **Product list** (without `plot`): returns the affiliation's products, with pagination, sorting and filters.
+- **Indicators** (with `plot`): returns the data of one of the affiliation's indicators. See the [indicator catalogue](/en/api-reference/affiliation/plots/overview).
+
+## Path parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type: `institution`, `faculty`, `department` or `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier. Examples: `03bp5hc83` (institution),
+  `03bp5hc83_20` (faculty).
+</ParamField>
+
+## Query parameters
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`, where the direction is `asc` or
+  `desc`. Fields for products: `citations`, `alphabetical` (by title) and
+  `year` (publication year). Example: `year_desc`.
+</ParamField>
+
+<ViewParam />
+
+<FieldsParam />
+
+<ParamField query="plot" type="string">
+  Name of the indicator to return. With this parameter the response is the
+  indicator, without pagination. See the [indicator
+  catalogue](/en/api-reference/affiliation/plots/overview).
+</ParamField>
+
+### Filters
+
+The same filters as [Search products](/en/api-reference/search/works). They also apply to indicators. All of them accept several values separated by commas.
+
+<WorksFilterParams />
+
+The valid options can be looked up in [Affiliation product filters](/en/api-reference/affiliation/get-research-products-filters).
+
+<Note>
+  If you don't send `max`, `page` or `sort`, `max=10`, `page=1` and
+  `sort=citations_desc` apply. If you send `max` and `page` without `sort`,
+  `sort=citations_desc` applies.
+</Note>
+
+## List response
+
+<WorksListResponse />
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "abstracts": [],
+      "apc": {"paid": {}},
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": [{"city": "Medellín", "country": "Colombia", "country_code": "CO"}],
+              "end_date": -1,
+              "external_ids": [{"id": "example-scienti-id", "source": "scienti"}],
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "start_date": 1590987600,
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "external_ids": [{"id": "0000000001", "provenance": "scienti", "source": "scienti"}],
+          "first_names": ["María"],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001",
+          "last_names": ["Ejemplo"],
+          "ranking": [{"date": 1462408390, "rank": "EM", "source": "scienti"}],
+          "sex": "Hombre"
+        }
+      ],
+      "authors_count": 1,
+      "bibliographic_info": {},
+      "citations_by_year": [],
+      "citations_count": [],
+      "doi": "",
+      "external_ids": [{"id": "AAD-0000000001-6-2", "provenance": "minciencias", "source": "minciencias"}],
+      "external_urls": [],
+      "groups": [
+        {
+          "citations_count": [{"count": 8, "source": "scholar"}],
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [{"from_date": 1653368400, "rank": "C", "source": "scienti", "to_date": 1716440400}]
+        }
+      ],
+      "id": "6ab4ac3f5418a51e324cb4cc",
+      "keywords": [],
+      "language": "es",
+      "open_access": {},
+      "primary_topic": {},
+      "product_types": [{"name": "Obras o productos de arte, arquitectura y diseño", "source": "minciencias"}],
+      "ranking": [{"date": 1614229200, "rank": "AAD-AAD_C", "source": "minciencias"}],
+      "references": [],
+      "source": {},
+      "subjects": [],
+      "title": "Suite de los ensamblajes",
+      "titles": [{"lang": "es", "source": "minciencias", "title": "Suite de los ensamblajes"}],
+      "topics": [],
+      "types": [
+        {
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Obras o productos de arte, arquitectura y diseño"
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790225471}]
+    },
+    {
+      "abstracts": [],
+      "apc": {"paid": {}},
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": [{"city": "Medellín", "country": "Colombia", "country_code": "CO"}],
+              "end_date": -1,
+              "external_ids": [{"id": "example-scienti-id", "source": "scienti"}],
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "start_date": 1590987600,
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "external_ids": [{"id": "0000000001", "provenance": "scienti", "source": "scienti"}],
+          "first_names": ["María"],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001",
+          "last_names": ["Ejemplo"],
+          "ranking": [{"date": 1462408390, "rank": "EM", "source": "scienti"}],
+          "sex": "Hombre"
+        }
+      ],
+      "authors_count": 1,
+      "bibliographic_info": {},
+      "citations_by_year": [],
+      "citations_count": [],
+      "doi": "",
+      "external_ids": [{"id": "AAD-0000000001-8-4", "provenance": "minciencias", "source": "minciencias"}],
+      "external_urls": [],
+      "groups": [
+        {
+          "citations_count": [{"count": 8, "source": "scholar"}],
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [{"from_date": 1653368400, "rank": "C", "source": "scienti", "to_date": 1716440400}]
+        }
+      ],
+      "id": "6ab4ac3f5418a51e324cb4cd",
+      "keywords": [],
+      "language": "es",
+      "open_access": {},
+      "primary_topic": {},
+      "product_types": [{"name": "Obras o productos de arte, arquitectura y diseño", "source": "minciencias"}],
+      "ranking": [{"date": 1614229200, "rank": "AAD-AAD_C", "source": "minciencias"}],
+      "references": [],
+      "source": {},
+      "subjects": [],
+      "title": "Un Si mayor por la paz",
+      "titles": [{"lang": "es", "source": "minciencias", "title": "Un Si mayor por la paz"}],
+      "topics": [],
+      "types": [
+        {
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Obras o productos de arte, arquitectura y diseño"
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790225471}]
+    }
+  ],
+  "meta": {
+    "count": 135364,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/affiliation/institution/example-institution-id/research/products?max=2&page=2",
+      "previous": null
+    },
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nfields\n  Value error, Invalid fields: abstract. Allowed fields: authors, citations_by_year, citations_count, id, keywords, so…"
+}
+```
+</ResponseExample>

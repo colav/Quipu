@@ -1,0 +1,173 @@
+---
+title: "Affiliation patents"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/patents"
+description: "Paginated list of the patents associated with an affiliation."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+
+## Path parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type: `institution`, `faculty`, `department` or `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+## Query parameters
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`, where the direction is `asc` or
+  `desc`. Available fields: `citations`, `alphabetical` (by title) and
+  `year` (publication year). Example: `year_desc`.
+</ParamField>
+
+<ViewParam />
+
+<Note>
+  If you don't send `max`, `page` or `sort`, `max=10`, `page=1` and
+  `sort=citations_desc` apply. If you send `max` and `page` without `sort`,
+  `sort=citations_desc` applies.
+</Note>
+
+## Response
+
+<ResponseField name="data" type="array">
+  List of the affiliation's patents.
+  <Expandable title="properties of each patent">
+    <ResponseField name="id" type="string">
+      Patent identifier.
+    </ResponseField>
+    <ResponseField name="title" type="string | null">
+      Main title.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Titles by source (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="language" type="string | null">
+      Language.
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      Authors with their affiliations and classifications.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer | null">
+      Number of authors.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Associated research groups, with citations and classifications.
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Patent types by source (`type`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Types normalized by ImpactU (`name`, `source`).
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Patent classifications.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers (`id`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      External links (`url`, `source`).
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Last update by source (`source`, `time` in Unix seconds).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
+        }
+      ],
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000001-5494", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab847915418a51e32855ab0",
+      "language": "es",
+      "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
+      "ranking": [{"date": 1383195600, "rank": "PIV-PA4", "source": "minciencias"}],
+      "title": "Proceso continuo para la elaboración de nanopartículas y nanopartículas obtenidas mediante dicho proceso",
+      "titles": [
+        {
+          "lang": "es",
+          "source": "minciencias",
+          "title": "Proceso continuo para la elaboración de nanopartículas y nanopartículas obtenidas mediante dicho proceso"
+        }
+      ],
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Patente de invención"}],
+      "updated": [{"source": "minciencias", "time": 1790461841}]
+    },
+    {
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "types": [{"source": "scienti", "type": "group"}],
+              "years": []
+            }
+          ],
+          "full_name": "María Ejemplo García",
+          "id": "0000000001"
+        }
+      ],
+      "authors_count": 1,
+      "external_ids": [{"id": "0000000001-5509", "provenance": "minciencias", "source": "scienti"}],
+      "external_urls": [],
+      "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+      "id": "6ab847915418a51e32855afb",
+      "language": "es",
+      "product_types": [{"name": "Patente de invención", "source": "minciencias"}],
+      "ranking": [{"date": 1383195600, "rank": "PIV-PA4", "source": "minciencias"}],
+      "title": "Proceso de Microencapsulacion de Sustancias Volatiles",
+      "titles": [{"lang": "es", "source": "minciencias", "title": "Proceso de Microencapsulacion de Sustancias Volatiles"}],
+      "types": [{"level": 1, "provenance": "minciencias", "source": "minciencias", "type": "Patente de invención"}],
+      "updated": [{"source": "minciencias", "time": 1790461841}]
+    }
+  ],
+  "meta": {
+    "count": 85,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/affiliation/institution/example-institution-id/research/patents?max=2&page=2",
+      "previous": null
+    },
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

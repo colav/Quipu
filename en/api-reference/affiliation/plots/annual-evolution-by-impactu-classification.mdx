@@ -1,0 +1,145 @@
+---
+title: "Annual evolution by ImpactU classification"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Products per year by ImpactU classification."
+sidebarTitle: "Annual evolution by ImpactU classification"
+---
+
+Products per year by ImpactU classification. Chart type: **Bar**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `annual_evolution_by_impactu_classification`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Response
+
+<ResponseExample>
+```json Institution
+{
+  "plot": [
+    {
+      "type": "Artículo de revista",
+      "x": 25,
+      "y": 1
+    },
+    {
+      "type": "Tesis de pregrado",
+      "x": 25,
+      "y": 1
+    },
+    {
+      "type": "Artículo de revista",
+      "x": 1068,
+      "y": 1
+    },
+    {
+      "type": "Otro",
+      "x": 1881,
+      "y": 2
+    }
+  ]
+}
+```
+
+```json Faculty
+{
+  "plot": [
+    {
+      "type": "Tesis de posgrado",
+      "x": 1970,
+      "y": 1
+    },
+    {
+      "type": "Artículo de revista",
+      "x": 1979,
+      "y": 1
+    },
+    {
+      "type": "Tesis de posgrado",
+      "x": 1980,
+      "y": 1
+    },
+    {
+      "type": "Libro",
+      "x": 1985,
+      "y": 1
+    }
+  ]
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "type": "Artículo de revista",
+      "x": 1997,
+      "y": 1
+    },
+    {
+      "type": "Artículo de revista",
+      "x": 1998,
+      "y": 1
+    },
+    {
+      "type": "Documento de trabajo",
+      "x": 1999,
+      "y": 2
+    },
+    {
+      "type": "Publicaciones editoriales no especializadas",
+      "x": 1999,
+      "y": 1
+    }
+  ]
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "type": "Tesis de pregrado",
+      "x": 1996,
+      "y": 1
+    },
+    {
+      "type": "Tesis de pregrado",
+      "x": 1997,
+      "y": 8
+    },
+    {
+      "type": "Artículo de revista",
+      "x": 1997,
+      "y": 6
+    },
+    {
+      "type": "Tesis de pregrado",
+      "x": 1998,
+      "y": 12
+    }
+  ]
+}
+```
+</ResponseExample>

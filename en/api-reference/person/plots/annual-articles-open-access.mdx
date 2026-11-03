@@ -1,0 +1,134 @@
+---
+title: "Open access articles per year"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Open access articles per year."
+sidebarTitle: "Open access articles per year"
+---
+
+Open access articles per year. Chart type: **Bar**.
+
+## Parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `annual_articles_open_access`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/person/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Response
+
+The response structure is identical to that of the equivalent indicator for [affiliations](/en/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Institution
+{
+  "plot": [
+    {
+      "type": "Abierto",
+      "x": 2027,
+      "y": 0
+    },
+    {
+      "type": "Cerrado",
+      "x": 2027,
+      "y": 0
+    },
+    {
+      "type": "Sin información",
+      "x": 2027,
+      "y": 1
+    },
+    {
+      "type": "Abierto",
+      "x": 2026,
+      "y": 663
+    }
+  ]
+}
+```
+
+```json Faculty
+{
+  "plot": [
+    {
+      "type": "Abierto",
+      "x": 2026,
+      "y": 1
+    },
+    {
+      "type": "Cerrado",
+      "x": 2026,
+      "y": 0
+    },
+    {
+      "type": "Sin información",
+      "x": 2026,
+      "y": 0
+    },
+    {
+      "type": "Abierto",
+      "x": 2025,
+      "y": 44
+    }
+  ]
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "type": "Abierto",
+      "x": 2025,
+      "y": 3
+    },
+    {
+      "type": "Cerrado",
+      "x": 2025,
+      "y": 2
+    },
+    {
+      "type": "Sin información",
+      "x": 2025,
+      "y": 8
+    },
+    {
+      "type": "Abierto",
+      "x": 2024,
+      "y": 4
+    }
+  ]
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "type": "Abierto",
+      "x": 2026,
+      "y": 1
+    },
+    {
+      "type": "Cerrado",
+      "x": 2026,
+      "y": 0
+    },
+    {
+      "type": "Sin información",
+      "x": 2026,
+      "y": 0
+    },
+    {
+      "type": "Abierto",
+      "x": 2024,
+      "y": 14
+    }
+  ]
+}
+```
+</ResponseExample>

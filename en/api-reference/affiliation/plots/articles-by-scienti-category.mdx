@@ -1,0 +1,149 @@
+---
+title: "Articles by Scienti category"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribution of articles by Scienti category."
+sidebarTitle: "Articles by Scienti category"
+---
+
+Distribution of articles by Scienti category. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `articles_by_scienti_category`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Response
+
+<ResponseExample>
+```json Institution
+{
+  "plot": [
+    {
+      "name": "B",
+      "percentage": 3.3,
+      "value": 4471
+    },
+    {
+      "name": "D",
+      "percentage": 0.36,
+      "value": 484
+    },
+    {
+      "name": "C",
+      "percentage": 0.55,
+      "value": 743
+    },
+    {
+      "name": "A1",
+      "percentage": 0.23,
+      "value": 316
+    }
+  ],
+  "sum": 135364
+}
+```
+
+```json Faculty
+{
+  "plot": [
+    {
+      "name": "D",
+      "percentage": 0.3,
+      "value": 20
+    },
+    {
+      "name": "B",
+      "percentage": 3.34,
+      "value": 220
+    },
+    {
+      "name": "C",
+      "percentage": 0.59,
+      "value": 39
+    },
+    {
+      "name": "A",
+      "percentage": 0.58,
+      "value": 38
+    }
+  ],
+  "sum": 6580
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "name": "C",
+      "percentage": 0.53,
+      "value": 4
+    },
+    {
+      "name": "D",
+      "percentage": 0.26,
+      "value": 2
+    },
+    {
+      "name": "B",
+      "percentage": 3.55,
+      "value": 27
+    },
+    {
+      "name": "A",
+      "percentage": 0.79,
+      "value": 6
+    }
+  ],
+  "sum": 761
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "name": "A1",
+      "percentage": 0.5,
+      "value": 4
+    },
+    {
+      "name": "B",
+      "percentage": 9.25,
+      "value": 74
+    },
+    {
+      "name": "D",
+      "percentage": 1.88,
+      "value": 15
+    },
+    {
+      "name": "C",
+      "percentage": 0.5,
+      "value": 4
+    }
+  ],
+  "sum": 800
+}
+```
+</ResponseExample>
