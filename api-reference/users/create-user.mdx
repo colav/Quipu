@@ -1,29 +1,33 @@
 ---
 title: "Crear usuario"
 api: "POST https://api.dev.impactu.colav.co/admin/users/{email}"
-description: "Crea un nuevo usuario en la plataforma. Solo accesible con rol admin."
+description: "Crea un nuevo usuario en la plataforma y le envía su contraseña por correo. Solo accesible con rol admin."
 ---
 
 <Note>
-  Requiere sesión activa con rol `admin`.
+  Requiere sesión activa con rol `admin`. Primero se envía el correo con las
+  credenciales y después se guarda el usuario: si el correo no se puede
+  enviar, responde `502` y no se crea nada, así que se puede reintentar.
 </Note>
 
 ## Parámetros de ruta
 
 <ParamField path="email" type="string" required>
-  Correo electrónico del nuevo usuario.
+  Correo electrónico del nuevo usuario. Si no tiene un formato válido, responde
+  `400`.
 </ParamField>
 
 ## Cuerpo de la solicitud
 
-Debe traer exactamente estos tres campos: si falta o sobra alguno, responde `400`.
+Debe traer exactamente estos tres campos, con texto no vacío: si falta, sobra o está vacío alguno, responde `400`.
 
 <ParamField body="institution" type="string" required>
   Nombre de la institución a la que pertenece el usuario.
 </ParamField>
 
 <ParamField body="ror_id" type="string" required>
-  Identificador ROR de la institución. Ejemplo: `059yx9a68`.
+  Identificador ROR de la institución. Ejemplo: `059yx9a68`. Cada institución
+  tiene un solo usuario: si ya existe uno para ese `ror_id`, responde `409`.
 </ParamField>
 
 <ParamField body="role" type="string" required>
@@ -52,11 +56,19 @@ Debe traer exactamente estos tres campos: si falta o sobra alguno, responde `400
 { "success": false, "msg": "Faltan: ror_id" }
 ```
 
+```json 400 — correo inválido
+{ "success": false, "msg": "El correo 'usuario@example' no es válido." }
+```
+
 ```json 409
 {
   "success": false,
   "msg": "Para la institución: Universidad Ejemplo ya existe un correo registrado: otro@example.com. Si deseas asignar un nuevo correo, edita el usuario existente."
 }
+```
+
+```json 409 — correo existente
+{ "success": false, "msg": "El usuario con correo usuario@example.com ya existe." }
 ```
 
 ```json 401
@@ -65,5 +77,13 @@ Debe traer exactamente estos tres campos: si falta o sobra alguno, responde `400
 
 ```json 403
 { "success": false, "msg": "Permiso denegado: No pueden realizar esta acción." }
+```
+
+```json 403 — rol admin
+{ "success": false, "msg": "No se pueden crear usuarios con el role 'admin'." }
+```
+
+```json 502
+{ "success": false, "msg": "No se pudo enviar el correo con las credenciales. No se guardó ningún cambio." }
 ```
 </ResponseExample>

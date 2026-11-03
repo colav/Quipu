@@ -5,7 +5,9 @@ description: "Actualiza la fecha de expiración del API Key existente del usuari
 ---
 
 <Note>
-  El usuario autenticado solo puede modificar su propio API Key.
+  El usuario autenticado solo puede modificar su propio API Key. Si todavía
+  no tiene uno, responde `404`: créalo primero con
+  [Generar API Key](/api-reference/users/create-apikey).
 </Note>
 
 ## Parámetros de ruta
@@ -17,8 +19,9 @@ description: "Actualiza la fecha de expiración del API Key existente del usuari
 ## Cuerpo de la solicitud
 
 <ParamField body="expires" type="integer">
-  Nueva fecha de expiración en segundos Unix. Debe ser una fecha futura con al
-  menos 1 día de margen. Si se omite, el API Key queda sin expiración.
+  Nueva fecha de expiración en segundos Unix, como número entero. Debe ser una
+  fecha futura con al menos 1 día de margen. Si se omite, el API Key queda sin
+  expiración.
 </ParamField>
 
 ## Respuesta
@@ -46,5 +49,9 @@ description: "Actualiza la fecha de expiración del API Key existente del usuari
 
 ```json 403
 { "success": false, "msg": "No tienes permiso para gestionar el API Key de otro usuario." }
+```
+
+```json 404
+{ "success": false, "msg": "Usuario usuario@example.com no encontrado o sin API key" }
 ```
 </ResponseExample>

@@ -6,8 +6,9 @@ description: "Desactiva una cuenta de usuario (is_active = false). No elimina el
 
 <Note>
   Requiere sesión activa con rol `admin`. La cuenta queda desactivada pero no
-  se borra. Un usuario desactivado no puede iniciar sesión. Para reactivarla
-  usa [Activar usuario](/api-reference/users/activate-user).
+  se borra. Un usuario desactivado no puede iniciar sesión, y las sesiones que
+  ya tenía abiertas dejan de funcionar de inmediato (responden `403`). Para
+  reactivarla usa [Activar usuario](/api-reference/users/activate-user).
 </Note>
 
 ## Parámetros de ruta

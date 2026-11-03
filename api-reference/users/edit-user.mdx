@@ -5,7 +5,8 @@ description: "Actualiza el correo electrónico y/o el rol de un usuario. No se p
 ---
 
 <Note>
-  Requiere sesión activa con rol `admin`.
+  Requiere sesión activa con rol `admin`. Solo se pueden editar cuentas activas
+  que no sean `admin`; en otro caso responde `403`.
 </Note>
 
 ## Parámetros de ruta
@@ -16,15 +17,21 @@ description: "Actualiza el correo electrónico y/o el rol de un usuario. No se p
 
 ## Cuerpo de la solicitud
 
-Al menos uno de los dos campos es obligatorio.
+Al menos uno de los dos campos es obligatorio, y los dos deben ser texto. Cualquier otro campo responde `400`.
 
 <ParamField body="email" type="string">
-  Nuevo correo electrónico.
+  Nuevo correo electrónico. Si ya lo usa otro usuario, responde `409`.
 </ParamField>
 
 <ParamField body="role" type="string">
   Nuevo rol. No puede ser `admin`.
 </ParamField>
+
+### Cambio de correo
+
+Al cambiar el correo se genera una contraseña nueva y se envía al correo nuevo; la anterior deja de funcionar. El correo se envía antes de guardar el cambio: si no se puede enviar, responde `502` y el usuario conserva su correo y su contraseña.
+
+Si solo cambia el rol, no se envía ningún correo.
 
 ## Respuesta
 
@@ -37,12 +44,23 @@ Al menos uno de los dos campos es obligatorio.
 </ResponseField>
 
 <ResponseExample>
-```json 200
-{ "success": true, "msg": "Usuario actualizado correctamente." }
+```json 200 — rol
+{ "success": true, "msg": "Rol del usuario usuario@example.com actualizado correctamente." }
+```
+
+```json 200 — correo
+{
+  "success": true,
+  "msg": "Correo del usuario actualizado correctamente y notificación enviada a nuevo@example.com."
+}
 ```
 
 ```json 400
 { "success": false, "msg": "Debes enviar al menos email o rol." }
+```
+
+```json 400 — sin cambios
+{ "success": false, "msg": "No se detectaron cambios para actualizar." }
 ```
 
 ```json 403
@@ -53,7 +71,15 @@ Al menos uno de los dos campos es obligatorio.
 { "success": false, "msg": "Usuario con correo usuario@example.com no encontrado." }
 ```
 
+```json 409
+{ "success": false, "msg": "Ya existe un usuario con el correo nuevo@example.com" }
+```
+
 ```json 401
 {"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
+```
+
+```json 502
+{ "success": false, "msg": "No se pudo enviar el correo con las credenciales. No se guardó ningún cambio." }
 ```
 </ResponseExample>
