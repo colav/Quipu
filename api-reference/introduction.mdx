@@ -6,7 +6,7 @@ sidebarTitle: "Inicio Endpoints"
 
 import MetaResponse from "/snippets/meta-response.mdx";
 
-La API de ImpactU es una API REST de solo lectura que devuelve información científica y académica en formato JSON: personas, productos, afiliaciones, fuentes, patentes, proyectos y entidades geográficas.
+La API de ImpactU es una API REST que devuelve información científica y académica en formato JSON: personas, productos, afiliaciones, fuentes, patentes, proyectos y entidades geográficas. La consulta es pública y de solo lectura. Con sesión, la API también permite administrar usuarios y cargar los archivos de las instituciones.
 
 ## URL base
 
@@ -130,7 +130,10 @@ Además, cada listado tiene sus propios filtros. Todos aceptan varios valores se
 
 Los endpoints de consulta son públicos: no requieren autenticación y por ahora no tienen límite de solicitudes.
 
-Requieren sesión la administración de usuarios (`/admin/users`), la gestión del API Key (`/users/{email}/apikey`), el estado de sesión (`/me`) y la carga de archivos en `/submit/staff`, `/submit/ciarp` y `/submit/scienti`. La sesión es el JWT que [Iniciar sesión](/api-reference/auth/login) guarda en la cookie HttpOnly `access_token_cookie`.
+Requieren sesión la administración de usuarios (`/admin/users`), la gestión del API Key (`/users/{email}/apikey`), el estado de sesión (`/me`) y todas las cargas de archivos (`/submit/staff`, `/submit/ciarp`, `/submit/scienti` y `/submit/project`). La sesión es el JWT que [Iniciar sesión](/api-reference/auth/login) guarda en la cookie HttpOnly `access_token_cookie`.
+
+- **Token CSRF.** Las solicitudes con sesión que no son `GET` (`POST`, `PUT`, `PATCH` y `DELETE`) deben enviar el encabezado `X-CSRF-TOKEN` con el valor de la cookie `csrf_access_token`, que también crea el inicio de sesión. Sin ese encabezado responden `401`.
+- **Cuentas desactivadas.** Cada solicitud con sesión comprueba que la cuenta siga activa. Si un administrador la desactiva, o la cuenta ya no existe, el token deja de servir de inmediato y la solicitud responde `403`, aunque el token no haya vencido.
 
 ## Errores
 
@@ -138,18 +141,22 @@ Cuando una solicitud falla, la API responde con el código HTTP del caso y un me
 
 | Código | Cuándo |
 | --- | --- |
-| `400` | Un parámetro es inválido: por ejemplo `max=0`, un `sort` mal formado o un campo de `fields` que no está permitido. |
-| `401` | Falta la sesión o el token no es válido. |
-| `403` | La sesión no tiene permiso para la operación. |
+| `400` | Un parámetro es inválido: por ejemplo `max=0`, un `sort` mal formado, un campo de `fields` que no está permitido o un cuerpo JSON que no es un objeto. |
+| `401` | Falta la sesión, el token no es válido o falta el encabezado `X-CSRF-TOKEN`. |
+| `403` | La sesión no tiene permiso para la operación o la cuenta está desactivada. |
 | `404` | La entidad no existe. |
 | `409` | La operación choca con un registro existente, por ejemplo al crear un usuario. |
+| `413` | El archivo supera el tamaño máximo. Solo en [Validar archivo de proyectos](/api-reference/submit/project), con un máximo de 10 MB. |
+| `415` | El tipo de archivo no está permitido. Solo en [Enviar archivo SCIENTI](/api-reference/submit/scienti). |
+| `422` | Al Excel de Staff o CIARP le faltan columnas o tiene columnas sin nombre. |
 | `500` | Error inesperado del servidor. |
+| `502` | No se pudo enviar el correo con las credenciales al crear un usuario, cambiar su correo o restablecer su contraseña. No se guarda ningún cambio, así que se puede reintentar. |
 
 ```json
 { "error": "The person with id 9999999999 does not exist." }
 ```
 
-Los endpoints de autenticación, usuarios y carga de archivos responden con `{ "success": false, "msg": "..." }` en lugar de `error`, salvo [Validar archivo de proyectos](/api-reference/submit/project).
+Los endpoints de autenticación, usuarios y carga de archivos responden con `{ "success": false, "msg": "..." }` en lugar de `error`. [Validar archivo de proyectos](/api-reference/submit/project) usa `error` para los problemas del archivo (`400` y `413`) y `msg` para los de sesión (`401` y `403`).
 
 Los listados de una entidad que no existe (por ejemplo, los productos de un autor inexistente) responden `200` con la lista vacía.
 
@@ -169,7 +176,97 @@ Los listados de una entidad que no existe (por ejemplo, los productos de un auto
     icon="building-columns"
     href="/api-reference/affiliation/get-affiliation"
   >
-    Consulta de una afiliación (institución, facultad, departamento o grupo) por
-    su identificador.
+    Una afiliación (institución, facultad, departamento o grupo), sus
+    afiliaciones relacionadas y sus productos, con filtros, exportación y 30
+    indicadores, patentes, proyectos y noticias.
+  </Card>
+  <Card
+    title="Person"
+    icon="user"
+    href="/api-reference/person/get-person"
+  >
+    El perfil de un autor y sus productos, con filtros, exportación y 16
+    indicadores, patentes, proyectos y noticias.
+  </Card>
+  <Card
+    title="Source"
+    icon="book"
+    href="/api-reference/source/get-source"
+  >
+    Una fuente (revista, conferencia u otra publicación) y sus productos, con
+    filtros, exportación y 1 indicador.
+  </Card>
+  <Card
+    title="Work"
+    icon="file-lines"
+    href="/api-reference/work/get-work"
+  >
+    Un producto bibliográfico por su identificador o por DOI, y la lista
+    completa de sus autores.
+  </Card>
+  <Card
+    title="Patent"
+    icon="lightbulb"
+    href="/api-reference/patent/get-patent"
+  >
+    Una patente y sus autores.
+  </Card>
+  <Card
+    title="Project"
+    icon="diagram-project"
+    href="/api-reference/project/get-project"
+  >
+    Un proyecto de investigación y sus autores.
+  </Card>
+  <Card
+    title="Geo"
+    icon="map-location-dot"
+    href="/api-reference/geo/get-geo"
+  >
+    Un departamento o una ciudad, con sus afiliaciones y sus productos.
+  </Card>
+  <Card
+    title="APC"
+    icon="money-bill"
+    href="/api-reference/apc/search"
+  >
+    Exportación a CSV de los datos de APC de una búsqueda, de un autor o de una
+    afiliación.
+  </Card>
+  <Card
+    title="Completer"
+    icon="keyboard"
+    href="/api-reference/completer/get-person"
+  >
+    Sugerencias de autocompletado de autores, afiliaciones y fuentes.
+  </Card>
+  <Card
+    title="Autenticación"
+    icon="right-to-bracket"
+    href="/api-reference/auth/login"
+  >
+    Inicio y cierre de sesión, y estado de la sesión.
+  </Card>
+  <Card
+    title="Usuarios"
+    icon="users"
+    href="/api-reference/users/list-users"
+  >
+    Administración de usuarios, con rol admin, y gestión del API Key propio.
+  </Card>
+  <Card
+    title="Submit"
+    icon="upload"
+    href="/api-reference/submit/staff"
+  >
+    Carga y validación de los archivos de las instituciones: Staff, CIARP,
+    SCIENTI y proyectos.
+  </Card>
+  <Card
+    title="Sistema"
+    icon="server"
+    href="/api-reference/system/get-info"
+  >
+    Conteos generales, métricas de calidad de los datos y ping.
   </Card>
 </CardGroup>
