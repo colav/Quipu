@@ -11,6 +11,7 @@
     "light": "/images/quyca-logo.svg",
     "dark": "/images/quyca-logo-dark.svg"
   },
+  "favicon": "/images/favicon.ico",
   "navigation": {
     "languages": [
       {
@@ -21,16 +22,11 @@
             "groups": [
               {
                 "group": "Introducción",
-                "pages": [
-                  "index"
-                ]
+                "pages": ["index"]
               },
               {
                 "group": "Guías",
-                "pages": [
-                  "guides/filters",
-                  "guides/authorship"
-                ]
+                "pages": ["guides/filters", "guides/authorship"]
               }
             ]
           },
@@ -258,16 +254,11 @@
             "groups": [
               {
                 "group": "Introduction",
-                "pages": [
-                  "en/index"
-                ]
+                "pages": ["en/index"]
               },
               {
                 "group": "Guides",
-                "pages": [
-                  "en/guides/filters",
-                  "en/guides/authorship"
-                ]
+                "pages": ["en/guides/filters", "en/guides/authorship"]
               }
             ]
           },
