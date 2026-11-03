@@ -4,11 +4,11 @@
 
 **Documentación de la API de [quyca](https://github.com/colav/quyca), el backend de ImpactU**
 
-[![Documentación](https://img.shields.io/badge/docs-Mintlify-0D9373)](https://co-la-v.mintlify.site/)
+[![Documentación](https://img.shields.io/badge/docs-Mintlify-0D9373)](https://help.impactu.colav.co/)
 [![Hecho con Mintlify](https://img.shields.io/badge/hecho%20con-Mintlify-0D9373)](https://mintlify.com)
 [![Licencia](https://img.shields.io/badge/licencia-BSD--3--Clause-blue)](#-licencia)
 
-[Ver la documentación](https://quyca.mintlify.site/index) · [Repositorio de quyca](https://github.com/colav/quyca) · [Colav](http://colav.udea.edu.co/)
+[Ver la documentación](https://help.impactu.colav.co/) · [Repositorio de quyca](https://github.com/colav/quyca) · [Colav](http://colav.udea.edu.co/)
 
 </div>
 
@@ -68,7 +68,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | Proyectos                  | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/projects`         |
 | Noticias                   | `GET /affiliation/{affiliation_type}/{affiliation_id}/research/news`             |
 
-El endpoint de productos acepta el parámetro `plot` para devolver uno de los **30 indicadores** del [catálogo de indicadores de afiliación](https://quyca.mintlify.site/api-reference/affiliation/plots/overview).
+El endpoint de productos acepta el parámetro `plot` para devolver uno de los **30 indicadores** del [catálogo de indicadores de afiliación](https://help.impactu.colav.co/api-reference/affiliation/plots/overview).
 
 ### 👤 Endpoints del grupo Person
 
@@ -83,7 +83,7 @@ El endpoint de productos acepta el parámetro `plot` para devolver uno de los **
 | Proyectos                  | `GET /person/{person_id}/research/projects`         |
 | Noticias                   | `GET /person/{person_id}/research/news`             |
 
-El endpoint de productos acepta el parámetro `plot` para devolver uno de los **16 indicadores** del [catálogo de indicadores de autores](https://quyca.mintlify.site/api-reference/person/plots/overview).
+El endpoint de productos acepta el parámetro `plot` para devolver uno de los **16 indicadores** del [catálogo de indicadores de autores](https://help.impactu.colav.co/api-reference/person/plots/overview).
 
 ### 🗞️ Endpoints del grupo Source
 
@@ -97,7 +97,7 @@ El endpoint de productos acepta el parámetro `plot` para devolver uno de los **
 
 El CSV y el Excel tienen la misma estructura de columnas que la exportación de afiliación, con la columna adicional `scimago_quartile`.
 
-El endpoint de productos acepta el parámetro `plot` para devolver el **1 indicador** del [catálogo de indicadores de fuentes](https://quyca.mintlify.site/api-reference/source/plots/overview).
+El endpoint de productos acepta el parámetro `plot` para devolver el **1 indicador** del [catálogo de indicadores de fuentes](https://help.impactu.colav.co/api-reference/source/plots/overview).
 
 ### 📄 Endpoints del grupo Work
 
@@ -285,7 +285,7 @@ La documentación se despliega con Mintlify:
 2. Cada push a la rama principal redespliega el sitio automáticamente.
 3. Los cambios se proponen mediante pull request y se revisan antes de publicarse.
 
-Sitio publicado: https://quyca.mintlify.site/index
+Sitio publicado: https://help.impactu.colav.co/index
 
 ## 🤝 Contribuir
 
@@ -301,7 +301,7 @@ Abre un pull request hacia la rama principal.
 
 ## 🔗 Enlaces
 
-- [Documentación publicada](https://quyca.mintlify.site/index)
+- [Documentación publicada](https://help.impactu.colav.co/)
 - [quyca, el backend de ImpactU](https://github.com/colav/quyca)
 - [Colav](http://colav.udea.edu.co/)
 - [Documentación de Mintlify](https://mintlify.com/docs)
