@@ -28,6 +28,8 @@ def main():
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
     root = repo(args.repo)
+    if git(root, "rev-parse", "--is-shallow-repository").stdout.strip() == "true":
+        raise SystemExit("shallow clone: the comparison needs the full history; run git fetch --unshallow first")
 
     status = {"new": [], "outdated": [], "edited": [], "orphan": [], "uncommitted": []}
     since = {}
