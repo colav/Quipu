@@ -20,6 +20,30 @@ from common import load_json, repo
 HERE = pathlib.Path(__file__).resolve().parent
 
 
+def dumps(value, indent=0, prefix=""):
+    """JSON in docs.json's style (Prettier): arrays of strings or numbers on one line when the whole line fits
+    in 80 columns, everything else expanded with 2-space indentation."""
+    pad = " " * indent
+    if isinstance(value, list) and all(not isinstance(v, (list, dict)) for v in value):
+        inline = "[" + ", ".join(json.dumps(v, ensure_ascii=False) for v in value) + "]"
+        if len(pad) + len(prefix) + len(inline) + 1 <= 80:
+            return inline
+    if isinstance(value, list):
+        if not value:
+            return "[]"
+        items = [" " * (indent + 2) + dumps(v, indent + 2) for v in value]
+        return "[\n" + ",\n".join(items) + "\n" + pad + "]"
+    if isinstance(value, dict):
+        if not value:
+            return "{}"
+        items = []
+        for k, v in value.items():
+            key = json.dumps(k, ensure_ascii=False) + ": "
+            items.append(" " * (indent + 2) + key + dumps(v, indent + 2, key))
+        return "{\n" + ",\n".join(items) + "\n" + pad + "}"
+    return json.dumps(value, ensure_ascii=False)
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     root = repo(args[0] if args else None)
@@ -63,7 +87,7 @@ def main():
                 print("  +", line)
         if "--write" in sys.argv:
             docs["navigation"]["languages"] = [x for x in langs if x["language"] != "en"] + [new_en]
-            docs_path.write_text(json.dumps(docs, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            docs_path.write_text(dumps(docs) + "\n", encoding="utf-8")
             print("docs.json updated")
     for m in sorted(missing):
         print(f"MISSING NAME ({m}): add it to references/nav_names.json")
