@@ -6,13 +6,15 @@ description: "Verifica si la sesión está activa leyendo el JWT desde la cookie
 
 <Note>
   No requiere parámetros. El servidor lee la cookie `access_token_cookie`
-  automáticamente. Devuelve `401` si no hay sesión activa o si el token expiró.
+  automáticamente. Devuelve `401` si no hay sesión activa, si el token expiró
+  o si la cuenta se desactivó o dejó de existir después de iniciar sesión.
 </Note>
 
 ## Respuesta
 
 <ResponseField name="status" type="string">
   Estado de la sesión: `sesion_activa`, `sesion_no_iniciada` o `token_expirado`.
+  Un token de una cuenta desactivada o inexistente también es `token_expirado`.
 </ResponseField>
 
 <ResponseField name="msg" type="string">
@@ -57,5 +59,9 @@ description: "Verifica si la sesión está activa leyendo el JWT desde la cookie
 
 ```json 401 — token expirado
 { "status": "token_expirado", "msg": "Token expirado o inválido" }
+```
+
+```json 401 — cuenta desactivada
+{ "status": "token_expirado", "msg": "Token revocado o inválido" }
 ```
 </ResponseExample>

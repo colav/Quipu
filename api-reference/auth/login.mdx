@@ -6,6 +6,8 @@ description: "Autentica con email y contraseña. Si es válido, establece una co
 
 ## Cuerpo de la solicitud
 
+Un objeto JSON con los dos campos como texto. Si falta alguno, está vacío o no es texto, responde `400`.
+
 <ParamField body="email" type="string" required>
   Correo electrónico del usuario.
 </ParamField>
@@ -17,7 +19,9 @@ description: "Autentica con email y contraseña. Si es válido, establece una co
 <Note>
   El JWT **no** se devuelve en el cuerpo de la respuesta. Se establece
   automáticamente como cookie HttpOnly `access_token_cookie`. Las llamadas
-  posteriores a endpoints protegidos deben incluir esta cookie.
+  posteriores a endpoints protegidos deben incluir esta cookie. El inicio de
+  sesión también crea la cookie `csrf_access_token`: su valor va en el
+  encabezado `X-CSRF-TOKEN` de las solicitudes con sesión que no son `GET`.
 </Note>
 
 ## Respuesta
@@ -50,6 +54,10 @@ description: "Autentica con email y contraseña. Si es válido, establece una co
 
 ```json 400
 {"msg": "correo y contraseña requeridos", "success": false}
+```
+
+```json 400 — cuerpo inválido
+{ "success": false, "msg": "El cuerpo de la petición debe ser un objeto JSON." }
 ```
 
 ```json 401
