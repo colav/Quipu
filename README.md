@@ -33,7 +33,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | **Project**                | ✅ Documentado | 2         | —           |
 | **Geo**                    | ✅ Documentado | 3         | —           |
 | **APC**                    | ✅ Documentado | 3         | —           |
-| **Completer**              | ✅ Documentado | 6         | —           |
+| **Completer**              | ✅ Documentado | 3         | —           |
 | **Autenticación**          | ✅ Documentado | 3         | —           |
 | **Usuarios**               | ✅ Documentado | 9         | —           |
 | **Submit**                 | ✅ Documentado | 4         | —           |
@@ -114,21 +114,36 @@ Quipu/
 ├── docs.json                        # Configuración y navegación de Mintlify
 ├── index.mdx                        # Página de inicio
 ├── api-reference/
+│   ├── introduction.mdx             # URL base, formato de respuestas, sesión y errores
 │   ├── search/                      # Endpoints de búsqueda global
 │   ├── affiliation/                 # Endpoints de la entidad Affiliation
 │   │   └── plots/                   # 30 indicadores con ?plot=
+│   ├── person/                      # Endpoints de la entidad Person (autores)
+│   │   └── plots/                   # 16 indicadores con ?plot=
 │   ├── source/                      # Endpoints de la entidad Source (revistas)
+│   │   └── plots/                   # 1 indicador con ?plot=
 │   ├── work/                        # Endpoints de la entidad Work (productos)
-│   └── person/                      # Endpoints de la entidad Person (autores)
-│       └── plots/                   # 16 indicadores con ?plot=
-├── guides/                          # Guías transversales (filtros, paginación…)
+│   ├── patent/                      # Endpoints de la entidad Patent
+│   ├── project/                     # Endpoints de la entidad Project
+│   ├── geo/                         # Entidades geográficas
+│   ├── apc/                         # Gastos de APC (CSV)
+│   ├── completer/                   # Autocompletado
+│   ├── auth/                        # Inicio y cierre de sesión, estado de sesión
+│   ├── users/                       # Administración de usuarios y API Key
+│   ├── submit/                      # Carga de archivos (Staff, CIARP, SCIENTI, proyectos)
+│   └── system/                      # ping, info y calidad de datos
+├── guides/                          # Guías transversales (filtros, autoría)
 ├── snippets/                        # Fragmentos MDX reutilizables
 │   ├── pagination-params.mdx        # Parámetros max y page
 │   ├── meta-response.mdx            # Objeto meta de respuestas paginadas
 │   ├── works-filter-params.mdx      # Filtros de productos de investigación
 │   ├── works-filters-response.mdx   # Estructura de respuesta de los filtros
+│   ├── works-list-response.mdx      # Campos de cada producto en los listados de una entidad
+│   ├── works-export-columns.mdx     # Columnas de las exportaciones CSV y Excel
 │   ├── view-param.mdx               # Parámetro view (full o summary)
 │   ├── fields-param.mdx             # Parámetro fields de los listados de productos
+│   ├── filters-note.mdx             # Nota sobre filtros con varios valores
+│   ├── sort-alphabetical.mdx        # Parámetro sort alfabético
 │   └── entity-meta.mdx              # Objeto meta de los detalles de una entidad
 ├── scripts/                         # Scripts de automatización
 │   ├── validate_docs.py             # Valida completitud de docs.json
@@ -224,7 +239,7 @@ También puedes disparar la regeneración desde GitHub Actions con el workflow `
 3. **Crea la página** en la carpeta del grupo (por ejemplo, `api-reference/search/nuevo.mdx`).
 4. **Agrégala a `docs.json`** dentro de su grupo.
 5. **Valida** con `python -X utf8 scripts/validate_docs.py`.
-6. **Previsualiza** con `mintlify dev` y abre un pull request.
+6. **Previsualiza** con `mint dev` y abre un pull request.
 
 ### Plantilla de página
 
