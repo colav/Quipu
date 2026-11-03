@@ -5,48 +5,76 @@ description: "Valida un Excel de proyectos institucionales (formato v1.0) y devu
 ---
 
 <Note>
-  Este endpoint no requiere autenticación. La solicitud debe enviarse como
-  `multipart/form-data`.
+  Requiere sesión activa. El JWT se lee desde la cookie `access_token_cookie`
+  y la solicitud debe llevar el encabezado `X-CSRF-TOKEN`. Se envía como
+  `multipart/form-data`. Este endpoint solo valida: no guarda el archivo.
 </Note>
 
 ## Cuerpo de la solicitud
 
 <ParamField body="file" type="file" required>
-  Archivo Excel `.xlsx` o `.xls` con los proyectos institucionales. Debe
-  contener una hoja con una fila por proyecto. Si un proyecto tiene múltiples
-  investigadores o fuentes de financiación, pueden separarse con `;` dentro
-  de la misma celda, o duplicar la fila manteniendo el mismo `codigo_proyecto`.
+  Archivo Excel `.xlsx` con los proyectos institucionales. Un `.xls` se rechaza
+  con un mensaje que pide guardarlo como `.xlsx`. Solo se lee la primera hoja,
+  con una fila por proyecto. Si un proyecto tiene varios investigadores o
+  fuentes de financiación, se separan con `;` en la misma celda, o se repite la
+  fila con el mismo `codigo_proyecto`.
 </ParamField>
+
+## Límites
+
+| Límite | Valor | Respuesta |
+| --- | --- | --- |
+| Tamaño del archivo | 10 MB | `413`, sin leer el archivo |
+| Contenido descomprimido (un `.xlsx` es un zip) | 100 MB | `400` |
+| Filas con datos | 20 000 | `400` |
+| Problemas listados en `issues` | 500 | `200`, con `issues_truncated: true` y los conteos completos |
+
+Un archivo vacío, dañado o que no es un Excel responde `400` con el motivo.
 
 ## Formato del archivo
 
-El archivo debe incluir las siguientes columnas (en minúscula con guion bajo):
+La primera fila lleva los encabezados. Se reconocen aunque cambien las mayúsculas, las tildes o los espacios, o lleven el `*` con el que el documento del formato marca los obligatorios: `Código Proyecto*` es `codigo_proyecto`. Una columna que no es del formato se ignora con una advertencia, y una columna repetida es un error.
 
 | Columna | Obligatoria | Descripción |
 | --- | --- | --- |
 | `codigo_proyecto` | ✅ | Identificador único del proyecto. No debe cambiar en futuras actualizaciones. |
 | `titulo` | ✅ | Nombre completo del proyecto. |
-| `fecha_inicio` | ✅ | Fecha de inicio. Formato: `DD/MM/YYYY`. |
-| `investigador_principal_id` | ✅ | Número de documento del investigador principal. Debe coincidir con el formato de Staff. |
-| `resumen` | — | Resumen o abstract del proyecto. |
+| `fecha_inicio` | ✅ | Fecha de inicio: celda con formato de fecha, o texto `DD/MM/YYYY`. |
+| `investigador_principal_id` | ✅ | Número de documento del investigador principal, sin espacios ni separadores. Debe coincidir con el formato de Staff. |
+| `resumen` | Recomendada | Resumen o abstract del proyecto. Si falta la columna o el valor, se reporta una advertencia. |
 | `objetivos` | — | Objetivos generales o específicos. |
-| `tipo_proyecto` | — | Clasificación: `investigación`, `extensión`, `regalías`, `innovación`, `consultoría`. |
-| `estado` | — | Estado actual: `propuesta`, `en ejecución`, `finalizado`, `suspendido`. |
-| `fecha_fin` | — | Fecha de finalización. Formato: `DD/MM/YYYY`. |
-| `investigador_principal_institucion_id` | — | Código ROR de la institución del investigador principal. Ej: `03bp5hc83`. |
-| `investigadores_ids` | — | Documentos de co-investigadores separados por `;`. |
-| `valor_total` | — | Presupuesto total en COP (solo números enteros, sin separadores de miles). |
-| `valor_especie_total` | — | Presupuesto en especie en COP. |
-| `valor_fresco_total` | — | Presupuesto en recursos frescos en COP. |
-| `fuente_financiación_ids` | — | IDs ROR o Wikidata de las entidades financiadoras, separados por `;`. |
-| `instituciones_participantes_ids` | — | IDs ROR o Wikidata de instituciones aliadas, separados por `;`. |
-| `código_minciencias` | — | Código del proyecto en MinCiencias / CvLAC / GrupLAC. |
-| `código_bpin` | — | Código BPIN para proyectos de regalías o inversión pública. |
+| `tipo_proyecto` | — | Uno de: `investigación`, `extensión`, `regalías`, `innovación`, `consultoría`. |
+| `estado` | — | Uno de: `propuesta`, `en ejecución`, `finalizado`, `suspendido`. |
+| `fecha_fin` | — | Fecha de finalización, con el mismo formato que `fecha_inicio`. |
+| `investigador_principal_institucion_id` | — | Código ROR de la institución del investigador principal: `03bp5hc83` o `https://ror.org/03bp5hc83`. |
+| `investigadores_ids` | — | Documentos de los coinvestigadores, separados por `;`. |
+| `valor_total` | — | Presupuesto total en COP: número entero, sin signos de moneda ni separadores de miles (ej. `50000000`). |
+| `valor_especie_total` | — | Presupuesto en especie en COP, con el mismo formato. |
+| `valor_fresco_total` | — | Presupuesto en recursos frescos en COP, con el mismo formato. |
+| `fuente_financiacion_ids` | — | Códigos ROR o IDs de Wikidata (`Q12345`) de las entidades financiadoras, separados por `;`. |
+| `instituciones_participantes_ids` | — | Códigos ROR o IDs de Wikidata de las instituciones aliadas, separados por `;`. |
+| `codigo_minciencias` | — | Código del proyecto en MinCiencias / CvLAC / GrupLAC. |
+| `codigo_bpin` | — | Código BPIN para proyectos de regalías o inversión pública. |
 | `convocatoria` | — | Nombre o código de la convocatoria. |
-| `regiones_ejecucion_id` | — | Códigos GeoNames de departamentos o regiones, separados por `;`. |
-| `unidad_académica_ids` | — | Códigos de unidades académicas responsables (deben coincidir con el formato de Staff). |
-| `grupos_id` | — | Códigos Scienti de los grupos de investigación. |
+| `regiones_ejecucion_id` | — | Códigos GeoNames de departamentos o regiones (el número o su URL), separados por `;`. |
+| `unidad_academica_ids` | — | Códigos de las unidades académicas responsables, separados por `;`. Deben coincidir con el formato de Staff. |
+| `grupos_id` | — | Códigos Scienti de los grupos de investigación, separados por `;`. |
 | `productos_asociados_ids` | — | Identificadores de productos derivados (DOI, Handle DSpace, código MinCiencias, OpenAlex ID), separados por `;`. |
+
+Los valores de catálogo se aceptan sin importar mayúsculas, tildes ni espacios extra; un valor fuera del catálogo es un error. Las filas en blanco se ignoran.
+
+### Reglas entre campos
+
+| Regla | Severidad |
+| --- | --- |
+| `fecha_fin` anterior a `fecha_inicio` | Error |
+| Proyecto `finalizado` sin `fecha_fin` (si la columna existe) | Advertencia |
+| Proyecto de `regalías` sin `codigo_bpin` | Advertencia |
+| El investigador principal también está en `investigadores_ids` | Advertencia |
+| `valor_total` distinto de `valor_especie_total` + `valor_fresco_total` (si los tres tienen valor) | Advertencia |
+| Un valor repetido en una columna de lista | Advertencia |
+
+Un proyecto repetido en varias filas puede variar en las columnas de lista. En las demás columnas, un valor distinto al de la primera fila del proyecto que tiene ese campo diligenciado es un error.
 
 ## Respuesta
 
@@ -60,11 +88,12 @@ El archivo debe incluir las siguientes columnas (en minúscula con guion bajo):
       `true` si el archivo no tiene errores (puede tener advertencias).
     </ResponseField>
     <ResponseField name="total_rows" type="integer">
-      Número total de filas en el archivo.
+      Número de filas con datos.
     </ResponseField>
     <ResponseField name="total_projects" type="integer | null">
       Número de proyectos únicos (por `codigo_proyecto`). `null` si hay errores
-      estructurales que impiden el conteo.
+      de estructura, como una columna obligatoria faltante: en ese caso las
+      filas no se validan.
     </ResponseField>
     <ResponseField name="errors_count" type="integer">
       Número de errores encontrados.
@@ -73,24 +102,28 @@ El archivo debe incluir las siguientes columnas (en minúscula con guion bajo):
       Número de advertencias encontradas.
     </ResponseField>
     <ResponseField name="issues_truncated" type="boolean">
-      `true` si hay más problemas de los que se muestran en `issues` (se
-      aplica un límite máximo de reportes).
+      `true` si hay más de 500 problemas: `issues` lista los primeros 500 y los
+      conteos incluyen todos.
     </ResponseField>
     <ResponseField name="issues" type="object[]">
-      Lista de problemas encontrados.
+      Lista de problemas, ordenados por fila (primero los del archivo, sin fila)
+      y luego por columna.
       <Expandable title="propiedades de cada problema">
         <ResponseField name="severity" type="string">
           `error` o `warning`.
         </ResponseField>
         <ResponseField name="code" type="string">
-          Código interno del tipo de problema.
+          Código del tipo de problema. Por ejemplo, `missing_column`,
+          `unknown_column`, `required`, `recommended_missing`, `invalid_date`,
+          `invalid_money`, `invalid_enum`, `invalid_date_range` o
+          `conflicting_values`.
         </ResponseField>
         <ResponseField name="message" type="string">
           Descripción del problema.
         </ResponseField>
         <ResponseField name="row" type="integer | null">
-          Número de fila donde ocurre el problema. `null` para errores
-          estructurales (columnas faltantes, formato de archivo).
+          Número de la fila en Excel. `null` para los problemas del archivo
+          (columnas faltantes, hojas de más).
         </ResponseField>
         <ResponseField name="column" type="string | null">
           Nombre de la columna afectada, si aplica.
@@ -117,11 +150,11 @@ El archivo debe incluir las siguientes columnas (en minúscula con guion bajo):
     "issues": [
       {
         "severity": "warning",
-        "code": "UNKNOWN_TYPE",
-        "message": "El tipo de proyecto 'investigacion-aplicada' no está en el catálogo.",
+        "code": "recommended_missing",
+        "message": "Se recomienda diligenciar 'resumen'.",
         "row": 3,
-        "column": "tipo_proyecto",
-        "value": "investigacion-aplicada"
+        "column": "resumen",
+        "value": null
       }
     ]
   }
@@ -134,26 +167,50 @@ El archivo debe incluir las siguientes columnas (en minúscula con guion bajo):
     "schema_version": "1.0",
     "valid": false,
     "total_rows": 5,
-    "total_projects": null,
+    "total_projects": 5,
     "errors_count": 2,
     "warnings_count": 0,
     "issues_truncated": false,
     "issues": [
       {
         "severity": "error",
-        "code": "MISSING_COLUMN",
-        "message": "La columna obligatoria 'codigo_proyecto' no está presente en el archivo.",
-        "row": null,
-        "column": "codigo_proyecto",
+        "code": "required",
+        "message": "El campo 'titulo' es obligatorio.",
+        "row": 2,
+        "column": "titulo",
         "value": null
       },
       {
         "severity": "error",
-        "code": "MISSING_VALUE",
-        "message": "El campo 'titulo' es obligatorio y está vacío.",
-        "row": 2,
-        "column": "titulo",
-        "value": ""
+        "code": "invalid_money",
+        "message": "Debe contener solo números, sin signos de moneda ni separadores de miles (ej. 50000000).",
+        "row": 4,
+        "column": "valor_total",
+        "value": "$ 5.000.000"
+      }
+    ]
+  }
+}
+```
+
+```json 200 — falta una columna
+{
+  "data": {
+    "schema_version": "1.0",
+    "valid": false,
+    "total_rows": 5,
+    "total_projects": null,
+    "errors_count": 1,
+    "warnings_count": 0,
+    "issues_truncated": false,
+    "issues": [
+      {
+        "severity": "error",
+        "code": "missing_column",
+        "message": "Falta la columna obligatoria 'codigo_proyecto'.",
+        "row": null,
+        "column": "codigo_proyecto",
+        "value": null
       }
     ]
   }
@@ -162,5 +219,19 @@ El archivo debe incluir las siguientes columnas (en minúscula con guion bajo):
 
 ```json 400
 {"error": "Debe enviar el archivo en el campo 'file' (multipart/form-data)."}
+```
+
+```json 400 — formato no admitido
+{
+  "error": "Extensión '.xls' no soportada. Formatos admitidos: .xlsx. Si el archivo es .xls, ábralo en Excel y guárdelo como .xlsx."
+}
+```
+
+```json 401
+{"msg": "Token inválido o expirado", "success": false}
+```
+
+```json 413
+{"error": "El archivo supera el tamaño máximo de 10 MB."}
 ```
 </ResponseExample>

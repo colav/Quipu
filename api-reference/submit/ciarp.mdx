@@ -5,14 +5,18 @@ description: "Sube un Excel CIARP (.xlsx), lo valida y devuelve un reporte de ca
 ---
 
 <Note>
-  Requiere sesión activa. El JWT se lee desde la cookie `access_token_cookie`.
-  La solicitud debe enviarse como `multipart/form-data`.
+  Requiere sesión activa. El JWT se lee desde la cookie `access_token_cookie`
+  y la solicitud debe llevar el encabezado `X-CSRF-TOKEN`. Se envía como
+  `multipart/form-data`.
 </Note>
+
+El reporte de calidad se envía por correo cada vez que el archivo se puede validar. Si el archivo no tiene errores, además se guarda en la carpeta de la institución en Google Drive, o en el almacenamiento local del servidor si Drive falla.
 
 ## Cuerpo de la solicitud
 
 <ParamField body="file" type="file" required>
-  Archivo Excel `.xlsx` con los datos CIARP.
+  Archivo Excel `.xlsx` con los datos CIARP. Otro formato, un archivo que no se
+  puede leer o un archivo sin datos responden `400`.
 </ParamField>
 
 ## Respuesta
@@ -34,8 +38,14 @@ description: "Sube un Excel CIARP (.xlsx), lo valida y devuelve un reporte de ca
   Número de registros duplicados detectados.
 </ResponseField>
 
-<ResponseField name="pdf_base64" type="string">
-  Reporte de calidad en formato PDF codificado en Base64.
+<ResponseField name="pdf_base64" type="string | null">
+  Reporte de calidad en formato PDF codificado en Base64. `null` si el archivo
+  no tiene errores, advertencias ni duplicados.
+</ResponseField>
+
+<ResponseField name="file_msg" type="string">
+  Solo con `200`: resultado del guardado, con el nombre con el que quedó el
+  archivo.
 </ResponseField>
 
 <ResponseField name="msg" type="string">
@@ -45,7 +55,14 @@ description: "Sube un Excel CIARP (.xlsx), lo valida y devuelve un reporte de ca
 
 <ResponseExample>
 ```json 200
-{ "success": true, "errors": 0, "warnings": 3, "duplicates": 0, "pdf_base64": "JVBERi0xLjQKJ..." }
+{
+  "success": true,
+  "errors": 0,
+  "warnings": 3,
+  "duplicates": 0,
+  "pdf_base64": "JVBERi0xLjQKJ...",
+  "file_msg": "Archivo ciarp_example-institution-id_2026-10-15_14:32.xlsx guardado correctamente."
+}
 ```
 
 ```json 400
@@ -54,6 +71,10 @@ description: "Sube un Excel CIARP (.xlsx), lo valida y devuelve un reporte de ca
 
 ```json 400 — archivo con errores
 { "success": false, "errors": 2, "warnings": 1, "duplicates": 1, "pdf_base64": "JVBERi0xLjQKJ..." }
+```
+
+```json 400 — archivo vacío
+{ "success": false, "msg": "El archivo cargado está vacío. Verifique que contenga información." }
 ```
 
 ```json 401
@@ -66,7 +87,7 @@ description: "Sube un Excel CIARP (.xlsx), lo valida y devuelve un reporte de ca
   "errors": 1,
   "duplicates": 0,
   "msg": "El archivo enviado no cumple con el formato requerido de columnas",
-  "details": ["Columnas faltantes: identificacion"],
+  "details": ["Columnas faltantes: identificación"],
   "pdf_base64": "JVBERi0xLjQKJ..."
 }
 ```

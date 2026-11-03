@@ -5,21 +5,25 @@ description: "Sube un archivo comprimido de exportación SCIENTI para su procesa
 ---
 
 <Note>
-  Requiere sesión activa. El JWT se lee desde la cookie `access_token_cookie`.
-  La solicitud debe enviarse como `multipart/form-data`.
+  Requiere sesión activa. El JWT se lee desde la cookie `access_token_cookie`
+  y la solicitud debe llevar el encabezado `X-CSRF-TOKEN`. Se envía como
+  `multipart/form-data`.
 </Note>
+
+El archivo se guarda en la carpeta de la institución en Google Drive, o en el almacenamiento local del servidor si Drive falla. Solo después de guardarlo se envía el correo de confirmación de recibido.
 
 ## Cuerpo de la solicitud
 
 <ParamField body="file" type="file" required>
   Archivo comprimido de exportación SCIENTI. Formatos permitidos: `.zip`,
-  `.rar`, `.7z`, `.tar`, `.gz`, `.tgz`, `.bz2`, `.tar.gz`, `.tar.bz2`.
+  `.rar`, `.7z`, `.tar`, `.gz`, `.tgz`, `.bz2`, `.tar.gz`, `.tar.bz2`. Un
+  archivo vacío responde `400`.
 </ParamField>
 
 ## Respuesta
 
 <ResponseField name="success" type="boolean">
-  `true` si el archivo fue recibido y procesado correctamente.
+  `true` si el archivo fue guardado y se envió el correo de confirmación.
 </ResponseField>
 
 <ResponseField name="msg" type="string">
@@ -32,8 +36,14 @@ description: "Sube un archivo comprimido de exportación SCIENTI para su procesa
 </ResponseField>
 
 <ResponseField name="file_msg" type="string">
-  Información adicional sobre el archivo procesado.
+  Resultado del guardado, con el nombre con el que quedó el archivo.
 </ResponseField>
+
+<Note>
+  Si el archivo no se puede guardar, o se guarda pero falla el correo de
+  confirmación, responde `500` con el detalle en `storage_error` o
+  `email_error`.
+</Note>
 
 <ResponseExample>
 ```json 200
@@ -41,12 +51,16 @@ description: "Sube un archivo comprimido de exportación SCIENTI para su procesa
   "success": true,
   "msg": "Archivo SCIENTI recibido con éxito para ser validado.",
   "upload_date": "15/10/2026 14:32",
-  "file_msg": "Se procesaron 342 registros del archivo."
+  "file_msg": "Archivo scienti_example-institution-id_2026-10-15_14:32.zip guardado correctamente."
 }
 ```
 
 ```json 400
 { "success": false, "msg": "Archivo requerido" }
+```
+
+```json 400 — archivo vacío
+{ "success": false, "msg": "El archivo cargado está vacío. Verifique que contenga información." }
 ```
 
 ```json 401
@@ -57,6 +71,18 @@ description: "Sube un archivo comprimido de exportación SCIENTI para su procesa
 {
   "success": false,
   "msg": "Tipo de archivo no permitido. Los formatos soportados son: .zip, .rar, .7z, .tar, .gz, .tgz, .bz2, .tar.gz y .tar.bz2."
+}
+```
+
+```json 500
+{
+  "success": false,
+  "msg": "Archivo recibido pero falló el guardado",
+  "storage_error": {
+    "success": false,
+    "msg": "Error al guardar el archivo tanto en Drive como en local. Detalle: ...",
+    "location": null
+  }
 }
 ```
 </ResponseExample>
