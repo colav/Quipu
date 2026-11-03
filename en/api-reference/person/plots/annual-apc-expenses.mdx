@@ -1,0 +1,84 @@
+---
+title: "Annual APC expenses"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Annual APC expenses."
+sidebarTitle: "Annual APC expenses"
+---
+
+Annual APC expenses. Chart type: **Bar**.
+
+## Parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `annual_apc_expenses`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/person/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Response
+
+The response structure is identical to that of the equivalent indicator for [affiliations](/en/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Faculty
+{
+  "plot": [
+    {
+      "x": 2025,
+      "y": 3371
+    },
+    {
+      "x": 2024,
+      "y": 2613
+    },
+    {
+      "x": 2023,
+      "y": 5229
+    },
+    {
+      "x": 2022,
+      "y": 2086
+    }
+  ],
+  "total_apc": 27868,
+  "total_results": 6580
+}
+```
+
+```json Department
+{
+  "plot": [],
+  "total_apc": 0,
+  "total_results": 761
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "x": 2024,
+      "y": 8756
+    },
+    {
+      "x": 2023,
+      "y": 4681
+    },
+    {
+      "x": 2022,
+      "y": 1488
+    },
+    {
+      "x": 2021,
+      "y": 5660
+    }
+  ],
+  "total_apc": 108330,
+  "total_results": 800
+}
+```
+</ResponseExample>

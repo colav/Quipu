@@ -1,0 +1,101 @@
+---
+title: "Affiliation news"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/news"
+description: "Paginated list of the news associated with the authors of an affiliation."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+
+## Path parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type: `institution`, `faculty`, `department` or `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+## Query parameters
+
+<PaginationParams />
+
+<Note>
+  This endpoint does not accept the `sort` or `view` parameters, or product
+  filters. Only `max` and `page` apply.
+</Note>
+
+## Response
+
+<ResponseField name="data" type="array">
+  List of the affiliation's news.
+  <Expandable title="properties of each news item">
+    <ResponseField name="url_id" type="string | null">
+      Unique identifier of the news URL.
+    </ResponseField>
+    <ResponseField name="medium_id" type="string | null">
+      Identifier of the media outlet.
+    </ResponseField>
+    <ResponseField name="url" type="string | null">
+      Direct URL of the news item.
+    </ResponseField>
+    <ResponseField name="url_title" type="string | null">
+      Title of the news item.
+    </ResponseField>
+    <ResponseField name="url_language" type="string | null">
+      Language of the news item, in English and upper case (for example, `SPANISH`).
+    </ResponseField>
+    <ResponseField name="url_date" type="string | null">
+      Publication date of the news item.
+    </ResponseField>
+    <ResponseField name="medium" type="string | null">
+      URL of the media outlet's website.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "medium": "https://www.elcolombiano.com/",
+      "medium_id": "0",
+      "url": "https://www.elcolombiano.com/colombia/salud/antidepresivo-en-spray-que-preguntas-deja-BG10342074",
+      "url_date": "2019-03-08 00:01:00+00:00",
+      "url_id": "0_1071",
+      "url_language": "SPANISH",
+      "url_title": "Antidepresivo en spray, ¿qué preguntas deja?"
+    },
+    {
+      "medium": "https://www.elcolombiano.com/",
+      "medium_id": "0",
+      "url": "https://www.elcolombiano.com/colombia/salud/la-soledad-una-epidemia-moderna-IX8123749",
+      "url_date": "2018-02-02 23:00:20+00:00",
+      "url_id": "0_1117",
+      "url_language": "SPANISH",
+      "url_title": "La soledad, ¿una epidemia moderna?"
+    }
+  ],
+  "meta": {
+    "count": 2333,
+    "cursor": {
+      "next": "https://api.dev.impactu.colav.co/affiliation/institution/example-institution-id/research/news?max=2&page=2",
+      "previous": null
+    },
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

@@ -1,0 +1,22 @@
+---
+title: "Ping"
+api: "GET https://api.dev.impactu.colav.co/ping"
+description: "Checks that the API is online."
+---
+
+<Note>
+  This endpoint is for internal checks of the service status. It needs no
+  authentication.
+</Note>
+
+## Response
+
+<ResponseField name="ping" type="string">
+  Always `pong`.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{"ping": "pong"}
+```
+</ResponseExample>

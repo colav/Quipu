@@ -1,0 +1,182 @@
+---
+title: "Search geographic entities"
+api: "GET https://api.dev.impactu.colav.co/search/geo/{geo_type}"
+description: "Paginated search of cities and departments of Colombia."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+
+## Path parameters
+
+<ParamField path="geo_type" type="string" required>
+  Geographic entity type: `city` (cities) or `state` (departments).
+  Any other value returns a 400 error.
+</ParamField>
+
+## Query parameters
+
+<ParamField query="keywords" type="string">
+  Search text (name of the city or department).
+</ParamField>
+
+<PaginationParams />
+
+<ParamField query="sort" type="string">
+  Sort with the format `field_direction`, where the direction is `asc` or
+  `desc`. For geographic entities, `alphabetical` sorts by name. Example:
+  `alphabetical_asc`.
+</ParamField>
+
+<Note>This endpoint has no filters.</Note>
+
+## Response
+
+The structure changes with `geo_type`. The common fields are:
+
+<ResponseField name="data" type="array">
+  List of geographic entities.
+  <Expandable title="properties of each entity">
+    <ResponseField name="id" type="string">
+      Identifier (DANE code).
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Name.
+    </ResponseField>
+    <ResponseField name="type" type="string">
+      `city` or `state`.
+    </ResponseField>
+    <ResponseField name="country" type="string">
+      Country.
+    </ResponseField>
+    <ResponseField name="country_code" type="string">
+      Country code (for example, `CO`).
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers (`id`, `source`), such as the DANE code.
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Number of authors.
+    </ResponseField>
+    <ResponseField name="groups_count" type="integer">
+      Number of research groups.
+    </ResponseField>
+    <ResponseField name="institutions_count" type="integer">
+      Number of institutions.
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Number of products.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citations by source (`count`, `source`).
+    </ResponseField>
+    <ResponseField name="state" type="object">
+      Only with `city`: the department it belongs to (`id`, `name`).
+    </ResponseField>
+    <ResponseField name="latitude" type="number">
+      Only with `city`: latitude.
+    </ResponseField>
+    <ResponseField name="longitude" type="number">
+      Only with `city`: longitude.
+    </ResponseField>
+    <ResponseField name="cities_count" type="integer">
+      Only with `state`: number of cities.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200 — City
+{
+  "data": [
+    {
+      "authors_count": 0,
+      "citations_count": [{"count": 0, "source": "openalex"}],
+      "country": "Colombia",
+      "country_code": "CO",
+      "external_ids": [{"id": "20011", "source": "dane"}],
+      "groups_count": 5,
+      "id": "20011",
+      "institutions_count": 1,
+      "latitude": 8.306811,
+      "longitude": -73.614027,
+      "name": "Aguachica",
+      "products_count": 265,
+      "state": {"id": "20", "name": "Cesar"},
+      "type": "city"
+    },
+    {
+      "authors_count": 0,
+      "citations_count": [],
+      "country": "Colombia",
+      "country_code": "CO",
+      "external_ids": [{"id": "15022", "source": "dane"}],
+      "groups_count": 1,
+      "id": "15022",
+      "institutions_count": 2,
+      "latitude": 4.970857,
+      "longitude": -73.378933,
+      "name": "Almeida",
+      "products_count": 0,
+      "state": {"id": "15", "name": "Boyacá"},
+      "type": "city"
+    }
+  ],
+  "meta": {
+    "count": 135,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/geo/city?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 200 — Department
+{
+  "data": [
+    {
+      "authors_count": 221,
+      "citations_count": [{"count": 9907, "source": "openalex"}],
+      "cities_count": 1,
+      "country": "Colombia",
+      "country_code": "CO",
+      "external_ids": [{"id": "91", "source": "dane"}],
+      "groups_count": 552,
+      "id": "91",
+      "institutions_count": 3,
+      "name": "Amazonas",
+      "products_count": 571,
+      "type": "state"
+    },
+    {
+      "authors_count": 43836,
+      "citations_count": [{"count": 1172650, "source": "openalex"}],
+      "cities_count": 22,
+      "country": "Colombia",
+      "country_code": "CO",
+      "external_ids": [{"id": "05", "source": "dane"}],
+      "groups_count": 1117,
+      "id": "05",
+      "institutions_count": 178,
+      "name": "Antioquia",
+      "products_count": 295187,
+      "type": "state"
+    }
+  ],
+  "meta": {
+    "count": 31,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/geo/state?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{"error": "Invalid geo_type. Allowed values: city, state"}
+```
+</ResponseExample>

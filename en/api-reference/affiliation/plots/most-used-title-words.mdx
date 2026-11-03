@@ -1,0 +1,129 @@
+---
+title: "Most used words in titles"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Most frequent words in product titles."
+sidebarTitle: "Most used words in titles"
+---
+
+Most frequent words in product titles. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `most_used_title_words`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Response
+
+<ResponseExample>
+```json Institution
+{
+  "plot": [
+    {
+      "name": "colombia",
+      "value": 14507
+    },
+    {
+      "name": "antioquia",
+      "value": 7829
+    },
+    {
+      "name": "medellín",
+      "value": 7630
+    },
+    {
+      "name": "estudio",
+      "value": 4809
+    }
+  ]
+}
+```
+
+```json Faculty
+{
+  "plot": [
+    {
+      "name": "educación",
+      "value": 1124
+    },
+    {
+      "name": "formación",
+      "value": 809
+    },
+    {
+      "name": "enseñanza",
+      "value": 519
+    },
+    {
+      "name": "educativo",
+      "value": 513
+    }
+  ]
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "name": "danza",
+      "value": 107
+    },
+    {
+      "name": "cuerpo",
+      "value": 78
+    },
+    {
+      "name": "teatro",
+      "value": 60
+    },
+    {
+      "name": "creación",
+      "value": 54
+    }
+  ]
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "name": "colombia",
+      "value": 224
+    },
+    {
+      "name": "antioquia",
+      "value": 161
+    },
+    {
+      "name": "paratuberculosis",
+      "value": 76
+    },
+    {
+      "name": "bovino",
+      "value": 65
+    }
+  ]
+}
+```
+</ResponseExample>

@@ -1,0 +1,188 @@
+---
+title: "Get a source"
+api: "GET https://api.dev.impactu.colav.co/source/{source_id}"
+description: "Returns a source (journal, conference or other type of publication) from its identifier."
+---
+
+import ViewParam from "/snippets/en/view-param.mdx";
+import EntityMeta from "/snippets/en/entity-meta.mdx";
+
+## Path parameters
+
+<ParamField path="source_id" type="string" required>
+  Source identifier. Example: `6aad68732be7843cde64e41b`.
+</ParamField>
+
+## Query parameters
+
+<ViewParam />
+
+`max`, `page` and `sort` do not apply.
+
+## Response
+
+<ResponseField name="data" type="object">
+  The requested source.
+  <Expandable title="properties">
+    <ResponseField name="id" type="string">
+      Source identifier.
+    </ResponseField>
+    <ResponseField name="names" type="object[]">
+      Names of the source by data source (`name`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="abbreviations" type="string[]">
+      Abbreviations of the name.
+    </ResponseField>
+    <ResponseField name="type" type="string">
+      Main type of the source (for example `journal`).
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Types by data source (`type`, `source`).
+    </ResponseField>
+    <ResponseField name="publisher" type="object">
+      Publisher: `id`, `name`, `country_code`.
+    </ResponseField>
+    <ResponseField name="languages" type="string[]">
+      Publication languages (ISO 639-1 codes, for example `"EN"`, `"ES"`).
+    </ResponseField>
+    <ResponseField name="keywords" type="string[]">
+      Keywords that describe the scope of the source.
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Subject areas grouped by classification source (LCC, Scimago…).
+    </ResponseField>
+    <ResponseField name="topics" type="object[]">
+      OpenAlex topics associated with the source.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Classifications of the source: Scimago quartile, h-index, etc. Each entry
+      includes `rank`, `source`, `from_date`, `to_date` and `order`.
+    </ResponseField>
+    <ResponseField name="scimago_best_quartile" type="string | null">
+      Best recorded Scimago quartile (for example `"Q1"`).
+    </ResponseField>
+    <ResponseField name="apc" type="object">
+      APC information: `charges` (amount), `currency` and `paid`.
+    </ResponseField>
+    <ResponseField name="open_access_status" type="string | null">
+      Open access status (`diamond`, `gold`, `hybrid`, `closed`…).
+    </ResponseField>
+    <ResponseField name="open_access_start_year" type="integer | null">
+      Year since which the source is open access.
+    </ResponseField>
+    <ResponseField name="licenses" type="object[]">
+      Publication licenses. Each entry includes `type` (for example
+      `CC BY`), `url`, and the attributes `BY`, `NC`, `ND`, `SA`.
+    </ResponseField>
+    <ResponseField name="copyright" type="object">
+      Copyright policy: `author_retains` (boolean) and `url`.
+    </ResponseField>
+    <ResponseField name="waiver" type="object">
+      APC waiver policy: `has_waiver` (boolean) and `url`.
+    </ResponseField>
+    <ResponseField name="review_processes" type="string[]">
+      Types of peer review (for example `"Double anonymous peer review"`).
+    </ResponseField>
+    <ResponseField name="plagiarism_detection" type="boolean | null">
+      Whether the source uses plagiarism detection.
+    </ResponseField>
+    <ResponseField name="publication_time_weeks" type="integer | null">
+      Average publication time in weeks.
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Number of products by Colombian authors in this source.
+    </ResponseField>
+    <ResponseField name="global_products_count" type="integer">
+      Total number of products in the source.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citations by data source (`count`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="global_citations_count" type="integer">
+      Total citations of the source.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers: electronic ISSN (`eissn`), print ISSN
+      (`pissn`), Scimago, OpenAlex, Scienti, among others.
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      External links: journal website, open access policy, etc.
+      (`url`, `source`).
+    </ResponseField>
+    <ResponseField name="addresses" type="array">
+      Addresses of the publishing institution.
+    </ResponseField>
+    <ResponseField name="relations" type="array">
+      Relations with other entities.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Last update by data source (`source`, `time` in Unix seconds).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<EntityMeta />
+
+<ResponseExample>
+```json 200
+{
+  "data": {
+    "abbreviations": [],
+    "addresses": [],
+    "apc": {},
+    "citations_count": [],
+    "copyright": {"author_retains": true, "url": "https://journals.uni-lj.si/keria/about/submissions"},
+    "external_ids": [{"id": "1580-0261", "source": "issn"}],
+    "external_urls": [{"source": "aims_scope", "url": "https://journals.uni-lj.si/keria/about"}],
+    "global_citations_count": 171,
+    "global_products_count": 694,
+    "id": "6aad68732be7843cde64e41b",
+    "keywords": ["greek and latin studies"],
+    "languages": ["EN"],
+    "licenses": [
+      {
+        "BY": true,
+        "NC": false,
+        "ND": false,
+        "SA": true,
+        "type": "CC BY-SA",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+      }
+    ],
+    "names": [{"lang": "en", "name": "Keria: Studia Latina et Graeca", "source": "doaj"}],
+    "open_access_start_year": 1999,
+    "open_access_status": "diamond",
+    "plagiarism_detection": false,
+    "products_count": 0,
+    "publication_time_weeks": 20,
+    "publisher": {"country_code": "SI", "id": "", "name": "University of Ljubljana Press (Založba Univerze v Ljubljani)"},
+    "ranking": [{"from_date": 1546318800, "order": 33103, "rank": "-", "source": "scimago Best Quartile", "to_date": 1577768400}],
+    "relations": [],
+    "review_processes": ["Double anonymous peer review"],
+    "scimago_best_quartile": "Q2",
+    "subjects": [
+      {
+        "source": "LCC",
+        "subjects": [
+          {
+            "external_ids": [{"id": "PA", "source": "LCC"}],
+            "id": "",
+            "name": "Greek language and literature. Latin language and literature"
+          }
+        ]
+      }
+    ],
+    "topics": [],
+    "type": "journal",
+    "types": [{"source": "doaj", "type": "journal"}],
+    "updated": [{"source": "doaj", "time": 1789749363}],
+    "waiver": {"has_waiver": false}
+  },
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 404
+{"error": "The source with id 000000000000000000000000 does not exist."}
+```
+</ResponseExample>

@@ -1,0 +1,85 @@
+---
+title: "Edit user"
+api: "PUT https://api.dev.impactu.colav.co/admin/users/{email}"
+description: "Updates the email address and/or the role of a user. The admin role cannot be assigned and admin accounts cannot be edited."
+---
+
+<Note>
+  Requires an active session with the `admin` role. Only active accounts that are not
+  `admin` can be edited; otherwise it returns `403`.
+</Note>
+
+## Path parameters
+
+<ParamField path="email" type="string" required>
+  Current email address of the user to edit.
+</ParamField>
+
+## Request body
+
+At least one of the two fields is mandatory, and both must be text. Any other field returns `400`.
+
+<ParamField body="email" type="string">
+  New email address. If another user already uses it, it returns `409`.
+</ParamField>
+
+<ParamField body="role" type="string">
+  New role. It cannot be `admin`.
+</ParamField>
+
+### Email change
+
+Changing the email generates a new password and sends it to the new email; the old one stops working. The email is sent before the change is saved: if it cannot be sent, it returns `502` and the user keeps their email and password.
+
+If only the role changes, no email is sent.
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  `true` if the update succeeded.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Confirmation or error message.
+</ResponseField>
+
+<ResponseExample>
+```json 200 — role
+{ "success": true, "msg": "Rol del usuario usuario@example.com actualizado correctamente." }
+```
+
+```json 200 — email
+{
+  "success": true,
+  "msg": "Correo del usuario actualizado correctamente y notificación enviada a nuevo@example.com."
+}
+```
+
+```json 400
+{ "success": false, "msg": "Debes enviar al menos email o rol." }
+```
+
+```json 400 — no changes
+{ "success": false, "msg": "No se detectaron cambios para actualizar." }
+```
+
+```json 403
+{ "success": false, "msg": "No se puede asignar el rol 'admin' a un usuario." }
+```
+
+```json 404
+{ "success": false, "msg": "Usuario con correo usuario@example.com no encontrado." }
+```
+
+```json 409
+{ "success": false, "msg": "Ya existe un usuario con el correo nuevo@example.com" }
+```
+
+```json 401
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
+```
+
+```json 502
+{ "success": false, "msg": "No se pudo enviar el correo con las credenciales. No se guardó ningún cambio." }
+```
+</ResponseExample>

@@ -1,0 +1,276 @@
+---
+title: "Introduction"
+description: "Learn the general structure of the ImpactU API: base URL, response format, pagination, filters and errors."
+sidebarTitle: "Endpoints home"
+---
+
+import MetaResponse from "/snippets/en/meta-response.mdx";
+
+The ImpactU API is a REST API that returns scientific and academic information in JSON: persons, products, affiliations, sources, patents, projects and geographic entities. Querying is public and read-only. With a session, the API also lets you manage users and upload institutions' files.
+
+## Base URL
+
+```text
+https://api.dev.impactu.colav.co
+```
+
+Every path in this documentation is appended to that URL. For example, `GET /search/works` is requested at `https://api.dev.impactu.colav.co/search/works`.
+
+## Response format
+
+Responses are JSON and take two shapes, depending on the type of endpoint.
+
+<Tabs>
+  <Tab title="A resource">
+    Endpoints that return a single entity wrap the result in `data` and add `meta`, with the same shape as in lists (`count` is `1`).
+
+    ```json
+    {
+      "data": { "...": "..." },
+      "meta": {
+        "count": 1,
+        "page": 1,
+        "size": 1,
+        "db_response_time_ms": 25,
+        "cursor": { "next": null, "previous": null }
+      }
+    }
+    ```
+
+  </Tab>
+  <Tab title="A list">
+    Search endpoints return a list in `data` and the pagination data in `meta`.
+
+    ```json
+    {
+      "data": [ { "...": "..." } ],
+      "meta": {
+        "count": 1542618,
+        "page": 1,
+        "size": 10,
+        "db_response_time_ms": 348,
+        "cursor": { "next": "https://...", "previous": null }
+      }
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+Some endpoints return the object without the `data` wrapper: the available filters, the related affiliations (of an affiliation or of a geographic entity), `/info` and `/info/quality`. Exports return a CSV or Excel file.
+
+### The `meta` field of lists
+
+<MetaResponse />
+
+## List conventions
+
+The search endpoints share these query parameters.
+
+<ParamField query="keywords" type="string">
+  Search text. Used by search-box queries.
+</ParamField>
+
+<ParamField query="max" type="integer" default="10">
+  Results per page, from 1 to 250.
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  Page number.
+</ParamField>
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`, where the direction is `asc` or
+  `desc`. The valid fields depend on the entity and are described in each
+  endpoint.
+</ParamField>
+
+<ParamField query="view" type="string" default="full">
+  Level of detail of the response: `full` (every field) or `summary` (only the
+  main fields). Accepted by lists and entity details, except the search and
+  detail of geographic entities and news.
+</ParamField>
+
+In addition, each list has its own filters. All of them accept several values separated by commas (for example, `years=2020,2026`), and the valid options can be looked up in each entity's available-filters endpoint.
+
+<Note>
+  If you don't send `max`, `page` or `sort`, `max=10`, `page=1` and
+  `sort=citations_desc` apply. If you send `max` and `page` without `sort`,
+  `sort=citations_desc` applies.
+</Note>
+
+## Data and formats
+
+<AccordionGroup>
+  <Accordion title="Dates" icon="calendar">
+    Dates are given in Unix seconds. In end dates, a value of `-1` means the relationship is still current.
+  </Accordion>
+
+  <Accordion title="Identifiers" icon="fingerprint">
+    Each entity has its own identifier format:
+
+    | Entity | Example |
+    | --- | --- |
+    | Institution | `03bp5hc83` (ROR identifier) |
+    | Faculty | `03bp5hc83_20` |
+    | Department | `03bp5hc83_2_21620003_3154` |
+    | Research group | `COL0001262` |
+    | Person | `0000000001` |
+    | Product, source | `6ab555045418a51e325f5303` |
+
+  </Accordion>
+
+  <Accordion title="Information by source" icon="layer-group">
+    Many fields (names, citations, types, rankings) return one item per information source, with the fields `source` and `provenance`.
+  </Accordion>
+</AccordionGroup>
+
+## Authentication and limits
+
+The query endpoints are public: they need no authentication and, for now, have no request limit.
+
+A session is required for user administration (`/admin/users`), API key management (`/users/{email}/apikey`), the session status (`/me`) and every file upload (`/submit/staff`, `/submit/ciarp`, `/submit/scienti` and `/submit/project`). The session is the JWT that [Log in](/en/api-reference/auth/login) stores in the HttpOnly cookie `access_token_cookie`.
+
+- **CSRF token.** Session requests other than `GET` (`POST`, `PUT`, `PATCH` and `DELETE`) must send the `X-CSRF-TOKEN` header with the value of the `csrf_access_token` cookie, which logging in also creates. Without that header they return `401`.
+- **Deactivated accounts.** Every session request checks that the account is still active. If an administrator deactivates it, or the account no longer exists, the token stops working at once and the request returns `403`, even if the token has not expired.
+
+## Errors
+
+When a request fails, the API responds with the HTTP code for the case and a message in `error`:
+
+| Code | When |
+| --- | --- |
+| `400` | A parameter is invalid: for example `max=0`, a badly formed `sort`, a `fields` field that is not allowed or a JSON body that is not an object. |
+| `401` | The session is missing, the token is not valid or the `X-CSRF-TOKEN` header is missing. |
+| `403` | The session has no permission for the operation or the account is deactivated. |
+| `404` | The entity does not exist. |
+| `409` | The operation clashes with an existing record, for example when creating a user. |
+| `413` | The file exceeds the maximum size. Only in [Validate projects file](/en/api-reference/submit/project), with a maximum of 10 MB. |
+| `415` | The file type is not allowed. Only in [Send SCIENTI file](/en/api-reference/submit/scienti). |
+| `422` | The Staff or CIARP Excel file is missing columns or has unnamed columns. |
+| `500` | Unexpected server error. |
+| `502` | The email with the credentials could not be sent when creating a user, changing their email or resetting their password. No change is saved, so it can be retried. |
+
+```json
+{ "error": "The person with id 9999999999 does not exist." }
+```
+
+The authentication, user and file-upload endpoints respond with `{ "success": false, "msg": "..." }` instead of `error`. [Validate projects file](/en/api-reference/submit/project) uses `error` for file problems (`400` and `413`) and `msg` for session problems (`401` and `403`).
+
+Lists of an entity that does not exist (for example, the products of a nonexistent author) return `200` with an empty list.
+
+<Note>
+  The API's own messages (the values of `error` and `msg`) are in Spanish. The
+  response examples show them as the API returns them.
+</Note>
+
+## Available endpoints
+
+<CardGroup cols={2}>
+  <Card
+    title="Search"
+    icon="magnifying-glass"
+    href="/en/api-reference/search/persons"
+  >
+    Search for persons, products, affiliations, sources, patents, projects
+    and geography, with their available-filters endpoints.
+  </Card>
+  <Card
+    title="Affiliation"
+    icon="building-columns"
+    href="/en/api-reference/affiliation/get-affiliation"
+  >
+    An affiliation (institution, faculty, department or group), its related
+    affiliations and its products, with filters, export and 30 indicators,
+    patents, projects and news.
+  </Card>
+  <Card
+    title="Person"
+    icon="user"
+    href="/en/api-reference/person/get-person"
+  >
+    An author's profile and their products, with filters, export and 16
+    indicators, patents, projects and news.
+  </Card>
+  <Card
+    title="Source"
+    icon="book"
+    href="/en/api-reference/source/get-source"
+  >
+    A source (journal, conference or other publication) and its products,
+    with filters, export and 1 indicator.
+  </Card>
+  <Card
+    title="Work"
+    icon="file-lines"
+    href="/en/api-reference/work/get-work"
+  >
+    A bibliographic product by its identifier or by DOI, and the full list of
+    its authors.
+  </Card>
+  <Card
+    title="Patent"
+    icon="lightbulb"
+    href="/en/api-reference/patent/get-patent"
+  >
+    A patent and its authors.
+  </Card>
+  <Card
+    title="Project"
+    icon="diagram-project"
+    href="/en/api-reference/project/get-project"
+  >
+    A research project and its authors.
+  </Card>
+  <Card
+    title="Geo"
+    icon="map-location-dot"
+    href="/en/api-reference/geo/get-geo"
+  >
+    A department or a city, with its affiliations and its products.
+  </Card>
+  <Card
+    title="APC"
+    icon="money-bill"
+    href="/en/api-reference/apc/search"
+  >
+    CSV export of the APC data of a search, an author or an affiliation.
+  </Card>
+  <Card
+    title="Completer"
+    icon="keyboard"
+    href="/en/api-reference/completer/get-person"
+  >
+    Autocomplete suggestions for authors, affiliations and sources.
+  </Card>
+  <Card
+    title="Authentication"
+    icon="right-to-bracket"
+    href="/en/api-reference/auth/login"
+  >
+    Logging in and out, and the session status.
+  </Card>
+  <Card
+    title="Users"
+    icon="users"
+    href="/en/api-reference/users/list-users"
+  >
+    User administration, with the admin role, and management of your own API
+    key.
+  </Card>
+  <Card
+    title="Submit"
+    icon="upload"
+    href="/en/api-reference/submit/staff"
+  >
+    Upload and validation of institutions' files: Staff, CIARP, SCIENTI and
+    projects.
+  </Card>
+  <Card
+    title="System"
+    icon="server"
+    href="/en/api-reference/system/get-info"
+  >
+    General counts, data-quality metrics and ping.
+  </Card>
+</CardGroup>

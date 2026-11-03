@@ -1,0 +1,87 @@
+---
+title: "Available affiliation filters"
+api: "GET https://api.dev.impactu.colav.co/search/affiliations/{affiliation_type}/filters"
+description: "Options available to filter the affiliation search, with their number of results."
+---
+
+Returns the values you can use in the filters of [Search affiliations](/en/api-reference/search/affiliations).
+The options and their counts depend on the criteria you send: only those that exist within that result are returned.
+
+## Path parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type: `institution`, `faculty`, `department` or `group`.
+</ParamField>
+
+## Query parameters
+
+All are optional.
+
+<ParamField query="keywords" type="string">
+  Search text (affiliation name).
+</ParamField>
+
+<ParamField query="states" type="string">
+  Departments. Accepts several values separated by commas. Example:
+  `Antioquia,Tolima`.
+</ParamField>
+
+<ParamField query="cities" type="string">
+  Cities. Accepts several values separated by commas. Example: `Bogotá,Cali`.
+</ParamField>
+
+<ParamField query="groups_ranking" type="string">
+  Current classification of the group. Accepts several values separated by commas.
+  Example: `A1,A2`.
+</ParamField>
+
+## Response
+
+All fields are option lists with the same structure:
+
+<ResponseField name="states" type="object[]">
+  Available departments.
+  <Expandable title="properties of each option">
+    <ResponseField name="value" type="string">
+      Value to send in the filter.
+    </ResponseField>
+    <ResponseField name="label" type="string">
+      Normalized name to display.
+    </ResponseField>
+    <ResponseField name="count" type="integer">
+      Number of associated affiliations.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="cities" type="object[]">
+  Available cities. Same structure as `states`.
+</ResponseField>
+
+<ResponseField name="groups_ranking" type="object[]">
+  Current group classifications (for example, `A1`, `A`, `B`, `C`).
+  Same structure as `states`. Only returned with `affiliation_type=group`.
+</ResponseField>
+
+<ResponseExample>
+```json 200 — Institution
+{
+  "cities": [{"count": 907, "label": "Londres", "value": "Londres"}],
+  "states": [{"count": 2640, "label": "England", "value": "England"}]
+}
+```
+
+```json 200 — Group
+{
+  "cities": [{"count": 2483, "label": "Bogotá", "value": "Bogotá"}],
+  "groups_ranking": [{"count": 2732, "label": "C", "value": "C"}],
+  "states": [{"count": 2135, "label": "Bogotá", "value": "Bogotá"}]
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

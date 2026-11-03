@@ -1,0 +1,62 @@
+---
+title: "List users"
+api: "GET https://api.dev.impactu.colav.co/admin/users"
+description: "Returns the list of all the platform's users (excluding admin accounts). Only accessible with the admin role."
+---
+
+<Note>
+  Requires an active session with the `admin` role. The JWT is read from the cookie
+  `access_token_cookie`.
+</Note>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  `true` if the operation succeeded.
+</ResponseField>
+
+<ResponseField name="data" type="object[]">
+  List of users.
+  <Expandable title="properties of each user">
+    <ResponseField name="id" type="string">
+      ROR identifier of the user's institution.
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      Email address.
+    </ResponseField>
+    <ResponseField name="institution" type="string">
+      Name of the institution.
+    </ResponseField>
+    <ResponseField name="role" type="string">
+      User's role.
+    </ResponseField>
+    <ResponseField name="is_active" type="boolean">
+      Whether the account is active.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": [
+    {
+      "id": "example-institution-id",
+      "email": "usuario@example.com",
+      "institution": "Universidad Ejemplo",
+      "role": "staff",
+      "is_active": true
+    }
+  ]
+}
+```
+
+```json 401
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
+```
+
+```json 403
+{ "success": false, "msg": "Permiso denegado: No pueden realizar esta acción." }
+```
+</ResponseExample>

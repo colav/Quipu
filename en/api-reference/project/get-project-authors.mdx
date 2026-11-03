@@ -1,0 +1,122 @@
+---
+title: "Project authors"
+api: "GET https://api.dev.impactu.colav.co/project/{project_id}/authors"
+description: "Returns the list of authors of a research project."
+---
+
+import EntityMeta from "/snippets/en/entity-meta.mdx";
+
+## Path parameters
+
+<ParamField path="project_id" type="string" required>
+  Project identifier. Example: `6ab4ac4e5418a51e324cc06c`.
+</ParamField>
+
+## Query parameters
+
+<ParamField query="view" type="string" default="full">
+  Level of detail. With `summary`, each author carries only `id`, `full_name`,
+  `type` and `affiliations`, and fields without data are left out.
+</ParamField>
+
+The full author list is also in the `authors` field of [Get a project](/en/api-reference/project/get-project).
+
+## Response
+
+<ResponseField name="data" type="object[]">
+  List of the project's authors.
+  <Expandable title="properties of each author">
+    <ResponseField name="id" type="string">
+      Author identifier.
+    </ResponseField>
+    <ResponseField name="full_name" type="string">
+      Full name.
+    </ResponseField>
+    <ResponseField name="first_names" type="string[] | null">
+      First names.
+    </ResponseField>
+    <ResponseField name="last_names" type="string[] | null">
+      Last names.
+    </ResponseField>
+    <ResponseField name="sex" type="string | null">
+      Sex of the author.
+    </ResponseField>
+    <ResponseField name="affiliations" type="object[]">
+      Author's affiliations: `id`, `name`, `types`, `start_date`, `end_date`.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers: scienti, ORCID, Scholar, etc.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[] | null">
+      Author classifications (for example, from Minciencias).
+    </ResponseField>
+    <ResponseField name="h_index" type="integer | null">
+      H-index.
+    </ResponseField>
+    <ResponseField name="h5_index" type="integer | null">
+      H-index of the last 5 years.
+    </ResponseField>
+    <ResponseField name="type" type="string | null">
+      Role of the author in the product, when the source records it (for example,
+      in theses).
+    </ResponseField>
+    <ResponseField name="countries" type="string[] | null">
+      Countries associated with the author.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<EntityMeta />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "affiliations": [
+        {
+          "addresses": null,
+          "end_date": null,
+          "external_ids": null,
+          "h5_index": null,
+          "h_index": null,
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "position": null,
+          "ranking": null,
+          "ror": null,
+          "start_date": null,
+          "types": [
+            {
+              "code": null,
+              "level": null,
+              "provenance": null,
+              "source": "minciencias",
+              "type": "group",
+              "type_class": null
+            }
+          ],
+          "years": []
+        }
+      ],
+      "countries": null,
+      "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
+      "first_names": null,
+      "full_name": "María Ejemplo García",
+      "h5_index": null,
+      "h_index": null,
+      "id": "0000000001",
+      "last_names": null,
+      "ranking": null,
+      "sex": null,
+      "type": null
+    }
+  ],
+  "meta": {"count": 1, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 1}
+}
+```
+
+```json 404
+{"error": "The project with id 000000000000000000000000 does not exist."}
+```
+</ResponseExample>

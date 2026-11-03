@@ -1,0 +1,70 @@
+---
+title: "Log in"
+api: "POST https://api.dev.impactu.colav.co/login"
+description: "Authenticates with email and password. If valid, sets an HttpOnly cookie with the session JWT."
+---
+
+## Request body
+
+A JSON object with both fields as text. If either is missing, empty or not text, it returns `400`.
+
+<ParamField body="email" type="string" required>
+  User's email address.
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  User's password.
+</ParamField>
+
+<Note>
+  The JWT is **not** returned in the response body. It is set
+  automatically as the HttpOnly cookie `access_token_cookie`. Later calls
+  to protected endpoints must include this cookie. Logging in
+  also creates the `csrf_access_token` cookie: its value goes in the
+  `X-CSRF-TOKEN` header of session requests other than `GET`.
+</Note>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  `true` if authentication succeeded.
+</ResponseField>
+
+<ResponseField name="_id" type="string">
+  ROR identifier of the institution associated with the user.
+</ResponseField>
+
+<ResponseField name="institution" type="string">
+  Name of the institution.
+</ResponseField>
+
+<ResponseField name="role" type="string">
+  User's role on the platform (`admin`, `staff`, etc.).
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "_id": "example-institution-id",
+  "institution": "Universidad Ejemplo",
+  "role": "staff"
+}
+```
+
+```json 400
+{"msg": "correo y contraseña requeridos", "success": false}
+```
+
+```json 400 — invalid body
+{ "success": false, "msg": "El cuerpo de la petición debe ser un objeto JSON." }
+```
+
+```json 401
+{"msg": "Usuario con correo usuario@example.com no encontrado o contraseña no conciden", "success": false}
+```
+
+```json 403
+{ "success": false, "msg": "El usuario está desactivado. Contacte al administrador del sistema" }
+```
+</ResponseExample>

@@ -1,0 +1,107 @@
+---
+title: "Articles per year from the top publishers"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Articles per year from the top publishers."
+sidebarTitle: "Articles per year from the top publishers"
+---
+
+Articles per year from the top publishers. Chart type: **Bar**.
+
+## Parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `annual_articles_by_top_publishers`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/person/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Response
+
+The response structure is identical to that of the equivalent indicator for [affiliations](/en/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Faculty
+{
+  "plot": [
+    {
+      "type": "Rede de Pesquisa Empírica em Direito",
+      "x": 2026,
+      "y": 1
+    },
+    {
+      "type": "Sin información",
+      "x": 2025,
+      "y": 57
+    },
+    {
+      "type": "Universidad de Manizales",
+      "x": 2025,
+      "y": 5
+    },
+    {
+      "type": "Springer Verlag",
+      "x": 2025,
+      "y": 3
+    }
+  ]
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "type": "Sin información",
+      "x": 2025,
+      "y": 10
+    },
+    {
+      "type": "Editorial Universidad de Antioquia",
+      "x": 2025,
+      "y": 1
+    },
+    {
+      "type": "UNIVERSIDAD PEDAGÓGICA NACIONAL ",
+      "x": 2025,
+      "y": 1
+    },
+    {
+      "type": "Universidad Complutense de Madrid",
+      "x": 2025,
+      "y": 1
+    }
+  ]
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "type": "Universidad de La Salle",
+      "x": 2026,
+      "y": 1
+    },
+    {
+      "type": "Sin información",
+      "x": 2024,
+      "y": 5
+    },
+    {
+      "type": "Elsevier B.V.",
+      "x": 2024,
+      "y": 2
+    },
+    {
+      "type": "W.B. Saunders",
+      "x": 2024,
+      "y": 2
+    }
+  ]
+}
+```
+</ResponseExample>

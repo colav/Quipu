@@ -1,0 +1,79 @@
+The response is an object with one field per filter. A filter appears only if it has options within the result: if there is no data for it, the field is left out.
+
+### Option lists
+
+<ResponseField name="authors_ranking" type="object[]">
+  Author classifications (Minciencias).
+  <Expandable title="properties">
+    <ResponseField name="value" type="string">
+      Value to send in the filter.
+    </ResponseField>
+    <ResponseField name="label" type="string">
+      Text to display.
+    </ResponseField>
+    <ResponseField name="count" type="integer">
+      Number of records.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="groups_ranking" type="object[]">
+  Research group classifications (`A1`, `A`, `B`, `C`, `Reconocido`). Same
+  structure as `authors_ranking`.
+</ResponseField>
+
+<ResponseField name="countries" type="object[]">
+  Countries of the authors' affiliations. `value` is the country code (for
+  example, `CO`) and `label` its name.
+</ResponseField>
+
+<ResponseField name="institutions_type" type="object[]">
+  Co-authors' institution types (according to ROR): `education`, `funder`,
+  `healthcare`, `company`, `archive`, `nonprofit`, `government`, `facility` and
+  `other`.
+</ResponseField>
+
+### Ranges
+
+<ResponseField name="years" type="object">
+  Range of publication years.
+  <Expandable title="properties">
+    <ResponseField name="min_year" type="integer | null">
+      Earliest year.
+    </ResponseField>
+    <ResponseField name="max_year" type="integer | null">
+      Latest year.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="authors_count" type="object">
+  Range of the number of authors per product.
+  <Expandable title="properties">
+    <ResponseField name="min_authors" type="integer | null">
+      Minimum number of authors.
+    </ResponseField>
+    <ResponseField name="max_authors" type="integer | null">
+      Maximum number of authors.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Option trees
+
+These fields are lists of nodes with `value`, `title`, `count` and, if they group others, `children`.
+
+<ResponseField name="product_types" type="object[]">
+  Product types grouped by source (for example, `impactu`). The `value` of each
+  child carries the source prefix: `impactu_Artículo de revista`.
+</ResponseField>
+
+<ResponseField name="status" type="object[]">
+  Open access status. The `open` node groups `diamond`, `green`, `hybrid`,
+  `gold` and `bronze`; `closed` has no children.
+</ResponseField>
+
+<ResponseField name="topics" type="object[]">
+  OpenAlex topics in a hierarchy (domain, field, subfield and topic). The
+  `value` of each node is its OpenAlex URL.
+</ResponseField>

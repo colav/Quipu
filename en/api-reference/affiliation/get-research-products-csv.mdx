@@ -1,0 +1,48 @@
+---
+title: "Export products to CSV"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products/csv"
+description: "Downloads an affiliation's research products as CSV, or the data of an indicator when the plot parameter is used."
+---
+
+import WorksFilterParams from "/snippets/en/works-filter-params.mdx";
+import WorksExportColumns from "/snippets/en/works-export-columns.mdx";
+
+This endpoint has two modes:
+
+- **Product export** (without `plot`): downloads a CSV with all the affiliation's products, applying the active filters.
+- **Indicator export** (with `plot`): downloads a CSV with the data of the given indicator instead of the product list.
+
+## Path parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type: `institution`, `faculty`, `department` or `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+## Query parameters
+
+<ParamField query="plot" type="string">
+  Name of the indicator to export. With this parameter the indicator's CSV is
+  downloaded instead of the product list. See the [indicator
+  catalogue](/en/api-reference/affiliation/plots/overview).
+</ParamField>
+
+### Filters
+
+The same filters as [Search products](/en/api-reference/search/works). They also
+apply when `plot` is used.
+
+<WorksFilterParams />
+
+## Response
+
+Attached CSV file (`Content-Type: text/csv; charset=utf-8`).
+
+**Without `plot`** — file name `affiliations.csv`, with the following columns:
+
+<WorksExportColumns />
+
+**With `plot`** — file name `<indicator_name>.csv`. Each indicator has its own columns; see the [indicator catalogue](/en/api-reference/affiliation/plots/overview).

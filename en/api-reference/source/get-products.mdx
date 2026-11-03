@@ -1,0 +1,78 @@
+---
+title: "Source products"
+api: "GET https://api.dev.impactu.colav.co/source/{source_id}/products"
+description: "Paginated list of the research products published in a source, or one of its indicators with the plot parameter."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import WorksFilterParams from "/snippets/en/works-filter-params.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+import FieldsParam from "/snippets/en/fields-param.mdx";
+import WorksListResponse from "/snippets/en/works-list-response.mdx";
+
+This endpoint has two modes:
+
+- **Product list** (without `plot`): returns the products published in the source, with pagination, sorting and filters.
+- **Indicators** (with `plot`): returns the data of one of the source's indicators. See the [indicator catalogue](/en/api-reference/source/plots/overview).
+
+## Path parameters
+
+<ParamField path="source_id" type="string" required>
+  Source identifier. Example: `6aad68732be7843cde64e41b`.
+</ParamField>
+
+## Query parameters
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`, where the direction is `asc` or
+  `desc`. Available fields: `citations`, `alphabetical` (by title) and `year`
+  (publication year). Example: `year_desc`.
+</ParamField>
+
+<ViewParam />
+
+<FieldsParam />
+
+<ParamField query="plot" type="string">
+  Name of the indicator to return. With this parameter the response is the
+  indicator, without pagination. See the [indicator
+  catalogue](/en/api-reference/source/plots/overview).
+</ParamField>
+
+### Filters
+
+The same filters as [Search products](/en/api-reference/search/works). They also apply to indicators. All of them accept several values separated by commas.
+
+<WorksFilterParams />
+
+The valid options can be looked up in [Source product filters](/en/api-reference/source/get-products-filters).
+
+<Note>
+  If you don't send `max`, `page` or `sort`, `max=10`, `page=1` and
+  `sort=citations_desc` apply. If you send `max` and `page` without `sort`,
+  `sort=citations_desc` applies.
+</Note>
+
+## List response
+
+<WorksListResponse />
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [],
+  "meta": {"count": 0, "cursor": {"next": null, "previous": null}, "db_response_time_ms": 25, "page": 1, "size": 2}
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nfields\n  Value error, Invalid fields: abstract. Allowed fields: authors, citations_by_year, citations_count, id, keywords, so…"
+}
+```
+</ResponseExample>

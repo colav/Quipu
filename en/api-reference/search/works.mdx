@@ -1,0 +1,701 @@
+---
+title: "Search products"
+api: "GET https://api.dev.impactu.colav.co/search/works"
+description: "Paginated search of research products (works) by keywords and filters."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import FiltersNote from "/snippets/en/filters-note.mdx";
+import WorksFilterParams from "/snippets/en/works-filter-params.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+import FieldsParam from "/snippets/en/fields-param.mdx";
+
+## Query parameters
+
+<ParamField query="keywords" type="string">
+  Search text (title and content of the product).
+</ParamField>
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`, where the direction is `asc` or
+  `desc`. Fields for products: `citations`, `alphabetical` (by title) and
+  `year` (publication year). Example: `year_desc`.
+</ParamField>
+
+<ViewParam />
+
+<FieldsParam />
+
+### Filters
+
+All the filters accept several values separated by commas. The valid options of each one can be looked up in [Available product filters](/en/api-reference/search/works-filters).
+
+<WorksFilterParams />
+
+<Note>
+  If you don't send `max`, `page` or `sort`, `max=10`, `page=1` and
+  `sort=citations_desc` apply. If you send `max` and `page` without `sort`,
+  `sort=citations_desc` applies.
+</Note>
+
+## Response
+
+Unlike the product lists of an entity, this search includes fields without data with the value `null`.
+
+<ResponseField name="data" type="array">
+  List of products.
+  <Expandable title="properties of each product">
+    <ResponseField name="id" type="string">
+      Product identifier.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Main title.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Titles by source (`title`, `lang`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="subtitle" type="string | null">
+      Subtitle.
+    </ResponseField>
+    <ResponseField name="abstracts" type="object[]">
+      Abstracts by source. The text comes as an inverted index (word →
+      positions).
+    </ResponseField>
+    <ResponseField name="year_published" type="integer">
+      Publication year.
+    </ResponseField>
+    <ResponseField name="date_published" type="integer">
+      Publication date in Unix seconds.
+    </ResponseField>
+    <ResponseField name="language" type="string">
+      Language.
+    </ResponseField>
+    <ResponseField name="doi" type="string | null">
+      DOI.
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      First 100 authors of the product, in signing order (10 with
+      `view=summary`). The total is in `authors_count`. See [Product authors](/en/guides/authorship).
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Number of authors.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citations by source (`count`, `source`, `provenance`).
+    </ResponseField>
+    <ResponseField name="citations_by_year" type="object[]">
+      Citations per year (`year`, `cited_by_count`).
+    </ResponseField>
+    <ResponseField name="bibliographic_info" type="object">
+      Volume, issue, start and end page.
+    </ResponseField>
+    <ResponseField name="abstract" type="string | null">
+      Main abstract.
+    </ResponseField>
+    <ResponseField name="bibtex" type="string | null">
+      BibTeX entry.
+    </ResponseField>
+    <ResponseField name="volume" type="string | integer | null">
+      Volume. Copy of `bibliographic_info.volume`.
+    </ResponseField>
+    <ResponseField name="pages" type="string | null">
+      Pages. Copy of `bibliographic_info.pages`.
+    </ResponseField>
+    <ResponseField name="start_page" type="string | null">
+      Start page. Copy of `bibliographic_info.start_page`.
+    </ResponseField>
+    <ResponseField name="end_page" type="string | null">
+      End page. Copy of `bibliographic_info.end_page`.
+    </ResponseField>
+    <ResponseField name="publisher" type="string | null">
+      Name of the publisher.
+    </ResponseField>
+    <ResponseField name="references_count" type="integer | null">
+      Number of references.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Product classifications (for example, from Minciencias).
+    </ResponseField>
+    <ResponseField name="affiliations_data" type="null">
+      Internal field; it always comes as `null`.
+    </ResponseField>
+    <ResponseField name="source" type="object">
+      Source (journal) where it was published: name, ISSN, publisher, APC, rankings
+      and types.
+    </ResponseField>
+    <ResponseField name="open_access" type="object">
+      Open access status (`is_open_access`, `open_access_status`, `url`,
+      `has_repository_fulltext`).
+    </ResponseField>
+    <ResponseField name="apc" type="object">
+      APC information of the product.
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Product types (`name`, `source`).
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Product types by source.
+    </ResponseField>
+    <ResponseField name="primary_topic" type="object">
+      Primary topic, with domain, field and subfield.
+    </ResponseField>
+    <ResponseField name="topics" type="object[]">
+      Topics of the product with their `score`.
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Subject areas grouped by source.
+    </ResponseField>
+    <ResponseField name="keywords" type="string[]">
+      Keywords.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers (OpenAlex, DOI, MAG, DSpace, etc.).
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      External links (open access, repository).
+    </ResponseField>
+    <ResponseField name="groups" type="array">
+      Associated research groups.
+    </ResponseField>
+    <ResponseField name="references" type="array">
+      References.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Last update by source (`source`, `time` in Unix seconds).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "abstract": null,
+      "abstracts": [
+        {
+          "abstract": {
+            "1078": [176],
+            "2015": [180],
+            "27001.": [215],
+            "Colombia,": [166],
+            "Comunicaciones": [97],
+            "Constitución": [163],
+            "Decreto": [174],
+            "Educación": [252],
+            "Educativas": [233],
+            "El": [0],
+            "En": [75],
+            "Estrategia": [191],
+            "Gestión": [110],
+            "Gobierno": [193],
+            "IEC": [214],
+            "IED’s": [235],
+            "IED’s.": [261],
+            "Implementación": [228],
+            "Información": [94],
+            "Instituciones": [232],
+            "Internacional": [212],
+            "La": [139],
+            "Línea": [195],
+            "MINTIC": [99],
+            "Ministerio": [89],
+            "NTC/ISO": [213],
+            "Nacional,": [253],
+            "Norma": [211],
+            "Reglamentario": [175],
+            "SGSI": [117],
+            "Seguridad": [112],
+            "Sistemas": [108],
+            "Tecnologías": [91],
+            "a": [9],
+            "acercamiento": [120],
+            "aras": [76],
+            "armonía": [243],
+            "asegurando": [69],
+            "avance": [1],
+            "basado": [208],
+            "brindando": [126],
+            "buscando": [118],
+            "básica": [141],
+            "básica,": [241],
+            "cada": [39],
+            "calidad,": [46],
+            "circunscrito": [171],
+            "ciudadanía,": [125],
+            "colombianas,": [201],
+            "como": [13],
+            "competitividad": [32],
+            "con": [123],
+            "confianza": [131],
+            "confidencialidad.": [74],
+            "consagrado": [160],
+            "continuidad": [30],
+            "convertido": [22],
+            "criterios": [63],
+            "criterios,": [81],
+            "cual": [168],
+            "cumplimiento": [60],
+            "de": [3],
+            "del": [51],
+            "derecho": [154],
+            "directrices": [103],
+            "educación": [140],
+            "educativos": [239],
+            "el": [59],
+            "en": [23],
+            "encuentra": [170],
+            "entidades": [199],
+            "es": [142],
+            "establece": [183],
+            "establecido": [101],
+            "establecidos": [247],
+            "establecimiento": [204],
+            "estado": [122],
+            "estado,": [148],
+            "estos": [80],
+            "exigente": [42],
+            "facilite": [226],
+            "fin": [221],
+            "fundamental": [26],
+            "garantizar": [28],
+            "generales": [104],
+            "ha": [100],
+            "han": [21],
+            "hardware": [12],
+            "implementación": [188],
+            "implementar": [107],
+            "incluyendo": [202],
+            "información": [7],
+            "instituciones": [84],
+            "integridad,": [71],
+            "la": [18],
+            "las": [34],
+            "lineamientos": [185],
+            "los": [4],
+            "mayo": [178],
+            "mercado": [38],
+            "modelo": [224],
+            "más": [41],
+            "necesidades": [257],
+            "nivel": [10],
+            "niñas": [159],
+            "niños": [157],
+            "ofrece": [146],
+            "oportunidad": [47],
+            "organizaciones": [35],
+            "para": [27],
+            "permiten": [106],
+            "pilar": [25],
+            "política": [164],
+            "por": [248],
+            "presente": [217],
+            "prestación": [136],
+            "presten": [237],
+            "procurando": [58],
+            "propias": [258],
+            "proponer": [222],
+            "públicas": [200],
+            "público": [87],
+            "que": [105],
+            "relacionada,": [57],
+            "requerimientos": [246],
+            "se": [20],
+            "sector": [86],
+            "seguridad": [49],
+            "servicio": [52],
+            "servicios": [238],
+            "servicios.": [138],
+            "sistemas": [5],
+            "software": [15],
+            "su": [70],
+            "tanto": [8],
+            "tecnológico": [2],
+            "tendientes": [16],
+            "tesis": [218],
+            "tiene": [219],
+            "todas": [197],
+            "transacciones,": [130],
+            "términos": [44],
+            "ubicuidad": [19],
+            "un": [24],
+            "vez": [40],
+            "y": [31],
+            "–": [98]
+          },
+          "lang": "es",
+          "provenance": "dspace",
+          "source": "dspace"
+        }
+      ],
+      "affiliations_data": null,
+      "apc": {
+        "charges": null,
+        "currency": null,
+        "paid": {"currency": null, "provenance": null, "source": null, "value": null, "value_usd": null}
+      },
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": [
+                {
+                  "city": "Pereira",
+                  "country": "Colombia",
+                  "country_code": "CO",
+                  "lat": null,
+                  "lng": null,
+                  "postcode": null,
+                  "state": null
+                }
+              ],
+              "end_date": "",
+              "external_ids": [{"id": "example-minciencias-id", "provenance": null, "source": "minciencias"}],
+              "h5_index": null,
+              "h_index": null,
+              "id": "COL0000001",
+              "name": "Grupo de Investigación Ejemplo",
+              "position": null,
+              "ranking": null,
+              "ror": null,
+              "start_date": 1494997200,
+              "types": [
+                {
+                  "code": null,
+                  "level": null,
+                  "provenance": null,
+                  "source": "minciencias",
+                  "type": "group",
+                  "type_class": null
+                }
+              ],
+              "years": []
+            }
+          ],
+          "countries": null,
+          "external_ids": [{"id": "0000000001", "provenance": "minciencias", "source": "scienti"}],
+          "first_names": ["María"],
+          "full_name": "María Ejemplo García",
+          "h5_index": null,
+          "h_index": null,
+          "id": "0000000001",
+          "last_names": ["Ejemplo"],
+          "ranking": [
+            {
+              "date": 1575608400,
+              "from_date": null,
+              "issn": null,
+              "level": null,
+              "order": "12",
+              "rank": "Investigador Junior",
+              "source": "minciencias",
+              "to_date": null
+            }
+          ],
+          "sex": "Hombre",
+          "type": "author"
+        }
+      ],
+      "authors_count": 3,
+      "bibliographic_info": {"bibtex": null, "end_page": null, "issue": null, "pages": null, "start_page": null, "volume": null},
+      "bibtex": null,
+      "citations_by_year": [],
+      "citations_count": [],
+      "date_published": null,
+      "doi": "",
+      "end_page": null,
+      "external_ids": [{"id": "AAD-0000000001-45-1", "provenance": "minciencias", "source": "minciencias"}],
+      "external_urls": [{"provenance": "dspace", "source": "dspace", "url": "https://repositorio.autonoma.edu.co/handle/11182/691"}],
+      "groups": [
+        {
+          "citations_count": [],
+          "h5_index": null,
+          "h_index": null,
+          "id": "COL0000001",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [
+            {
+              "date": 1575608400,
+              "from_date": null,
+              "issn": null,
+              "level": null,
+              "order": "2",
+              "rank": "C",
+              "source": "minciencias",
+              "to_date": null
+            }
+          ]
+        }
+      ],
+      "id": "6ab4ac3c5418a51e324cb2c2",
+      "keywords": [],
+      "language": "es",
+      "open_access": {"has_repository_fulltext": null, "is_open_access": null, "open_access_status": null, "url": null},
+      "pages": null,
+      "primary_topic": {
+        "display_name": "Occupational Health and Safety in Workplaces",
+        "domain": {"display_name": "Health Sciences", "id": "https://openalex.org/domains/4"},
+        "field": {"display_name": "Health Professions", "id": "https://openalex.org/fields/36"},
+        "id": "https://openalex.org/T13315",
+        "score": 0.9387,
+        "subfield": {"display_name": "Occupational Therapy", "id": "https://openalex.org/subfields/3609"}
+      },
+      "product_types": [{"name": "Obras o productos de arte, arquitectura y diseño", "source": "minciencias"}],
+      "publisher": null,
+      "ranking": [
+        {
+          "date": 1575608400,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "AAD-AAD_C",
+          "source": "minciencias",
+          "to_date": null
+        }
+      ],
+      "references": [],
+      "references_count": null,
+      "source": {
+        "apc": null,
+        "external_ids": null,
+        "external_urls": null,
+        "id": null,
+        "is_in_doaj": null,
+        "issn": [],
+        "issn_l": null,
+        "name": null,
+        "names": null,
+        "publisher": null,
+        "ranking": null,
+        "scimago_quartile": null,
+        "serials": null,
+        "types": null,
+        "updated": null
+      },
+      "start_page": null,
+      "subjects": [],
+      "subtitle": null,
+      "title": "MODELO DE SISTEMA DE GESTIÓN DE SEGURIDAD DE LA INFORMACIÓN BASADO EN LA NORMA NTC/ISO IEC 27001 PARA INSTITUCIONES DE EDUCACIÓN BÁSICA DE LA COMUNA UNIVERSIDAD…",
+      "titles": [
+        {
+          "lang": "es",
+          "provenance": null,
+          "source": "minciencias",
+          "title": "MODELO DE SISTEMA DE GESTIÓN DE SEGURIDAD DE LA INFORMACIÓN BASADO EN LA NORMA NTC/ISO IEC 27001 PARA INSTITUCIONES DE EDUCACIÓN BÁSICA DE LA COMUNA UNIVERSIDAD…"
+        }
+      ],
+      "topics": [
+        {
+          "display_name": "Occupational Health and Safety in Workplaces",
+          "domain": {"display_name": "Health Sciences", "id": "https://openalex.org/domains/4"},
+          "field": {"display_name": "Health Professions", "id": "https://openalex.org/fields/36"},
+          "id": "https://openalex.org/T13315",
+          "score": 0.9387,
+          "subfield": {"display_name": "Occupational Therapy", "id": "https://openalex.org/subfields/3609"}
+        }
+      ],
+      "types": [
+        {
+          "code": null,
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Obras o productos de arte, arquitectura y diseño",
+          "type_class": null
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790225466}],
+      "volume": null,
+      "year_published": 2017
+    },
+    {
+      "abstract": null,
+      "abstracts": [],
+      "affiliations_data": null,
+      "apc": {
+        "charges": null,
+        "currency": null,
+        "paid": {"currency": null, "provenance": null, "source": null, "value": null, "value_usd": null}
+      },
+      "authors": [
+        {
+          "affiliations": [
+            {
+              "addresses": [
+                {
+                  "city": "Cartagena de Indias",
+                  "country": "Colombia",
+                  "country_code": "CO",
+                  "lat": null,
+                  "lng": null,
+                  "postcode": null,
+                  "state": null
+                }
+              ],
+              "end_date": "",
+              "external_ids": [{"id": "example-minciencias-id", "provenance": null, "source": "minciencias"}],
+              "h5_index": null,
+              "h_index": null,
+              "id": "COL0000002",
+              "name": "Grupo de Investigación Ejemplo",
+              "position": null,
+              "ranking": null,
+              "ror": null,
+              "start_date": 1511931600,
+              "types": [
+                {
+                  "code": null,
+                  "level": null,
+                  "provenance": null,
+                  "source": "minciencias",
+                  "type": "group",
+                  "type_class": null
+                }
+              ],
+              "years": []
+            }
+          ],
+          "countries": null,
+          "external_ids": [{"id": "0000000004", "provenance": "scienti", "source": "scienti"}],
+          "first_names": ["Carlos"],
+          "full_name": "Carlos Ejemplo Rodríguez",
+          "h5_index": null,
+          "h_index": null,
+          "id": "0000000004",
+          "last_names": ["Ejemplo"],
+          "ranking": [
+            {
+              "date": 1575608400,
+              "from_date": null,
+              "issn": null,
+              "level": null,
+              "order": "12",
+              "rank": "Investigador Junior",
+              "source": "minciencias",
+              "to_date": null
+            }
+          ],
+          "sex": "Mujer",
+          "type": null
+        }
+      ],
+      "authors_count": 1,
+      "bibliographic_info": {"bibtex": null, "end_page": null, "issue": null, "pages": null, "start_page": null, "volume": null},
+      "bibtex": null,
+      "citations_by_year": [],
+      "citations_count": [],
+      "date_published": null,
+      "doi": "",
+      "end_page": null,
+      "external_ids": [{"id": "AAD-0000000004-116-1", "provenance": "minciencias", "source": "minciencias"}],
+      "external_urls": [],
+      "groups": [
+        {
+          "citations_count": [{"count": 18, "provenance": null, "source": "openalex"}],
+          "h5_index": null,
+          "h_index": null,
+          "id": "COL0000002",
+          "name": "Grupo de Investigación Ejemplo",
+          "ranking": [
+            {
+              "date": 1614229200,
+              "from_date": null,
+              "issn": null,
+              "level": null,
+              "order": "3",
+              "rank": "B",
+              "source": "minciencias",
+              "to_date": null
+            }
+          ]
+        }
+      ],
+      "id": "6ab4ac3c5418a51e324cb2c3",
+      "keywords": [],
+      "language": "es",
+      "open_access": {"has_repository_fulltext": null, "is_open_access": null, "open_access_status": null, "url": null},
+      "pages": null,
+      "primary_topic": {"display_name": null, "domain": null, "field": null, "id": null, "score": null, "subfield": null},
+      "product_types": [{"name": "Obras o productos de arte, arquitectura y diseño", "source": "minciencias"}],
+      "publisher": null,
+      "ranking": [
+        {
+          "date": 1614229200,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "AAD-AAD_C",
+          "source": "minciencias",
+          "to_date": null
+        }
+      ],
+      "references": [],
+      "references_count": null,
+      "source": {
+        "apc": null,
+        "external_ids": null,
+        "external_urls": null,
+        "id": null,
+        "is_in_doaj": null,
+        "issn": [],
+        "issn_l": null,
+        "name": null,
+        "names": null,
+        "publisher": null,
+        "ranking": null,
+        "scimago_quartile": null,
+        "serials": null,
+        "types": null,
+        "updated": null
+      },
+      "start_page": null,
+      "subjects": [],
+      "subtitle": null,
+      "title": "ESTRATEGIAS PARA LA TOMA DE DECISIONES EN EL SECTOR SALUD: CASO ?SIME E.U?",
+      "titles": [
+        {
+          "lang": "es",
+          "provenance": null,
+          "source": "minciencias",
+          "title": "ESTRATEGIAS PARA LA TOMA DE DECISIONES EN EL SECTOR SALUD: CASO ?SIME E.U?"
+        }
+      ],
+      "topics": [],
+      "types": [
+        {
+          "code": null,
+          "level": 1,
+          "provenance": "minciencias",
+          "source": "minciencias",
+          "type": "Obras o productos de arte, arquitectura y diseño",
+          "type_class": null
+        }
+      ],
+      "updated": [{"source": "minciencias", "time": 1790225468}],
+      "volume": null,
+      "year_published": null
+    }
+  ],
+  "meta": {
+    "count": 2891978,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/works?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

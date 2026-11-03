@@ -1,0 +1,43 @@
+---
+title: "APC by author"
+api: "GET https://api.dev.impactu.colav.co/apc/person/{person_id}"
+description: "Exports a CSV with APC data of an author's bibliographic products."
+---
+
+## Path parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier. Example: `0000000001`.
+</ParamField>
+
+<Note>
+  This endpoint returns a CSV file (`Content-Type: text/csv`), not JSON. The name of the downloaded
+  file is `person.csv`.
+</Note>
+
+## Response
+
+The response body is a CSV file with the following columns. If the entity doesn't exist or has no products, the file only has the header row.
+
+| Column | Description |
+| --- | --- |
+| `work_doi` | DOI of the product. |
+| `work_title` | Title of the product. |
+| `source_name` | Name of the journal or source. |
+| `source_apc_value` | APC cost published by the journal. |
+| `source_apc_currency` | Currency of the journal's cost. |
+| `work_apc_value` | APC cost actually paid for this product. |
+| `work_apc_currency` | Currency of the actual payment. |
+
+<Note>
+  The cost and currency fields can be empty when the information is not
+  available in the database.
+</Note>
+
+<ResponseExample>
+```csv 200
+work_doi,work_title,source_name,source_apc_value,source_apc_currency,work_apc_value,work_apc_currency
+,An Image Processing System for Char Reactivity Analysis during Coal Combustion,,,,,
+,Ontology-based Automatic Reclassification of Tissues and Organs in Histological Images,,,,,
+```
+</ResponseExample>

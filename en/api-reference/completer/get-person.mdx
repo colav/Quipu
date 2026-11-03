@@ -1,0 +1,68 @@
+---
+title: "Autocomplete authors"
+api: "GET https://api.dev.impactu.colav.co/completer/person/{text}"
+description: "Returns up to 5 suggestions of authors whose name starts with the given text."
+---
+
+## Path parameters
+
+<ParamField path="text" type="string" required>
+  Prefix of the author's name. Example: `jose` returns authors whose name
+  starts with "jose".
+</ParamField>
+
+<Note>
+  The search uses Elasticsearch and matches by **prefix**, not by exact match
+  or by single words. It always returns at most 5 results.
+</Note>
+
+## Response
+
+An array of up to 5 objects with the following fields:
+
+<ResponseField name="[]" type="object[]">
+  List of suggestions.
+  <Expandable title="properties of each suggestion">
+    <ResponseField name="_id" type="string">
+      Identifier of the author in the database.
+    </ResponseField>
+    <ResponseField name="full_name" type="string">
+      Full name of the author (longest available variant).
+    </ResponseField>
+    <ResponseField name="text" type="string">
+      Text used by Elasticsearch for the suggestion.
+    </ResponseField>
+    <ResponseField name="_score" type="number">
+      Elasticsearch relevance score.
+    </ResponseField>
+    <ResponseField name="_source" type="object">
+      Internal Elasticsearch document. It contains `full_name` (an object with the
+      field `input`), `affiliations` and `products_count`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+[
+  {
+    "_id": "0000000001",
+    "_index": "kahi_dev_person",
+    "_score": 10.0,
+    "full_name": "JOSE NOMBRE APELLIDO APELLIDO",
+    "text": "JOSE APELLIDO",
+    "_source": {
+      "full_name": { "input": ["APELLIDO NOMBRE"], "weight": 10 },
+      "affiliations": [
+        { "id": "03bp5hc83", "name": "Universidad de Antioquia" }
+      ],
+      "products_count": 22
+    }
+  }
+]
+```
+
+```json 400
+{ "error": "mensaje de error" }
+```
+</ResponseExample>

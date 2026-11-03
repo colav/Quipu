@@ -1,0 +1,82 @@
+---
+title: "Author co-authorship network"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Co-authorship network between the author and their most frequent collaborators."
+sidebarTitle: "Author co-authorship network"
+---
+
+Co-authorship network between the author and their most frequent collaborators. Chart type: **Network**.
+
+Nodes represent authors. Edges represent collaborations (co-authorships). At most the 50 nodes with the highest degree are returned.
+
+## Parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `author_coauthorship_network`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/person/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Response
+
+<ResponseField name="plot" type="object">
+  <Expandable title="properties">
+    <ResponseField name="nodes" type="object[]">
+      Network nodes (up to 50, sorted by descending degree).
+      <Expandable title="properties of each node">
+        <ResponseField name="id" type="string">
+          Author identifier.
+        </ResponseField>
+        <ResponseField name="label" type="string">
+          Author name.
+        </ResponseField>
+        <ResponseField name="degree" type="integer">
+          Number of connections of the node.
+        </ResponseField>
+        <ResponseField name="size" type="float">
+          Visual size of the node, proportional to its relevance.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="edges" type="object[]">
+      Edges between the nodes included in the response.
+      <Expandable title="properties of each edge">
+        <ResponseField name="source" type="string">
+          Source node identifier.
+        </ResponseField>
+        <ResponseField name="target" type="string">
+          Target node identifier.
+        </ResponseField>
+        <ResponseField name="coauthorships" type="integer">
+          Number of co-authored products between the two authors.
+        </ResponseField>
+        <ResponseField name="size" type="float">
+          Visual thickness of the edge.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "plot": {
+    "nodes": [
+      { "id": "0000000001", "label": "Autor Principal Ejemplo", "degree": 12, "size": 4.2 },
+      { "id": "0000000002", "label": "Colaborador Ejemplo A", "degree": 8, "size": 3.1 },
+      { "id": "0000000003", "label": "Colaborador Ejemplo B", "degree": 5, "size": 2.4 }
+    ],
+    "edges": [
+      { "source": "0000000001", "target": "0000000002", "coauthorships": 15, "size": 3 },
+      { "source": "0000000001", "target": "0000000003", "coauthorships": 8, "size": 2 },
+      { "source": "0000000002", "target": "0000000003", "coauthorships": 3, "size": 1 }
+    ]
+  }
+}
+```
+</ResponseExample>

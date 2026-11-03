@@ -1,0 +1,114 @@
+---
+title: "Active authors by sex"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribution of active authors by sex."
+sidebarTitle: "Active authors by sex"
+---
+
+Distribution of active authors by sex. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `active_authors_by_sex`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Response
+
+<ResponseExample>
+```json Institution
+{
+  "plot": [
+    {
+      "name": "Hombre",
+      "percentage": 58.02,
+      "value": 1244
+    },
+    {
+      "name": "Mujer",
+      "percentage": 41.93,
+      "value": 899
+    },
+    {
+      "name": "Sin información",
+      "percentage": 0.05,
+      "value": 1
+    }
+  ],
+  "sum": 2144
+}
+```
+
+```json Faculty
+{
+  "plot": [
+    {
+      "name": "Mujer",
+      "percentage": 60.0,
+      "value": 42
+    },
+    {
+      "name": "Hombre",
+      "percentage": 40.0,
+      "value": 28
+    }
+  ],
+  "sum": 70
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "name": "Hombre",
+      "percentage": 30.77,
+      "value": 4
+    },
+    {
+      "name": "Mujer",
+      "percentage": 69.23,
+      "value": 9
+    }
+  ],
+  "sum": 13
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "name": "Mujer",
+      "percentage": 38.89,
+      "value": 14
+    },
+    {
+      "name": "Hombre",
+      "percentage": 61.11,
+      "value": 22
+    }
+  ],
+  "sum": 36
+}
+```
+</ResponseExample>

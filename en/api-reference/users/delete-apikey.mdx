@@ -1,0 +1,43 @@
+---
+title: "Delete API key"
+api: "DELETE https://api.dev.impactu.colav.co/users/{email}/apikey"
+description: "Deletes the API key associated with the authenticated user."
+---
+
+<Note>
+  The authenticated user can only delete their own API key.
+</Note>
+
+## Path parameters
+
+<ParamField path="email" type="string" required>
+  User's email address. It must match the authenticated user.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  `true` if the API key was deleted successfully.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Confirmation or error message.
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{ "success": true, "msg": "API key eliminada correctamente" }
+```
+
+```json 404
+{ "success": false, "msg": "Usuario usuario@example.com no encontrado" }
+```
+
+```json 401
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
+```
+
+```json 403
+{ "success": false, "msg": "No tienes permiso para gestionar el API Key de otro usuario." }
+```
+</ResponseExample>

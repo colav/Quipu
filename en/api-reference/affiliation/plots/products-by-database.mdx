@@ -1,0 +1,125 @@
+---
+title: "Products by database"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Products present in each database and their intersections."
+sidebarTitle: "Products by database"
+---
+
+Products present in each database and their intersections. Chart type: **Venn diagram**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `products_by_database`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Response
+
+<ResponseExample>
+```json Institution
+{
+  "plot": {
+    "minciencias": 9469,
+    "minciencias_openalex": 275,
+    "minciencias_openalex_scholar": 373,
+    "minciencias_scholar": 8,
+    "openalex": 13806,
+    "openalex_scholar": 6078,
+    "scholar": 126,
+    "scienti": 37517,
+    "scienti_minciencias": 23743,
+    "scienti_minciencias_openalex": 3595,
+    "scienti_minciencias_openalex_scholar": 11953,
+    "scienti_minciencias_scholar": 355,
+    "scienti_openalex": 5763,
+    "scienti_openalex_scholar": 8870,
+    "scienti_scholar": 529
+  }
+}
+```
+
+```json Faculty
+{
+  "plot": {
+    "minciencias": 320,
+    "minciencias_openalex": 13,
+    "minciencias_openalex_scholar": 5,
+    "minciencias_scholar": 0,
+    "openalex": 185,
+    "openalex_scholar": 80,
+    "scholar": 3,
+    "scienti": 2518,
+    "scienti_minciencias": 1358,
+    "scienti_minciencias_openalex": 207,
+    "scienti_minciencias_openalex_scholar": 252,
+    "scienti_minciencias_scholar": 6,
+    "scienti_openalex": 197,
+    "scienti_openalex_scholar": 199,
+    "scienti_scholar": 14
+  }
+}
+```
+
+```json Department
+{
+  "plot": {
+    "minciencias": 106,
+    "minciencias_openalex": 1,
+    "minciencias_openalex_scholar": 0,
+    "minciencias_scholar": 0,
+    "openalex": 14,
+    "openalex_scholar": 4,
+    "scholar": 1,
+    "scienti": 296,
+    "scienti_minciencias": 179,
+    "scienti_minciencias_openalex": 6,
+    "scienti_minciencias_openalex_scholar": 2,
+    "scienti_minciencias_scholar": 0,
+    "scienti_openalex": 18,
+    "scienti_openalex_scholar": 8,
+    "scienti_scholar": 3
+  }
+}
+```
+
+```json Group
+{
+  "plot": {
+    "minciencias": 30,
+    "minciencias_openalex": 1,
+    "minciencias_openalex_scholar": 0,
+    "minciencias_scholar": 0,
+    "openalex": 0,
+    "openalex_scholar": 0,
+    "scholar": 0,
+    "scienti": 350,
+    "scienti_minciencias": 108,
+    "scienti_minciencias_openalex": 38,
+    "scienti_minciencias_openalex_scholar": 140,
+    "scienti_minciencias_scholar": 5,
+    "scienti_openalex": 71,
+    "scienti_openalex_scholar": 55,
+    "scienti_scholar": 2
+  }
+}
+```
+</ResponseExample>

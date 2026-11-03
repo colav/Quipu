@@ -1,0 +1,92 @@
+<ResponseField name="data" type="array">
+  List of products.
+  <Expandable title="properties of each product">
+    <ResponseField name="id" type="string">
+      Product identifier.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Main title.
+    </ResponseField>
+    <ResponseField name="titles" type="object[]">
+      Titles by source (`title`, `lang`, `source`).
+    </ResponseField>
+    <ResponseField name="abstracts" type="object[]">
+      Abstracts by source.
+    </ResponseField>
+    <ResponseField name="year_published" type="integer">
+      Publication year.
+    </ResponseField>
+    <ResponseField name="date_published" type="integer">
+      Publication date in Unix seconds, when known.
+    </ResponseField>
+    <ResponseField name="language" type="string">
+      Language.
+    </ResponseField>
+    <ResponseField name="doi" type="string">
+      DOI.
+    </ResponseField>
+    <ResponseField name="keywords" type="string[]">
+      Keywords.
+    </ResponseField>
+    <ResponseField name="authors" type="object[]">
+      First 100 authors, in signing order (10 with `view=summary`), with their
+      affiliations and classifications (`id`, `full_name`, `first_names`,
+      `last_names`, `affiliations`, `ranking`, `external_ids`). The total is in
+      `authors_count`. See [Product authors](/en/guides/authorship).
+    </ResponseField>
+    <ResponseField name="authors_count" type="integer">
+      Number of authors.
+    </ResponseField>
+    <ResponseField name="groups" type="object[]">
+      Associated research groups, with their citations and classifications.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citations by source.
+    </ResponseField>
+    <ResponseField name="citations_by_year" type="object[]">
+      Citations per year.
+    </ResponseField>
+    <ResponseField name="bibliographic_info" type="object">
+      Volume, issue and pages.
+    </ResponseField>
+    <ResponseField name="source" type="object">
+      Source (journal) where it was published.
+    </ResponseField>
+    <ResponseField name="open_access" type="object">
+      Open access status.
+    </ResponseField>
+    <ResponseField name="apc" type="object">
+      APC information.
+    </ResponseField>
+    <ResponseField name="product_types" type="object[]">
+      Product types (`name`, `source`).
+    </ResponseField>
+    <ResponseField name="types" type="object[]">
+      Types by source, with their level.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Product classifications (for example, from Minciencias).
+    </ResponseField>
+    <ResponseField name="primary_topic" type="object">
+      Primary topic.
+    </ResponseField>
+    <ResponseField name="topics" type="object[]">
+      Topics.
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Subject areas.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers.
+    </ResponseField>
+    <ResponseField name="external_urls" type="object[]">
+      External links.
+    </ResponseField>
+    <ResponseField name="references" type="array">
+      References.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Last update by source.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

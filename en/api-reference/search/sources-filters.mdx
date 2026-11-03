@@ -1,0 +1,149 @@
+---
+title: "Available source filters"
+api: "GET https://api.dev.impactu.colav.co/search/sources/filters"
+description: "Options available to filter the source search, with their number of results."
+---
+
+Returns the values you can use in the filters of [Search sources](/en/api-reference/search/sources).
+The options and their counts depend on the criteria you send: only those that exist within that result are returned.
+
+## Query parameters
+
+All are optional and work the same as in [Search sources](/en/api-reference/search/sources). The filters accept several values separated by commas.
+
+<ParamField query="keywords" type="string">
+  Search text (source name).
+</ParamField>
+
+<ParamField query="source_types" type="string">
+  Source type. Use the returned `value` (for example, `journal`).
+</ParamField>
+
+<ParamField query="scimago_quartiles" type="string">
+  Current Scimago quartile. Example: `Q1,Q2`.
+</ParamField>
+
+<ParamField query="apc_range" type="string">
+  APC range in USD: minimum and maximum separated by a comma. Example: `100,2000`.
+</ParamField>
+
+<ParamField query="status" type="string">
+  Open access route. Use the returned `value` (for example, `open` or
+  `diamond`).
+</ParamField>
+
+<ParamField query="publication_time" type="string">
+  Publication time in weeks: minimum and maximum separated by a comma. Example:
+  `4,12`.
+</ParamField>
+
+<ParamField query="license_type" type="string">
+  License type. Example: `CC BY,CC BY-NC`.
+</ParamField>
+
+<ParamField query="topics" type="string">
+  OpenAlex topics. Use the returned `value` (URL).
+</ParamField>
+
+## Response
+
+The response is an object with one field per filter.
+
+### Option lists
+
+<ResponseField name="source_types" type="object[]">
+  Available source types (for example, `journal`).
+  <Expandable title="properties of each option">
+    <ResponseField name="value" type="string">
+      Value to send in the filter.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Text to display.
+    </ResponseField>
+    <ResponseField name="count" type="integer">
+      Number of sources.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="scimago_quartiles" type="object[]">
+  Available Scimago quartiles (`Q1`, `Q2`, `Q3`, `Q4`). Same structure as
+  `source_types`.
+</ResponseField>
+
+<ResponseField name="license_type" type="object[]">
+  Available license types (for example, `CC BY`). Same structure as
+  `source_types`.
+</ResponseField>
+
+<ResponseField name="topics" type="object[]">
+  Available OpenAlex topics. The `value` is the topic URL. Same
+  structure as `source_types`.
+</ResponseField>
+
+### Ranges
+
+<ResponseField name="apc_range" type="object">
+  APC range in USD.
+  <Expandable title="properties">
+    <ResponseField name="min_apc" type="number | null">
+      Minimum APC.
+    </ResponseField>
+    <ResponseField name="max_apc" type="number | null">
+      Maximum APC.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="publication_time" type="object">
+  Range of publication time in weeks.
+  <Expandable title="properties">
+    <ResponseField name="min_weeks" type="integer | null">
+      Minimum time.
+    </ResponseField>
+    <ResponseField name="max_weeks" type="integer | null">
+      Maximum time.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Option tree
+
+<ResponseField name="status" type="object[]">
+  Open access route. The `open` node (Abierto) groups `diamond`, `gold` and
+  `hybrid` in `children`; `closed` (Cerrado) has no children.
+  <Expandable title="properties of each node">
+    <ResponseField name="value" type="string">
+      Value to send in the filter.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Text to display.
+    </ResponseField>
+    <ResponseField name="count" type="integer">
+      Number of sources.
+    </ResponseField>
+    <ResponseField name="children" type="object[]">
+      Child nodes (may not exist).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "apc_range": {"max_apc": 8900, "min_apc": 0.01},
+  "license_type": [{"count": 11798, "title": "CC BY", "value": "CC BY"}],
+  "publication_time": {"max_weeks": 100, "min_weeks": 1},
+  "scimago_quartiles": [{"count": 33978, "title": "Sin cuartil", "value": "-"}],
+  "source_types": [{"count": 257907, "title": "Revista", "value": "journal"}],
+  "status": [{"count": 282451, "title": "Cerrado", "value": "closed"}],
+  "topics": [{"count": 1662, "title": "Business, Innovation, and Economy", "value": "https://openalex.org/T13255"}]
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

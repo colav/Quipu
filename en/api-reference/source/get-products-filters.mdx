@@ -1,0 +1,40 @@
+---
+title: "Source product filters"
+api: "GET https://api.dev.impactu.colav.co/source/{source_id}/products/filters"
+description: "Options available to filter the products of a source, with their number of results."
+---
+
+import WorksFilterParams from "/snippets/en/works-filter-params.mdx";
+import WorksFiltersResponse from "/snippets/en/works-filters-response.mdx";
+
+Returns the values you can use in the filters of [Source products](/en/api-reference/source/get-products). They are the same filters as [Search products](/en/api-reference/search/works-filters), but computed only over the products published in the given source.
+
+The options and their counts depend on the filters you send: if you apply a filter, only the options that exist within that result are returned.
+
+## Path parameters
+
+<ParamField path="source_id" type="string" required>
+  Source identifier. Example: `6aad68732be7843cde64e41b`.
+</ParamField>
+
+## Query parameters
+
+All are optional. They accept several values separated by commas.
+
+<WorksFilterParams />
+
+## Response
+
+<WorksFiltersResponse />
+
+<ResponseExample>
+```json 200
+{"authors_count": {"max_authors": null, "min_authors": null}, "years": {"max_year": null, "min_year": null}}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

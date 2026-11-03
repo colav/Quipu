@@ -1,0 +1,118 @@
+---
+title: "Welcome to ImpactU"
+description: "Official ImpactU documentation. Learn how to query, explore and export scientific and academic information through our REST API."
+sidebarTitle: "Home"
+---
+
+<div style={{ textAlign: "center", padding: "32px 0 24px" }}>
+  <img
+    src="/images/quyca-logo.svg"
+    alt="ImpactU logo"
+    style={{ width: "240px", margin: "0 auto 24px" }}
+  />
+
+  <p style={{ fontSize: "18px", color: "#64748b" }}>
+    Explore, query and integrate scientific
+    and academic information easily.
+  </p>
+</div>
+
+<Note>
+  This documentation will help you learn about ImpactU's features and make
+  the most of its REST API.
+</Note>
+
+## Explore the documentation
+
+Find the resources you need to start
+querying research output with ImpactU, from the basic concepts
+to the advanced features of the API.
+
+<CardGroup cols={1}>
+<Card title="API reference" color="#39658C" icon="rectangle-api" href="/en/api-reference/introduction">
+  Explore the endpoints, parameters, response models and status codes.
+</Card>
+
+{/* <Card
+  title="Queries and filters"
+  icon="search"
+  href="/en/guides/filters"
+  color="#46B3B3"
+>
+  Learn how to filter, sort and paginate results to get precise
+  information.
+</Card>
+
+<Card title="Data export" color="#FFAA00" icon="file-doc" href="/en/guides/export">
+  Find out how to export information in CSV and Excel formats.
+</Card> */}
+</CardGroup>
+
+## What can you do with ImpactU?
+
+ImpactU provides tools to access
+scientific and academic information through
+a REST programming interface.
+
+<AccordionGroup>
+  <Accordion title="Query academic information" icon="book-open">
+    Access information about publications,
+    researchers and other entities available
+    on the platform.
+  </Accordion>
+
+<Accordion title="Run advanced searches" icon="filter">
+  Combine filters, sorting and pagination to build custom
+  queries.
+</Accordion>
+
+<Accordion title="Analyze information" icon="chart-column">
+  Explore data and aggregated results to support analysis.
+</Accordion>
+
+  <Accordion title="Export results" icon="download">
+    Download the results of your queries
+    in formats compatible with data
+    analysis tools.
+  </Accordion>
+</AccordionGroup>
+
+## Your first query
+
+Interact with ImpactU through HTTP requests
+and receive structured JSON responses.
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url "https://api.dev.impactu.colav.co/search/works?max=10&page=1&authors_count=-10" \
+  --header "Accept: application/json"
+```
+
+```python Python
+import requests
+
+url = "https://api.dev.impactu.colav.co/search/works?max=10&page=1&authors_count=-10"
+
+response = requests.get(
+    url,
+    headers={"Accept": "application/json"},
+    timeout=30,
+)
+
+response.raise_for_status()
+
+data = response.json()
+print(data)
+```
+
+</CodeGroup>
+
+## Keep exploring
+
+<CardGroup cols={1}>
+  <Card title="Explore endpoints" icon="terminal" href="/en/api-reference/search/works">
+    Browse the resources available in the API.
+  </Card>
+</CardGroup>

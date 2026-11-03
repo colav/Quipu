@@ -1,0 +1,88 @@
+---
+title: "Send SCIENTI file"
+api: "POST https://api.dev.impactu.colav.co/submit/scienti"
+description: "Uploads a compressed SCIENTI export file for processing."
+---
+
+<Note>
+  Requires an active session. The JWT is read from the `access_token_cookie` cookie
+  and the request must carry the `X-CSRF-TOKEN` header. It is sent as
+  `multipart/form-data`.
+</Note>
+
+The file is saved in the institution's folder on Google Drive, or in the server's local storage if Drive fails. Only after it is saved is the receipt confirmation email sent.
+
+## Request body
+
+<ParamField body="file" type="file" required>
+  Compressed SCIENTI export file. Allowed formats: `.zip`,
+  `.rar`, `.7z`, `.tar`, `.gz`, `.tgz`, `.bz2`, `.tar.gz`, `.tar.bz2`. An
+  empty file returns `400`.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  `true` if the file was saved and the confirmation email was sent.
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  Message with the result of the processing.
+</ResponseField>
+
+<ResponseField name="upload_date" type="string">
+  Date and time the file was received, in the format `DD/MM/YYYY HH:MM` (Bogotá
+  time zone).
+</ResponseField>
+
+<ResponseField name="file_msg" type="string">
+  Result of saving, with the name under which the file was stored.
+</ResponseField>
+
+<Note>
+  If the file cannot be saved, or it is saved but the confirmation email
+  fails, it returns `500` with the detail in `storage_error` or
+  `email_error`.
+</Note>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "msg": "Archivo SCIENTI recibido con éxito para ser validado.",
+  "upload_date": "15/10/2026 14:32",
+  "file_msg": "Archivo scienti_example-institution-id_2026-10-15_14:32.zip guardado correctamente."
+}
+```
+
+```json 400
+{ "success": false, "msg": "Archivo requerido" }
+```
+
+```json 400 — empty file
+{ "success": false, "msg": "El archivo cargado está vacío. Verifique que contenga información." }
+```
+
+```json 401
+{"msg": "Token inválido o expirado", "success": false}
+```
+
+```json 415
+{
+  "success": false,
+  "msg": "Tipo de archivo no permitido. Los formatos soportados son: .zip, .rar, .7z, .tar, .gz, .tgz, .bz2, .tar.gz y .tar.bz2."
+}
+```
+
+```json 500
+{
+  "success": false,
+  "msg": "Archivo recibido pero falló el guardado",
+  "storage_error": {
+    "success": false,
+    "msg": "Error al guardar el archivo tanto en Drive como en local. Detalle: ...",
+    "location": null
+  }
+}
+```
+</ResponseExample>

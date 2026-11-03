@@ -1,0 +1,65 @@
+---
+title: "Product authors"
+sidebarTitle: "Authorships"
+description: "How many authors each endpoint returns, in what order, how to tell whether the list is cut and where to get the full list."
+---
+
+Each product carries its author list in `authors`, in the order in which they sign the product, and the total in `authors_count`. Some products have thousands of authors. That is why, as [OpenAlex](https://help.openalex.org/data/authorships/) does, **lists return only the first 100**; the detail of a product returns all of them.
+
+## How many authors each endpoint returns
+
+| Endpoint | `view=full` | `view=summary` |
+| --- | --- | --- |
+| Product lists: [Search products](/en/api-reference/search/works) and the products of an [affiliation](/en/api-reference/affiliation/get-research-products), an [author](/en/api-reference/person/get-research-products), a [source](/en/api-reference/source/get-products) or a [geographic entity](/en/api-reference/geo/get-geo-products) | First 100 | First 10 |
+| [Get a product](/en/api-reference/work/get-work) and [Find a product by DOI](/en/api-reference/work/get-work-by-doi) | All | First 10 |
+| [Product authors](/en/api-reference/work/get-work-authors) | All | All, with fewer fields per author |
+| CSV and Excel exports of products | See [exports](#exports) | — |
+
+The list limit also applies when fields are requested with `fields`.
+
+Patents and projects don't have the 100 limit: their lists return all the authors, or the first 10 with `view=summary`.
+
+## How to tell whether the list is cut
+
+`authors_count` is always the real total number of authors of the product, in lists too. If it is greater than the number of items in `authors`, the list is cut. To show all the authors, use [Product authors](/en/api-reference/work/get-work-authors).
+
+```json
+{
+  "id": "6ab556bc5418a51e32602975",
+  "authors_count": 5002,
+  "authors": [
+    { "id": "0000000001", "full_name": "María Ejemplo García" },
+    "… 99 more authors, in signing order …"
+  ]
+}
+```
+
+To show the rest in an interface, subtract the authors you display from the total. For example, with two names: "María Ejemplo García, Juan Ejemplo Pérez and 5,000 more authors".
+
+## Filters, sorting and counts
+
+The cut is made last, after filtering, sorting and paginating. Filters, sorting and `meta.count` always take **all** the authors into account.
+
+<Warning>
+  A product can appear among the products of an author or an affiliation even
+  if that author is not among the first 100. In that case the author doesn't
+  appear in the list's `authors`. Use [Product
+  authors](/en/api-reference/work/get-work-authors) to see them.
+</Warning>
+
+## Exports
+
+CSV and Excel exports of products (of an affiliation, an author or a source) apply their own rule. If a product has more than 50 authors, only the authors with a Scienti identifier, that is, those registered in Colombia, are taken into account. With 50 authors or fewer, all of them are taken into account.
+
+The rule affects every column that comes from the authors: `authors`, `institutions`, `faculties`, `departments`, `groups`, `groups_ranking` and `countries`. In the `authors` column, names are in alphabetical order, not in signing order.
+
+## Why
+
+Only 0.2% of products have more than 100 authors, but those products hold more than half of all the author records in the database. The largest product has 5,002 authors: with all of them it weighs about 420 KB, and with the first 100, about 32 KB.
+
+Cutting the lists reduces the size of the responses and the load on the server without removing products from the results. For example, the first page of 10 products of a large institution went from 4.4 MB to 1.5 MB.
+
+<Note>
+  Filtering with `authors_count=-100` is not equivalent: it excludes products
+  with more than 100 authors from the results instead of cutting their list.
+</Note>

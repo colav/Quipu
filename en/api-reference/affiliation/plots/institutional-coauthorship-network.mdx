@@ -1,0 +1,73 @@
+---
+title: "Institutional co-authorship network"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Co-authorship network between institutions."
+sidebarTitle: "Institutional co-authorship network"
+---
+
+Co-authorship network between institutions. Chart type: **Network**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `institution`, `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `institutional_coauthorship_network`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | ✅ |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Response
+
+<ResponseExample>
+```json Institution
+{
+  "plot": {
+    "edges": [],
+    "nodes": []
+  }
+}
+```
+
+```json Faculty
+{
+  "plot": {
+    "edges": [],
+    "nodes": []
+  }
+}
+```
+
+```json Department
+{
+  "plot": {
+    "edges": [],
+    "nodes": []
+  }
+}
+```
+
+```json Group
+{
+  "plot": {
+    "edges": [],
+    "nodes": []
+  }
+}
+```
+</ResponseExample>

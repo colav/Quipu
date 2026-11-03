@@ -1,0 +1,8 @@
+<ParamField query="fields" type="string">
+  Top-level fields to receive for each product, separated by commas. `id` is
+  always returned. Nested fields are not supported. Allowed fields: `id`,
+  `authors`, `titles`, `keywords`, `topics`, `subjects`, `source`, `types`,
+  `year_published`, `citations_by_year`, `citations_count` and `updated`. A
+  field outside this list returns `400`. It does not change the results, their
+  order or `meta.count`. Example: `fields=authors,titles`.
+</ParamField>

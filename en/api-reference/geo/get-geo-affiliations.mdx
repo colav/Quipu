@@ -1,0 +1,50 @@
+---
+title: "Affiliations of a geographic entity"
+api: "GET https://api.dev.impactu.colav.co/geo/{geo_type}/{geo_id}/affiliations"
+description: "Returns the institutions and research groups associated with a department or city."
+---
+
+## Path parameters
+
+<ParamField path="geo_type" type="string" required>
+  Geographic entity type. Allowed values: `state` or `city`.
+</ParamField>
+
+<ParamField path="geo_id" type="string" required>
+  DANE code of the entity. Examples: `05` for Antioquia, `05001` for
+  Medellín.
+</ParamField>
+
+## Response
+
+The response is not wrapped in `data`. If the entity doesn't exist, the response is `200` with empty lists.
+
+<ResponseField name="institutions" type="object[]">
+  Institutions associated with the entity. Each item contains `id` and `name`.
+</ResponseField>
+
+<ResponseField name="groups" type="object[]">
+  Associated research groups. Each item contains `id` and `name`.
+</ResponseField>
+
+<ResponseField name="cities" type="object[]">
+  Only with `state`: the department's cities. Each item contains `id` and
+  `name`.
+</ResponseField>
+
+<ResponseExample>
+```json 200 — Department
+{
+  "institutions": [{"id": "example-institution-id", "name": "Universidad Ejemplo"}],
+  "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}],
+  "cities": [{"id": "05045", "name": "Apartadó"}]
+}
+```
+
+```json 200 — City
+{
+  "institutions": [{"id": "example-institution-id", "name": "Universidad Ejemplo"}],
+  "groups": [{"id": "COL0000001", "name": "Grupo de Investigación Ejemplo"}]
+}
+```
+</ResponseExample>

@@ -1,0 +1,106 @@
+---
+title: "Articles by publishing institution"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products"
+description: "Distribution of articles by publishing institution."
+sidebarTitle: "Articles by publishing institution"
+---
+
+Distribution of articles by publishing institution. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type. This indicator returns data for: `faculty`, `department`, `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `articles_by_publishing_institution`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/affiliation/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Availability by affiliation type
+
+| `affiliation_type` | Data |
+| --- | --- |
+| `institution` | No data |
+| `faculty` | ✅ |
+| `department` | ✅ |
+| `group` | ✅ |
+
+## Response
+
+<ResponseExample>
+```json Faculty
+{
+  "plot": [
+    {
+      "name": "Misma",
+      "percentage": 0.0,
+      "value": 0
+    },
+    {
+      "name": "Diferente",
+      "percentage": 15.33,
+      "value": 1009
+    },
+    {
+      "name": "Sin información",
+      "percentage": 84.67,
+      "value": 5571
+    }
+  ],
+  "sum": 6580
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "name": "Misma",
+      "percentage": 0.0,
+      "value": 0
+    },
+    {
+      "name": "Diferente",
+      "percentage": 6.18,
+      "value": 47
+    },
+    {
+      "name": "Sin información",
+      "percentage": 93.82,
+      "value": 714
+    }
+  ],
+  "sum": 761
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "name": "Misma",
+      "percentage": 0.0,
+      "value": 0
+    },
+    {
+      "name": "Diferente",
+      "percentage": 38.5,
+      "value": 308
+    },
+    {
+      "name": "Sin información",
+      "percentage": 61.5,
+      "value": 492
+    }
+  ],
+  "sum": 800
+}
+```
+</ResponseExample>

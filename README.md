@@ -111,7 +111,7 @@ El endpoint de productos acepta el parámetro `plot` para devolver el **1 indica
 
 ```
 Quipu/
-├── docs.json                        # Configuración y navegación de Mintlify
+├── docs.json                        # Configuración y navegación de Mintlify (español e inglés)
 ├── index.mdx                        # Página de inicio
 ├── api-reference/
 │   ├── introduction.mdx             # URL base, formato de respuestas, sesión y errores
@@ -133,6 +133,7 @@ Quipu/
 │   ├── submit/                      # Carga de archivos (Staff, CIARP, SCIENTI, proyectos)
 │   └── system/                      # ping, info y calidad de datos
 ├── guides/                          # Guías transversales (filtros, autoría)
+├── en/                              # Versión en inglés: index.mdx, guides/ y api-reference/ con la misma estructura
 ├── snippets/                        # Fragmentos MDX reutilizables
 │   ├── pagination-params.mdx        # Parámetros max y page
 │   ├── meta-response.mdx            # Objeto meta de respuestas paginadas
@@ -201,6 +202,7 @@ El workflow `validate-docs.yml` ejecuta este script automáticamente en cada pus
 - **Casos declarados en el script.** `PAGES` define por página qué solicitudes se hacen: el caso exitoso y los errores (parámetro inválido, entidad inexistente, sin sesión).
 - **Datos ficticios.** Las respuestas se recortan y se anonimizan con la convención de esta guía: personas, afiliaciones, identificadores externos y BibTeX.
 - **Páginas con sesión.** En autenticación, usuarios y cargas solo se regeneran las respuestas que no necesitan sesión ni escriben en la base (`401`, `400`). Las demás se escriben a mano y el script las conserva.
+- **Español e inglés.** Cada página se actualiza en `api-reference/` y en su versión de `en/api-reference/`, con los mismos bloques y la variante del título en inglés (`json 200 — Institution`).
 
 ```bash
 # Todas las páginas
@@ -231,6 +233,8 @@ python scripts/generate_source_plot_pages.py
 ```
 
 También puedes disparar la regeneración desde GitHub Actions con el workflow `generate-plots.yml` (pestaña _Actions_ → _Generate plot pages_ → _Run workflow_). Se abre un PR automáticamente con los archivos actualizados.
+
+Estos scripts solo escriben las páginas en español. Si cambian los títulos o el texto de un indicador, actualiza también su versión en `en/api-reference/.../plots/`.
 
 ## ✍️ Cómo documentar un endpoint
 
@@ -290,7 +294,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
 - **Fechas:** se expresan en segundos Unix; un `-1` en una fecha final indica vigente.
 - **Opciones de los filtros:** cada listado enlaza a su endpoint de filtros disponibles, de donde salen los valores válidos.
 - **Ejemplos de respuesta:** recortados y con datos ficticios. No uses nombres, edades, ORCID ni identificadores que correspondan a personas reales. Usa `0000000001`, `0000000002`… para `person_id` y `example-institution-id`, `COL0000000`… para afiliaciones.
-- **Idioma:** español.
+- **Idioma:** español, con una versión en inglés en `en/` (`en/index.mdx`, `en/guides/`, `en/api-reference/`) y sus snippets en `snippets/en/`. Cada página nueva o modificada debe tener su versión en `en/` con la misma ruta, registrada en el idioma `en` de `docs.json`; `validate_docs.py` avisa de las que faltan. Los enlaces internos de las páginas en inglés llevan el prefijo `/en/` y los snippets se importan desde `/snippets/en/`. Los mensajes de la API (`error`, `msg`) se dejan tal como los devuelve, en español.
 
 ## 🌐 Publicación
 

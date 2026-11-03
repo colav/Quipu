@@ -1,0 +1,224 @@
+---
+title: "Search persons"
+api: "GET https://api.dev.impactu.colav.co/search/person"
+description: "Paginated search of persons (researchers) by keywords and filters."
+---
+
+import PaginationParams from "/snippets/en/pagination-params.mdx";
+import MetaResponse from "/snippets/en/meta-response.mdx";
+import ViewParam from "/snippets/en/view-param.mdx";
+
+## Query parameters
+
+<ParamField query="keywords" type="string">
+  Search text (name or part of the person's name).
+</ParamField>
+
+<PaginationParams />
+
+<ParamField query="sort" type="string" default="citations_desc">
+  Sort with the format `field_direction`, where the direction is `asc` or
+  `desc`. Fields for persons: `citations`, `products`, `h` and `h5`. Example:
+  `products_desc`.
+</ParamField>
+
+<ViewParam />
+
+<Note>
+  If you don't send `max`, `page` or `sort`, `max=10`, `page=1` and
+  `sort=citations_desc` apply. If you send `max` and `page` without `sort`,
+  `sort=citations_desc` applies.
+</Note>
+
+## Response
+
+<ResponseField name="data" type="array">
+  List of persons.
+  <Expandable title="properties of each person">
+    <ResponseField name="id" type="string">
+      Person identifier.
+    </ResponseField>
+    <ResponseField name="full_name" type="string">
+      Full name.
+    </ResponseField>
+    <ResponseField name="first_names" type="string[]">
+      First names.
+    </ResponseField>
+    <ResponseField name="last_names" type="string[]">
+      Last names.
+    </ResponseField>
+    <ResponseField name="initials" type="string">
+      Initials.
+    </ResponseField>
+    <ResponseField name="aliases" type="string[]">
+      Name variants with which the author appears in the sources.
+    </ResponseField>
+    <ResponseField name="sex" type="string | null">
+      Sex.
+    </ResponseField>
+    <ResponseField name="products_count" type="integer">
+      Number of products.
+    </ResponseField>
+    <ResponseField name="h_index" type="integer">
+      H-index.
+    </ResponseField>
+    <ResponseField name="h5_index" type="integer">
+      H-index of the last 5 years.
+    </ResponseField>
+    <ResponseField name="citations_count" type="object[]">
+      Citations by source: `count`, `source`, `provenance`.
+    </ResponseField>
+    <ResponseField name="external_ids" type="object[]">
+      External identifiers (`id`, `source`, `provenance`), such as ORCID,
+      OpenAlex, Scienti or Google Scholar.
+    </ResponseField>
+    <ResponseField name="affiliations" type="object[]">
+      Affiliations of the person (institution, faculty, department, group).
+      Dates (`start_date`, `end_date`) are in Unix seconds. An
+      `end_date` of `-1` means a current affiliation.
+    </ResponseField>
+    <ResponseField name="degrees" type="object[]">
+      Academic degrees.
+    </ResponseField>
+    <ResponseField name="ranking" type="object[]">
+      Categories and classifications (contract, working hours, job category,
+      Minciencias).
+    </ResponseField>
+    <ResponseField name="subjects" type="object[]">
+      Subject areas grouped by source.
+    </ResponseField>
+    <ResponseField name="keywords" type="string[]">
+      Keywords.
+    </ResponseField>
+    <ResponseField name="related_works" type="array">
+      Related works.
+    </ResponseField>
+    <ResponseField name="updated" type="object[]">
+      Date of the last update by source (`source`, `time` in Unix
+      seconds).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<MetaResponse />
+
+<ResponseExample>
+```json 200
+{
+  "data": [
+    {
+      "affiliations": [
+        {
+          "end_date": -1,
+          "external_urls": [],
+          "id": "example-institution-id",
+          "name": "Universidad Ejemplo",
+          "position": null,
+          "start_date": 1514851200,
+          "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}],
+          "years": [2018]
+        }
+      ],
+      "aliases": ["maría ejemplo garcía"],
+      "citations_count": [{"count": 18, "provenance": null, "source": "openalex"}],
+      "degrees": [{"date": -1, "degree": "maestría", "id": "", "institutions": [], "source": "nivel_académico"}],
+      "external_ids": [{"id": "0000000001", "provenance": "scienti", "source": "scienti"}],
+      "first_names": ["María"],
+      "full_name": "María Ejemplo García",
+      "h5_index": 3,
+      "h_index": 3,
+      "id": "0000000001",
+      "initials": "M",
+      "keywords": [],
+      "last_names": ["Ejemplo"],
+      "products_count": 21,
+      "ranking": [
+        {
+          "date": 1514869200,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "vinculado",
+          "source": "tipo_contrato",
+          "to_date": null
+        }
+      ],
+      "related_works": [],
+      "sex": "Hombre",
+      "subjects": [],
+      "updated": [{"source": "staff", "time": 1790089863}]
+    },
+    {
+      "affiliations": [
+        {
+          "end_date": 1797552000,
+          "external_urls": [],
+          "id": "example-institution-id",
+          "name": "Universidad Ejemplo",
+          "position": null,
+          "start_date": 1768780800,
+          "types": [{"code": null, "level": null, "provenance": null, "source": "ror", "type": "education", "type_class": null}],
+          "years": [2026]
+        }
+      ],
+      "aliases": ["juan ejemplo pérez"],
+      "citations_count": [{"count": 54, "provenance": null, "source": "openalex"}],
+      "degrees": [],
+      "external_ids": [{"id": "0000000002", "provenance": "scienti", "source": "scienti"}],
+      "first_names": ["Juan"],
+      "full_name": "Juan Ejemplo Pérez",
+      "h5_index": 1,
+      "h_index": 3,
+      "id": "0000000002",
+      "initials": "J",
+      "keywords": [],
+      "last_names": ["Ejemplo"],
+      "products_count": 96,
+      "ranking": [
+        {
+          "date": 1768798800,
+          "from_date": null,
+          "issn": null,
+          "level": null,
+          "order": null,
+          "rank": "ocasional",
+          "source": "tipo_contrato",
+          "to_date": null
+        }
+      ],
+      "related_works": [],
+      "sex": "Hombre",
+      "subjects": [
+        {
+          "provenance": "minciencias",
+          "source": "OECD",
+          "subjects": [
+            {
+              "external_ids": [{"id": "2", "provenance": null, "source": "OECD"}],
+              "id": "",
+              "level": 0,
+              "name": "Ingeniería y Tecnología"
+            }
+          ]
+        }
+      ],
+      "updated": [{"source": "staff", "time": 1790089863}]
+    }
+  ],
+  "meta": {
+    "count": 1542618,
+    "cursor": {"next": "https://api.dev.impactu.colav.co/search/person?max=2&page=2", "previous": null},
+    "db_response_time_ms": 25,
+    "page": 1,
+    "size": 2
+  }
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

@@ -1,0 +1,118 @@
+---
+title: "Most used words in titles"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Most used words in titles."
+sidebarTitle: "Most used words in titles"
+---
+
+Most used words in titles. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `most_used_title_words`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/person/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Response
+
+The response structure is identical to that of the equivalent indicator for [affiliations](/en/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Institution
+{
+  "plot": [
+    {
+      "name": "colombia",
+      "value": 14507
+    },
+    {
+      "name": "antioquia",
+      "value": 7829
+    },
+    {
+      "name": "medellín",
+      "value": 7630
+    },
+    {
+      "name": "estudio",
+      "value": 4809
+    }
+  ]
+}
+```
+
+```json Faculty
+{
+  "plot": [
+    {
+      "name": "educación",
+      "value": 1124
+    },
+    {
+      "name": "formación",
+      "value": 809
+    },
+    {
+      "name": "enseñanza",
+      "value": 519
+    },
+    {
+      "name": "educativo",
+      "value": 513
+    }
+  ]
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "name": "danza",
+      "value": 107
+    },
+    {
+      "name": "cuerpo",
+      "value": 78
+    },
+    {
+      "name": "teatro",
+      "value": 60
+    },
+    {
+      "name": "creación",
+      "value": 54
+    }
+  ]
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "name": "colombia",
+      "value": 224
+    },
+    {
+      "name": "antioquia",
+      "value": 161
+    },
+    {
+      "name": "paratuberculosis",
+      "value": 76
+    },
+    {
+      "name": "bovino",
+      "value": 65
+    }
+  ]
+}
+```
+</ResponseExample>

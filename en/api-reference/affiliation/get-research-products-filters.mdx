@@ -1,0 +1,89 @@
+---
+title: "Affiliation product filters"
+api: "GET https://api.dev.impactu.colav.co/affiliation/{affiliation_type}/{affiliation_id}/research/products/filters"
+description: "Options available to filter an affiliation's products, with their number of results."
+---
+
+import WorksFilterParams from "/snippets/en/works-filter-params.mdx";
+import WorksFiltersResponse from "/snippets/en/works-filters-response.mdx";
+
+Returns the values you can use in the filters of [Affiliation products](/en/api-reference/affiliation/get-research-products). They are the same filters as [Search products](/en/api-reference/search/works-filters), but computed only over the products of the given affiliation.
+
+The options and their counts depend on the filters you send: if you apply a filter, only the options that exist within that result are returned.
+
+## Path parameters
+
+<ParamField path="affiliation_type" type="string" required>
+  Affiliation type: `institution`, `faculty`, `department` or `group`.
+</ParamField>
+
+<ParamField path="affiliation_id" type="string" required>
+  Affiliation identifier. Examples: `03bp5hc83` (institution),
+  `03bp5hc83_20` (faculty).
+</ParamField>
+
+## Query parameters
+
+All are optional. They accept several values separated by commas.
+
+<WorksFilterParams />
+
+## Response
+
+<WorksFiltersResponse />
+
+<ResponseExample>
+```json 200
+{
+  "authors_count": {"max_authors": 4952, "min_authors": 1},
+  "authors_ranking": [{"count": 258060, "label": "Investigador Junior", "value": "Investigador Junior"}],
+  "countries": [{"count": 135358, "label": "Colombia", "value": "CO"}],
+  "groups_ranking": [{"count": 43165, "label": "A1", "value": "A1"}],
+  "institutions_type": [{"count": 135364, "label": "Instituciones académicas", "value": "education"}],
+  "product_types": [
+    {
+      "children": [{"count": 72533, "title": "Artículo de revista", "value": "impactu_Artículo de revista"}],
+      "title": "ImpactU",
+      "value": "impactu"
+    }
+  ],
+  "status": [
+    {
+      "children": [{"count": 18011, "title": "Diamante", "value": "diamond"}],
+      "count": 36755,
+      "title": "Abierto",
+      "value": "open"
+    }
+  ],
+  "topics": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [{"count": 841, "title": "Education and Teacher Training", "value": "https://openalex.org/T14483"}],
+              "count": 4534,
+              "title": "Education",
+              "value": "https://openalex.org/subfields/3304"
+            }
+          ],
+          "count": 17360,
+          "title": "Social Sciences",
+          "value": "https://openalex.org/fields/33"
+        }
+      ],
+      "count": 27852,
+      "title": "Social Sciences",
+      "value": "https://openalex.org/domains/2"
+    }
+  ],
+  "years": {"max_year": 2027, "min_year": 25}
+}
+```
+
+```json 400
+{
+  "error": "1 validation error for QueryParams\nmax\n  Input should be greater than or equal to 1 [type=greater_than_equal, input_value='0', input_type=str]\n    For further i…"
+}
+```
+</ResponseExample>

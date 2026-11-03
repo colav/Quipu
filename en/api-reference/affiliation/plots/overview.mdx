@@ -1,0 +1,46 @@
+---
+title: "Indicators of an affiliation"
+description: "Catalogue of the indicators returned by the products endpoint of an affiliation with the plot parameter."
+sidebarTitle: "Catalogue"
+---
+
+With the `plot` parameter, the [Affiliation products](/en/api-reference/affiliation/get-research-products) endpoint returns an indicator instead of the product list.
+
+```text
+GET /affiliation/{affiliation_type}/{affiliation_id}/research/products?plot=<indicator>
+```
+
+Indicators accept the same filters as the product list.
+
+| Indicator | `plot` value | Chart | Affiliation types with data |
+| --- | --- | --- | --- |
+| [Number of products by product type for faculties](/en/api-reference/affiliation/plots/faculties-by-product-type) | `faculties_by_product_type` | Bar | `institution` |
+| [Number of products by product type for departments](/en/api-reference/affiliation/plots/departments-by-product-type) | `departments_by_product_type` | Bar | `institution`, `faculty` |
+| [Number of products by product type for research groups](/en/api-reference/affiliation/plots/research-groups-by-product-type) | `research_groups_by_product_type` | Bar | `institution`, `faculty`, `department` |
+| [Distribution of citations among faculties](/en/api-reference/affiliation/plots/citations-by-faculty) | `citations_by_faculty` | Pie | `institution` |
+| [Distribution of citations among departments](/en/api-reference/affiliation/plots/citations-by-department) | `citations_by_department` | Pie | `institution`, `faculty` |
+| [Distribution of citations among research groups](/en/api-reference/affiliation/plots/citations-by-research-group) | `citations_by_research_group` | Pie | `institution`, `faculty`, `department` |
+| [Distribution of APC expenses among faculties](/en/api-reference/affiliation/plots/apc-expenses-by-faculty) | `apc_expenses_by_faculty` | Pie | `institution` |
+| [Distribution of APC expenses among departments](/en/api-reference/affiliation/plots/apc-expenses-by-department) | `apc_expenses_by_department` | Pie | `institution`, `faculty` |
+| [Distribution of APC expenses among research groups](/en/api-reference/affiliation/plots/apc-expenses-by-group) | `apc_expenses_by_group` | Pie | `institution`, `faculty`, `department` |
+| [H-index of faculties](/en/api-reference/affiliation/plots/h-index-by-faculty) | `h_index_by_faculty` | Pie | `institution` |
+| [H-index of departments](/en/api-reference/affiliation/plots/h-index-by-department) | `h_index_by_department` | Pie | `institution`, `faculty` |
+| [H-index of research groups](/en/api-reference/affiliation/plots/h-index-by-research-group) | `h_index_by_research_group` | Pie | `institution`, `faculty`, `department` |
+| [Annual evolution by ImpactU classification](/en/api-reference/affiliation/plots/annual-evolution-by-impactu-classification) | `annual_evolution_by_impactu_classification` | Bar | `institution`, `faculty`, `department`, `group` |
+| [Citations per year](/en/api-reference/affiliation/plots/annual-citation-count) | `annual_citation_count` | Bar | `institution`, `faculty`, `department`, `group` |
+| [Open access articles per year](/en/api-reference/affiliation/plots/annual-articles-open-access) | `annual_articles_open_access` | Bar | `institution`, `faculty`, `department`, `group` |
+| [Articles per year from the top publishers](/en/api-reference/affiliation/plots/annual-articles-by-top-publishers) | `annual_articles_by_top_publishers` | Bar | `faculty`, `department`, `group` |
+| [Annual APC expenses](/en/api-reference/affiliation/plots/annual-apc-expenses) | `annual_apc_expenses` | Bar | `faculty`, `department`, `group` |
+| [Most used words in titles](/en/api-reference/affiliation/plots/most-used-title-words) | `most_used_title_words` | Pie | `institution`, `faculty`, `department`, `group` |
+| [Articles by publisher](/en/api-reference/affiliation/plots/articles-by-publisher) | `articles_by_publisher` | Pie | `faculty`, `department`, `group` |
+| [Products by subject area](/en/api-reference/affiliation/plots/products-by-subject) | `products_by_subject` | Pie | `institution`, `faculty`, `department`, `group` |
+| [Articles by access route](/en/api-reference/affiliation/plots/articles-by-access-route) | `articles_by_access_route` | Pie | `institution`, `faculty`, `department`, `group` |
+| [Active authors by sex](/en/api-reference/affiliation/plots/active-authors-by-sex) | `active_authors_by_sex` | Pie | `institution`, `faculty`, `department`, `group` |
+| [Active authors by age range](/en/api-reference/affiliation/plots/active-authors-by-age-range) | `active_authors_by_age_range` | Pie | `institution`, `faculty`, `department`, `group` |
+| [Articles by Scienti category](/en/api-reference/affiliation/plots/articles-by-scienti-category) | `articles_by_scienti_category` | Pie | `institution`, `faculty`, `department`, `group` |
+| [Articles by Scimago quartile](/en/api-reference/affiliation/plots/articles-by-scimago-quartile) | `articles_by_scimago_quartile` | Pie | `faculty`, `department`, `group` |
+| [Articles by publishing institution](/en/api-reference/affiliation/plots/articles-by-publishing-institution) | `articles_by_publishing_institution` | Pie | `faculty`, `department`, `group` |
+| [Products by database](/en/api-reference/affiliation/plots/products-by-database) | `products_by_database` | Venn diagram | `institution`, `faculty`, `department`, `group` |
+| [Co-authorship by country](/en/api-reference/affiliation/plots/coauthorship-by-country-map) | `coauthorship_by_country_map` | Map | `institution`, `faculty`, `department`, `group` |
+| [Co-authorship by Colombian department](/en/api-reference/affiliation/plots/coauthorship-by-colombian-department-map) | `coauthorship_by_colombian_department_map` | Map | `institution`, `faculty`, `department`, `group` |
+| [Institutional co-authorship network](/en/api-reference/affiliation/plots/institutional-coauthorship-network) | `institutional_coauthorship_network` | Network | `institution`, `faculty`, `department`, `group` |

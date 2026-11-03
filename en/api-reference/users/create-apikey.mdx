@@ -1,0 +1,68 @@
+---
+title: "Generate API key"
+api: "POST https://api.dev.impactu.colav.co/users/{email}/apikey"
+description: "Generates or regenerates the authenticated user's API key. If one already existed, it is replaced."
+---
+
+<Note>
+  The authenticated user can only manage their own API key. The `{email}`
+  in the path must match the identity of the JWT in the cookie
+  `access_token_cookie`.
+</Note>
+
+## Path parameters
+
+<ParamField path="email" type="string" required>
+  User's email address. It must match the authenticated user.
+</ParamField>
+
+## Request body
+
+<ParamField body="expires" type="integer">
+  Expiration date in Unix seconds. Optional. If given, it must be
+  a future date at least 1 day ahead.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  `true` if the API key was generated successfully.
+</ResponseField>
+
+<ResponseField name="apikey" type="object">
+  Data of the generated API key.
+  <Expandable title="properties">
+    <ResponseField name="id" type="string">
+      The API key: 10 letters and digits. Keep it in a safe place; it is not
+      shown again.
+    </ResponseField>
+    <ResponseField name="expires" type="integer">
+      Expiration date in Unix seconds. `null` if no expiration was
+      set.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "apikey": {
+    "id": "aB3dE5fG7h",
+    "expires": 1830000000
+  }
+}
+```
+
+```json 400
+{ "success": false, "msg": "La expiración mínima del API key es de 1 día" }
+```
+
+```json 401
+{"msg": "Token no proporcionado o inválido. Por favor, inicia sesión nuevamente.", "success": false}
+```
+
+```json 403
+{ "success": false, "msg": "No tienes permiso para gestionar el API Key de otro usuario." }
+```
+</ResponseExample>

@@ -1,0 +1,57 @@
+---
+title: "Search APC"
+api: "GET https://api.dev.impactu.colav.co/apc/search"
+description: "Exports a CSV with APC data of the bibliographic products that match a text search."
+---
+
+## Query parameters
+
+<ParamField query="keywords" type="string">
+  Text to filter the results. With `keywords`, every matching product is
+  exported, without pagination.
+</ParamField>
+
+<ParamField query="max" type="integer" default="10">
+  Only without `keywords`: rows per page, from 1 to 250.
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  Only without `keywords`: page number, from 1 to 10. Page 11 onwards
+  returns `400`.
+</ParamField>
+
+<Note>
+  This endpoint returns a CSV file (`Content-Type: text/csv`), not JSON. The name of the downloaded
+  file is `search.csv`.
+</Note>
+
+## Response
+
+The response body is a CSV file with the following columns:
+
+| Column | Description |
+| --- | --- |
+| `work_doi` | DOI of the product. |
+| `work_title` | Title of the product. |
+| `source_name` | Name of the journal or source. |
+| `source_apc_value` | APC cost published by the journal. |
+| `source_apc_currency` | Currency of the journal's cost. |
+| `work_apc_value` | APC cost actually paid for this product. |
+| `work_apc_currency` | Currency of the actual payment. |
+
+<Note>
+  The cost (`source_apc_value`, `work_apc_value`) and currency fields can be
+  empty when the information is not available in the database.
+</Note>
+
+<ResponseExample>
+```csv 200
+work_doi,work_title,source_name,source_apc_value,source_apc_currency,work_apc_value,work_apc_currency
+,MODELO DE SISTEMA DE GESTIÓN DE SEGURIDAD DE LA INFORMACIÓN BASADO EN LA NORMA NTC/ISO IEC 27001 PARA INSTITUCIONES DE EDUCACIÓN BÁSICA DE LA COMUNA UNIVERSIDAD DE LA CIUDAD DE PEREIRA,,,,,
+,ESTRATEGIAS PARA LA TOMA DE DECISIONES EN EL SECTOR SALUD: CASO ?SIME E.U?,,,,,
+```
+
+```json 400
+{"error": "Without keywords only the first 10 pages (max 250 works each) can be exported."}
+```
+</ResponseExample>

@@ -18,6 +18,8 @@ def collect_pages(node) -> list[str]:
     elif isinstance(node, dict):
         if "pages" in node:
             pages.extend(collect_pages(node["pages"]))
+        if "languages" in node:
+            pages.extend(collect_pages(node["languages"]))
         if "tabs" in node:
             pages.extend(collect_pages(node["tabs"]))
         if "groups" in node:
@@ -36,10 +38,10 @@ def check_missing_files(pages: list[str]) -> list[str]:
 
 
 def check_orphan_files(pages: list[str]) -> list[str]:
-    """Retorna archivos .mdx en api-reference/ que no están en docs.json."""
+    """Retorna archivos .mdx en api-reference/ y en/api-reference/ que no están en docs.json."""
     declared = set(pages)
     orphans = []
-    for mdx in sorted((ROOT / "api-reference").rglob("*.mdx")):
+    for mdx in sorted([*(ROOT / "api-reference").rglob("*.mdx"), *(ROOT / "en" / "api-reference").rglob("*.mdx")]):
         relative = mdx.relative_to(ROOT).with_suffix("").as_posix()
         if relative not in declared:
             orphans.append(relative)
@@ -67,13 +69,15 @@ def check_broken_links(pages: list[str]) -> list[tuple[str, str]]:
     """Retorna pares (archivo, link) donde el link interno no existe."""
     declared = set(pages)
     broken = []
-    # Matches: /api-reference/... links in href or markdown
-    link_re = re.compile(r'(?:href="|]\()(/api-reference/[^\s")\'>]+)')
+    # Matches: /api-reference/... and /en/api-reference/... links in href or markdown
+    link_re = re.compile(r'(?:href="|]\()(/(?:en/)?(?:api-reference|guides)/[^\s")\'>]+)')
     for page in pages:
         path = ROOT / f"{page}.mdx"
         if not path.exists():
             continue
         content = path.read_text(encoding="utf-8")
+        # Links inside MDX comments ({/* ... */}) are not rendered
+        content = re.sub(r"\{/\*.*?\*/\}", "", content, flags=re.S)
         for match in link_re.finditer(content):
             link = match.group(1).rstrip("/")
             # Strip query strings or anchors
@@ -84,6 +88,12 @@ def check_broken_links(pages: list[str]) -> list[tuple[str, str]]:
             if link_key not in declared and not any(p.startswith(link_key + "/") for p in declared):
                 broken.append((page, link))
     return broken
+
+
+def check_translations(pages: list[str]) -> list[str]:
+    """Retorna páginas en español sin su versión en inglés (en/...) en docs.json."""
+    declared = set(pages)
+    return [p for p in pages if not p.startswith("en/") and f"en/{p}" not in declared]
 
 
 def main():
@@ -105,6 +115,13 @@ def main():
         for o in orphans:
             print(f"   {o}")
         # Orphans are warnings, not errors
+
+    untranslated = check_translations(pages)
+    if untranslated:
+        print(f"\n[WARN]  {len(untranslated)} página(s) sin versión en inglés (en/):")
+        for p in untranslated:
+            print(f"   {p}")
+        # Missing translations are warnings, not errors
 
     broken = check_broken_links(pages)
     if broken:

@@ -1,0 +1,105 @@
+---
+title: "Articles by Scimago quartile"
+api: "GET https://api.dev.impactu.colav.co/person/{person_id}/research/products"
+description: "Articles by Scimago quartile."
+sidebarTitle: "Articles by Scimago quartile"
+---
+
+Articles by Scimago quartile. Chart type: **Pie**.
+
+## Parameters
+
+<ParamField path="person_id" type="string" required>
+  Author identifier.
+</ParamField>
+
+<ParamField query="plot" type="string" required>
+  Must be `articles_by_scimago_quartile`.
+</ParamField>
+
+It also accepts the [product filters](/en/api-reference/person/get-research-products). `max`, `page` and `sort` do not apply.
+
+## Response
+
+The response structure is identical to that of the equivalent indicator for [affiliations](/en/api-reference/affiliation/plots/overview).
+
+<ResponseExample>
+```json Faculty
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 96.4,
+      "value": 6343
+    },
+    {
+      "name": "Q4",
+      "percentage": 0.94,
+      "value": 62
+    },
+    {
+      "name": "Q3",
+      "percentage": 1.09,
+      "value": 72
+    },
+    {
+      "name": "Q1",
+      "percentage": 0.59,
+      "value": 39
+    }
+  ],
+  "sum": 6580
+}
+```
+
+```json Department
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 99.74,
+      "value": 759
+    },
+    {
+      "name": "Q4",
+      "percentage": 0.13,
+      "value": 1
+    },
+    {
+      "name": "Q1",
+      "percentage": 0.13,
+      "value": 1
+    }
+  ],
+  "sum": 761
+}
+```
+
+```json Group
+{
+  "plot": [
+    {
+      "name": "Sin información",
+      "percentage": 67.25,
+      "value": 538
+    },
+    {
+      "name": "Q3",
+      "percentage": 16.0,
+      "value": 128
+    },
+    {
+      "name": "Q4",
+      "percentage": 3.75,
+      "value": 30
+    },
+    {
+      "name": "Q2",
+      "percentage": 4.0,
+      "value": 32
+    }
+  ],
+  "sum": 800
+}
+```
+</ResponseExample>
