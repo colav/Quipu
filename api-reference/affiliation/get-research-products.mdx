@@ -9,6 +9,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
 import WorksFilterParams from "/snippets/works-filter-params.mdx";
 import ViewParam from "/snippets/view-param.mdx";
 import FieldsParam from "/snippets/fields-param.mdx";
+import WorksListResponse from "/snippets/works-list-response.mdx";
 
 Este endpoint tiene dos modos:
 
@@ -62,95 +63,7 @@ Las opciones válidas se consultan en [Filtros de productos de una afiliación](
 
 ## Respuesta del listado
 
-<ResponseField name="data" type="array">
-  Lista de productos de la afiliación.
-  <Expandable title="propiedades de cada producto">
-    <ResponseField name="id" type="string">
-      Identificador del producto.
-    </ResponseField>
-    <ResponseField name="title" type="string">
-      Título principal.
-    </ResponseField>
-    <ResponseField name="titles" type="object[]">
-      Títulos por fuente (`title`, `lang`, `source`).
-    </ResponseField>
-    <ResponseField name="abstracts" type="object[]">
-      Resúmenes por fuente.
-    </ResponseField>
-    <ResponseField name="year_published" type="integer">
-      Año de publicación.
-    </ResponseField>
-    <ResponseField name="language" type="string">
-      Idioma.
-    </ResponseField>
-    <ResponseField name="doi" type="string">
-      DOI.
-    </ResponseField>
-    <ResponseField name="keywords" type="string[]">
-      Palabras clave.
-    </ResponseField>
-    <ResponseField name="authors" type="object[]">
-      Primeros 100 autores, en orden de firma (10 con `view=summary`), con sus
-      afiliaciones y clasificaciones (`id`, `full_name`, `first_names`,
-      `last_names`, `affiliations`, `ranking`, `external_ids`). El total está en
-      `authors_count`. Ver [Autores de los productos](/guides/authorship).
-    </ResponseField>
-    <ResponseField name="authors_count" type="integer">
-      Cantidad de autores.
-    </ResponseField>
-    <ResponseField name="groups" type="object[]">
-      Grupos de investigación asociados, con sus citas y clasificaciones.
-    </ResponseField>
-    <ResponseField name="citations_count" type="object[]">
-      Citas por fuente.
-    </ResponseField>
-    <ResponseField name="citations_by_year" type="object[]">
-      Citas por año.
-    </ResponseField>
-    <ResponseField name="bibliographic_info" type="object">
-      Volumen, número y páginas.
-    </ResponseField>
-    <ResponseField name="source" type="object">
-      Fuente (revista) donde se publicó.
-    </ResponseField>
-    <ResponseField name="open_access" type="object">
-      Estado de acceso abierto.
-    </ResponseField>
-    <ResponseField name="apc" type="object">
-      Información de APC.
-    </ResponseField>
-    <ResponseField name="product_types" type="object[]">
-      Tipos de producto (`name`, `source`).
-    </ResponseField>
-    <ResponseField name="types" type="object[]">
-      Tipos por fuente, con su nivel.
-    </ResponseField>
-    <ResponseField name="ranking" type="object[]">
-      Clasificaciones del producto (por ejemplo, de Minciencias).
-    </ResponseField>
-    <ResponseField name="primary_topic" type="object">
-      Tópico principal.
-    </ResponseField>
-    <ResponseField name="topics" type="object[]">
-      Tópicos.
-    </ResponseField>
-    <ResponseField name="subjects" type="object[]">
-      Áreas de conocimiento.
-    </ResponseField>
-    <ResponseField name="external_ids" type="object[]">
-      Identificadores externos.
-    </ResponseField>
-    <ResponseField name="external_urls" type="object[]">
-      Enlaces externos.
-    </ResponseField>
-    <ResponseField name="references" type="array">
-      Referencias.
-    </ResponseField>
-    <ResponseField name="updated" type="object[]">
-      Última actualización por fuente.
-    </ResponseField>
-  </Expandable>
-</ResponseField>
+<WorksListResponse />
 
 <MetaResponse />
 
