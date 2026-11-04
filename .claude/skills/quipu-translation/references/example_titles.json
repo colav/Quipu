@@ -1,0 +1,8 @@
+{
+ "Institución": "Institution", "Facultad": "Faculty", "Departamento": "Department", "Grupo": "Group",
+ "Ciudad": "City", "Ejemplo": "Example", "sin sesión": "no session", "token expirado": "expired token",
+ "cuenta desactivada": "deactivated account", "cuerpo inválido": "invalid body", "archivo con errores": "file with errors",
+ "archivo vacío": "empty file", "archivo válido": "valid file", "falta una columna": "missing column",
+ "formato no admitido": "unsupported format", "correo inválido": "invalid email", "correo existente": "existing email",
+ "rol admin": "admin role", "rol": "role", "correo": "email", "sin cambios": "no changes"
+}

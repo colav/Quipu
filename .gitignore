@@ -1,5 +1,6 @@
-# Claude
-.claude/
+# Claude (local settings); project skills are shared
+.claude/*
+!.claude/skills/
 
 #VsCode
 .vscode/

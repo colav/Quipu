@@ -1,0 +1,8 @@
+{
+ "tabs": {"Documentación": "Documentation", "API Referencia": "API Reference"},
+ "groups": {"Introducción": "Introduction", "Guías": "Guides", "Indicadores": "Indicators",
+            "Autenticación": "Authentication", "Usuarios": "Users", "Sistema": "System",
+            "Search": "Search", "Person": "Person", "Source": "Source", "Work": "Work", "Patent": "Patent",
+            "Project": "Project", "Geo": "Geo", "APC": "APC", "Completer": "Completer", "Submit": "Submit",
+            "Affiliation": "Affiliation"}
+}
