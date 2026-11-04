@@ -7,7 +7,9 @@ description: Keep the English version of the ImpactU API documentation (the cola
 
 Quipu (https://github.com/colav/Quipu) is the Mintlify source of https://help.impactu.colav.co. Spanish is the default language at the root (`index.mdx`, `guides/`, `api-reference/`, `snippets/`). English mirrors it with the same paths under `en/` (pages) and `snippets/en/` (snippets), and `docs.json` has `navigation.languages` with `es` first and `en` second. The English version was added in colav/Quipu#13 (November 2026).
 
-**Sync rule.** An English page is in sync when its last commit is newer than every change to its Spanish page. Always commit an English page together with, or after, the Spanish change it reflects; never commit an English page you haven't updated, or the change it missed will be hidden.
+**Spanish first.** Every content change is made in the Spanish page; the English page only ever receives the translation of a Spanish change. If a user asks to change the content or wording of an English page, make the change in the Spanish page first (or ask them to) and then translate it. The only edits that start in English are corrections of the translation itself (a wrong term, a typo), and only when `status.py` shows nothing pending for that page.
+
+**Sync rule.** An English page is in sync when its last commit is newer than every change to its Spanish page. So never commit an English page while its Spanish page is OUTDATED or EDITED in `status.py` without translating those pending changes in the same commit: the commit would hide them from the report.
 
 ## Requirements
 

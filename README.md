@@ -310,6 +310,8 @@ Sitio publicado: https://help.impactu.colav.co/index
 
 ### Traducción al inglés con Claude Code
 
+Los cambios de contenido se hacen **siempre en la versión en español**. La versión en inglés (`en/`, `snippets/en/`) solo recibe la traducción de esos cambios: no se edita por su cuenta, salvo para corregir la traducción misma (un término, una errata), y solo cuando la página no tiene cambios del español pendientes de traducir. Así `status.py` puede saber qué falta traducir: un commit que solo toque el inglés haría que la página se diera por sincronizada aunque tuviera cambios del español sin traducir.
+
 El repositorio incluye la skill de Claude Code [`quipu-translation`](.claude/skills/quipu-translation/SKILL.md), que mantiene `en/` al día con las páginas en español. Desde una copia del repositorio, pídele a Claude Code, por ejemplo, «actualiza la traducción al inglés». La skill busca las páginas en español nuevas, modificadas o borradas desde el último commit de su versión en inglés, las traduce, actualiza la navegación `en` de `docs.json`, revisa el resultado y abre un pull request (desde un fork si no tienes permiso de escritura). Necesita `git` y Python 3.8 o posterior; `gh` y Node.js son opcionales. Sus scripts también se pueden usar sin Claude Code: `python3 .claude/skills/quipu-translation/scripts/status.py --diff` lista lo que falta traducir.
 
 ```bash
