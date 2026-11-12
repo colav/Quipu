@@ -11,8 +11,9 @@ import MetaResponse from "/snippets/en/meta-response.mdx";
 ## Query parameters
 
 <ParamField query="doi" type="string" required>
-  Full DOI of the product. Example:
-  `https://doi.org/10.18316/2318-8081.15.1`.
+  DOI of the product. It is accepted bare (`10.18316/2318-8081.15.1`), with
+  `doi:` or as a URL (`https://doi.org/...`, `http://dx.doi.org/...`), in upper
+  or lower case.
 </ParamField>
 
 <ViewParam />
@@ -21,8 +22,8 @@ import MetaResponse from "/snippets/en/meta-response.mdx";
 
 <Note>
   The response is a list because the same DOI can be associated with more than
-  one record in the database. In most cases it returns a single
-  item. If you don't send `doi`, the response is `400`. If no product has
+  one record in the database; their identifiers then carry the suffixes
+  `-000`, `-001`… In most cases it returns a single item. If you don't send `doi`, the response is `400`. If no product has
   that DOI, the response is `200` with an empty `data`.
 </Note>
 

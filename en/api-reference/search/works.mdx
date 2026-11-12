@@ -14,7 +14,9 @@ import FieldsParam from "/snippets/en/fields-param.mdx";
 ## Query parameters
 
 <ParamField query="keywords" type="string">
-  Search text (title and content of the product).
+  Search text (title and content of the product). If the whole text is a
+  DOI (`10.18316/2318-8081.15.1`, with `doi:` or as a URL), it returns the
+  product with that exact DOI.
 </ParamField>
 
 <PaginationParams />

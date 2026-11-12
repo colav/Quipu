@@ -37,6 +37,7 @@ Está construida con [Mintlify](https://mintlify.com) y escrita **a mano en MDX*
 | **Autenticación**          | ✅ Documentado | 3         | —           |
 | **Usuarios**               | ✅ Documentado | 9         | —           |
 | **Submit**                 | ✅ Documentado | 4         | —           |
+| **Observatorios**          | ✅ Documentado | 2         | —           |
 | **Sistema**                | ✅ Documentado | 3         | —           |
 
 ### 🔍 Endpoints del grupo Search
@@ -107,6 +108,15 @@ El endpoint de productos acepta el parámetro `plot` para devolver el **1 indica
 | Buscar por DOI         | `GET /work?doi=<doi>`         |
 | Autores de un producto | `GET /work/{work_id}/authors` |
 
+El `work_id` es el primer identificador externo del producto (DOI, OpenAlex, ScienTI, Minciencias, handle…), con sus `/` sin codificar. Ver [Identificador del producto](https://help.impactu.colav.co/api-reference/work/get-work#identificador-del-producto).
+
+### 🔭 Endpoints del grupo Observatorios
+
+| Página                             | Endpoint                                          |
+| ---------------------------------- | ------------------------------------------------- |
+| Datos de un tablero                | `GET /observatories/{slug}/boards/{board}/bundle` |
+| Fechas de corte de un observatorio | `GET /observatories/{slug}/cut`                   |
+
 ## 📁 Estructura del repositorio
 
 ```
@@ -131,6 +141,7 @@ Quipu/
 │   ├── auth/                        # Inicio y cierre de sesión, estado de sesión
 │   ├── users/                       # Administración de usuarios y API Key
 │   ├── submit/                      # Carga de archivos (Staff, CIARP, SCIENTI, proyectos)
+│   ├── observatory/                 # Tableros de observatorios (bundle y fechas de corte)
 │   └── system/                      # ping, info y calidad de datos
 ├── guides/                          # Guías transversales (filtros, autoría)
 ├── en/                              # Versión en inglés: index.mdx, guides/ y api-reference/ con la misma estructura

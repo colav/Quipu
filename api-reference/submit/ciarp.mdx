@@ -19,6 +19,13 @@ El reporte de calidad se envía por correo cada vez que el archivo se puede vali
   puede leer o un archivo sin datos responden `400`.
 </ParamField>
 
+<Note>
+  Las columnas `código_unidad_académica`, `código_subunidad_académica` y
+  `tipo_documento` ya no hacen parte de la plantilla. Si el archivo aún las
+  trae, se ignoran: no se validan, no generan errores ni advertencias y no se
+  guardan en Drive. Un `ranking` vacío es advertencia, no error.
+</Note>
+
 ## Respuesta
 
 <ResponseField name="success" type="boolean">

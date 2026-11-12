@@ -10,8 +10,30 @@ import EntityMeta from "/snippets/en/entity-meta.mdx";
 ## Path parameters
 
 <ParamField path="work_id" type="string" required>
-  Product identifier. Example: `6ab4ac4e5418a51e324cc06a`.
+  Product identifier, with its `/` unencoded. Example:
+  `10.1016/s0140-6736(20)30925-9`. See [Product identifier](#product-identifier).
 </ParamField>
+
+## Product identifier
+
+A product's identifier is the first of these external identifiers it has, in this order:
+
+| Priority | Source | Example |
+| --- | --- | --- |
+| 1 | DOI, lowercase and without `https://doi.org/` | `10.1016/s0140-6736(20)30925-9` |
+| 2 | OpenAlex | `W1000532232` |
+| 3 | ScienTI (`COD_RH-COD_PRODUCTO`) | `0000000004-1` |
+| 4 | Minciencias | `ART-0000141429-480` |
+| 5 | Handle of the institutional repository | `20.500.11761/31359` |
+| 6 | DSpace OAI identifier, if the repository has no registered handle | `oai:bibliotecadigital.univalle.edu.co:item/486` |
+| 7 | ISBN, books only | `9781420053418` |
+| 8 | Google Scholar | `zKy1aB2cXsJ` |
+| 9 | Internal identifier of 24 hexadecimal characters, if it has none of the above | `6ab4ac4e5418a51e324cc06a` |
+
+- **The identifier can contain `/`** (DOI and handle). Send them unencoded: `%2F` returns `404`. Other special characters (`( ) < > ; : # ? %`) are encoded: `#` → `%23`, `?` → `%3F`, `%` → `%25`.
+- **Suffixes `-000`, `-001`…:** when several products share the same identifier (duplicates that were not merged, or chapters carrying the DOI of their book), each one gets a three-digit suffix, for example `10.1111/bij.12406-000`. The suffix is part of the identifier. To see every product of a DOI use [Find a product by DOI](/en/api-reference/work/get-work-by-doi).
+- **DOI cleaning:** the identifier carries no URLs glued to the DOI, no `//` and no trailing `/`. The DOI as the source gives it stays in `external_ids`.
+- The identifier is kept across database updates, unless the product receives a higher-priority identifier (for example, a DOI) or its group of duplicates changes. Copy the `id` returned by the searches instead of building it.
 
 ## Query parameters
 
@@ -420,9 +442,5 @@ It takes no pagination or filter parameters.
 
 ```json 404
 {"error": "The work with id 000000000000000000000000 does not exist."}
-```
-
-```json 400
-{"error": "Invalid id 'abc'."}
 ```
 </ResponseExample>

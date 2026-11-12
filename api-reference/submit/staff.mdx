@@ -22,23 +22,23 @@ El reporte de calidad se envía por correo cada vez que el archivo se puede vali
 
 ## Formato del archivo
 
-Todas las columnas de la tabla deben estar en el archivo, salvo `nombre_completo`, que es opcional. Si falta alguna o hay una columna sin nombre con datos, responde `422`. Los encabezados se reconocen sin importar mayúsculas, tildes ni espacios alrededor, y las columnas que no están en la tabla se ignoran.
+Todas las columnas de la tabla deben estar en el archivo, salvo `nombre_completo`, `orcid`, `cvlac` y `scholar`, que son opcionales. Si falta alguna o hay una columna sin nombre con datos, responde `422`. Los encabezados se reconocen sin importar mayúsculas, tildes, caracteres invisibles ni el separador entre palabras (espacios, guiones o guiones bajos): `Nombre Completo`, `nombre-completo` y `NOMBRE_COMPLETO` son la misma columna. Todas las columnas reconocidas se validan, se normalizan y quedan en el archivo guardado con el nombre de la tabla. Las columnas que no están en la tabla se ignoran.
 
 | Columna | Valor obligatorio | Descripción |
 | --- | --- | --- |
-| `tipo_documento` | ✅ | Tipo de documento de identidad. |
-| `identificacion` | ✅ | Número de documento. |
+| `tipo_documento` | ✅ | `cédula de ciudadanía` (`CC`), `cédula de extranjería` (`CE`), `documento extranjero` (`DE`, `D.E.`) o `pasaporte` (`PA`, `PS`). Otro valor es error. |
+| `identificacion` | ✅ | Número de documento. Numérico para las cédulas; solo letras y números para el pasaporte y el documento extranjero, este último de hasta 17 caracteres. |
 | `primer_apellido` | ✅* | Primer apellido. Requerido si no se envía `nombre_completo`. |
 | `segundo_apellido` | — | Segundo apellido. Puede estar vacío sin penalización. |
 | `nombres` | ✅* | Nombres. Requerido si no se envía `nombre_completo`. |
 | `nombre_completo` | — | Nombre completo. Si la columna está presente, reemplaza `primer_apellido`, `segundo_apellido` y `nombres`, que dejan de ser obligatorias. No puede contener números. |
-| `orcid` | — | ORCID. Se normaliza a `https://orcid.org/0000-0000-0000-0000`. |
+| `orcid` | — | ORCID. Si la columna falta o tiene campos vacíos, se reporta una advertencia, igual que con `cvlac` y `scholar`. Se normaliza a `https://orcid.org/0000-0000-0000-0000`. |
 | `cvlac` | — | CvLAC. Se guarda el código, aunque venga la URL con `cod_rh`. |
 | `scholar` | — | Google Scholar. Se normaliza a `https://scholar.google.com/citations?user=...`. |
 | `nivel_academico` | — | Valor de catálogo. Fuera de catálogo → normalizado a `desconocido`. |
 | `tipo_contrato` | — | Valor de catálogo. Fuera de catálogo → normalizado a `desconocido`. |
 | `jornada_laboral` | — | Valor de catálogo. Fuera de catálogo → normalizado a `desconocido`. |
-| `categoria_laboral` | — | Valor de catálogo. Fuera de catálogo → normalizado a `desconocido`. |
+| `categoria_laboral` | — | Valor de catálogo, que incluye `decano`, `director`, `jefe` y `administrativo`. Fuera de catálogo → normalizado a `desconocido`. |
 | `sexo` | — | Valor de catálogo. Fuera de catálogo → normalizado a `desconocido`. |
 | `fecha_nacimiento` | — | Fecha en formato `DD/MM/YYYY`. |
 | `fecha_inicial_vinculacion` | — | Fecha en formato `DD/MM/YYYY`. |
@@ -138,7 +138,7 @@ Las filas en blanco se ignoran sin correr la numeración: cada hallazgo del repo
   "errors": 1,
   "duplicates": 0,
   "msg": "El archivo enviado no cumple con el formato requerido de columnas",
-  "details": ["Columnas faltantes: orcid, cvlac, scholar"],
+  "details": ["Columnas faltantes: identificación, unidad_académica"],
   "pdf_base64": "JVBERi0xLjQKJ..."
 }
 ```

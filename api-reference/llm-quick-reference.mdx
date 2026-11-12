@@ -57,8 +57,8 @@ GET /search/sources/filters              ídem para fuentes
 GET /person/{id}
 GET /affiliation/{type}/{id}
 GET /source/{id}
-GET /work/{id}
-GET /work?doi=https://doi.org/10.xxxx/yyyy    por DOI, como URL completa
+GET /work/{id}                                el id suele ser el DOI: sus / van sin codificar
+GET /work?doi=10.xxxx/yyyy                    por DOI, solo o como URL https://doi.org/...
 GET /patent/{id}
 GET /project/{id}
 GET /geo/{geo_type}/{dane_code}               05 = Antioquia, 05001 = Medellín
@@ -106,7 +106,7 @@ GET /search/affiliations/institution?keywords=universidad antioquia&max=5&page=1
 GET /affiliation/institution/03bp5hc83/research/products?years=2020,2024&max=50&page=1&sort=year_desc
 ```
 
-Lo mismo vale para personas (`/search/person`), fuentes (`/search/sources`) y entidades geográficas (`/search/geo/state`). Revisa el nombre de los resultados antes de elegir uno. Los IDs son cadenas opacas y su formato varía, incluso dentro de una misma entidad: hay personas con IDs como `0000624497` y como `A5128366519`. Copia el `id` que devuelve la búsqueda, no lo construyas.
+Lo mismo vale para personas (`/search/person`), fuentes (`/search/sources`) y entidades geográficas (`/search/geo/state`). Revisa el nombre de los resultados antes de elegir uno. Los IDs son cadenas opacas y su formato varía, incluso dentro de una misma entidad: hay personas con IDs como `0000624497` y como `A5128366519`, y productos cuyo ID es un DOI (`10.1016/s0140-6736(20)30925-9`), un código de ScienTI (`0000000004-1`) o un handle (`20.500.11761/31359`). Copia el `id` que devuelve la búsqueda, no lo construyas.
 
 ## Parámetros de los listados
 
@@ -185,7 +185,7 @@ GET /search/works?years=2024,2024&status=open&max=1&page=1&sort=citations_desc
 # meta.count
 
 # Producto por DOI
-GET /work?doi=https://doi.org/10.18316/2318-8081.15.1
+GET /work?doi=10.18316/2318-8081.15.1
 
 # Indicador de una institución, con filtros
 GET /affiliation/institution/03bp5hc83/research/products?plot=annual_citation_count&years=2020,2024
@@ -228,7 +228,8 @@ Los listados de una entidad que no existe (por ejemplo `/person/9999999999/resea
 | `per_page=`, `limit=`, `q=`, `search=` | Se ignoran sin error y llegan 10 resultados sin filtrar. | Usa `max=` y `keywords=`. |
 | `max` sin `page` ni `sort` | Resultados sin orden. | Envía `max`, `page` y `sort` juntos. |
 | `sort=year:desc`, `sort=-year` | `400`. | `sort=year_desc`. |
-| `/work?doi=10.xxxx/yyyy` | `200` con `data` vacío. | El DOI como URL: `doi=https://doi.org/10.xxxx/yyyy`. |
+| `/work/10.1016%2Fj.x.2020.01` | `404`. | Las `/` del id de un producto van sin codificar: `/work/10.1016/j.x.2020.01`. |
+| Quitar el sufijo `-000` de un id de producto | `404` u otro producto. | El sufijo distingue productos que comparten identificador: usa el `id` completo. |
 | `keywords=malaria colombia` para exigir las dos palabras | Une con O: devuelve 270 veces más resultados. | `keywords="malaria" "colombia"`. |
 | Filtrar por nombre (`author=`, `institution=`) | Se ignora sin error. | Busca el ID y usa la ruta de la entidad. |
 | Inventar el valor de un filtro (`status=Abierto`) | 0 resultados, sin error. | Usa el `value` de `/filters` (`status=open`). |
