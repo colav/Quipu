@@ -1,0 +1,98 @@
+---
+title: "Fechas de corte de un observatorio"
+api: "GET https://api.dev.impactu.colav.co/observatories/{slug}/cut"
+description: "Devuelve las fechas de corte de los datos cargados y de cada fuente, con el texto del pie de los tableros."
+---
+
+<Note>
+  Lee las mismas tablas de ClickHouse que
+  [Datos de un tablero](/api-reference/observatory/get-bundle): sin ellas
+  responde `503`. No requiere autenticación.
+</Note>
+
+## Parámetros de ruta
+
+<ParamField path="slug" type="string" required>
+  Observatorio. Hoy solo existe `vri-udea`.
+</ParamField>
+
+## Respuesta
+
+<ResponseField name="data" type="object">
+  <Expandable title="propiedades">
+    <ResponseField name="load_id" type="integer">
+      Identificador de la carga, con forma de fecha (`20261107`).
+    </ResponseField>
+    <ResponseField name="cargado_en" type="string">
+      Fecha de la carga, en ISO 8601 UTC.
+    </ResponseField>
+    <ResponseField name="etl_desde" type="string">
+      Inicio de la extracción de datos de ImpactU (`YYYY-MM-DD`).
+    </ResponseField>
+    <ResponseField name="etl_hasta" type="string">
+      Fin de la extracción de datos de ImpactU.
+    </ResponseField>
+    <ResponseField name="texto" type="string">
+      Texto del pie de los tableros, armado con `etl_hasta`.
+    </ResponseField>
+    <ResponseField name="ods_consultado" type="string">
+      Fecha de consulta de la clasificación por ODS.
+    </ResponseField>
+    <ResponseField name="v2_consultado" type="string">
+      Fecha de consulta de los tópicos de OpenAlex.
+    </ResponseField>
+    <ResponseField name="staff_fecha_ref" type="string">
+      Fecha de referencia de la planta de personal.
+    </ResponseField>
+    <ResponseField name="fuentes" type="object[]">
+      Fuentes de datos: `clave`, `nombre`, `fecha_corte` (vacía si la fuente
+      no declara una), `detalle` y `tableros`, la lista de tableros que la
+      usan.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseExample>
+```json 200
+{
+  "data": {
+    "cargado_en": "2026-11-07T00:00:00Z",
+    "etl_desde": "2026-10-04",
+    "etl_hasta": "2026-10-16",
+    "fuentes": [
+      {
+        "clave": "impactu",
+        "detalle": "Extraído del 4 al 16 de octubre de 2026.",
+        "fecha_corte": "2026-10-16",
+        "nombre": "ImpactU (productos, autores, grupos e instituciones)",
+        "tableros": [1, 2, 3]
+      },
+      {
+        "clave": "openalex_citas",
+        "detalle": "Consulta por identificador en un solo corte, 2026-11-06 UTC.",
+        "fecha_corte": "2026-11-06",
+        "nombre": "OpenAlex (citas y datos bibliométricos de los productos)",
+        "tableros": [1, 2, 3]
+      }
+    ],
+    "load_id": 20261107,
+    "ods_consultado": "2026-11-04",
+    "staff_fecha_ref": "2026-05-30",
+    "texto": "Datos consultados en octubre de 2026.",
+    "v2_consultado": "2026-10-31"
+  }
+}
+```
+
+```json 404
+{"error": "El observatorio o el tablero no existe."}
+```
+
+```json 503 — datos sin cargar
+{"error": "Los datos del observatorio aún no están cargados.", "code": "observatory_not_loaded"}
+```
+
+```json 503 — servicio sin configurar
+{"error": "The observatory service is not configured.", "code": "observatory_not_configured"}
+```
+</ResponseExample>

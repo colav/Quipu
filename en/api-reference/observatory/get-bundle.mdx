@@ -1,0 +1,79 @@
+---
+title: "Board data"
+api: "GET https://api.dev.impactu.colav.co/observatories/{slug}/boards/{board}/bundle"
+description: "Returns in a single JSON all the data a board of an observatory needs."
+---
+
+<Note>
+  Observatories read precomputed tables in ClickHouse (`obs_*`). Without
+  ClickHouse configured, or without those tables loaded, the endpoint returns
+  `503`. It requires no authentication.
+</Note>
+
+## Path parameters
+
+<ParamField path="slug" type="string" required>
+  Observatory. Only `vri-udea` exists today, that of the Vice-Rectorate for
+  Research of the Universidad de Antioquia.
+</ParamField>
+
+<ParamField path="board" type="integer" required>
+  Board: `1` (Masa crítica temática), `2` (Colaboración, redes y hélices) or
+  `3` (Capacidades de base UdeA).
+</ParamField>
+
+## Caching and compression
+
+The response weighs between 5.8 and 8.3 MB uncompressed, and about 1.3 MB with gzip.
+
+- **`ETag`:** the response carries an `ETag` that only changes with each data load, for example `"20261107-c550a33072f7"`. Send it in `If-None-Match`: if the data did not change, the response is `304` with no body.
+- **gzip:** with `Accept-Encoding: gzip` the body comes compressed (`Content-Encoding: gzip`).
+- `Cache-Control: no-cache` forces revalidation with the `ETag` on every use.
+
+## Response
+
+A JSON object with the tables of the board. The keys depend on the board; there is no `data` wrapper.
+
+| Board | Keys |
+| --- | --- |
+| `1` | `meta`, `topics`, `facs`, `deps`, `deps_fac`, `cens`, `groups`, `ejes`, `facts`, `pies`, `subregiones`, `actores`, `obs`, `ods`, `agendas` |
+| `2` | `tipos`, `sectors`, `sectorsEs`, `subfields`, `sfField`, `fields`, `facs`, `deps`, `deps_fac`, `countries`, `regions`, `depts`, `groups`, `centros`, `insts`, `subregs`, `works`, `projects`, `thesaurus`, `patentes`, `registro_grupos`, `metas`, `doms`, `graph`, `ext` |
+| `3` | `doms`, `fields`, `subs`, `sub_meta`, `tops`, `top_meta`, `facs`, `deps`, `deps_fac`, `groups`, `centros`, `agendas`, `agendas_all`, `tipos`, `tesis_sub`, `ambitos`, `inst`, `P`, `A`, `age_bins`, `proj`, `creacion`, `metas`, `talent`, `artes`, `pi`, `registro_grupos`, `ext` |
+
+<ResponseExample>
+```json 200 — board 1 (trimmed)
+{
+  "meta": {
+    "n_sel": 49829,
+    "n_topic": 49315,
+    "years": [2010, 2026],
+    "trend_years": [2021, 2022, 2023, 2024, 2025],
+    "built": "2026-11-07"
+  },
+  "topics": [
+    {
+      "id": "T10001",
+      "t": "Geological and Geochemical Analysis",
+      "sf": "Geophysics",
+      "f": "Earth and Planetary Sciences",
+      "d": "Physical Sciences",
+      "gm": 17.27,
+      "link": [],
+      "gw": 137710
+    }
+  ]
+}
+```
+
+```json 404
+{"error": "El observatorio o el tablero no existe."}
+```
+
+```json 503 — data not loaded
+{"error": "Los datos del observatorio aún no están cargados.", "code": "observatory_not_loaded"}
+```
+
+```json 503 — service not configured
+{"error": "The observatory service is not configured.", "code": "observatory_not_configured"}
+```
+</ResponseExample>

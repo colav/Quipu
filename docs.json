@@ -185,6 +185,13 @@
                 ]
               },
               {
+                "group": "Observatorios",
+                "pages": [
+                  "api-reference/observatory/get-bundle",
+                  "api-reference/observatory/get-cut"
+                ]
+              },
+              {
                 "group": "Sistema",
                 "pages": [
                   "api-reference/system/get-info",
@@ -414,6 +421,13 @@
                   "en/api-reference/submit/ciarp",
                   "en/api-reference/submit/scienti",
                   "en/api-reference/submit/project"
+                ]
+              },
+              {
+                "group": "Observatories",
+                "pages": [
+                  "en/api-reference/observatory/get-bundle",
+                  "en/api-reference/observatory/get-cut"
                 ]
               },
               {

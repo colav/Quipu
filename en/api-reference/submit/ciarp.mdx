@@ -19,6 +19,14 @@ The quality report is emailed every time the file can be validated. If the file 
   be read or a file without data return `400`.
 </ParamField>
 
+<Note>
+  The columns `código_unidad_académica`, `código_subunidad_académica` and
+  `tipo_documento` are no longer part of the template. If the file still has
+  them, they are ignored: they are not validated, produce no errors or
+  warnings and are not saved to Drive. An empty `ranking` is a warning, not an
+  error.
+</Note>
+
 ## Response
 
 <ResponseField name="success" type="boolean">

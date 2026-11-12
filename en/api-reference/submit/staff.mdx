@@ -22,23 +22,23 @@ The quality report is emailed every time the file can be validated. If the file 
 
 ## File format
 
-Every column of the table must be in the file, except `nombre_completo`, which is optional. If one is missing or there is an unnamed column with data, it returns `422`. Headers are recognized regardless of case, accents or surrounding spaces, and columns that are not in the table are ignored.
+Every column of the table must be in the file, except `nombre_completo`, `orcid`, `cvlac` and `scholar`, which are optional. If one is missing or there is an unnamed column with data, it returns `422`. Headers are recognized regardless of case, accents, invisible characters or the separator between words (spaces, hyphens or underscores): `Nombre Completo`, `nombre-completo` and `NOMBRE_COMPLETO` are the same column. Every recognized column is validated, normalized and kept in the saved file under the name in the table. Columns that are not in the table are ignored.
 
 | Column | Mandatory value | Description |
 | --- | --- | --- |
-| `tipo_documento` | ✅ | Type of identity document. |
-| `identificacion` | ✅ | Document number. |
+| `tipo_documento` | ✅ | `cédula de ciudadanía` (`CC`), `cédula de extranjería` (`CE`), `documento extranjero` (`DE`, `D.E.`) or `pasaporte` (`PA`, `PS`). Any other value is an error. |
+| `identificacion` | ✅ | Document number. Numeric for the cédulas; letters and digits only for the passport and the foreign document, the latter up to 17 characters. |
 | `primer_apellido` | ✅* | First last name. Required if `nombre_completo` is not sent. |
 | `segundo_apellido` | — | Second last name. It can be empty without penalty. |
 | `nombres` | ✅* | First names. Required if `nombre_completo` is not sent. |
 | `nombre_completo` | — | Full name. If the column is present, it replaces `primer_apellido`, `segundo_apellido` and `nombres`, which are no longer mandatory. It cannot contain numbers. |
-| `orcid` | — | ORCID. Normalized to `https://orcid.org/0000-0000-0000-0000`. |
+| `orcid` | — | ORCID. If the column is missing or has empty fields, a warning is reported, as with `cvlac` and `scholar`. Normalized to `https://orcid.org/0000-0000-0000-0000`. |
 | `cvlac` | — | CvLAC. The code is stored, even if the URL with `cod_rh` is given. |
 | `scholar` | — | Google Scholar. Normalized to `https://scholar.google.com/citations?user=...`. |
 | `nivel_academico` | — | Catalogue value. Outside the catalogue → normalized to `desconocido`. |
 | `tipo_contrato` | — | Catalogue value. Outside the catalogue → normalized to `desconocido`. |
 | `jornada_laboral` | — | Catalogue value. Outside the catalogue → normalized to `desconocido`. |
-| `categoria_laboral` | — | Catalogue value. Outside the catalogue → normalized to `desconocido`. |
+| `categoria_laboral` | — | Catalogue value, which includes `decano`, `director`, `jefe` and `administrativo`. Outside the catalogue → normalized to `desconocido`. |
 | `sexo` | — | Catalogue value. Outside the catalogue → normalized to `desconocido`. |
 | `fecha_nacimiento` | — | Date in the format `DD/MM/YYYY`. |
 | `fecha_inicial_vinculacion` | — | Date in the format `DD/MM/YYYY`. |
@@ -138,7 +138,7 @@ Blank rows are ignored without shifting the numbering: each finding of the repor
   "errors": 1,
   "duplicates": 0,
   "msg": "El archivo enviado no cumple con el formato requerido de columnas",
-  "details": ["Columnas faltantes: orcid, cvlac, scholar"],
+  "details": ["Columnas faltantes: identificación, unidad_académica"],
   "pdf_base64": "JVBERi0xLjQKJ..."
 }
 ```

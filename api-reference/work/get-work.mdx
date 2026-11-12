@@ -10,8 +10,30 @@ import EntityMeta from "/snippets/entity-meta.mdx";
 ## Parámetros de ruta
 
 <ParamField path="work_id" type="string" required>
-  Identificador del producto. Ejemplo: `6ab4ac4e5418a51e324cc06a`.
+  Identificador del producto, con sus `/` sin codificar. Ejemplo:
+  `10.1016/s0140-6736(20)30925-9`. Ver [Identificador del producto](#identificador-del-producto).
 </ParamField>
+
+## Identificador del producto
+
+El identificador de un producto es el primero de estos identificadores externos que tenga, en este orden:
+
+| Prioridad | Fuente | Ejemplo |
+| --- | --- | --- |
+| 1 | DOI, en minúsculas y sin `https://doi.org/` | `10.1016/s0140-6736(20)30925-9` |
+| 2 | OpenAlex | `W1000532232` |
+| 3 | ScienTI (`COD_RH-COD_PRODUCTO`) | `0000000004-1` |
+| 4 | Minciencias | `ART-0000141429-480` |
+| 5 | Handle del repositorio institucional | `20.500.11761/31359` |
+| 6 | Identificador OAI de DSpace, si el repositorio no tiene handle registrado | `oai:bibliotecadigital.univalle.edu.co:item/486` |
+| 7 | ISBN, solo para libros | `9781420053418` |
+| 8 | Google Scholar | `zKy1aB2cXsJ` |
+| 9 | Identificador interno de 24 caracteres hexadecimales, si no tiene ninguno de los anteriores | `6ab4ac4e5418a51e324cc06a` |
+
+- **El identificador puede contener `/`** (DOI y handle). Envíalas sin codificar: `%2F` responde `404`. Los demás caracteres especiales (`( ) < > ; : # ? %`) sí se codifican: `#` → `%23`, `?` → `%3F`, `%` → `%25`.
+- **Sufijos `-000`, `-001`…:** cuando varios productos comparten el mismo identificador (duplicados que no se unieron, o capítulos que traen el DOI del libro), cada uno lleva un sufijo de tres dígitos, por ejemplo `10.1111/bij.12406-000`. El sufijo es parte del identificador. Para ver todos los productos de un DOI usa [Buscar un producto por DOI](/api-reference/work/get-work-by-doi).
+- **Limpieza del DOI:** el identificador no lleva URLs pegadas al DOI, `//` ni `/` final. El DOI tal como lo trae la fuente sigue en `external_ids`.
+- El identificador se conserva entre actualizaciones de la base, salvo que el producto reciba un identificador de mayor prioridad (por ejemplo, un DOI) o cambie su grupo de duplicados. Copia el `id` que devuelven las búsquedas en lugar de construirlo.
 
 ## Parámetros de consulta
 
@@ -420,9 +442,5 @@ No recibe parámetros de paginación ni de filtro.
 
 ```json 404
 {"error": "The work with id 000000000000000000000000 does not exist."}
-```
-
-```json 400
-{"error": "Invalid id 'abc'."}
 ```
 </ResponseExample>
