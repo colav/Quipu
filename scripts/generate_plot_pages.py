@@ -4,7 +4,7 @@ from pathlib import Path
 
 import requests
 
-BASE = "https://api.dev.impactu.colav.co"
+BASE = "https://api.impactu.colav.co"
 OUT = Path("api-reference/affiliation/plots")
 FENCE = "`" * 3
 
@@ -181,7 +181,7 @@ def page(plot, title, description, kind, examples):
     schema = RESPONSE_SCHEMAS.get(kind, "")
     return f"""---
 title: "{title}"
-api: "GET https://api.dev.impactu.colav.co/affiliation/{{affiliation_type}}/{{affiliation_id}}/research/products"
+api: "GET https://api.impactu.colav.co/affiliation/{{affiliation_type}}/{{affiliation_id}}/research/products"
 description: "{description}"
 sidebarTitle: "{title}"
 ---

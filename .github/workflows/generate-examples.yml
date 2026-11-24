@@ -46,7 +46,7 @@ jobs:
           title: "docs: regenerate response examples"
           body: |
             Regeneración automática de los bloques `<ResponseExample>` de `api-reference`
-            en el entorno `${{ github.event.inputs.entorno }}`, consultando la API desplegada en `api.dev.impactu.colav.co`.
+            en el entorno `${{ github.event.inputs.entorno }}`, consultando la API desplegada en `api.impactu.colav.co`.
 
             - El título de cada bloque es el código HTTP que devolvió la API.
             - Las respuestas están recortadas y anonimizadas (personas, afiliaciones, BibTeX).

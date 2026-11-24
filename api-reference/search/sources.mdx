@@ -1,6 +1,6 @@
 ---
 title: "Buscar fuentes"
-api: "GET https://api.dev.impactu.colav.co/search/sources"
+api: "GET https://api.impactu.colav.co/search/sources"
 description: "Búsqueda paginada de fuentes (revistas, repositorios y otras) por palabras clave y filtros."
 ---
 
@@ -61,7 +61,9 @@ Todos los filtros aceptan varios valores separados por coma.
 
 <ParamField query="topics" type="string">
   Identificadores de tópicos de OpenAlex (URL completa). Ejemplo:
-  `https://openalex.org/T10017,https://openalex.org/T14434`.
+  `https://openalex.org/T10017,https://openalex.org/T14434`. Solo acepta
+  tópicos: a diferencia de los productos, un dominio, área o subárea devuelve 0
+  resultados.
 </ParamField>
 
 <Note>
@@ -329,7 +331,7 @@ Todos los filtros aceptan varios valores separados por coma.
   ],
   "meta": {
     "count": 349758,
-    "cursor": {"next": "https://api.dev.impactu.colav.co/search/sources?max=2&page=2", "previous": null},
+    "cursor": {"next": "https://api.impactu.colav.co/search/sources?max=2&page=2", "previous": null},
     "db_response_time_ms": 25,
     "page": 1,
     "size": 2

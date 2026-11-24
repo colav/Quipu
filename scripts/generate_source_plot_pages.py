@@ -4,7 +4,7 @@ from pathlib import Path
 
 import requests
 
-BASE = "https://api.dev.impactu.colav.co"
+BASE = "https://api.impactu.colav.co"
 OUT = Path("api-reference/source/plots")
 FENCE = "`" * 3
 
@@ -76,7 +76,7 @@ def page(plot, title, description, examples):
 """
     return f"""---
 title: "{title}"
-api: "GET https://api.dev.impactu.colav.co/source/{{source_id}}/products"
+api: "GET https://api.impactu.colav.co/source/{{source_id}}/products"
 description: "{description}"
 sidebarTitle: "{title}"
 ---

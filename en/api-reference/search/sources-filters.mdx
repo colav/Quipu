@@ -1,6 +1,6 @@
 ---
 title: "Available source filters"
-api: "GET https://api.dev.impactu.colav.co/search/sources/filters"
+api: "GET https://api.impactu.colav.co/search/sources/filters"
 description: "Options available to filter the source search, with their number of results."
 ---
 
@@ -42,7 +42,8 @@ All are optional and work the same as in [Search sources](/en/api-reference/sear
 </ParamField>
 
 <ParamField query="topics" type="string">
-  OpenAlex topics. Use the returned `value` (URL).
+  OpenAlex topics. Use the returned `value` (URL). It only accepts topics, not
+  domains, fields or subfields.
 </ParamField>
 
 ## Response
