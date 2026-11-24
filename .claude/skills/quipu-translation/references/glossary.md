@@ -22,6 +22,7 @@ These are the choices made in the first full translation (colav/Quipu#13, 2026-1
 | cuartil Scimago | Scimago quartile |
 | área de conocimiento | subject area |
 | tópico (principal) | (primary) topic |
+| dominio, área, subárea, tópico (niveles de OpenAlex en `topics`) | domain, field, subfield, topic |
 | acceso abierto; ruta de acceso | open access; access route |
 | índice h | h-index (sentence start: H-index) |
 | citas | citations |

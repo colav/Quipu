@@ -22,7 +22,7 @@ from pathlib import Path
 
 import requests
 
-BASE = os.environ.get("API_BASE", "https://api.dev.impactu.colav.co")
+BASE = os.environ.get("API_BASE", "https://api.impactu.colav.co")
 ROOT = Path(__file__).parent.parent / "api-reference"
 ROOT_EN = Path(__file__).parent.parent / "en" / "api-reference"
 FENCE = "`" * 3

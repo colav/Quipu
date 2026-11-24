@@ -207,7 +207,7 @@ El workflow `validate-docs.yml` ejecuta este script automáticamente en cada pus
 
 ### Ejemplos de respuesta y códigos HTTP
 
-`scripts/generate_examples.py` consulta `api.dev.impactu.colav.co` y reescribe los bloques `<ResponseExample>` de `api-reference`:
+`scripts/generate_examples.py` consulta `api.impactu.colav.co` y reescribe los bloques `<ResponseExample>` de `api-reference`:
 
 - **Códigos HTTP reales.** El título de cada bloque es el código que devolvió la API, por ejemplo `json 404` o `json 200 — Institución`. Si un endpoint cambia de código, el ejemplo cambia con él.
 - **Casos declarados en el script.** `PAGES` define por página qué solicitudes se hacen: el caso exitoso y los errores (parámetro inválido, entidad inexistente, sin sesión).
@@ -230,7 +230,7 @@ El workflow `generate-examples.yml` lo ejecuta cada lunes y a demanda (_Actions_
 
 ### Regeneración de indicadores
 
-Los indicadores (`?plot=`) se generan consultando la API desplegada en `api.dev.impactu.colav.co`:
+Los indicadores (`?plot=`) se generan consultando la API desplegada en `api.impactu.colav.co`:
 
 ```bash
 # Indicadores de Affiliation (30 plots)
@@ -250,7 +250,7 @@ Estos scripts solo escriben las páginas en español. Si cambian los títulos o 
 ## ✍️ Cómo documentar un endpoint
 
 1. **Parte del código real.** Toma la ruta del `router.py` (con su `url_prefix`) y el modelo Pydantic de los parámetros (`QueryParams` u otro). No copies el comentario `apidoc` sin verificarlo.
-2. **Verifica con la API.** Usa `curl` o el navegador contra `api.dev.impactu.colav.co` para confirmar nombres de campos y estructura real.
+2. **Verifica con la API.** Usa `curl` o el navegador contra `api.impactu.colav.co` para confirmar nombres de campos y estructura real. Si el endpoint todavía no está en producción, usa `api.dev.impactu.colav.co`.
 3. **Crea la página** en la carpeta del grupo (por ejemplo, `api-reference/search/nuevo.mdx`).
 4. **Agrégala a `docs.json`** dentro de su grupo.
 5. **Valida** con `python -X utf8 scripts/validate_docs.py`.
@@ -261,7 +261,7 @@ Estos scripts solo escriben las páginas en español. Si cambian los títulos o 
 ````mdx
 ---
 title: "Buscar algo"
-api: "GET https://api.dev.impactu.colav.co/search/algo"
+api: "GET https://api.impactu.colav.co/search/algo"
 description: "Descripción corta del endpoint."
 ---
 
@@ -298,7 +298,7 @@ import MetaResponse from "/snippets/meta-response.mdx";
 
 ## 📐 Convenciones
 
-- **URL base:** `https://api.dev.impactu.colav.co`. En quyca, `API_URL_PREFIX` está vacío, así que las rutas son por ejemplo `/search/person`.
+- **URL base:** `https://api.impactu.colav.co`. En quyca, `API_URL_PREFIX` está vacío, así que las rutas son por ejemplo `/search/person`.
 - **Paginación:** `max` (1 a 250) y `page`. Se documentan con el snippet `pagination-params`.
 - **Ordenamiento:** `sort` con el formato `campo_direccion` (`asc` o `desc`). Los campos válidos dependen de la entidad y se documentan en cada página.
 - **Filtros con varios valores:** se separan por coma (por ejemplo, `years=2020,2026`).

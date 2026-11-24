@@ -19,7 +19,7 @@ Recursos para agentes:
 ## URL base y autenticación
 
 ```text
-Base:     https://api.dev.impactu.colav.co
+Base:     https://api.impactu.colav.co
 Auth:     ninguna. Todos los GET de datos son públicos.
 Límite:   por ahora no hay límite de solicitudes.
 Formato:  JSON. Las exportaciones (/csv, /excel, /apc/...) devuelven un archivo.
@@ -160,6 +160,7 @@ years=2020,2024                 rango mínimo,máximo. years=2020 es un solo añ
 status=open | closed            o el detalle: diamond, gold, green, hybrid, bronze
 product_types=impactu_Artículo de revista     el value del endpoint de filtros, con prefijo de fuente
 topics=https://openalex.org/T14483            tópico de OpenAlex, como URL
+topics=https://openalex.org/subfields/3304    también subárea (subfields/), área (fields/) o dominio (domains/)
 countries=CO,US                 países de los coautores
 authors_count=5 | 5- | -5 | 5-8 exacto, al menos, hasta, rango
 authors_ranking=Investigador Junior
@@ -169,7 +170,7 @@ institutions_type=education,company
 
 - Varios valores en un filtro, separados por coma, se unen con **O** (salvo `years`, que es un rango). Filtros distintos se unen con **Y**.
 - Afiliaciones (`/search/affiliations/{type}`): `states`, `cities`, `groups_ranking`.
-- Fuentes (`/search/sources`): `source_types`, `scimago_quartiles`, `apc_range`, `status`, `publication_time`, `license_type`, `topics`.
+- Fuentes (`/search/sources`): `source_types`, `scimago_quartiles`, `apc_range`, `status`, `publication_time`, `license_type`, `topics` (solo tópicos `https://openalex.org/T...`).
 
 Los valores válidos salen de los endpoints `/filters`. Cada filtro es una lista de `{value, title, count, children}`. Envía el `value`, también el de los `children`. Un valor que no existe no da error: devuelve 0 resultados.
 

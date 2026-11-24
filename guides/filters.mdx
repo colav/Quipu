@@ -121,9 +121,127 @@ Estos endpoints aceptan los mismos filtros que el listado. Si ya aplicaste un fi
   </Accordion>
 
   <Accordion title="Tópicos y tipos de producto">
-    Usa el `value` devuelto por el endpoint de filtros. En `topics` es la URL de OpenAlex (por ejemplo, `https://openalex.org/T14483`) y en `product_types` lleva el prefijo de la fuente (por ejemplo, `impactu_Artículo de revista`).
+    Usa el `value` devuelto por el endpoint de filtros. En `topics` es la URL de OpenAlex de un dominio, área, subárea o tópico (por ejemplo, `https://openalex.org/T14483`; los detalles están en la sección siguiente) y en `product_types` lleva el prefijo de la fuente (por ejemplo, `impactu_Artículo de revista`).
   </Accordion>
 </AccordionGroup>
+
+## Filtrar por dominio, área, subárea o tópico
+
+Cada producto tiene un tópico principal de OpenAlex (`primary_topic`), que pertenece a una jerarquía de cuatro niveles. El filtro `topics` acepta cualquiera de ellos, cada uno con su propia URL:
+
+| Nivel   | En OpenAlex | Formato                               | Ejemplo                                                        |
+| ------- | ----------- | ------------------------------------- | -------------------------------------------------------------- |
+| Dominio | domain      | `https://openalex.org/domains/{id}`   | `https://openalex.org/domains/2` (Social Sciences)             |
+| Área    | field       | `https://openalex.org/fields/{id}`    | `https://openalex.org/fields/33` (Social Sciences)             |
+| Subárea | subfield    | `https://openalex.org/subfields/{id}` | `https://openalex.org/subfields/3304` (Education)              |
+| Tópico  | topic       | `https://openalex.org/T{id}`          | `https://openalex.org/T14483` (Education and Teacher Training) |
+
+Un nivel incluye todo lo que tiene debajo: filtrar por un dominio devuelve los productos de todas sus áreas, subáreas y tópicos. Con los ejemplos de la tabla, cada nivel acota el anterior:
+
+```text
+GET /search/works?topics=https://openalex.org/domains/2        810.297 productos
+GET /search/works?topics=https://openalex.org/fields/33        453.028 productos
+GET /search/works?topics=https://openalex.org/subfields/3304   102.372 productos
+GET /search/works?topics=https://openalex.org/T14483            22.593 productos
+```
+
+Los conteos son de noviembre de 2026 y cambian con cada actualización de los datos.
+
+<AccordionGroup>
+  <Accordion title="Varios valores, incluso de niveles distintos">
+    Separa los valores con coma. Se unen con **O**, así que el resultado incluye los productos de cualquiera de ellos. Puedes mezclar niveles: este ejemplo pide los productos del dominio Health Sciences o del área Social Sciences.
+
+    ```text
+    GET /search/works?topics=https://openalex.org/domains/4,https://openalex.org/fields/33
+    ```
+
+  </Accordion>
+
+  <Accordion title="Junto con otros filtros">
+    `topics` se une con **Y** a los demás filtros. Este ejemplo pide los productos del área Social Sciences publicados entre 2020 y 2026:
+
+    ```text
+    GET /search/works?topics=https://openalex.org/fields/33&years=2020,2026
+    ```
+
+  </Accordion>
+
+  <Accordion title="Dónde funciona cada nivel">
+    Los cuatro niveles funcionan en todos los listados de productos: `/search/works`, los productos de una afiliación, un autor, una fuente o una entidad geográfica, sus exportaciones a CSV y Excel, y los indicadores (`plot`).
+
+    En `/search/sources` y `/search/sources/filters`, `topics` solo acepta tópicos (`https://openalex.org/T...`), que se comparan con los tópicos de cada fuente. Un dominio, un área o una subárea no da error, pero devuelve 0 resultados.
+  </Accordion>
+</AccordionGroup>
+
+### Encuentra los identificadores
+
+[`GET /search/works/filters`](/api-reference/search/works-filters) devuelve `topics` como un árbol: cada dominio tiene sus áreas en `children`, cada área sus subáreas y cada subárea sus tópicos. Todos los nodos tienen `value`, `title` y `count`, y el `value` de cualquiera de ellos sirve en `topics`:
+
+```json
+"topics": [
+  {
+    "value": "https://openalex.org/domains/2",
+    "title": "Social Sciences",
+    "count": 810297,
+    "children": [
+      {
+        "value": "https://openalex.org/fields/33",
+        "title": "Social Sciences",
+        "count": 453028,
+        "children": [
+          {
+            "value": "https://openalex.org/subfields/3304",
+            "title": "Education",
+            "count": 102372,
+            "children": [
+              {"value": "https://openalex.org/T14483", "title": "Education and Teacher Training", "count": 22593}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
+```
+
+Como en los demás filtros, si envías `topics` al endpoint de filtros, el árbol solo incluye las ramas que existen dentro de ese resultado.
+
+### Ejemplo: productos de una subárea
+
+Productos de la subárea Education publicados entre 2020 y 2026, ordenados por citas:
+
+<CodeGroup>
+
+```bash cURL
+curl --get "https://api.impactu.colav.co/search/works" \
+  --data-urlencode "topics=https://openalex.org/subfields/3304" \
+  --data-urlencode "years=2020,2026" \
+  --data-urlencode "sort=citations_desc" \
+  --data-urlencode "max=10" \
+  --header "Accept: application/json"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.impactu.colav.co/search/works",
+    params={
+        "topics": "https://openalex.org/subfields/3304",
+        "years": "2020,2026",
+        "sort": "citations_desc",
+        "max": 10,
+    },
+    headers={"Accept": "application/json"},
+    timeout=60,
+)
+response.raise_for_status()
+for work in response.json()["data"]:
+    topic = work["primary_topic"]
+    print(topic["subfield"]["display_name"], "|", topic["display_name"])
+```
+
+</CodeGroup>
 
 ## Ejemplo completo
 
@@ -132,7 +250,7 @@ Productos publicados entre 2020 y 2026, de acceso abierto, con hasta 10 autores,
 <CodeGroup>
 
 ```bash cURL
-curl --get "https://api.dev.impactu.colav.co/search/works" \
+curl --get "https://api.impactu.colav.co/search/works" \
   --data-urlencode "years=2020,2026" \
   --data-urlencode "status=open" \
   --data-urlencode "authors_count=-10" \
@@ -146,7 +264,7 @@ curl --get "https://api.dev.impactu.colav.co/search/works" \
 import requests
 
 response = requests.get(
-    "https://api.dev.impactu.colav.co/search/works",
+    "https://api.impactu.colav.co/search/works",
     params={
         "years": "2020,2026",
         "status": "open",
@@ -173,7 +291,7 @@ Calcula el número de páginas con `meta.count` y recórrelas una por una:
 import math
 import requests
 
-URL = "https://api.dev.impactu.colav.co/search/sources"
+URL = "https://api.impactu.colav.co/search/sources"
 MAX = 250
 params = {"max": MAX, "page": 1, "sort": "products_desc", "status": "open"}
 

@@ -86,14 +86,14 @@ and receive structured JSON responses.
 
 ```bash cURL
 curl --request GET \
-  --url "https://api.dev.impactu.colav.co/search/works?max=10&page=1&authors_count=-10" \
+  --url "https://api.impactu.colav.co/search/works?max=10&page=1&authors_count=-10" \
   --header "Accept: application/json"
 ```
 
 ```python Python
 import requests
 
-url = "https://api.dev.impactu.colav.co/search/works?max=10&page=1&authors_count=-10"
+url = "https://api.impactu.colav.co/search/works?max=10&page=1&authors_count=-10"
 
 response = requests.get(
     url,

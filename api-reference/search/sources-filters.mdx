@@ -1,6 +1,6 @@
 ---
 title: "Filtros disponibles de fuentes"
-api: "GET https://api.dev.impactu.colav.co/search/sources/filters"
+api: "GET https://api.impactu.colav.co/search/sources/filters"
 description: "Opciones disponibles para filtrar la búsqueda de fuentes, con su cantidad de resultados."
 ---
 
@@ -42,7 +42,8 @@ Todos son opcionales y funcionan igual que en [Buscar fuentes](/api-reference/se
 </ParamField>
 
 <ParamField query="topics" type="string">
-  Tópicos de OpenAlex. Usa el `value` devuelto (URL).
+  Tópicos de OpenAlex. Usa el `value` devuelto (URL). Solo acepta tópicos, no
+  dominios, áreas ni subáreas.
 </ParamField>
 
 ## Respuesta

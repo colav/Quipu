@@ -49,7 +49,7 @@ jobs:
           title: "docs: regenerate ${{ inputs.entity }} plot pages"
           body: |
             Regeneración automática de los archivos MDX de indicadores para `${{ inputs.entity }}`
-            consultando la API desplegada en `api.dev.impactu.colav.co`.
+            consultando la API desplegada en `api.impactu.colav.co`.
 
             Disparado manualmente por @${{ github.actor }}.
           delete-branch: true
