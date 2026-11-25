@@ -26,7 +26,11 @@
               },
               {
                 "group": "Guías",
-                "pages": ["guides/filters", "guides/authorship"]
+                "pages": [
+                  "guides/filters",
+                  "guides/semantic-search",
+                  "guides/authorship"
+                ]
               }
             ]
           },
@@ -265,7 +269,11 @@
               },
               {
                 "group": "Guides",
-                "pages": ["en/guides/filters", "en/guides/authorship"]
+                "pages": [
+                  "en/guides/filters",
+                  "en/guides/semantic-search",
+                  "en/guides/authorship"
+                ]
               }
             ]
           },

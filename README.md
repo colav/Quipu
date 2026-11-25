@@ -143,7 +143,7 @@ Quipu/
 │   ├── submit/                      # Carga de archivos (Staff, CIARP, SCIENTI, proyectos)
 │   ├── observatory/                 # Tableros de observatorios (bundle y fechas de corte)
 │   └── system/                      # ping, info y calidad de datos
-├── guides/                          # Guías transversales (filtros, autoría)
+├── guides/                          # Guías transversales (filtros, búsqueda semántica, autoría)
 ├── en/                              # Versión en inglés: index.mdx, guides/ y api-reference/ con la misma estructura
 ├── snippets/                        # Fragmentos MDX reutilizables
 │   ├── pagination-params.mdx        # Parámetros max y page
