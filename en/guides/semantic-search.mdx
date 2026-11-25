@@ -1,0 +1,110 @@
+---
+title: "Semantic search"
+description: "Find products by topic by combining words in keywords with the OR, AND and NOT operators."
+---
+
+You don't need the exact name of a product, an author or an institution: just write in `keywords` the words of the topic you are interested in. The API looks them up in MongoDB's text index, which for products covers the **title**. This guide shows how to combine those words.
+
+<Note>
+  The search compares words, not meanings: a product shows up if its title contains the words you search for (or their English variants, such as `vaccine` and `vaccines`), not if it deals with a similar topic in other words.
+</Note>
+
+## Operators
+
+| You write         | Operator     | Finds titles that have…              | Results |
+| ----------------- | ------------ | ------------------------------------ | ------: |
+| `dark matter`     | OR           | `dark` or `matter` (at least one)    |   3,109 |
+| `"dark" "matter"` | AND          | `dark` and `matter`, in any order    |     410 |
+| `"dark matter"`   | Phrase       | the exact phrase `dark matter`       |     404 |
+| `dark -matter`    | NOT          | `dark`, but not `matter`             |     481 |
+
+The results come from `/search/works` in the development environment on November 25, 2026, and change with the data.
+
+<Steps>
+  <Step title="OR: separate the words with spaces">
+    Returns the products that have any of the words. It is the broadest option.
+
+    ```text
+    GET /search/works?keywords=dark matter
+    ```
+
+  </Step>
+
+  <Step title="AND: put each word in quotes">
+    Each quoted word is mandatory. The product must have all of them, in any order.
+
+    ```text
+    GET /search/works?keywords="dark" "matter"
+    ```
+
+  </Step>
+
+  <Step title="Exact phrase: put several words inside the same quotes">
+    Requires the words together and in that order. It is stricter than AND: `"dark matter"` (404) leaves out titles such as "Dark energy and matter perturbations in scalar-tensor theories of gravity", which do come up with `"dark" "matter"` (410).
+
+    ```text
+    GET /search/works?keywords="dark matter"
+    ```
+
+  </Step>
+
+  <Step title="NOT: put a hyphen before the word you want to exclude">
+    Removes the products that contain that word.
+
+    ```text
+    GET /search/works?keywords=dark -matter
+    ```
+
+  </Step>
+</Steps>
+
+In the URL, quotes are encoded as `%22` and spaces as `%20` or `+`:
+
+```bash
+curl "https://api.impactu.colav.co/search/works?keywords=%22dark%22%20%22matter%22&max=10&page=1"
+```
+
+## Example: malaria and dengue
+
+| `keywords`            | Operator    | Results |
+| --------------------- | ----------- | ------: |
+| `malaria`             | One word    |   2,873 |
+| `dengue`              | One word    |   3,876 |
+| `malaria dengue`      | OR          |   6,672 |
+| `"malaria" "dengue"`  | AND         |      77 |
+| `malaria -dengue`     | NOT         |   2,796 |
+
+The numbers add up: OR adds the two words without counting twice the products that have both (2,873 + 3,876 − 77 = 6,672), and NOT removes from `malaria` the ones that also have `dengue` (2,873 − 77 = 2,796).
+
+## How words are compared
+
+- **Case and accents don't matter:** `Medellín`, `medellin` and `MEDELLIN` return the same.
+- **English variants:** the index reduces words to their English stem, so `vaccine` and `vaccines` find the same products.
+- **Stop words:** very common English words (`the`, `of`, `and`, `or`…) are ignored. A search with only those words returns no results.
+
+<Warning>
+  Writing `AND` or `OR` between the words does **not** work as an operator: they are stop words and are ignored. `malaria AND dengue` returns the same as `malaria dengue` (6,672 results, an OR). To require both words, use quotes: `"malaria" "dengue"`.
+</Warning>
+
+## Order of the results
+
+Without `sort`, the results are not ordered by relevance and have no guaranteed order. With an OR such as `dark matter`, the first page may show titles that only have `matter` (such as "Does brand trust matter to brand equity?"), even though the products that have both words are in the result. To see those first, use AND or the exact phrase, and choose the order with `sort`:
+
+```text
+GET /search/works?keywords="dark" "matter"&sort=citations_desc
+```
+
+## Where each endpoint searches
+
+The operators work the same in every search endpoint; what changes is the field:
+
+| Endpoint                                    | Searches in                               |
+| ------------------------------------------- | ----------------------------------------- |
+| `/search/works`                             | Product title. If the whole text is a DOI, it returns the product with that exact DOI. |
+| `/search/person`                            | Full name                                 |
+| `/search/affiliations/{affiliation_type}`   | Affiliation names                         |
+| `/search/sources`                           | Source names                              |
+| `/search/patents`, `/search/projects`       | Title                                     |
+| `/search/geo/{geo_type}`                    | Name, without variants or stop words      |
+
+The available filters endpoints (`/search/works/filters`, `/search/affiliations/{affiliation_type}/filters`, `/search/sources/filters`) accept the same `keywords`, so their filters match the same search.

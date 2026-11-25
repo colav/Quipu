@@ -1,0 +1,110 @@
+---
+title: "Búsqueda semántica"
+description: "Encuentra productos por tema combinando palabras en keywords con los operadores OR, AND y NOT."
+---
+
+No necesitas el nombre exacto de un producto, un autor o una institución: basta con escribir en `keywords` las palabras del tema que te interesa. La API las busca en el índice de texto de MongoDB, que en los productos cubre el **título**. Esta guía muestra cómo combinar esas palabras.
+
+<Note>
+  La búsqueda compara palabras, no significados: un producto aparece si su título contiene las palabras buscadas (o sus variantes en inglés, como `vaccine` y `vaccines`), no si trata un tema parecido con otras palabras.
+</Note>
+
+## Operadores
+
+| Escribes          | Operador  | Encuentra títulos que tienen…        | Resultados |
+| ----------------- | --------- | ------------------------------------ | ---------: |
+| `dark matter`     | OR        | `dark` o `matter` (al menos una)     |      3.109 |
+| `"dark" "matter"` | AND       | `dark` y `matter`, en cualquier orden |        410 |
+| `"dark matter"`   | Frase     | la frase exacta `dark matter`        |        404 |
+| `dark -matter`    | NOT       | `dark`, pero no `matter`             |        481 |
+
+Los resultados son de `/search/works` en el entorno de desarrollo el 25 de noviembre de 2026 y cambian con los datos.
+
+<Steps>
+  <Step title="OR: separa las palabras con espacios">
+    Devuelve los productos con cualquiera de las palabras. Es la opción más amplia.
+
+    ```text
+    GET /search/works?keywords=dark matter
+    ```
+
+  </Step>
+
+  <Step title="AND: pon cada palabra entre comillas">
+    Cada palabra entre comillas es obligatoria. El producto debe tener todas, en cualquier orden.
+
+    ```text
+    GET /search/works?keywords="dark" "matter"
+    ```
+
+  </Step>
+
+  <Step title="Frase exacta: pon varias palabras entre las mismas comillas">
+    Exige las palabras juntas y en ese orden. Es más estricta que el AND: `"dark matter"` (404) deja por fuera títulos como «Dark energy and matter perturbations in scalar-tensor theories of gravity», que sí entran con `"dark" "matter"` (410).
+
+    ```text
+    GET /search/works?keywords="dark matter"
+    ```
+
+  </Step>
+
+  <Step title="NOT: antepón un guion a la palabra que quieres excluir">
+    Quita los productos que contienen esa palabra.
+
+    ```text
+    GET /search/works?keywords=dark -matter
+    ```
+
+  </Step>
+</Steps>
+
+En la URL, las comillas se codifican como `%22` y los espacios como `%20` o `+`:
+
+```bash
+curl "https://api.impactu.colav.co/search/works?keywords=%22dark%22%20%22matter%22&max=10&page=1"
+```
+
+## Ejemplo: malaria y dengue
+
+| `keywords`            | Operador | Resultados |
+| --------------------- | -------- | ---------: |
+| `malaria`             | Una palabra |   2.873 |
+| `dengue`              | Una palabra |   3.876 |
+| `malaria dengue`      | OR       |      6.672 |
+| `"malaria" "dengue"`  | AND      |         77 |
+| `malaria -dengue`     | NOT      |      2.796 |
+
+Los números cuadran entre sí: el OR suma las dos palabras sin contar dos veces los productos que tienen ambas (2.873 + 3.876 − 77 = 6.672), y el NOT quita de `malaria` los que también tienen `dengue` (2.873 − 77 = 2.796).
+
+## Cómo se comparan las palabras
+
+- **Mayúsculas y tildes no importan:** `Medellín`, `medellin` y `MEDELLIN` devuelven lo mismo.
+- **Variantes en inglés:** el índice reduce las palabras a su raíz en inglés, así que `vaccine` y `vaccines` encuentran los mismos productos.
+- **Palabras vacías:** las palabras muy comunes en inglés (`the`, `of`, `and`, `or`…) se ignoran. Una búsqueda solo con ellas no devuelve resultados.
+
+<Warning>
+  Escribir `AND` u `OR` entre las palabras **no** funciona como operador: son palabras vacías y se ignoran. `malaria AND dengue` devuelve lo mismo que `malaria dengue` (6.672 resultados, un OR). Para exigir las dos palabras usa comillas: `"malaria" "dengue"`.
+</Warning>
+
+## Orden de los resultados
+
+Sin `sort`, los resultados no se ordenan por relevancia ni tienen un orden garantizado. Con un OR como `dark matter`, la primera página puede mostrar títulos que solo tienen `matter` (como «Does brand trust matter to brand equity?»), aunque los productos que tienen las dos palabras sí están en el resultado. Si quieres ver primero los que tienen ambas, usa el AND o la frase exacta, y elige el orden con `sort`:
+
+```text
+GET /search/works?keywords="dark" "matter"&sort=citations_desc
+```
+
+## Dónde busca cada endpoint
+
+Los operadores funcionan igual en todos los endpoints de búsqueda; lo que cambia es el campo:
+
+| Endpoint                                    | Busca en                                  |
+| ------------------------------------------- | ----------------------------------------- |
+| `/search/works`                             | Título del producto. Si todo el texto es un DOI, devuelve el producto con ese DOI exacto. |
+| `/search/person`                            | Nombre completo                           |
+| `/search/affiliations/{affiliation_type}`   | Nombres de la afiliación                  |
+| `/search/sources`                           | Nombres de la fuente                      |
+| `/search/patents`, `/search/projects`       | Título                                    |
+| `/search/geo/{geo_type}`                    | Nombre, sin variantes ni palabras vacías  |
+
+Los endpoints de filtros disponibles (`/search/works/filters`, `/search/affiliations/{affiliation_type}/filters`, `/search/sources/filters`) aceptan los mismos `keywords`, así que sus filtros corresponden a la misma búsqueda.
