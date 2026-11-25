@@ -14,9 +14,10 @@ import FieldsParam from "/snippets/fields-param.mdx";
 ## Parámetros de consulta
 
 <ParamField query="keywords" type="string">
-  Texto de búsqueda (título y contenido del producto). Si todo el texto es un
-  DOI (`10.18316/2318-8081.15.1`, con `doi:` o como URL), devuelve el producto
-  con ese DOI exacto.
+  Texto de búsqueda en el título del producto. Admite los operadores OR, AND,
+  frase exacta y NOT (ver [Búsqueda semántica](/guides/semantic-search)). Si
+  todo el texto es un DOI (`10.18316/2318-8081.15.1`, con `doi:` o como URL),
+  devuelve el producto con ese DOI exacto.
 </ParamField>
 
 <PaginationParams />
